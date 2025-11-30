@@ -89,6 +89,7 @@ function createHtml({
     <title>${safeTitle} | PanKUN Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="${safeDesc}" />
+    <meta name="view-transition" content="same">
 
     <meta property="og:title" content="${safeTitle} | PanKUN Portfolio" />
     <meta property="og:description" content="${safeDesc}" />
@@ -110,6 +111,7 @@ function createHtml({
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
     <link rel="stylesheet" href="../assets/css/portfolio.css" />
+    <link rel="stylesheet" href="../assets/css/transition.css" />
   </head>
   <body data-page="portfolio">
     <div class="page-shell">
@@ -144,6 +146,7 @@ ${bodyHtml}
     <canvas id="menuAnimationCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/transition.js"></script>
   </body>
 </html>`;
 }

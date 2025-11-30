@@ -208,6 +208,8 @@ function createHtml({
     <title>${safeTitle}${locale.site_title_suffix}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="${safeDesc}" />
+    <meta name="view-transition" content="same">
+
     <link rel="canonical" href="${canonicalUrl}" />
     <link rel="alternate" hreflang="ja" href="${jaUrl}" />
     <link rel="alternate" hreflang="en" href="${enUrl}" />
@@ -227,6 +229,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/base.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/layout.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
+    <link rel="stylesheet" href="${pathPrefix}/assets/css/transition.css" />
   </head>
   <body data-page="blog">
     <div class="page-shell">
@@ -286,6 +289,7 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/particles.js"></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
+    <script src="${pathPrefix}/assets/js/transition.js"></script>
   </body>
 </html>`;
 }
