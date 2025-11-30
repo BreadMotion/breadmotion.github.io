@@ -232,7 +232,7 @@ function createHtml({
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">
-          <div class="post-content">
+          <div class="post-content reveal-on-scroll">
             <article class="post-detail">
               <nav aria-label="breadcrumb" class="breadcrumb">
                 <ol class="breadcrumb__list">
