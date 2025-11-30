@@ -7,6 +7,11 @@ npm-debug.log
 
 # Windows
 Thumbs.db
+desktop.ini
+
+# Backup files
+*.bak
+*~
 
 # Tools / Secrets
 WebSite/tools/service_account.json
@@ -15,5 +20,6 @@ WebSite/tools/service_account.json
 # Editor
 .vscode/
 .idea/
+.zed/
 *.swp
 WebSite/vendor

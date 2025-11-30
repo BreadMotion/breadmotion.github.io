@@ -1,3 +1,14 @@
+/**
+ * particles.js
+ * --------------------------------------------------
+ * 背景パーティクルアニメーションを生成するスクリプト。
+ * p5.js を使用し、10種類のビジュアルモードをランダムで表示。
+ * 
+ * モード一覧:
+ *   0: Network, 1: Bubbles, 2: Cosmos, 3: Rain, 4: Polygons,
+ *   5: Fireflies, 6: Circuit, 7: Grid, 8: Spiral, 9: ShootingStars
+ * --------------------------------------------------
+ */
 let canvas;
 let particles = [];
 let mode = 0;
@@ -36,9 +47,6 @@ function setup() {
 
   // ランダムにモード決定
   mode = floor(random(NUM_MODES));
-  console.log(
-    `Particle Mode: ${modeNames[mode]} (${mode})`,
-  );
 
   initParticles();
 }
