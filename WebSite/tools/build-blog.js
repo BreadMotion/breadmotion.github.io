@@ -231,7 +231,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/transition.css" />
   </head>
-  <body data-page="blog">
+  <body data-page="blog" view-transition-name="page">
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">

@@ -113,7 +113,7 @@ function createHtml({
     <link rel="stylesheet" href="../assets/css/portfolio.css" />
     <link rel="stylesheet" href="../assets/css/transition.css" />
   </head>
-  <body data-page="portfolio">
+  <body data-page="portfolio" view-transition-name="page">
     <div class="page-shell">
       <main class="main-container">
         <article class="work-detail reveal-on-scroll">
