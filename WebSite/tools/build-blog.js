@@ -248,7 +248,7 @@ function createHtml({
                 ${tagsHtml}
                 ${shareButtonsHtml}
               </header>
-              <section class="post-detail__body markdown-body">${bodyHtml}</section>
+              <section class="post-detail__body markdown-body reveal-on-scroll">${bodyHtml}</section>
               ${shareButtonsHtml}
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
