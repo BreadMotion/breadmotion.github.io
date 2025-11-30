@@ -28,6 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (entry.isIntersecting) {
           if (
             !activeHeading ||
+            !activeHeading.boundingClientRect ||
             entry.boundingClientRect.top <
               activeHeading.boundingClientRect.top
           ) {
