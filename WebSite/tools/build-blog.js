@@ -6,9 +6,7 @@
  *   - 日本語版と英語版（.en.md）を別々に処理
  *   - サムネイル画像のダウンロードと管理
  *   - assets/data/blogList.json / blogList_en.json の更新
- * @recent_changes
- *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
- *   - 冗長なコンソール出力を削減
+ *   - Giscus コメント埋め込み対応（環境変数で有効化）
  */
 
 const fs = require("fs");
@@ -58,6 +56,29 @@ const THUMBNAIL_DIR = path.join(
 
 const BASE_URL = "https://breadmotion.github.io/WebSite";
 
+// ---------------------------
+// Giscus 設定（環境変数で設定）
+// ---------------------------
+const COMMENT_PROVIDER = process.env.COMMENT_PROVIDER || "";
+const GISCUS_REPO =
+  process.env.GISCUS_REPO ||
+  "BreadMotion/breadmotion.github.io";
+const GISCUS_REPO_ID = process.env.GISCUS_REPO_ID || "";
+const GISCUS_CATEGORY =
+  process.env.GISCUS_CATEGORY || "Comments";
+const GISCUS_CATEGORY_ID =
+  process.env.GISCUS_CATEGORY_ID || "";
+const GISCUS_MAPPING =
+  process.env.GISCUS_MAPPING || "pathname";
+const GISCUS_THEME = process.env.GISCUS_THEME || "light";
+
+const GISCUS_ENABLED =
+  COMMENT_PROVIDER === "giscus" ||
+  (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
+
+// ---------------------------
+// helper: XML/HTML escape
+// ---------------------------
 function escapeHtml(str = "") {
   return String(str).replace(/[&<>"]/g, (c) => {
     return (
@@ -106,19 +127,19 @@ function createShareButtonsHtml(title, url, locale) {
     {
       name: "Twitter",
       url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.[...]"></path></svg>`,
       className: "twitter",
     },
     {
       name: "Facebook",
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.[...]"></path></svg>`,
       className: "facebook",
     },
     {
       name: "LINE",
       url: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M21.5,4.9C20.2,3.7,18.6,3,16.9,3c-3.7,0-6.8,2.8-7.2,6.4c-0.1,0.5-0.1,1-0.1,1.6c0,0-0.1,0.2-0.2,0.3c-0.3,0.3-0.7,0.2-1.2,0.1C7.8,11,7.4,10.8,7,10.7c-0.2-0.1-0.4-0.1-0.6-0.1c-0.3,0-0.6,0-0.8,0.1c-0.3,0.1-0.5,0.3-0.5,0.6c0,0.2,0.1,0.4,0.2,0.5c0.2,0.2,0.5,0.4,0.8,0.6c0.7,0.4,1.5,0.8,2.2,1.2c0.2,0.1,0.3,0.2,0.3,0.3c0,0.1,0,0.2-0.1,0.3C8.4,14.6,8,15,7.5,15.4c-0.2,0.2-0.4,0.3-0.5,0.5c-0.1,0.2-0.2,0.4-0.2,0.6c0,0.3,0.1,0.6,0.4,0.8C7.5,17.5,8,17.7,8.5,17.7c0.2,0,0.4-0.1,0.6-0.1c0.5-0.2,1-0.5,1.5-0.8c0.2-0.1,0.3-0.2,0.5-0.2c0.1,0,0.2,0,0.2,0.1c0.3,0.3,0.6,0.8,0.8,1.3c0.1,0.1,0.1,0.2,0.1,0.3c0,0.4-0.2,0.9-0.5,1.4c-0.1,0.2-0.2,0.3-0.2,0.5c0,0.2,0,0.4,0.1,0.5c0.1,0.2,0.3,0.3,0.5,0.4c0.2,0.1,0.5,0.1,0.7,0.1c0.6,0,1.2-0.2,1.7-0.6c0.1-0.1,0.2-0.2,0.3-0.2c0.1,0,0.2,0,0.3,0.1c0.7,0.5,1.5,0.8,2.4,0.8c3.7,0,6.8-2.8,7.2-6.4c0-0.1,0.1-0.2,0.1-0.4c0-0.1,0-0.2,0-0.3c0-0.1,0-0.1,0-0.2c0,0,0-0.1,0-0.1C22.2,9,22.2,8.9,22.2,8.8c0,0,0,0,0,0c0-0.2,0-0.4,0-0.6c-0.1-0.8-0.2-1.5-0.4-2.2C21.6,5.5,21.6,5.2,21.5,4.9z M16.9,4c1.5,0,2.9,0.6,3.9,1.6c0.1,0.1,0.1,0.2,0.1,0.3c0.3,0.7,0.5,1.4,0.5,2.2c0,0.2,0,0.3,0,0.5c0,0,0,0.1,0,0.1c0,0.1,0,0.1,0,0.2c0,0,0,0.1,0,0.1c0,0,0,0,0,0c0,0.1-0.1,0.2-0.1,0.3c-0.3,3.1-3.1,5.4-6.3,5.4c-0.8,0-1.6-0.2-2.3-0.6c-0.1-0.1-0.2-0.1-0.3-0.1c-0.1,0-0.3,0.1-0.4,0.2c-0.5,0.4-1.1,0.6-1.7,0.6c-0.1,0-0.2,0-0.3-0.1c-0.1,0-0.1-0.1-0.1-0.1c0-0.1,0.1-0.2,0.1-0.2c0.2-0.5,0.5-0.9,0.7-1.3c0.1-0.1,0.1-0.3,0.1-0.5c0-0.1-0.1-0.2-0.2-0.3c-0.2-0.2-0.5-0.5-0.8-0.8c-0.1-0.1-0.1-0.2-0.1-0.3c0-0.2,0.1-0.4,0.2-0.5c0.5-0.4,0.9-0.8,1.1-1.1c0.1-0.1,0.1-0.2,0.1-0.3c0-0.1-0.1-0.1-0.1-0.2c-0.7-0.4-1.4-0.8-2.1-1.1c-0.3-0.2-0.5-0.3-0.7-0.5c-0.1-0.1-0.2-0.2-0.2-0.3c0-0.1,0.1-0.2,0.1-0.2c0.1,0,0.2-0.1,0.3-0.1c0.2,0,0.5,0.1,0.6,0.1c0.4,0.1,0.9,0.4,1.2,0.5c0.5,0.2,0.9,0.2,1.2,0.1c0.1,0,0.1,0,0.2-0.1c0.3-3.1,3.1-5.4,6.3-5.4z M9.5,8.8C9.2,8.8,9,9,9,9.3v1.8c0,0.3,0.2,0.5,0.5,0.5h1.3c0.3,0,0.5-0.2,0.5-0.5V9.3c0-0.3-0.2-0.5-0.5-0.5H9.5z M14.8,8.8c-0.3,0-0.5,0.2-0.5,0.5v1.8c0,0.3,0.2,0.5,0.5,0.5h1.3c0.3,0,0.5-0.2,0.5-0.5V9.3c0-0.3-0.2-0.5-0.5-0.5H14.8z"></path></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M21.5,4.9C20.2,3.7,18.6,3,16.9,3c-3.7,0-6.8,2.8-7.2,6.4c-0.1,0.5-0.1,1-0.1,[...]"></path></svg>`,
       className: "line",
     },
   ];
@@ -141,6 +162,35 @@ function createShareButtonsHtml(title, url, locale) {
   </div>`;
 }
 
+// ---------------------------
+// Giscus snippet generator
+// ---------------------------
+function makeGiscusHtml() {
+  // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
+  if (!GISCUS_REPO_ID || !GISCUS_CATEGORY_ID) {
+    logger.warn(
+      "Giscus enabled but GISCUS_REPO_ID or GISCUS_CATEGORY_ID is missing.",
+    );
+  }
+
+  return `<div id="comments" class="post-comments">
+    <script src="https://giscus.app/client.js"
+      data-repo="${escapeHtml(GISCUS_REPO)}"
+      data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
+      data-category="${escapeHtml(GISCUS_CATEGORY)}"
+      data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
+      data-mapping="${escapeHtml(safeTitle)}"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="${escapeHtml(GISCUS_THEME)}"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>`;
+}
+
 function createHtml({
   id,
   title,
@@ -155,6 +205,7 @@ function createHtml({
   locale,
   lang,
   relativePrefix,
+  commentHtml = "",
 }) {
   const pathPrefix = lang === "ja" ? ".." : "../..";
   const safeTitle = escapeHtml(title);
@@ -276,6 +327,7 @@ function createHtml({
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll">${bodyHtml}</section>
               ${shareButtonsHtml}
+              ${commentHtml}
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>
@@ -450,6 +502,13 @@ function createHtml({
         .map((t) => String(t).trim())
         .filter(Boolean);
 
+      // -------------------------
+      // コメント HTML を決定（Giscus）
+      // -------------------------
+      const commentHtml = GISCUS_ENABLED
+        ? makeGiscusHtml()
+        : "";
+
       const html = createHtml({
         id,
         title: title || id,
@@ -464,6 +523,7 @@ function createHtml({
         locale,
         lang,
         relativePrefix,
+        commentHtml,
       });
 
       const outputFilePath =
