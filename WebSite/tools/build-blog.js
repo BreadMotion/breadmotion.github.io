@@ -68,8 +68,6 @@ const GISCUS_CATEGORY =
   process.env.GISCUS_CATEGORY || "Comments";
 const GISCUS_CATEGORY_ID =
   process.env.GISCUS_CATEGORY_ID || "";
-const GISCUS_MAPPING =
-  process.env.GISCUS_MAPPING || "pathname";
 const GISCUS_THEME = process.env.GISCUS_THEME || "light";
 
 const GISCUS_ENABLED =
@@ -172,8 +170,10 @@ function makeGiscusHtml(title) {
       "Giscus enabled but GISCUS_REPO_ID or GISCUS_CATEGORY_ID is missing.",
     );
   }
+  const GISCUS_ENABLED =
+    COMMENT_PROVIDER === "giscus" ||
+    (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
 
-  // data-mapping は GISCUS_MAPPING の値を渡す（例: "pathname", "title", "url"）
   return `<div id="comments" class="post-comments">
     <script src="https://giscus.app/client.js"
       data-repo="${escapeHtml(GISCUS_REPO)}"
