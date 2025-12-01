@@ -90,7 +90,7 @@ function createTocHtml(headings, locale) {
 
   let tocHtml = '<ul class="toc-list">';
   for (const heading of filteredHeadings) {
-    tocHtml += `<li class="toc-item toc-item--level-${heading.level}"><a href="#${heading.id}">${escapeHtml(heading.text)}</a></li>`;
+    tocHtml += `<li class="toc-item toc-item--level-${heading.level}"><a href="#${heading.id}" data-no-preview>${escapeHtml(heading.text)}</a></li>`;
   }
   tocHtml += "</ul>";
   return tocHtml;

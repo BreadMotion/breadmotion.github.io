@@ -99,6 +99,31 @@
     }
   }
 
+  /**
+   * プレビュー無効チェック
+   * - アンカー自身に `data-no-preview` がある場合は無効
+   * - 祖先要素に `data-no-preview` または `.no-preview` がある場合も無効（安全のため）
+   */
+  function isPreviewDisabled(el) {
+    try {
+      if (!el || !el.getAttribute) return false;
+      // 直接フラグがあるか
+      if (
+        el.hasAttribute &&
+        el.hasAttribute("data-no-preview")
+      )
+        return true;
+      // 祖先要素にフラグやクラスがあるか
+      if (el.closest) {
+        const ancestor = el.closest(
+          "[data-no-preview], .no-preview",
+        );
+        if (ancestor) return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   /* =========================
    * モーダルの作成/表示/破棄
    * ========================= */
@@ -644,6 +669,8 @@
     const hrefAttr = a.getAttribute("href");
     if (!hrefAttr) return;
     if (!isSameOriginUrl(hrefAttr)) return;
+    // TOC 等でビルド時に付与したフラグがあればプレビューを無効化
+    if (isPreviewDisabled(a)) return;
 
     activeAnchor = a;
     pointerStartX = ev.clientX;
@@ -794,6 +821,8 @@
         navigator.maxTouchPoints > 0
       )
         return;
+      // プレビュー無効フラグがついている場合はホバーヒントを表示しない
+      if (isPreviewDisabled(a)) return;
       showHoverHintFor(a);
     } catch (_) {}
   });
