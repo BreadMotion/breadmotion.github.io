@@ -21,7 +21,8 @@ const locales = require("./locales");
 // ───────────────────────────────────────────────────────────────
 const isProduction = process.env.NODE_ENV === "production";
 const logger = {
-  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  info: (msg) =>
+    !isProduction && console.log(`[INFO] ${msg}`),
   warn: (msg) => console.warn(`[WARN] ${msg}`),
   error: (msg) => console.error(`[ERROR] ${msg}`),
   success: (msg) => console.log(`[SUCCESS] ${msg}`),
@@ -251,6 +252,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/base.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/layout.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
+    <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
   </head>
   <body data-page="blog">
     <div class="page-shell">
@@ -305,6 +307,7 @@ function createHtml({
     </div>
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
     <script src="${pathPrefix}/assets/js/ui.js"></script>
+    <script src="../assets/js/preview.js"></script>
     <canvas id="menuAnimationCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="${pathPrefix}/assets/js/particles.js"></script>
@@ -353,7 +356,9 @@ function createHtml({
     const enPath = path.join(CONTENT_DIR, `${id}.en.md`);
 
     if (!fs.existsSync(jaPath)) {
-      logger.warn(`Japanese content not found for ID: ${id}`);
+      logger.warn(
+        `Japanese content not found for ID: ${id}`,
+      );
       continue;
     }
 
@@ -407,7 +412,9 @@ function createHtml({
               filename,
             );
 
-            logger.info(`Downloading thumbnail for ${id} (${lang}) from ${thumbnail}`);
+            logger.info(
+              `Downloading thumbnail for ${id} (${lang}) from ${thumbnail}`,
+            );
             const res = await fetch(thumbnail);
             if (res.ok) {
               const buffer = Buffer.from(
@@ -417,7 +424,9 @@ function createHtml({
               thumbnail = `assets/img/thumbnails/${filename}`;
               usedThumbnails.add(filename);
             } else {
-              logger.error(`Failed to fetch thumbnail for ${id}: ${res.statusText}`);
+              logger.error(
+                `Failed to fetch thumbnail for ${id}: ${res.statusText}`,
+              );
             }
           } else if (
             thumbnail.includes("assets/img/thumbnails/")
@@ -426,7 +435,9 @@ function createHtml({
             usedThumbnails.add(filename);
           }
         } catch (e) {
-          logger.error(`Failed to process thumbnail for ${id}: ${e.message}`);
+          logger.error(
+            `Failed to process thumbnail for ${id}: ${e.message}`,
+          );
         }
       }
 
@@ -461,7 +472,9 @@ function createHtml({
           : path.join(enOutputDir, `${id}.html`);
 
       fs.writeFileSync(outputFilePath, html, "utf8");
-      logger.info(`Generated (${lang}): ${path.relative(ROOT, outputFilePath)}`);
+      logger.info(
+        `Generated (${lang}): ${path.relative(ROOT, outputFilePath)}`,
+      );
 
       postsMap[lang].push({
         id,
