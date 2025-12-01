@@ -1,7 +1,31 @@
+/**
+ * @file translate-static.js
+ * @description 静的 HTML ファイルを多言語化（英語版生成）するスクリプト
+ * @summary
+ *   - 対象 HTML ファイルを読み込み、cheerio で DOM 操作
+ *   - locales/static.js の翻訳データを適用
+ *   - パスの調整、canonical URL、hreflang タグの追加
+ *   - en/ ディレクトリに英語版 HTML を出力
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ */
+
 const fs = require("fs");
 const path = require("path");
 const cheerio = require("cheerio");
 const locales = require("./locales/static");
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 const ROOT = path.join(__dirname, "..");
 const DIST_DIR = path.join(ROOT, "en");
@@ -24,7 +48,7 @@ if (!fs.existsSync(DIST_DIR)) {
 function processFile(filename) {
   const srcPath = path.join(ROOT, filename);
   if (!fs.existsSync(srcPath)) {
-    console.warn(`Source file not found: ${filename}`);
+    logger.warn(`Source file not found: ${filename}`);
     return;
   }
 
@@ -67,7 +91,7 @@ function processFile(filename) {
   // 5. Save File
   const distPath = path.join(DIST_DIR, filename);
   fs.writeFileSync(distPath, $.html(), "utf8");
-  console.log(`Generated: en/${filename}`);
+  logger.success(`Generated: en/${filename}`);
 }
 
 function applyTranslations($, translations) {

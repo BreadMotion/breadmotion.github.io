@@ -1,6 +1,29 @@
+/**
+ * @file fetch-gsc-data.js
+ * @description Google Search Console API から人気記事データを取得し、popular.json を生成するスクリプト
+ * @summary
+ *   - サービスアカウント認証を使用して GSC API にアクセス
+ *   - 指定期間内のクリック数上位のブログ記事 ID を抽出
+ *   - assets/data/popular.json として出力
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ */
+
 const { google } = require('googleapis');
 const fs = require('fs');
 const path = require('path');
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 // ==========================================
 // 設定
@@ -30,16 +53,13 @@ const BLOG_ID_REGEX = /\/blog\/(blog_\d+)\.html/;
 // ==========================================
 
 async function main() {
-    console.log('--- Fetching Google Search Console Data ---');
+    logger.info('Fetching Google Search Console Data...');
 
     // キーファイルの存在確認
     if (!fs.existsSync(KEY_FILE_PATH)) {
-        console.warn(`[WARN] Service account key file not found at: ${KEY_FILE_PATH}`);
-        console.warn('Skipping GSC fetch. If you want to use popular posts, please set GSC_KEY_FILE env var or place service-account.json.');
+        logger.warn(`Service account key file not found at: ${KEY_FILE_PATH}`);
+        logger.warn('Skipping GSC fetch. If you want to use popular posts, please set GSC_KEY_FILE env var or place service-account.json.');
         // キーがない場合は空配列を書き出して正常終了（ビルドを止めないため）
-        // ただし、既にファイルがある場合は上書きしないようにするなどの配慮も可能だが、
-        // ここでは「データなし」として空配列で上書きする（古いデータが残るのを防ぐ）
-        // 運用に合わせて調整してください。今回は空で作成します。
         saveJson([]);
         return;
     }
@@ -63,8 +83,8 @@ async function main() {
 
         const formatDate = (date) => date.toISOString().split('T')[0];
 
-        console.log(`Querying GSC for site: ${SITE_URL}`);
-        console.log(`Period: ${formatDate(startDate)} to ${formatDate(endDate)}`);
+        logger.info(`Querying GSC for site: ${SITE_URL}`);
+        logger.info(`Period: ${formatDate(startDate)} to ${formatDate(endDate)}`);
 
         // データ取得
         const res = await searchconsole.searchanalytics.query({
@@ -78,7 +98,7 @@ async function main() {
         });
 
         const rows = res.data.rows || [];
-        console.log(`Fetched ${rows.length} rows.`);
+        logger.info(`Fetched ${rows.length} rows.`);
 
         // ブログ記事IDの抽出と集計
         // GSCはクリック数順に返してくれるが、念のためソート
@@ -103,13 +123,12 @@ async function main() {
             if (popularIds.length >= 10) break;
         }
 
-        console.log('Popular Post IDs:', popularIds);
+        logger.info(`Popular Post IDs: ${popularIds.join(', ')}`);
         saveJson(popularIds);
 
     } catch (error) {
-        console.error('[ERROR] Failed to fetch GSC data:', error.message);
-        // APIエラー時などはビルドを失敗させるか、空データにするか。
-        // ここではエラーログを出して終了（CI等で気づけるようにexit 1）
+        logger.error(`Failed to fetch GSC data: ${error.message}`);
+        // APIエラー時などはビルドを失敗させる
         process.exit(1);
     }
 }
@@ -120,7 +139,7 @@ function saveJson(data) {
         fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(OUTPUT_FILE, JSON.stringify(data, null, 2), 'utf8');
-    console.log(`Saved popular data to: ${OUTPUT_FILE}`);
+    logger.success(`Saved popular data to: ${OUTPUT_FILE}`);
 }
 
 main();
