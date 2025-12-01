@@ -10,7 +10,11 @@
 (function () {
   "use strict";
 
-  const placeholder = document.querySelector(".giscus-placeholder");
+  // Configuration constants
+  var LAZY_LOAD_MARGIN = "200px 0px"; // Load slightly before element comes into view
+  var INTERSECTION_THRESHOLD = 0.01;
+
+  var placeholder = document.querySelector(".giscus-placeholder");
   if (!placeholder) return;
 
   let loaded = false;
@@ -98,7 +102,7 @@
 
   // Use IntersectionObserver for lazy loading
   if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver(
+    var observer = new IntersectionObserver(
       function (entries) {
         entries.forEach(function (entry) {
           if (entry.isIntersecting) {
@@ -108,8 +112,8 @@
         });
       },
       {
-        rootMargin: "200px 0px", // Load slightly before it comes into view
-        threshold: 0.01,
+        rootMargin: LAZY_LOAD_MARGIN,
+        threshold: INTERSECTION_THRESHOLD,
       }
     );
 
