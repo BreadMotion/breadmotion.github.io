@@ -362,7 +362,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
   </head>
-  <body data-page="blog">
+  <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">
