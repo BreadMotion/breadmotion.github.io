@@ -51,12 +51,31 @@ document.addEventListener("DOMContentLoaded", async () => {
     const posts = await blogListRes.value.json();
 
     // 4. 現在の記事IDを特定
+    //    - First, try to get from data-post-id attribute (most reliable)
+    //    - Fallback: parse from pathname using a more flexible regex
     let currentId = null;
-    const match = window.location.pathname.match(
-      /(blog_\d+)\.html$/,
-    );
-    if (match) {
-      currentId = match[1];
+
+    // Method 1: Use data-post-id from body (preferred)
+    if (document.body.dataset.postId) {
+      currentId = document.body.dataset.postId;
+      console.debug("[recommend.js] currentId from data-post-id:", currentId);
+    } else {
+      // Method 2: Fallback to pathname parsing
+      const pathMatch = window.location.pathname.match(
+        /\/([^/]+)\.html$/,
+      );
+      if (pathMatch) {
+        const filename = pathMatch[1];
+        // Ignore index.html and blog.html (list pages)
+        if (filename !== "index" && filename !== "blog") {
+          currentId = filename;
+          console.debug("[recommend.js] currentId from pathname:", currentId);
+        }
+      }
+    }
+
+    if (!currentId && isBlogDir) {
+      console.debug("[recommend.js] No currentId detected on blog dir page");
     }
 
     // ==========================================
@@ -121,9 +140,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             displayedIds.add(p.id),
           );
         } else {
+          console.debug("[recommend.js] Removing relatedList: no related posts found for currentId:", currentId);
           relatedListEl.closest(".section")?.remove();
         }
       } else if (relatedListEl) {
+        console.debug("[recommend.js] Removing relatedList: currentPost not found for currentId:", currentId);
         relatedListEl.closest(".section")?.remove();
       }
 
