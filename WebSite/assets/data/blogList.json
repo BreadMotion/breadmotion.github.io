@@ -9,7 +9,7 @@
       "discord",
       "terminal"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00018.png",
+    "thumbnail": "https://www.vhv.rs/dpng/d/560-5605966_discord-bot-logo-discord-png-transparent-png.png",
     "contentPath": "blog/blog_00018.html",
     "recommended": true
   },
@@ -108,7 +108,7 @@
       "nodejs",
       "security"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00011.png",
+    "thumbnail": "https://www.vhv.rs/dpng/d/560-5605966_discord-bot-logo-discord-png-transparent-png.png",
     "contentPath": "blog/blog_00011.html",
     "recommended": false
   },
@@ -123,7 +123,7 @@
       "cloudstrage",
       "git"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00010.png",
+    "thumbnail": "https://images.icon-icons.com/2699/PNG/512/rclone_logo_icon_169806.png",
     "contentPath": "blog/blog_00010.html",
     "recommended": false
   },
@@ -154,7 +154,7 @@
       "cloudstrage",
       "git"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00007.png",
+    "thumbnail": "https://images.icon-icons.com/2699/PNG/512/rclone_logo_icon_169806.png",
     "contentPath": "blog/blog_00007.html",
     "recommended": false
   },
@@ -168,7 +168,7 @@
       "ue5",
       "cpp"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00006.png",
+    "thumbnail": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/UE_Logo_Black_Centered.svg/960px-UE_Logo_Black_Centered.svg.png?20180409154350",
     "contentPath": "blog/blog_00006.html",
     "recommended": false
   },
@@ -201,7 +201,7 @@
       "android",
       "ios"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00004.png",
+    "thumbnail": "https://play-lh.googleusercontent.com/biTX1cxwIjiOLBH1g60Io_pYh4f5tOTIfmjE5lLD2Qbv8cNM32pJ9hUg8sxRP0nOBL76=w240-h480-rw",
     "contentPath": "blog/blog_00004.html",
     "recommended": true
   },
@@ -218,7 +218,7 @@
       "plugin",
       "tool"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00008.png",
+    "thumbnail": "https://www.vhv.rs/dpng/d/560-5605966_discord-bot-logo-discord-png-transparent-png.png",
     "contentPath": "blog/blog_00008.html",
     "recommended": true
   },
@@ -233,7 +233,7 @@
       "plugin",
       "tool"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00003.png",
+    "thumbnail": "https://cdn-ak.f.st-hatena.com/images/fotolife/R/Raspberly/20201207/20201207023915.png",
     "contentPath": "blog/blog_00003.html",
     "recommended": false
   },
@@ -248,7 +248,7 @@
       "plugin",
       "tool"
     ],
-    "thumbnail": "assets/img/thumbnails/blog_00002.png",
+    "thumbnail": "https://cdn-ak.f.st-hatena.com/images/fotolife/R/Raspberly/20201207/20201207023915.png",
     "contentPath": "blog/blog_00002.html",
     "recommended": false
   },

@@ -932,16 +932,29 @@
 /* ==========================================================================
     Giscus layout tweaks
    ========================================================================== */
-/* コンテナ（コメント領域全体） */
+/* コンテナ（コメント領域全体） - card-like, responsive, dark-mode aware */
 .post-comments {
     max-width: 900px; /* コンテンツ幅を制限して中央寄せ */
-    margin: 2rem auto; /* 上下の余白 */
-    padding: 0.75rem; /* 内側余白（iframe 周囲）*/
+    margin: 3rem auto; /* 上下の余白 */
+    padding: 1.5rem; /* 内側余白（iframe 周囲）*/
     box-sizing: border-box;
-    border-radius: 12px;
-    background: var(--card-bg, #fff);
-    box-shadow: 0 6px 18px rgba(20, 30, 40, 0.06);
+    border-radius: var(--radius-lg, 12px);
+    background: var(--color-panel, #161b22);
+    border: 1px solid var(--color-border, #30363d);
+    box-shadow: var(--shadow-md, 0 4px 6px rgba(0, 0, 0, 0.1));
     overflow: hidden;
+    transition: var(--transition-smooth, all 0.25s ease);
+}
+
+/* Loading state for lazy-loaded comments */
+.giscus-placeholder .giscus-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 120px;
+    color: var(--color-text-muted, #a0aec0);
+    font-size: 0.95rem;
+    opacity: 0.8;
 }
 
 /* giscus が生成するラッパー要素（外側） */
@@ -958,7 +971,7 @@
     height: auto; /* giscus は自動リサイズするはず */
     border: 0;
     background: transparent;
-    border-radius: 8px;
+    border-radius: var(--radius-md, 8px);
     /* 見た目の微調整 */
     box-shadow: none;
 }
@@ -966,16 +979,17 @@
 /* 小さい画面での調整 */
 @media (max-width: 640px) {
     .post-comments {
-        margin: 1.25rem 1rem;
-        padding: 0.6rem;
-        border-radius: 8px;
+        margin: 2rem 1rem;
+        padding: 1rem;
+        border-radius: var(--radius-md, 8px);
     }
 }
 
 /* ダークモードの微調整（親ドキュメント側の背景を整える） */
 @media (prefers-color-scheme: dark) {
     .post-comments {
-        background: #0b0b0d;
+        background: var(--color-panel, #161b22);
+        border-color: var(--color-border, #30363d);
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
     }
     /* iframe 内の色は変更できないので透明背景で馴染ませる */
@@ -988,6 +1002,6 @@
 .post-comments .comments-header {
     font-size: 0.95rem;
     margin-bottom: 0.5rem;
-    color: var(--muted-text, #666);
+    color: var(--color-text-muted, #a0aec0);
     padding-left: 0.25rem;
 }

@@ -162,7 +162,7 @@ function createShareButtonsHtml(title, url, locale) {
 }
 
 // ---------------------------
-// Giscus snippet generator
+// Giscus placeholder generator (lazy-loading)
 // ---------------------------
 function makeGiscusHtml() {
   // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
@@ -171,26 +171,21 @@ function makeGiscusHtml() {
       "Giscus enabled but GISCUS_REPO_ID or GISCUS_CATEGORY_ID is missing.",
     );
   }
-  const GISCUS_ENABLED =
-    COMMENT_PROVIDER === "giscus" ||
-    (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
 
-  return `<div id="comments" class="post-comments">
-    <script src="https://giscus.app/client.js"
-      data-repo="${escapeHtml(GISCUS_REPO)}"
-      data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
-      data-category="${escapeHtml(GISCUS_CATEGORY)}"
-      data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
-      data-mapping="${escapeHtml(GISCUS_MAPPING)}"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="${escapeHtml(GISCUS_THEME)}"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </div>`;
+  // Output a placeholder div with data attributes for lazy-loading
+  return `<div id="comments" class="post-comments giscus-placeholder"
+      data-giscus-repo="${escapeHtml(GISCUS_REPO)}"
+      data-giscus-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
+      data-giscus-category="${escapeHtml(GISCUS_CATEGORY)}"
+      data-giscus-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
+      data-giscus-mapping="${escapeHtml(GISCUS_MAPPING)}"
+      data-giscus-strict="0"
+      data-giscus-reactions-enabled="1"
+      data-giscus-emit-metadata="0"
+      data-giscus-input-position="bottom"
+      data-giscus-theme="${escapeHtml(GISCUS_THEME)}">
+      <div class="giscus-loading">Loading comments...</div>
+    </div>`;
 }
 
 function createHtml({
@@ -332,7 +327,6 @@ function createHtml({
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>
-              ${commentHtml}
             </article>
           </div>
           <aside class="post-sidebar">
@@ -344,6 +338,7 @@ function createHtml({
             </div>
           </aside>
         </div>
+        ${commentHtml}
         <section class="section section--related">
           <h2 class="section__title">${locale.related_title}</h2>
           <div id="relatedList" class="recommend-grid"></div>
@@ -367,6 +362,7 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/particles.js"></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
+    <script src="${pathPrefix}/assets/js/giscus-lazy.js" defer></script>
   </body>
 </html>`;
 }

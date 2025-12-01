@@ -21,6 +21,7 @@ module.exports = {
     toc_button_text: "目次",
     back_to_blog: "← ブログ一覧へ戻る",
     recommended_title: "おすすめ記事",
+    related_title: "関連記事",
   },
   en: {
     lang: "en",
@@ -34,5 +35,6 @@ module.exports = {
     toc_button_text: "TOC",
     back_to_blog: "← Back to Blog",
     recommended_title: "Recommended",
+    related_title: "Related Posts",
   },
 };
