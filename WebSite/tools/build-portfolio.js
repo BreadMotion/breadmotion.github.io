@@ -19,7 +19,8 @@ const matter = require("gray-matter");
 // ───────────────────────────────────────────────────────────────
 const isProduction = process.env.NODE_ENV === "production";
 const logger = {
-  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  info: (msg) =>
+    !isProduction && console.log(`[INFO] ${msg}`),
   warn: (msg) => console.warn(`[WARN] ${msg}`),
   error: (msg) => console.error(`[ERROR] ${msg}`),
   success: (msg) => console.log(`[SUCCESS] ${msg}`),
@@ -130,6 +131,7 @@ function createHtml({
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
     <link rel="stylesheet" href="../assets/css/portfolio.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
   </head>
   <body data-page="portfolio">
     <div class="page-shell">
@@ -160,6 +162,7 @@ ${bodyHtml}
 
     <script src="../assets/js/layout.js" defer></script>
     <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/preview.js"></script>
 
     <canvas id="menuAnimationCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
@@ -239,7 +242,9 @@ ${bodyHtml}
             filename,
           );
 
-          logger.info(`Downloading thumbnail for ${id} from ${thumbnail}`);
+          logger.info(
+            `Downloading thumbnail for ${id} from ${thumbnail}`,
+          );
           const res = await fetch(thumbnail);
           if (res.ok) {
             const buffer = Buffer.from(
@@ -249,7 +254,9 @@ ${bodyHtml}
             thumbnail = `assets/img/thumbnails/${filename}`;
             usedThumbnails.add(filename);
           } else {
-            logger.error(`Failed to fetch thumbnail for ${id}: ${res.statusText}`);
+            logger.error(
+              `Failed to fetch thumbnail for ${id}: ${res.statusText}`,
+            );
           }
         } else if (
           thumbnail.includes("assets/img/thumbnails/")
@@ -258,7 +265,9 @@ ${bodyHtml}
           usedThumbnails.add(filename);
         }
       } catch (e) {
-        logger.error(`Failed to process thumbnail for ${id}: ${e.message}`);
+        logger.error(
+          `Failed to process thumbnail for ${id}: ${e.message}`,
+        );
       }
     }
 
