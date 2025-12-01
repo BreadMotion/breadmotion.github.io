@@ -182,7 +182,7 @@ function makeGiscusHtml() {
       data-giscus-strict="0"
       data-giscus-reactions-enabled="1"
       data-giscus-emit-metadata="0"
-      data-giscus-input-position="bottom"
+      data-giscus-input-position="top"
       data-giscus-theme="${escapeHtml(GISCUS_THEME)}">
       <div class="giscus-loading">Loading comments...</div>
     </div>`;
