@@ -26,7 +26,7 @@
   "headline": "自作Discord Botを公開したらスパムに悪用された話",
   "description": "自作したDiscord Botを公開したところ、スパムの踏み台にされてしまいました。原因となったアーキテクチャの設計ミスと、今後のセキュリティ対策についてまとめます。",
   "image": [
-    "https://www.vhv.rs/dpng/d/560-5605966_discord-bot-logo-discord-png-transparent-png.png"
+    "https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00011.png"
   ],
   "datePublished": "2025-11-26T00:00:00.000Z",
   "dateModified": "2025-11-26T00:00:00.000Z",
@@ -48,7 +48,7 @@
     <meta property="og:description" content="自作したDiscord Botを公開したところ、スパムの踏み台にされてしまいました。原因となったアーキテクチャの設計ミスと、今後のセキュリティ対策についてまとめます。" />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00011.html" />
-    <meta property="og:image" content="https://www.vhv.rs/dpng/d/560-5605966_discord-bot-logo-discord-png-transparent-png.png" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00011.png" />
     <meta property="og:site_name" content="PanKUN" />
     <link rel="shortcut icon" href="../../favicon.ico">
     <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
@@ -164,7 +164,50 @@
             </div>
           </aside>
         </div>
-        
+        <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comments&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;dark&quot;}'>
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
         <section class="section section--recommend">
           <h2 class="section__title">おすすめ記事</h2>
           <div id="recommendList" class="recommend-grid"></div>
