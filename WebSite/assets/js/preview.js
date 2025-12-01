@@ -1,45 +1,54 @@
 /**
  * preview.js
  * --------------------------------------------------
- * aタグを長押しで遷移先ページをプレビュー表示するスクリプト（単体モーダル実装）。
- * - portfolio.js に依存せず、preview.js 単独でモーダルを生成して表示します。
- * - 長押しで対象ページを fetch し、.work-detail があればその内容を流用、
- *   なければメタ情報（title, og:image, p抜粋）を使ってフォールバック表示を行います。
- * - 同一オリジンのみ対象（セキュリティ上の理由）。
- * - Pointer Events を用いて長押しを検出します。
+ * 長押し / スワイプでページ内リンクのプレビュー（モーダル）を表示するスクリプト
  *
- * 導入:
- * <script src="assets/js/preview.js" defer></script>
+ * 追加機能（今回の編集）
+ * - iframe モードをデフォルトで追加（完全再現を優先）
+ * - inline モードの際はページ固有 CSS を親 document に注入してプレビュー再現性を高める（プレビュー中のみ適用、閉じたら削除）
+ * - モード切替 API（setMode）および open に mode オプションを追加
  *
  * 注意:
- * - fetch による GET リクエストが発生します。認証クッキーを含めるため credentials: 'include' を使用しています。
- * - 既存の global modal がある場合と競合しないよう、要素名は preview 固有のクラス名を使用します。
+ * - iframe モードは「同一オリジン」環境でのみ iframe.contentDocument にアクセスしてヘッダー／フッターを非表示にできます。
+ * - inline モードでの CSS 注入は親ドキュメントへスタイルを一時的に追加するため、スタイル競合の副作用が発生する可能性があります。
+ * - ローカルでの確認は HTTP サーバー（http://localhost:8000 等）で行ってください（file:// だと fetch が失敗することがあります）。
  * --------------------------------------------------
  */
 (() => {
   "use strict";
 
-  // 長押しの判定ミリ秒
-  const LONG_PRESS_MS = 500;
-  // 長押し時に許容する移動量（px）
-  const MOVE_TOLERANCE = 10;
+  // 設定
+  const DEFAULT_MODE = "iframe"; // 'iframe' | 'inline'
+  const LONG_PRESS_MS = 500; // 長押し判定 (ms)
+  const SWIPE_OPEN_THRESHOLD = 48; // 右スワイプで開く閾値 (px)
+  const SWIPE_CLOSE_THRESHOLD = 48; // 左スワイプで閉じる閾値 (px)
+  const MOVE_CANCEL_TOLERANCE = 10; // 長押し中にこれ以上動いたらキャンセル (px)
 
+  // state for pointer on anchors
   let longPressTimer = null;
-  let startX = 0;
-  let startY = 0;
+  let pointerStartX = 0;
+  let pointerStartY = 0;
+  let pointerId = null;
   let activeAnchor = null;
   let suppressClick = false;
 
-  // モーダル要素（単一インスタンス）
+  // modal elements (single instance)
   let modalOverlay = null;
   let modalContainer = null;
   let modalContent = null;
   let modalCloseBtn = null;
 
-  /**
-   * 同一オリジン判定
-   * href は相対パスでも可。location.href を基準に確認する。
-   */
+  // runtime mode
+  let mode = DEFAULT_MODE;
+
+  // injected style elements for inline-mode cleanup
+  const injectedStyleHandles = []; // { el: HTMLStyleElement, origin: string }
+
+  // TRACK current iframe (if any) to cleanup later
+  let currentIframe = null;
+  let currentIframeOnLoad = null;
+
+  // helpers
   function isSameOriginUrl(href) {
     try {
       const url = new URL(href, location.href);
@@ -49,143 +58,194 @@
     }
   }
 
-  /**
-   * モーダル DOM を作成（既にあればそれを返す）
-   * クラス名は preview-... として既存の modal と衝突しないようにする
-   */
+  function resolveUrl(href) {
+    try {
+      return new URL(href, location.href).href;
+    } catch (e) {
+      return href;
+    }
+  }
+
+  // create modal DOM using portfolio modal class names for style consistency
   function ensureModal() {
-    if (modalOverlay && modalContainer && modalContent)
-      return;
+    if (modalOverlay) return;
 
-    // オーバーレイ
     modalOverlay = document.createElement("div");
-    modalOverlay.className = "preview-modal-overlay";
-    modalOverlay.setAttribute("role", "dialog");
-    modalOverlay.setAttribute("aria-modal", "true");
-    modalOverlay.style.position = "fixed";
-    modalOverlay.style.left = 0;
-    modalOverlay.style.top = 0;
-    modalOverlay.style.width = "100%";
-    modalOverlay.style.height = "100%";
-    modalOverlay.style.zIndex = 10000;
-    modalOverlay.style.display = "none";
-    modalOverlay.style.alignItems = "center";
-    modalOverlay.style.justifyContent = "center";
-    modalOverlay.style.background = "rgba(0,0,0,0.45)";
+    modalOverlay.className = "modal-overlay";
 
-    // コンテナ
     modalContainer = document.createElement("div");
-    modalContainer.className = "preview-modal-container";
-    modalContainer.style.maxWidth = "900px";
-    modalContainer.style.width = "min(95vw, 900px)";
-    modalContainer.style.maxHeight = "90vh";
-    modalContainer.style.overflow = "auto";
-    modalContainer.style.background = "#fff";
-    modalContainer.style.borderRadius = "8px";
-    modalContainer.style.boxShadow =
-      "0 12px 40px rgba(0,0,0,0.35)";
-    modalContainer.style.position = "relative";
-    modalContainer.style.padding = "16px";
-    modalContainer.style.boxSizing = "border-box";
-    modalContainer.style.fontFamily =
-      "system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial";
+    modalContainer.className = "modal-container";
 
-    // 閉じるボタン
     modalCloseBtn = document.createElement("button");
-    modalCloseBtn.className = "preview-modal-close";
-    modalCloseBtn.innerHTML = "✕";
-    modalCloseBtn.setAttribute("aria-label", "閉じる");
-    modalCloseBtn.style.position = "absolute";
-    modalCloseBtn.style.right = "8px";
-    modalCloseBtn.style.top = "8px";
-    modalCloseBtn.style.border = "none";
-    modalCloseBtn.style.background = "transparent";
-    modalCloseBtn.style.cursor = "pointer";
-    modalCloseBtn.style.fontSize = "18px";
-    modalCloseBtn.style.lineHeight = "1";
-    modalCloseBtn.style.padding = "6px";
+    modalCloseBtn.className = "modal-close";
+    modalCloseBtn.type = "button";
+    modalCloseBtn.innerHTML = "&times;";
+    modalCloseBtn.setAttribute("aria-label", "Close");
 
-    // コンテンツ領域
     modalContent = document.createElement("div");
-    modalContent.className = "preview-modal-content";
-    modalContent.style.paddingTop = "28px";
+    modalContent.className = "modal-content";
 
     modalContainer.appendChild(modalCloseBtn);
     modalContainer.appendChild(modalContent);
     modalOverlay.appendChild(modalContainer);
     document.body.appendChild(modalOverlay);
 
-    // イベント: オーバーレイクリックで閉じる（コンテナ内クリックは閉じない）
+    // events
     modalOverlay.addEventListener("click", (ev) => {
       if (ev.target === modalOverlay) hideModal();
     });
+    modalCloseBtn.addEventListener("click", hideModal);
 
-    modalCloseBtn.addEventListener("click", () =>
-      hideModal(),
-    );
-
-    // Esc キーで閉じる
+    // Esc closes
     document.addEventListener("keydown", (ev) => {
-      if (ev.key === "Escape") hideModal();
+      if (
+        ev.key === "Escape" &&
+        modalOverlay.classList.contains("is-open")
+      ) {
+        hideModal();
+      }
     });
 
-    // モーダル内のリンククリックは要素の href に従うが、
-    // 同一オリジンは同じタブで、外部は新しいタブで開くようにする
+    // swipe left on modalContainer => close
+    let mStartX = 0;
+    let mStartY = 0;
+    let mPointerId = null;
+    function onModalPointerDown(ev) {
+      if (ev.isPrimary === false) return;
+      mPointerId = ev.pointerId;
+      mStartX = ev.clientX;
+      mStartY = ev.clientY;
+      try {
+        modalContainer.setPointerCapture &&
+          modalContainer.setPointerCapture(ev.pointerId);
+      } catch (_) {}
+    }
+    function onModalPointerMove(ev) {
+      if (mPointerId !== ev.pointerId) return;
+      const dx = ev.clientX - mStartX;
+      const dy = ev.clientY - mStartY;
+      if (
+        Math.abs(dx) > Math.abs(dy) &&
+        dx < -SWIPE_CLOSE_THRESHOLD
+      ) {
+        hideModal();
+        try {
+          modalContainer.releasePointerCapture &&
+            modalContainer.releasePointerCapture(
+              ev.pointerId,
+            );
+        } catch (_) {}
+        mPointerId = null;
+      }
+    }
+    function onModalPointerUp(ev) {
+      if (mPointerId !== ev.pointerId) return;
+      try {
+        modalContainer.releasePointerCapture &&
+          modalContainer.releasePointerCapture(
+            ev.pointerId,
+          );
+      } catch (_) {}
+      mPointerId = null;
+    }
+    modalContainer.addEventListener(
+      "pointerdown",
+      onModalPointerDown,
+      { passive: true },
+    );
+    modalContainer.addEventListener(
+      "pointermove",
+      onModalPointerMove,
+      { passive: true },
+    );
+    modalContainer.addEventListener(
+      "pointerup",
+      onModalPointerUp,
+    );
+
+    // intercept clicks inside modalContent to allow modal-internal navigation
     modalContent.addEventListener("click", (ev) => {
       const a = ev.target.closest && ev.target.closest("a");
       if (!a) return;
-      // prevent default してから処理
-      ev.preventDefault();
-      ev.stopPropagation();
-      const hrefAttr = a.getAttribute("href") || a.href;
-      if (!hrefAttr) return;
-      if (isSameOriginUrl(hrefAttr)) {
-        hideModal();
-        // 相対パスのまま遷移（ブラウザが解決）
-        location.href = hrefAttr;
+      const href = a.getAttribute("href") || a.href;
+      if (!href) return;
+      // same-origin -> load within modal; external -> open new tab
+      if (isSameOriginUrl(href)) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        // load within modal: use the global open so that iframe/inline behavior applies
+        loadAndShowContent(href);
       } else {
-        window.open(hrefAttr, "_blank", "noopener");
+        // external: let it open in new tab
+        a.target = "_blank";
+        a.rel = "noopener noreferrer";
       }
     });
   }
 
-  function showModalWithNode(node) {
+  function showModal() {
     ensureModal();
-    // 既存コンテンツを差し替え
-    modalContent.innerHTML = "";
-    modalContent.appendChild(node);
-    modalOverlay.style.display = "flex";
-    // フォーカスを閉じるボタンに移す
-    try {
-      modalCloseBtn.focus();
-    } catch (e) {}
-    // prevent body scroll
-    document.documentElement.classList.add(
-      "preview-modal-open",
-    );
-    document.body.classList.add("preview-modal-open");
-    document.body.style.overflow = "hidden";
+    modalOverlay.classList.add("is-open");
+    document.body.classList.add("no-scroll");
   }
 
   function hideModal() {
     if (!modalOverlay) return;
-    modalOverlay.style.display = "none";
-    document.documentElement.classList.remove(
-      "preview-modal-open",
-    );
-    document.body.classList.remove("preview-modal-open");
-    document.body.style.overflow = "";
-    // クリア（軽い遅延で中身を空にしておく）
+    modalOverlay.classList.remove("is-open");
+    document.body.classList.remove("no-scroll");
+
+    // cleanup content after animation
     setTimeout(() => {
-      if (modalContent) modalContent.innerHTML = "";
-    }, 200);
+      if (!modalOverlay.classList.contains("is-open")) {
+        // remove iframe if present
+        cleanupIframe();
+        // remove injected styles (inline mode)
+        cleanupInjectedStyles();
+        if (modalContent) modalContent.innerHTML = "";
+      }
+    }, 300);
   }
 
-  /**
-   * fetch して Document を返す（例外は呼び出し元で処理する）
-   */
+  // sanitize node by removing <script> and inline event handlers
+  function sanitizeNode(node) {
+    if (!node || !node.querySelectorAll) return;
+    // remove script tags
+    const scripts = node.querySelectorAll("script");
+    scripts.forEach((s) => s.remove());
+    // remove on* attributes
+    const all = node.querySelectorAll("*");
+    all.forEach((el) => {
+      for (let i = el.attributes.length - 1; i >= 0; i--) {
+        const attr = el.attributes[i];
+        if (/^on/i.test(attr.name)) {
+          el.removeAttribute(attr.name);
+        }
+      }
+    });
+  }
+
+  // fix relative src/href attributes inside element to absolute based on baseHref
+  function fixRelativePaths(element, baseHref) {
+    if (!element || !element.querySelectorAll) return;
+    const attrs = ["src", "href"];
+    attrs.forEach((attr) => {
+      const nodes = element.querySelectorAll(`[${attr}]`);
+      nodes.forEach((n) => {
+        const val = n.getAttribute(attr);
+        if (!val) return;
+        try {
+          const resolved = new URL(val, baseHref).href;
+          n.setAttribute(attr, resolved);
+        } catch (e) {
+          // leave it
+        }
+      });
+    });
+  }
+
+  // fetch document at href and return {doc, resolvedUrl}
   async function fetchDocument(href) {
-    const resolved = new URL(href, location.href).href;
+    const resolved = resolveUrl(href);
     const resp = await fetch(resolved, {
       credentials: "include",
     });
@@ -195,326 +255,477 @@
       );
     const text = await resp.text();
     const parser = new DOMParser();
-    return parser.parseFromString(text, "text/html");
+    const doc = parser.parseFromString(text, "text/html");
+    return { doc, resolved };
   }
 
-  /**
-   * 取得したドキュメントの相対パスを補正する（../ を取り除く）
-   * これにより挿入したノード内の相対パスが正しく動作しやすくする
-   */
-  function fixPaths(element) {
-    if (!element || !element.querySelectorAll) return;
-    const attrs = ["src", "href"];
-    attrs.forEach((attr) => {
-      const nodes = element.querySelectorAll(`[${attr}]`);
-      nodes.forEach((node) => {
-        const val = node.getAttribute(attr);
-        if (!val) return;
-        // ../ を取り除く簡易補正（プロジェクトの構造に依存するため必要なら調整）
-        if (val.startsWith("../")) {
-          node.setAttribute(
-            attr,
-            val.replace(/\.\.\//g, ""),
-          );
-        }
-      });
-    });
-  }
-
-  /**
-   * Document からプレビュー用の要素を抽出して Node を返す
-   * - doc に .work-detail があればそのノードを返す（スクリプトは削除）
-   * - なければフォールバックでプレビューボディを生成して返す
-   */
-  function buildPreviewNodeFromDoc(doc, sourceHref) {
-    // 1) .work-detail があるか
-    const workDetail = doc.querySelector(".work-detail");
-    if (workDetail) {
-      // クローンしてスクリプト要素を削除
-      const cloned = workDetail.cloneNode(true);
-      // remove scripts for safety
-      const scripts = cloned.querySelectorAll("script");
-      scripts.forEach((s) => s.remove());
-      // fix internal paths
-      fixPaths(cloned);
-      // optional: add a small caption or source link
-      const footer = document.createElement("div");
-      footer.style.marginTop = "12px";
-      footer.style.fontSize = "13px";
-      footer.style.color = "#666";
-      footer.textContent = `Preview: ${sourceHref}`;
-      cloned.appendChild(footer);
-      return cloned;
-    }
-
-    // 2) フォールバック: title, og:image, p抜粋 を使ってカード風に作る
-    const container = document.createElement("div");
-    container.className = "preview-fallback";
-    container.style.display = "flex";
-    container.style.flexDirection = "column";
-    container.style.gap = "12px";
-
-    // タイトル
-    const title = (
-      doc.querySelector('meta[property="og:title"]')
-        ?.content ||
-      doc.querySelector('meta[name="twitter:title"]')
-        ?.content ||
-      doc.querySelector("title")?.textContent ||
-      ""
-    ).trim();
-    if (title) {
-      const h = document.createElement("h2");
-      h.textContent = title;
-      h.style.margin = "0";
-      h.style.fontSize = "18px";
-      container.appendChild(h);
-    }
-
-    // 画像 (og:image)
-    const imageUrl =
-      doc.querySelector('meta[property="og:image"]')
-        ?.content ||
-      doc.querySelector('meta[name="twitter:image"]')
-        ?.content ||
-      null;
-    if (imageUrl) {
-      const imgWrap = document.createElement("div");
-      imgWrap.style.width = "100%";
-      imgWrap.style.maxHeight = "360px";
-      imgWrap.style.overflow = "hidden";
-      const img = document.createElement("img");
-      img.src = imageUrl;
-      img.alt = title || "";
-      img.style.width = "100%";
-      img.style.height = "auto";
-      img.style.objectFit = "cover";
-      imgWrap.appendChild(img);
-      container.appendChild(imgWrap);
-    }
-
-    // 抜粋（main p / article p / first p）
-    let excerpt = "";
-    const candidates = [
-      doc.querySelector("main p"),
-      doc.querySelector("article p"),
-      doc.querySelector(".lead"),
-      doc.querySelector("p"),
-    ];
-    for (const c of candidates) {
-      if (c && c.textContent.trim()) {
-        excerpt = c.textContent.trim();
-        break;
-      }
-    }
-    if (excerpt) {
-      if (excerpt.length > 400)
-        excerpt = excerpt.slice(0, 397) + "…";
-      const p = document.createElement("p");
-      p.textContent = excerpt;
-      p.style.margin = "0";
-      p.style.color = "#333";
-      container.appendChild(p);
-    }
-
-    // リンク（開くボタン）
-    const actions = document.createElement("div");
-    actions.style.display = "flex";
-    actions.style.gap = "8px";
-    actions.style.marginTop = "8px";
-
-    const openBtn = document.createElement("button");
-    openBtn.textContent = "開く";
-    openBtn.style.background = "#0366d6";
-    openBtn.style.color = "#fff";
-    openBtn.style.border = "none";
-    openBtn.style.padding = "8px 12px";
-    openBtn.style.borderRadius = "6px";
-    openBtn.style.cursor = "pointer";
-    openBtn.addEventListener("click", () => {
-      // 同一オリジンなら同タブで遷移、外部は新規タブ
-      if (isSameOriginUrl(sourceHref)) {
-        hideModal();
-        location.href = sourceHref;
-      } else {
-        window.open(sourceHref, "_blank", "noopener");
-      }
-    });
-
-    const closeBtn = document.createElement("button");
-    closeBtn.textContent = "閉じる";
-    closeBtn.style.background = "transparent";
-    closeBtn.style.color = "#333";
-    closeBtn.style.border = "1px solid #ddd";
-    closeBtn.style.padding = "8px 12px";
-    closeBtn.style.borderRadius = "6px";
-    closeBtn.style.cursor = "pointer";
-    closeBtn.addEventListener("click", () => hideModal());
-
-    actions.appendChild(openBtn);
-    actions.appendChild(closeBtn);
-
-    container.appendChild(actions);
-
-    // source hint
-    const hint = document.createElement("div");
-    hint.style.marginTop = "8px";
-    hint.style.fontSize = "12px";
-    hint.style.color = "#666";
-    hint.textContent = `Preview: ${sourceHref}`;
-    container.appendChild(hint);
-
-    return container;
-  }
-
-  /**
-   * 長押しトリガで呼ぶ処理
-   * - href の getAttribute を使って相対パスを保つ
-   * - fetch -> parse -> build node -> showModalWithNode
-   */
-  async function handleLongPressForAnchor(a) {
-    if (!a || !a.getAttribute) return;
-    const rawHref = a.getAttribute("href") || a.href;
-    if (!rawHref) return;
-    if (!isSameOriginUrl(rawHref)) return;
-
-    try {
-      const doc = await fetchDocument(rawHref);
-      // build node（.work-detail があれば流用、なければフォールバック）
-      const node = buildPreviewNodeFromDoc(doc, rawHref);
-      showModalWithNode(node);
-    } catch (err) {
-      // fetch が失敗したらログを残して何もしない（UI を壊さない）
-      console.error(
-        "preview: failed to load target for preview",
-        err,
+  // Build a node to insert into modal from the fetched document (used by inline mode).
+  function buildModalNodeFromDocument(doc, baseUrl) {
+    let node =
+      doc.querySelector("main") ||
+      doc.querySelector(".work-detail") ||
+      doc.querySelector("article");
+    if (node) {
+      const clone = node.cloneNode(true);
+      sanitizeNode(clone);
+      fixRelativePaths(clone, baseUrl);
+      // optionally remove site header/footer if present inside the node
+      const header = clone.querySelector(
+        "header, .site-header, .page-header",
       );
+      if (header) header.remove();
+      const footer = clone.querySelector(
+        "footer, .site-footer, .page-footer",
+      );
+      if (footer) footer.remove();
+      return clone;
+    }
+
+    // fallback: clone body and remove common header/footer selectors
+    const bodyClone = doc.body.cloneNode(true);
+    const toRemove = bodyClone.querySelectorAll(
+      "header, footer, nav, .site-header, .site-footer, .page-header, .page-footer",
+    );
+    toRemove.forEach((n) => n.remove());
+    sanitizeNode(bodyClone);
+    fixRelativePaths(bodyClone, baseUrl);
+    return bodyClone;
+  }
+
+  // Inline-mode: extract style/link nodes and inject CSS into parent document for preview duration
+  async function injectStylesFromDocument(doc, baseUrl) {
+    if (!doc) return;
+    const headNodes = Array.from(
+      doc.querySelectorAll(
+        "link[rel~='stylesheet'], style",
+      ),
+    );
+    for (const n of headNodes) {
+      if (n.tagName.toLowerCase() === "style") {
+        const styleEl = document.createElement("style");
+        styleEl.setAttribute(
+          "data-preview-origin",
+          baseUrl,
+        );
+        styleEl.textContent = n.textContent || "";
+        document.head.appendChild(styleEl);
+        injectedStyleHandles.push({
+          el: styleEl,
+          origin: baseUrl,
+        });
+      } else if (n.tagName.toLowerCase() === "link") {
+        // try to fetch the CSS if same-origin to avoid CORS issues
+        const href = n.getAttribute("href");
+        if (!href) continue;
+        try {
+          const resolved = new URL(href, baseUrl).href;
+          if (
+            new URL(resolved).origin === location.origin
+          ) {
+            // fetch css text and inject as <style>
+            try {
+              const resp = await fetch(resolved, {
+                credentials: "include",
+              });
+              if (resp.ok) {
+                const cssText = await resp.text();
+                const styleEl =
+                  document.createElement("style");
+                styleEl.setAttribute(
+                  "data-preview-origin",
+                  resolved,
+                );
+                styleEl.textContent = cssText;
+                document.head.appendChild(styleEl);
+                injectedStyleHandles.push({
+                  el: styleEl,
+                  origin: resolved,
+                });
+              } else {
+                // fallback: create a link element in parent head (less ideal)
+                const linkClone =
+                  document.createElement("link");
+                linkClone.rel = "stylesheet";
+                linkClone.href = resolved;
+                linkClone.setAttribute(
+                  "data-preview-origin",
+                  resolved,
+                );
+                document.head.appendChild(linkClone);
+                injectedStyleHandles.push({
+                  el: linkClone,
+                  origin: resolved,
+                });
+              }
+            } catch (e) {
+              // can't fetch; try to insert link (may fail due to CSP)
+              const linkClone =
+                document.createElement("link");
+              linkClone.rel = "stylesheet";
+              linkClone.href = resolved;
+              linkClone.setAttribute(
+                "data-preview-origin",
+                resolved,
+              );
+              document.head.appendChild(linkClone);
+              injectedStyleHandles.push({
+                el: linkClone,
+                origin: resolved,
+              });
+            }
+          } else {
+            // cross-origin link: avoid fetching; insert link but note CSP/COEP may block it
+            const linkClone =
+              document.createElement("link");
+            linkClone.rel = "stylesheet";
+            linkClone.href = resolved;
+            linkClone.setAttribute(
+              "data-preview-origin",
+              resolved,
+            );
+            document.head.appendChild(linkClone);
+            injectedStyleHandles.push({
+              el: linkClone,
+              origin: resolved,
+            });
+          }
+        } catch (e) {
+          // ignore malformed href
+        }
+      }
     }
   }
 
-  // --- Pointer Events による長押し検出 --- //
-  function onPointerDown(e) {
-    // マウスなら左ボタンのみ
-    if (e.pointerType === "mouse" && e.button !== 0) return;
-    const a = e.target.closest && e.target.closest("a");
+  function cleanupInjectedStyles() {
+    while (injectedStyleHandles.length) {
+      const h = injectedStyleHandles.pop();
+      try {
+        h.el.remove && h.el.remove();
+      } catch (_) {}
+    }
+  }
+
+  // IFRAME handling
+  function createAndShowIframe(resolvedUrl) {
+    ensureModal();
+
+    // cleanup any existing iframe
+    cleanupIframe();
+
+    const iframe = document.createElement("iframe");
+    iframe.className = "preview-iframe";
+    iframe.src = resolvedUrl;
+    iframe.setAttribute("aria-label", "Preview frame");
+    iframe.style.width = "100%";
+    iframe.style.height = "80vh";
+    iframe.style.border = "0";
+
+    // small source note (can be styled by CSS)
+    const srcNote = document.createElement("div");
+    srcNote.className = "preview-source-note";
+    srcNote.textContent = `Preview: ${resolvedUrl}`;
+
+    modalContent.innerHTML = ""; // clear previous
+    modalContent.appendChild(srcNote);
+    modalContent.appendChild(iframe);
+
+    showModal();
+
+    // onload: try to hide header/footer and adjust links
+    const onload = function () {
+      try {
+        const doc = iframe.contentDocument;
+        if (!doc) throw new Error("no doc");
+        // inject CSS to hide common header/footer selectors
+        const hideStyle = doc.createElement("style");
+        hideStyle.setAttribute(
+          "data-preview-injected",
+          "true",
+        );
+        hideStyle.textContent =
+          "header, footer, .site-header, .site-footer, .page-header, .page-footer { display: none !important; }";
+        doc.head && doc.head.appendChild(hideStyle);
+
+        // ensure links: external -> open new tab; internal -> normal (navigates inside iframe)
+        const fixLinksScript = doc.createElement("script");
+        fixLinksScript.setAttribute(
+          "data-preview-injected",
+          "true",
+        );
+        fixLinksScript.type = "text/javascript";
+        // The script will run in the iframe document and make external links open in new tab
+        fixLinksScript.textContent = `
+          (function(){
+            try {
+              const all = Array.from(document.querySelectorAll('a[href]'));
+              all.forEach(a => {
+                try {
+                  const href = a.getAttribute('href');
+                  if (!href) return;
+                  const url = new URL(href, location.href);
+                  if (url.origin !== location.origin) {
+                    a.setAttribute('target', '_blank');
+                    a.setAttribute('rel', 'noopener noreferrer');
+                  } else {
+                    // internal links: keep behavior (navigates inside iframe)
+                    a.removeAttribute('target');
+                  }
+                  // Prevent clicks that would break out of iframe via top.location in inline scripts:
+                  a.addEventListener('click', function(e){
+                    // allow default to let iframe navigate normally
+                  }, { passive:true });
+                } catch(e) {}
+              });
+            } catch(e){}
+          })();
+        `;
+        // append script to iframe doc to execute
+        doc.head && doc.head.appendChild(fixLinksScript);
+      } catch (e) {
+        // cross-origin or other access error -> fallback: show plain message and offer open in new tab
+        modalContent.innerHTML =
+          '<div style="padding:2rem;text-align:center;color:var(--color-text-muted);">このページはプレビューできません。<br><a class="preview-open-external" href="' +
+          resolvedUrl +
+          '" target="_blank" rel="noopener noreferrer">新しいタブで開く</a></div>';
+      }
+    };
+
+    iframe.addEventListener("load", onload, {
+      passive: true,
+    });
+
+    // store references for cleanup
+    currentIframe = iframe;
+    currentIframeOnLoad = onload;
+  }
+
+  function cleanupIframe() {
+    if (currentIframe) {
+      try {
+        currentIframe.removeEventListener(
+          "load",
+          currentIframeOnLoad,
+        );
+      } catch (_) {}
+      try {
+        currentIframe.remove && currentIframe.remove();
+      } catch (_) {}
+      currentIframe = null;
+      currentIframeOnLoad = null;
+    }
+  }
+
+  // load href and show its content inside modal (MODE-aware)
+  async function loadAndShowContent(href, opts = {}) {
+    const useMode = opts.mode || mode || DEFAULT_MODE;
+    const resolved = resolveUrl(href);
+
+    if (useMode === "iframe") {
+      // iframe mode: try to create iframe and show it
+      // but verify same-origin for injected manipulations; we still create iframe even if cross-origin
+      createAndShowIframe(resolved);
+      return;
+    }
+
+    // inline mode: fetch document, extract node, and inject page-specific CSS into parent
+    try {
+      const { doc } = await fetchDocument(href);
+      // inject styles into parent head (only for inline mode)
+      try {
+        await injectStylesFromDocument(doc, resolved);
+      } catch (e) {
+        // ignore injection errors
+        console.warn("preview: style injection failed", e);
+      }
+
+      const node = buildModalNodeFromDocument(
+        doc,
+        resolved,
+      );
+
+      // tweak node classes to match modal inner content expectations
+      if (
+        !node.classList ||
+        !node.classList.contains("work-detail")
+      ) {
+        try {
+          node.classList.add("work-detail");
+        } catch (_) {}
+      }
+      node.classList.remove &&
+        node.classList.remove("reveal-on-scroll");
+
+      ensureModal();
+      modalContent.innerHTML = "";
+      // optional small header note (styled by preview.css)
+      const srcNote = document.createElement("div");
+      srcNote.className = "preview-source-note";
+      srcNote.textContent = `Preview: ${resolved}`;
+      modalContent.appendChild(srcNote);
+      modalContent.appendChild(node);
+      showModal();
+    } catch (err) {
+      console.error("preview: load failed", err);
+      ensureModal();
+      modalContent.innerHTML =
+        '<div style="padding:2rem;text-align:center;color:var(--color-text-muted);">コンテンツの読み込みに失敗しました。</div>';
+      showModal();
+    }
+  }
+
+  // Handling long press and swipe-to-open on anchors
+  function onAnchorPointerDown(ev) {
+    if (ev.isPrimary === false) return;
+    if (ev.pointerType === "mouse" && ev.button !== 0)
+      return;
+
+    const a = ev.target.closest && ev.target.closest("a");
     if (!a || !a.getAttribute) return;
     const hrefAttr = a.getAttribute("href");
     if (!hrefAttr) return;
-    // 同一オリジンのみ
     if (!isSameOriginUrl(hrefAttr)) return;
 
     activeAnchor = a;
+    pointerStartX = ev.clientX;
+    pointerStartY = ev.clientY;
+    pointerId = ev.pointerId;
     suppressClick = false;
-    startX = e.clientX;
-    startY = e.clientY;
+
+    try {
+      a.setPointerCapture && a.setPointerCapture(pointerId);
+    } catch (_) {}
 
     longPressTimer = setTimeout(async () => {
+      longPressTimer = null;
       suppressClick = true;
-      try {
-        await handleLongPressForAnchor(activeAnchor);
-      } catch (err) {
-        console.error(
-          "preview: long press handler error",
-          err,
-        );
-      }
+      await loadAndShowContent(hrefAttr);
     }, LONG_PRESS_MS);
-
-    // pointer capture（可能なら）
-    try {
-      e.target.setPointerCapture &&
-        e.target.setPointerCapture(e.pointerId);
-    } catch (err) {}
   }
 
-  function onPointerUpOrCancel(e) {
+  function onAnchorPointerMove(ev) {
+    if (!activeAnchor) return;
+    if (ev.pointerId !== pointerId) return;
+
+    const dx = ev.clientX - pointerStartX;
+    const dy = ev.clientY - pointerStartY;
+
+    // if moved too much vertically, cancel long press
+    if (
+      Math.hypot(dx, dy) > MOVE_CANCEL_TOLERANCE &&
+      Math.abs(dy) > Math.abs(dx)
+    ) {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+      return;
+    }
+
+    // horizontal swipe to open: right swipe
+    if (
+      dx > SWIPE_OPEN_THRESHOLD &&
+      Math.abs(dx) > Math.abs(dy)
+    ) {
+      if (longPressTimer) {
+        clearTimeout(longPressTimer);
+        longPressTimer = null;
+      }
+      suppressClick = true;
+      const hrefAttr =
+        activeAnchor.getAttribute("href") ||
+        activeAnchor.href;
+      loadAndShowContent(hrefAttr);
+      try {
+        activeAnchor.releasePointerCapture &&
+          activeAnchor.releasePointerCapture(pointerId);
+      } catch (_) {}
+      activeAnchor = null;
+      pointerId = null;
+    }
+  }
+
+  function onAnchorPointerUp(ev) {
+    if (!activeAnchor) return;
+    if (ev.pointerId !== pointerId) return;
+
     if (longPressTimer) {
       clearTimeout(longPressTimer);
       longPressTimer = null;
     }
-    // タッチを離した後は suppressClick をそのままにして
-    // クリックイベントで遷移抑止する（長押しで開いた場合）
+
+    try {
+      activeAnchor.releasePointerCapture &&
+        activeAnchor.releasePointerCapture(pointerId);
+    } catch (_) {}
+    activeAnchor = null;
+    pointerId = null;
   }
 
-  function onPointerMove(e) {
-    if (!longPressTimer) return;
-    const dx = e.clientX - startX;
-    const dy = e.clientY - startY;
-    if (Math.hypot(dx, dy) > MOVE_TOLERANCE) {
-      clearTimeout(longPressTimer);
-      longPressTimer = null;
-    }
-  }
-
-  // 長押し直後の click を抑止する
-  function onClickCapture(e) {
-    const a = e.target.closest && e.target.closest("a");
+  // click capture to suppress navigation when necessary
+  function onDocumentClickCapture(ev) {
+    const a = ev.target.closest && ev.target.closest("a");
     if (!a) return;
-    if (suppressClick && activeAnchor === a) {
-      e.preventDefault();
-      e.stopPropagation();
+    if (suppressClick) {
+      ev.preventDefault();
+      ev.stopPropagation();
       suppressClick = false;
     } else {
-      // 通常のクリックなら modal を閉じる（もし開いていれば）
-      // ただし通常のクリックで開いた場合は suppressClick が true になるためここで閉じる
-      // hideModal();
+      // when clicking normal and modal open, do nothing here; modal internal clicks are handled
     }
   }
 
-  // outside click でプレヴューを閉じる（モーダル以外の小さいプレビューも想定）
-  function onDocumentClick(e) {
-    // 既存の small preview は modalOverlay とは別なので、
-    // ここでは modalOverlay に対する外部クリックは modalOverlay 自身で処理しているため何もしない。
-    // （小さい inline preview があればその要素を閉じる処理を追加する）
-  }
-
-  // イベント登録
-  document.addEventListener("pointerdown", onPointerDown, {
-    passive: true,
-  });
+  // attach listeners globally to detect pointer interactions on anchors
   document.addEventListener(
-    "pointerup",
-    onPointerUpOrCancel,
+    "pointerdown",
+    (ev) => {
+      const a = ev.target.closest && ev.target.closest("a");
+      if (!a) return;
+      onAnchorPointerDown(ev);
+    },
+    { passive: true },
   );
-  document.addEventListener(
-    "pointercancel",
-    onPointerUpOrCancel,
-  );
-  document.addEventListener("pointermove", onPointerMove, {
-    passive: true,
-  });
-  document.addEventListener("click", onClickCapture, true); // キャプチャで先に抑止
 
-  // Expose a global event for other scripts if they want to react to preview opens
-  // 例: document.addEventListener('preview:opened', (e) => {...})
-  // Dispatch は showModalWithNode の直後に行う
-  const origShowModalWithNode = showModalWithNode;
-  showModalWithNode = function (node) {
-    origShowModalWithNode(node);
-    try {
-      const ev = new CustomEvent("preview:opened", {
-        detail: { node },
-      });
-      document.dispatchEvent(ev);
-    } catch (err) {}
+  document.addEventListener(
+    "pointermove",
+    (ev) => {
+      if (activeAnchor) onAnchorPointerMove(ev);
+    },
+    { passive: true },
+  );
+
+  document.addEventListener("pointerup", (ev) => {
+    if (activeAnchor) onAnchorPointerUp(ev);
+  });
+
+  // capture click to suppress default navigation when long-press/swipe opened preview
+  document.addEventListener(
+    "click",
+    onDocumentClickCapture,
+    true,
+  );
+
+  // Public API
+  window.previewModal = {
+    open: (href, opts = {}) => {
+      if (!href) return;
+      loadAndShowContent(href, opts);
+    },
+    close: () => hideModal(),
+    isOpen: () =>
+      !!(
+        modalOverlay &&
+        modalOverlay.classList.contains("is-open")
+      ),
+    setMode: (m) => {
+      if (m === "iframe" || m === "inline") {
+        mode = m;
+      } else {
+        console.warn(
+          "previewModal.setMode: unsupported mode",
+          m,
+        );
+      }
+    },
+    getMode: () => mode,
   };
-
-  // 初期化: 必要ならスタイルの最小セットを埋め込む（存在しない場合に備え）
-  (function injectMinimalStyles() {
-    // 既に埋め込まれていればスキップ
-    if (document.getElementById("preview-js-styles"))
-      return;
-    const css = `
-.preview-modal-overlay { backdrop-filter: none; }
-.preview-modal-container { animation: previewModalShow .12s ease; }
-@keyframes previewModalShow { from { transform: translateY(6px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-.preview-modal-content img { max-width: 100%; height: auto; display: block; }
-.preview-modal-open { /* reserved for body lock if needed */ }
-    `;
-    const s = document.createElement("style");
-    s.id = "preview-js-styles";
-    s.type = "text/css";
-    s.appendChild(document.createTextNode(css));
-    document.head.appendChild(s);
-  })();
 })();
