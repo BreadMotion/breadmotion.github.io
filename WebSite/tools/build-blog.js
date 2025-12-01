@@ -6,9 +6,7 @@
  *   - 日本語版と英語版（.en.md）を別々に処理
  *   - サムネイル画像のダウンロードと管理
  *   - assets/data/blogList.json / blogList_en.json の更新
- * @recent_changes
- *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
- *   - 冗長なコンソール出力を削減
+ *   - Giscus コメント埋め込み対応（環境変数で有効化）
  */
 
 const fs = require("fs");
@@ -58,6 +56,28 @@ const THUMBNAIL_DIR = path.join(
 
 const BASE_URL = "https://breadmotion.github.io/WebSite";
 
+// ---------------------------
+// Giscus 設定（環境変数で設定）
+// ---------------------------
+const COMMENT_PROVIDER = process.env.COMMENT_PROVIDER || "";
+const GISCUS_REPO =
+  process.env.GISCUS_REPO ||
+  "BreadMotion/breadmotion.github.io";
+const GISCUS_REPO_ID = process.env.GISCUS_REPO_ID || "";
+const GISCUS_CATEGORY =
+  process.env.GISCUS_CATEGORY || "Comments";
+const GISCUS_CATEGORY_ID =
+  process.env.GISCUS_CATEGORY_ID || "";
+const GISCUS_THEME = process.env.GISCUS_THEME || "light";
+const GISCUS_MAPPING =
+  process.env.GISCUS_MAPPING || "og:title";
+const GISCUS_ENABLED =
+  COMMENT_PROVIDER === "giscus" ||
+  (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
+
+// ---------------------------
+// helper: XML/HTML escape
+// ---------------------------
 function escapeHtml(str = "") {
   return String(str).replace(/[&<>"]/g, (c) => {
     return (
@@ -141,6 +161,38 @@ function createShareButtonsHtml(title, url, locale) {
   </div>`;
 }
 
+// ---------------------------
+// Giscus snippet generator
+// ---------------------------
+function makeGiscusHtml() {
+  // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
+  if (!GISCUS_REPO_ID || !GISCUS_CATEGORY_ID) {
+    logger.warn(
+      "Giscus enabled but GISCUS_REPO_ID or GISCUS_CATEGORY_ID is missing.",
+    );
+  }
+  const GISCUS_ENABLED =
+    COMMENT_PROVIDER === "giscus" ||
+    (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
+
+  return `<div id="comments" class="post-comments">
+    <script src="https://giscus.app/client.js"
+      data-repo="${escapeHtml(GISCUS_REPO)}"
+      data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
+      data-category="${escapeHtml(GISCUS_CATEGORY)}"
+      data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
+      data-mapping="${escapeHtml(GISCUS_MAPPING)}"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="bottom"
+      data-theme="${escapeHtml(GISCUS_THEME)}"
+      crossorigin="anonymous"
+      async>
+    </script>
+  </div>`;
+}
+
 function createHtml({
   id,
   title,
@@ -155,6 +207,7 @@ function createHtml({
   locale,
   lang,
   relativePrefix,
+  commentHtml = "",
 }) {
   const pathPrefix = lang === "ja" ? ".." : "../..";
   const safeTitle = escapeHtml(title);
@@ -279,6 +332,7 @@ function createHtml({
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>
+              ${commentHtml}
             </article>
           </div>
           <aside class="post-sidebar">
@@ -371,6 +425,11 @@ function createHtml({
       const locale = locales[lang] || locales.ja;
       const relativePrefix = lang === "ja" ? ".." : "../..";
 
+      // DEBUG: ロケールの主要キーが揃っているか確認（問題の切り分け用）
+      logger.info(
+        `Generating ${id} (${lang}) - locale keys: ${Object.keys(locale).join(", ")}`,
+      );
+
       const raw = fs.readFileSync(sourcePath, "utf8");
       const { data, content } = matter(raw);
 
@@ -450,9 +509,16 @@ function createHtml({
         .map((t) => String(t).trim())
         .filter(Boolean);
 
+      // -------------------------
+      // コメント HTML を決定（Giscus）
+      // -------------------------
+      const commentHtml = GISCUS_ENABLED
+        ? makeGiscusHtml()
+        : "";
+
       const html = createHtml({
         id,
-        title: title || id,
+        title: title,
         description: description || "",
         date: date || "",
         category: category || "",
@@ -464,6 +530,7 @@ function createHtml({
         locale,
         lang,
         relativePrefix,
+        commentHtml,
       });
 
       const outputFilePath =
