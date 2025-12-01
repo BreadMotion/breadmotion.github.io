@@ -930,18 +930,45 @@
 }
 
 /* ==========================================================================
-    Giscus layout tweaks
+    Comments Section (with Giscus lazy-load)
    ========================================================================== */
-/* コンテナ（コメント領域全体） */
+/* コメントセクション全体 */
+.section--comments {
+    margin-top: 3rem;
+    margin-bottom: 2rem;
+}
+
+/* コンテナ（コメント領域全体）- カード風デザイン */
 .post-comments {
-    max-width: 900px; /* コンテンツ幅を制限して中央寄せ */
-    margin: 2rem auto; /* 上下の余白 */
-    padding: 0.75rem; /* 内側余白（iframe 周囲）*/
+    max-width: 100%;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
     box-sizing: border-box;
-    border-radius: 12px;
-    background: var(--card-bg, #fff);
-    box-shadow: 0 6px 18px rgba(20, 30, 40, 0.06);
+    border-radius: var(--radius-lg);
+    background: var(--color-panel);
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-md);
     overflow: hidden;
+    transition: var(--transition-smooth);
+}
+
+.post-comments:hover {
+    box-shadow: var(--shadow-lg);
+}
+
+/* プレースホルダー（lazy-load 中） */
+.giscus-placeholder {
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.giscus-loading {
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+    text-align: center;
+    padding: 2rem;
 }
 
 /* giscus が生成するラッパー要素（外側） */
@@ -954,40 +981,40 @@
 /* iframe 要素本体のスタイル（giscus が作る iframe に .giscus-frame が付く） */
 .post-comments .giscus-frame {
     width: 100%;
-    min-height: 240px; /* 必要に応じて調整 */
-    height: auto; /* giscus は自動リサイズするはず */
+    min-height: 240px;
+    height: auto;
     border: 0;
     background: transparent;
-    border-radius: 8px;
-    /* 見た目の微調整 */
+    border-radius: var(--radius-md);
     box-shadow: none;
 }
 
 /* 小さい画面での調整 */
 @media (max-width: 640px) {
+    .section--comments {
+        margin-top: 2rem;
+    }
+
     .post-comments {
-        margin: 1.25rem 1rem;
-        padding: 0.6rem;
-        border-radius: 8px;
+        margin: 1rem 0;
+        padding: 1rem;
+        border-radius: var(--radius-md);
+    }
+
+    .giscus-placeholder {
+        min-height: 150px;
     }
 }
 
-/* ダークモードの微調整（親ドキュメント側の背景を整える） */
+/* ダークモード対応（CSS変数を使用しているため基本的には自動対応） */
+/* 追加の調整が必要な場合 */
 @media (prefers-color-scheme: dark) {
     .post-comments {
-        background: #0b0b0d;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.45);
+        background: var(--color-panel);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
-    /* iframe 内の色は変更できないので透明背景で馴染ませる */
+
     .post-comments .giscus-frame {
         background: transparent;
     }
-}
-
-/* （オプション）外側に小さな見出しを付けたい場合 */
-.post-comments .comments-header {
-    font-size: 0.95rem;
-    margin-bottom: 0.5rem;
-    color: var(--muted-text, #666);
-    padding-left: 0.25rem;
 }

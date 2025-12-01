@@ -91,6 +91,21 @@ function escapeHtml(str = "") {
   });
 }
 
+// helper: Escape for HTML attribute (including single quotes)
+function escapeHtmlAttr(str = "") {
+  return String(str).replace(/[&<>"']/g, (c) => {
+    return (
+      {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;",
+      }[c] || c
+    );
+  });
+}
+
 function formatDate(date) {
   if (!date) return "";
   const d = new Date(date);
@@ -164,33 +179,71 @@ function createShareButtonsHtml(title, url, locale) {
 // ---------------------------
 // Giscus snippet generator
 // ---------------------------
-function makeGiscusHtml() {
+function makeGiscusHtml(locale) {
   // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
   if (!GISCUS_REPO_ID || !GISCUS_CATEGORY_ID) {
     logger.warn(
       "Giscus enabled but GISCUS_REPO_ID or GISCUS_CATEGORY_ID is missing.",
     );
   }
-  const GISCUS_ENABLED =
-    COMMENT_PROVIDER === "giscus" ||
-    (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
 
-  return `<div id="comments" class="post-comments">
-    <script src="https://giscus.app/client.js"
-      data-repo="${escapeHtml(GISCUS_REPO)}"
-      data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
-      data-category="${escapeHtml(GISCUS_CATEGORY)}"
-      data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
-      data-mapping="${escapeHtml(GISCUS_MAPPING)}"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="bottom"
-      data-theme="${escapeHtml(GISCUS_THEME)}"
-      crossorigin="anonymous"
-      async>
-    </script>
-  </div>`;
+  const commentTitle = locale.comment_title || "Comments";
+
+  // Escape JSON for HTML attribute to prevent XSS
+  const giscusConfig = escapeHtmlAttr(JSON.stringify({
+    repo: GISCUS_REPO,
+    repoId: GISCUS_REPO_ID,
+    category: GISCUS_CATEGORY,
+    categoryId: GISCUS_CATEGORY_ID,
+    mapping: GISCUS_MAPPING,
+    theme: GISCUS_THEME,
+  }));
+
+  // Lazy-load: Giscus script is loaded only when the comment section is visible
+  return `<section class="section section--comments">
+    <h2 class="section__title">${escapeHtml(commentTitle)}</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='${giscusConfig}'>
+        <p class="giscus-loading">${escapeHtml(locale.comment_loading || "Loading comments...")}</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>`;
 }
 
 function createHtml({
@@ -332,7 +385,6 @@ function createHtml({
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>
-              ${commentHtml}
             </article>
           </div>
           <aside class="post-sidebar">
@@ -344,10 +396,7 @@ function createHtml({
             </div>
           </aside>
         </div>
-        <section class="section section--related">
-          <h2 class="section__title">${locale.related_title}</h2>
-          <div id="relatedList" class="recommend-grid"></div>
-        </section>
+        ${commentHtml}
         <section class="section section--recommend">
           <h2 class="section__title">${locale.recommended_title}</h2>
           <div id="recommendList" class="recommend-grid"></div>
@@ -513,7 +562,7 @@ function createHtml({
       // コメント HTML を決定（Giscus）
       // -------------------------
       const commentHtml = GISCUS_ENABLED
-        ? makeGiscusHtml()
+        ? makeGiscusHtml(locale)
         : "";
 
       const html = createHtml({
