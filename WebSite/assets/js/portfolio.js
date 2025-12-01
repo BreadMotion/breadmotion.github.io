@@ -17,7 +17,9 @@ document.addEventListener("DOMContentLoaded", () => {
     "portfolioCategoryFilter",
   );
 
-  if (!listEl) return;
+  // 変更: #portfolioList が無くてもモーダル等の関数は定義できるようにする
+  // hasList が true のときのみ一覧関連の初期化 (loadWorks / render のイベント登録) を行う
+  const hasList = !!listEl;
 
   /** @type {Array<any>} */
   let allWorks = [];
@@ -82,12 +84,43 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("no-scroll");
 
     try {
-      // HTML取得
-      const res = await fetch(contentPath);
-      if (!res.ok)
+      // Resolve contentPath to an absolute URL where possible to avoid
+      // situations where a.href becomes a file:// absolute URL that fetch cannot use.
+      const resolvedUrl = (function () {
+        try {
+          return new URL(contentPath, location.href).href;
+        } catch (e) {
+          return contentPath;
+        }
+      })();
+
+      console.debug("[portfolio] openModal called", {
+        contentPath: contentPath,
+        resolvedUrl: resolvedUrl,
+      });
+
+      // HTML取得（明示的に credentials を含める）
+      const res = await fetch(resolvedUrl, {
+        credentials: "include",
+      });
+
+      if (!res.ok) {
+        // 可能な限りデバッグ情報を出す（ボディは短縮）
+        const bodySnippet = await res
+          .text()
+          .then((t) => t.slice(0, 200))
+          .catch(() => null);
+        console.error("[portfolio] fetch failed", {
+          url: resolvedUrl,
+          status: res.status,
+          statusText: res.statusText,
+          bodySnippet: bodySnippet,
+        });
         throw new Error(
           `HTTP ${res.status} ${res.statusText}`,
         );
+      }
+
       const text = await res.text();
 
       // パース
@@ -102,9 +135,15 @@ document.addEventListener("DOMContentLoaded", () => {
         modalContent.innerHTML = "";
         modalContent.appendChild(detail);
       } else {
+        // work-detail が見つからない場合はログを残してエラー扱いにする
+        console.warn(
+          "[portfolio] work-detail not found in fetched document",
+          { url: resolvedUrl },
+        );
         throw new Error("Content not found");
       }
     } catch (err) {
+      // 詳細ログを残してユーザー向けのメッセージはそのまま表示
       console.error("Modal load error:", err);
       modalContent.innerHTML =
         '<div style="padding:4rem;text-align:center;color:var(--color-text-muted);">コンテンツの読み込みに失敗しました。</div>';
@@ -121,6 +160,38 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }, 300);
   }
+
+  // 外部からモーダルを呼び出すための公開ラッパー
+  // - contentPath: モーダルで読み込むページパス（相対パスを想定）
+  // - isEn: 言語フラグ（将来の相対パス補正などに使用可能）
+  // - linkHandler: モーダル内タグクリック時に呼ばれるコールバック (tag) => void
+  window.openPortfolioModal = async function (
+    contentPath,
+    isEn = false,
+    linkHandler = null,
+  ) {
+    // 外部ハンドラをグローバルへ保存（hookLinks で優先的に呼ばれる）
+    if (typeof linkHandler === "function") {
+      window.__portfolioModalLinkHandler = linkHandler;
+    } else {
+      try {
+        delete window.__portfolioModalLinkHandler;
+      } catch (_) {}
+    }
+
+    // モーダル DOM を初期化してコンテンツを開く
+    try {
+      initModal();
+    } catch (err) {
+      console.error("initModal error:", err);
+    }
+
+    try {
+      await openModal(contentPath);
+    } catch (err) {
+      console.error("openPortfolioModal failed:", err);
+    }
+  };
 
   /**
    * 生成されたHTML内の相対パスを補正する
@@ -142,6 +213,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /**
    * モーダル内のリンククリック時の挙動をフック
+   *
+   * 変更点:
+   * - 外部からモーダル開封時に渡されるハンドラ（window.__portfolioModalLinkHandler）があればそちらを優先して呼ぶ
+   *   （preview や外部スクリプトからタグクリック時の挙動をカスタムできるようにするため）
    */
   function hookLinks(element) {
     const links = element.querySelectorAll("a");
@@ -163,12 +238,34 @@ document.addEventListener("DOMContentLoaded", () => {
             const params = new URLSearchParams(search);
             const tag = params.get("tag");
 
-            if (tag && searchInput) {
-              searchInput.value = tag;
-              if (categorySelect) categorySelect.value = "";
-              render();
-              updateUrlParams(tag, "");
-              closeModal();
+            if (tag) {
+              // 外部ハンドラがあればそれを呼ぶ（preview などの呼び出し元で処理を委譲）
+              if (
+                typeof window.__portfolioModalLinkHandler ===
+                "function"
+              ) {
+                try {
+                  window.__portfolioModalLinkHandler(tag);
+                } catch (err) {
+                  console.error(
+                    "portfolio modal link handler error:",
+                    err,
+                  );
+                }
+                // 外部ハンドラへ委譲したのでモーダルは閉じる（必要に応じてカスタムハンドラ側で制御可能）
+                if (typeof closeModal === "function")
+                  closeModal();
+                return;
+              }
+
+              if (tag && searchInput) {
+                searchInput.value = tag;
+                if (categorySelect)
+                  categorySelect.value = "";
+                render();
+                updateUrlParams(tag, "");
+                closeModal();
+              }
             }
           }
         });
@@ -435,12 +532,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 初期化実行
 
-  if (searchInput) {
-    searchInput.addEventListener("input", render);
-  }
-  if (categorySelect) {
-    categorySelect.addEventListener("change", render);
+  // 一覧関連のイベント登録と初期読み込みは #portfolioList がある場合のみ実行する
+  if (hasList) {
+    if (searchInput) {
+      searchInput.addEventListener("input", render);
+    }
+    if (categorySelect) {
+      categorySelect.addEventListener("change", render);
+    }
+
+    loadWorks();
   }
 
-  loadWorks();
+  // もし一覧が無ければ、モーダル呼び出し等の外部公開 API はそのまま利用可能な状態にする
 });
