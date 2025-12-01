@@ -165,7 +165,7 @@ function createShareButtonsHtml(title, url, locale) {
 // ---------------------------
 // Giscus snippet generator
 // ---------------------------
-function makeGiscusHtml() {
+function makeGiscusHtml(title) {
   // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
   if (!GISCUS_REPO_ID || !GISCUS_CATEGORY_ID) {
     logger.warn(
@@ -173,13 +173,14 @@ function makeGiscusHtml() {
     );
   }
 
+  // data-mapping は GISCUS_MAPPING の値を渡す（例: "pathname", "title", "url"）
   return `<div id="comments" class="post-comments">
     <script src="https://giscus.app/client.js"
       data-repo="${escapeHtml(GISCUS_REPO)}"
       data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
       data-category="${escapeHtml(GISCUS_CATEGORY)}"
       data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
-      data-mapping="${escapeHtml(safeTitle)}"
+      data-mapping="${escapeHtml(title)}"
       data-strict="0"
       data-reactions-enabled="1"
       data-emit-metadata="0"
@@ -327,10 +328,10 @@ function createHtml({
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll">${bodyHtml}</section>
               ${shareButtonsHtml}
-              ${commentHtml}
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>
+              ${commentHtml}
             </article>
           </div>
           <aside class="post-sidebar">
@@ -423,6 +424,11 @@ function createHtml({
       const locale = locales[lang] || locales.ja;
       const relativePrefix = lang === "ja" ? ".." : "../..";
 
+      // DEBUG: ロケールの主要キーが揃っているか確認（問題の切り分け用）
+      logger.info(
+        `Generating ${id} (${lang}) - locale keys: ${Object.keys(locale).join(", ")}`,
+      );
+
       const raw = fs.readFileSync(sourcePath, "utf8");
       const { data, content } = matter(raw);
 
@@ -506,7 +512,7 @@ function createHtml({
       // コメント HTML を決定（Giscus）
       // -------------------------
       const commentHtml = GISCUS_ENABLED
-        ? makeGiscusHtml()
+        ? makeGiscusHtml(title)
         : "";
 
       const html = createHtml({
