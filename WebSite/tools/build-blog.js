@@ -69,7 +69,8 @@ const GISCUS_CATEGORY =
 const GISCUS_CATEGORY_ID =
   process.env.GISCUS_CATEGORY_ID || "";
 const GISCUS_THEME = process.env.GISCUS_THEME || "light";
-
+const GISCUS_MAPPING =
+  process.env.GISCUS_MAPPING || "og:title";
 const GISCUS_ENABLED =
   COMMENT_PROVIDER === "giscus" ||
   (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
@@ -163,7 +164,7 @@ function createShareButtonsHtml(title, url, locale) {
 // ---------------------------
 // Giscus snippet generator
 // ---------------------------
-function makeGiscusHtml(title) {
+function makeGiscusHtml() {
   // 必須: GISCUS_REPO_ID と GISCUS_CATEGORY_ID が必要
   if (!GISCUS_REPO_ID || !GISCUS_CATEGORY_ID) {
     logger.warn(
@@ -180,7 +181,7 @@ function makeGiscusHtml(title) {
       data-repo-id="${escapeHtml(GISCUS_REPO_ID)}"
       data-category="${escapeHtml(GISCUS_CATEGORY)}"
       data-category-id="${escapeHtml(GISCUS_CATEGORY_ID)}"
-      data-mapping="${escapeHtml(title)}"
+      data-mapping="${escapeHtml(GISCUS_MAPPING)}"
       data-strict="0"
       data-reactions-enabled="1"
       data-emit-metadata="0"
@@ -512,12 +513,12 @@ function createHtml({
       // コメント HTML を決定（Giscus）
       // -------------------------
       const commentHtml = GISCUS_ENABLED
-        ? makeGiscusHtml(title)
+        ? makeGiscusHtml()
         : "";
 
       const html = createHtml({
         id,
-        title: title || id,
+        title: title,
         description: description || "",
         date: date || "",
         category: category || "",
