@@ -242,6 +242,7 @@
 }
 
 .home-latest-list {
+    height: 400px;
     list-style: none;
     margin: 0;
     padding: 0;
@@ -495,6 +496,7 @@
    8. 最近の更新（サイドバー）
    ========================================================================== */
 .home-latest-item {
+    height: 30%;
     background: var(--color-surface);
     border: 1px solid var(--color-border-soft);
     border-radius: var(--radius-md);
