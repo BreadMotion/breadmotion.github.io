@@ -1,0 +1,144 @@
+/**
+ * @file preview.css
+ * @description aタグ遷移先ページのプレビュー表示
+ * @summary
+ *   - レスポンシブデザイン
+ * @recent_changes
+ *   - ファイル先頭に説明コメントを追加
+ */
+.link-preview {
+    position: fixed;
+    z-index: 9999;
+    max-width: 360px;
+    width: min(90vw, 360px);
+    background: #fff;
+    color: #111;
+    border-radius: 8px;
+    box-shadow: 0 8px 28px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    font-family:
+        system-ui,
+        -apple-system,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial;
+    transform-origin: top left;
+}
+.link-preview .media {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    background: #f2f2f2;
+    display: block;
+}
+.link-preview .body {
+    padding: 12px;
+}
+.link-preview .title {
+    font-weight: 700;
+    font-size: 14px;
+    margin: 0 0 6px 0;
+    line-height: 1.2;
+}
+.link-preview .excerpt {
+    font-size: 13px;
+    color: #444;
+    line-height: 1.4;
+    max-height: 3.2em;
+    overflow: hidden;
+}
+.link-preview .footer {
+    display: flex;
+    gap: 8px;
+    padding: 8px 12px;
+    border-top: 1px solid #eee;
+    background: #fafafa;
+}
+.link-preview .open-btn {
+    margin-left: auto;
+    background: #0366d6;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+}
+.link-preview .close-btn {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #666;
+    font-size: 14px;
+}
+
+/* =========================
+   IFRAME preview styles
+   These styles are appended to support iframe-based previews used by preview.js.
+   They assume the existing portfolio modal styles (.modal-overlay, .modal-container, .modal-content)
+   are present. Keep these minimal to avoid conflicting with site CSS.
+   ========================= */
+
+/* Make iframe fill modal content area nicely */
+.modal-content .preview-iframe {
+    width: 100%;
+    height: 80vh; /* suitable for desktop & mobile; fine-tune as needed */
+    border: 0;
+    display: block;
+    background: white;
+}
+
+/* On small screens, make iframe taller */
+@media (max-width: 600px) {
+    .modal-content .preview-iframe {
+        height: 90vh;
+    }
+}
+
+/* Ensure modal-content doesn't add extra scrollbars by default */
+.modal-content {
+    padding: 1rem;
+    box-sizing: border-box;
+    max-height: 92vh;
+    overflow: auto;
+}
+
+/* Small source note shown above iframe (styled here) */
+.modal-content > .preview-source-note,
+.preview-source-note {
+    font-size: 12px;
+    color: var(--color-text-muted, #666);
+    margin-bottom: 8px;
+}
+
+/* If the modal has a close button floating over the container, ensure visibility */
+.modal-container .modal-close {
+    z-index: 2147483647; /* ensure above iframe */
+}
+
+/* Provide a fallback message layout for cross-origin frames or load-failure */
+.modal-content .preview-open-external {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #0366d6;
+    text-decoration: underline;
+}
+
+/* Reduce visual jump when iframe content includes its own background */
+.modal-content .preview-iframe,
+.modal-content .preview-iframe body {
+    background: transparent;
+}
+
+/* Accessibility: make sure focus outline is visible for keyboard users */
+.modal-content .preview-iframe:focus {
+    outline: 3px solid rgba(3, 102, 214, 0.25);
+}
+
+/* Small utility to ensure images inside iframe area are not too large when shown as previews */
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

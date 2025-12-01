@@ -1,3 +1,11 @@
+/**
+ * ui.js
+ * --------------------------------------------------
+ * UIユーティリティスクリプト。
+ * スクロールアニメーション（reveal-on-scroll）と
+ * ポートフォリオモーダルの表示制御を管理。
+ * --------------------------------------------------
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const targets = document.querySelectorAll(
     ".reveal-on-scroll",

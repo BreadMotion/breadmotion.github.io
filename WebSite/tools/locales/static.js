@@ -1,3 +1,14 @@
+/**
+ * @file locales/static.js
+ * @description 静的 HTML 翻訳用の多言語ロケール定義（英語版）
+ * @summary
+ *   - index.html, blog.html, portfolio.html, products.html, contact.html の翻訳データ
+ *   - CSS セレクタベースで翻訳対象を指定
+ *   - translate-static.js から参照
+ * @recent_changes
+ *   - ファイル先頭に説明コメントを追加
+ */
+
 module.exports = {
   en: {
     // -------------------------------------------------------------------------

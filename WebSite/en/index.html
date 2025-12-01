@@ -1,15 +1,21 @@
 <!DOCTYPE html><html lang="en"><head prefix="og: https://ogp.me/ns#">
-        <!-- Google AdSense -->
+        <!-- ========================================
+             Google AdSense
+        ======================================== -->
         <script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+
+        <!-- ========================================
+             META / 基本設定
+        ======================================== -->
         <meta charset="UTF-8">
         <title>PanKUN | Portfolio</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Engineer PanKUN Portfolio">
-
-        <!-- Canonical -->
         <link rel="canonical" href="https://breadmotion.github.io/WebSite/en/index.html">
 
-        <!-- JSON-LD -->
+        <!-- ========================================
+             JSON-LD 構造化データ
+        ======================================== -->
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
@@ -23,18 +29,24 @@
             }
         </script>
 
-        <!-- 共通CSS -->
+        <!-- ========================================
+             CSS
+        ======================================== -->
         <link rel="stylesheet" href="../assets/css/base.css" class="active">
         <link rel="stylesheet" href="../assets/css/layout.css" class="active">
         <link rel="stylesheet" href="../assets/css/top.css">
         <link rel="stylesheet" href="../assets/css/portfolio.css">
 
-        <!-- アイコン -->
+        <!-- ========================================
+             アイコン
+        ======================================== -->
         <link rel="icon" type="image/x-icon" href="../favicon.ico">
         <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
         <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
 
-        <!-- OG関係 -->
+        <!-- ========================================
+             OGP / SNSシェア設定
+        ======================================== -->
         <meta property="og:title" content="PanKUN Portfolio | pankun.dev">
         <meta property="og:description" content="Engineer PanKUN Portfolio">
         <meta property="og:type" content="website">
@@ -49,12 +61,18 @@
         <meta name="twitter:description" content="Engineer PanKUN Portfolio">
         <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
-        <!-- Google登録 -->
+        <!-- ========================================
+             Google 検索登録
+        ======================================== -->
         <meta name="google-site-verification" content="2us9bSy_ytt-3S-o8CVDVK8SPFWC9G3h39tzB-TKq7c">
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/index.html"><link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/index.html"><link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/index.html"></head>
     <body>
         <div class="page-shell">
+            <!-- ========================================
+                 メインコンテンツ
+            ======================================== -->
             <main class="main-container">
+                <!-- ヒーローセクション -->
                 <section class="hero reveal-on-scroll">
                     <div class="hero-main">
                         <div id="heroSlideshow" class="hero-slideshow"></div>
@@ -99,6 +117,7 @@
                     </aside>
                 </section>
 
+                <!-- プロフィールセクション -->
                 <section class="section section--profile reveal-on-scroll" id="about">
                     <h2 class="section__title">About / Profile</h2>
 
@@ -178,6 +197,8 @@
                         </article>
                     </div>
                 </section>
+
+                <!-- コンテンツ一覧セクション -->
                 <section class="section section--top-grid reveal-on-scroll">
                     <h2 class="section__title">Contents</h2>
                     <ul class="card-list">
@@ -211,10 +232,14 @@
                         </li>
                     </ul>
                 </section>
+
+                <!-- おすすめ記事セクション -->
                 <section class="section section--recommend reveal-on-scroll">
                     <h2 class="section__title">Recommended Articles</h2>
                     <div id="recommendList" class="recommend-grid"></div>
                 </section>
+
+                <!-- 今後の展望セクション -->
                 <section class="section section--feature reveal-on-scroll">
                     <h2 class="section__title">Features / Future Plans</h2>
                     <div class="card-list">
@@ -239,11 +264,15 @@
             </main>
         </div>
 
+        <!-- ========================================
+             スクリプト
+        ======================================== -->
         <script src="../assets/js/layout.js" defer=""></script>
         <script src="../assets/js/ui.js"></script>
         <script src="../assets/js/top.js" defer=""></script>
         <script src="../assets/js/recommend.js" defer=""></script>
 
+        <!-- 背景パーティクル -->
         <canvas id="menuAnimationCanvas"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
         <script src="../assets/js/particles.js"></script>
