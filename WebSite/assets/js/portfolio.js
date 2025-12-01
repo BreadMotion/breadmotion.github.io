@@ -96,17 +96,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const detail = doc.querySelector(".work-detail");
 
       if (detail) {
-        // reveal-on-scroll クラスが残っていると透明のままになるので削除
         detail.classList.remove("reveal-on-scroll");
-
-        // パス修正: 生成されたHTMLは "../assets/..." となっているため、
-        // トップ階層で表示する際は "assets/..." に直す必要がある
         fixPaths(detail);
-
-        // リンクの挙動修正: タグリンクなどがクリックされた場合、
-        // ページ遷移ではなくフィルタリングを実行して閉じるようにする
         hookLinks(detail);
-
         modalContent.innerHTML = "";
         modalContent.appendChild(detail);
       } else {
