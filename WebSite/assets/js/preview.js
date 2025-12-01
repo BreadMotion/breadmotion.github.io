@@ -1,28 +1,20 @@
 /**
  * preview.js
  * --------------------------------------------------
- * 長押しでリンク先をプレビュー表示するスクリプト（リファクタ版）
+ * 長押しでリンク先をプレビュー表示するスクリプト
  *
- * 概要（日本語コメント主体）:
- * - 同一オリジンのリンクを長押し（500ms）するとプレビューをモーダルで表示します。
- * - デフォルトは iframe モード（完全再現）。inline モードは Shadow DOM による安全レンダリング。
- * - ユーザー補助のために以下の UI を実装:
- *   - ホバー時のヒント（デスクトップ向け）
- *   - 長押しの進捗を示す「プレスインジケータ」（指／カーソル追従）
- * - 外部公開 API:
- *   - window.previewModal.open(href, opts)
- *   - window.previewModal.close()
- *   - window.previewModal.setMode(mode)
- *   - window.previewModal.getMode()
+ * - 長押し（500ms）でプレビューモーダルを表示する
+ * - 同一オリジンのみプレビュー（iframe / inline）
+ * - モーダルは常にページの最前面に表示されるようインラインで position/z-index を設定
+ * - モーダルの表示/非表示はインラインの display を確実に切り替える（残骸対策）
  *
- * 実装方針:
- * - イベントは基本的にイベントデリゲーションで扱い、ページ負荷を抑える。
- * - Shadow DOM を用いて inline モードの CSS 注入を親ドキュメントへ影響させず行う。
- * - 同一オリジンでない場合は iframe の DOM にアクセスできないのでフォールバック表示を行う。
+ * 画面表示の不具合報告に基づき、
+ * - モーダルは初期で非表示（display:none）
+ * - show/hide はインライン style で制御（display:flex / display:none）
+ * - コンテナ/コンテンツに幅・高さ制約を付与して縦長・崩れを抑制
  *
  * 注意:
- * - ローカルファイル (file://) での動作は不安定になりがちなので HTTP サーバ上で確認してください。
- * - CSS は `assets/css/preview.css` を優先します。読み込まれていない場合は簡易フォールバックスタイルを注入します。
+ * - preview.css がある場合は優先してそちらを用いるが、JS 側で最低限のスタイルを強制する
  * --------------------------------------------------
  */
 (function () {
@@ -34,13 +26,13 @@
   const DEFAULT_MODE = "iframe"; // 'iframe' | 'inline'
   const LONG_PRESS_MS = 500; // 長押し判定(ms)
   const MOVE_CANCEL_TOLERANCE = 10; // 長押し中にこれ以上動いたらキャンセル(px)
+  const MODAL_ZINDEX = 2147483647; // 高めの z-index（ほぼ最大）
 
   /* =========================
    * 状態
    * ========================= */
   let mode = DEFAULT_MODE;
 
-  // 長押し検知用 state
   let longPressTimer = null;
   let pointerStartX = 0;
   let pointerStartY = 0;
@@ -48,27 +40,23 @@
   let activeAnchor = null;
   let suppressClick = false;
 
-  // モーダル/iframe/inline 用 DOM シングルトン
   let modalOverlay = null;
   let modalContainer = null;
   let modalContent = null;
   let modalCloseBtn = null;
-  let modalOpenBtn = null; // 新しいタブで開くボタン
+  let modalOpenBtn = null;
   let previewSourceNote = null;
   let currentPreviewUrl = null;
 
-  // iframe / inline のクリーンアップ参照
   let currentIframe = null;
   let currentIframeOnLoad = null;
   let currentShadowHost = null;
   let currentShadowRoot = null;
 
-  // プレスインジケータ UI
   let pressIndicator = null;
   let pressRaf = null;
   let pressStartTime = 0;
 
-  // ホバーヒント
   let hoverHint = null;
 
   /* =========================
@@ -99,6 +87,27 @@
     }
   }
 
+  /**
+   * プレビュー無効判定 (TOC 等で data-no-preview を付けたアンカー)
+   */
+  function isPreviewDisabled(el) {
+    try {
+      if (!el || !el.getAttribute) return false;
+      if (
+        el.hasAttribute &&
+        el.hasAttribute("data-no-preview")
+      )
+        return true;
+      if (el.closest) {
+        const ancestor = el.closest(
+          "[data-no-preview], .no-preview, .toc",
+        );
+        if (ancestor) return true;
+      }
+    } catch (_) {}
+    return false;
+  }
+
   /* =========================
    * モーダルの作成/表示/破棄
    * ========================= */
@@ -107,10 +116,38 @@
 
     modalOverlay = document.createElement("div");
     modalOverlay.className = "modal-overlay";
+    // 初期は非表示にしておく（残骸防止）
+    try {
+      Object.assign(modalOverlay.style, {
+        position: "fixed",
+        inset: "0",
+        display: "none",
+        alignItems: "center",
+        justifyContent: "center",
+        zIndex: String(MODAL_ZINDEX),
+        background: "rgba(0,0,0,0.5)",
+        pointerEvents: "auto",
+      });
+    } catch (_) {}
 
     modalContainer = document.createElement("div");
     modalContainer.className = "modal-container";
-    modalContainer.style.position = "relative";
+    try {
+      // 幅制約を入れて縦長の狭いカラムになるのを防ぐ
+      Object.assign(modalContainer.style, {
+        position: "relative",
+        zIndex: String(MODAL_ZINDEX + 1),
+        width: "min(90vw, 820px)",
+        maxWidth: "100%",
+        maxHeight: "92vh",
+        boxSizing: "border-box",
+        display: "flex",
+        flexDirection: "column",
+        overflow: "hidden",
+        borderRadius: "8px",
+        background: "transparent",
+      });
+    } catch (_) {}
 
     // Open (new tab) ボタン
     modalOpenBtn = document.createElement("button");
@@ -121,18 +158,20 @@
       "Open preview in new tab",
     );
     modalOpenBtn.textContent = "⤴";
-    Object.assign(modalOpenBtn.style, {
-      position: "absolute",
-      top: "0.6rem",
-      right: "3.6rem",
-      zIndex: "2147483647",
-      background: "rgba(0,0,0,0.55)",
-      color: "#fff",
-      border: "none",
-      padding: "6px 8px",
-      borderRadius: "6px",
-      cursor: "pointer",
-    });
+    try {
+      Object.assign(modalOpenBtn.style, {
+        position: "absolute",
+        top: "0.6rem",
+        right: "3.6rem",
+        zIndex: String(MODAL_ZINDEX + 2),
+        background: "rgba(0,0,0,0.55)",
+        color: "#fff",
+        border: "none",
+        padding: "6px 8px",
+        borderRadius: "6px",
+        cursor: "pointer",
+      });
+    } catch (_) {}
     modalOpenBtn.addEventListener("click", (ev) => {
       try {
         ev && ev.stopPropagation && ev.stopPropagation();
@@ -163,21 +202,23 @@
       "Close preview",
     );
     modalCloseBtn.innerHTML = "✕";
-    Object.assign(modalCloseBtn.style, {
-      position: "absolute",
-      top: "0.6rem",
-      right: "0.6rem",
-      zIndex: "2147483647",
-      pointerEvents: "auto",
-      background: "rgba(0,0,0,0.65)",
-      color: "#fff",
-      border: "none",
-      padding: "6px 10px",
-      borderRadius: "6px",
-      cursor: "pointer",
-      fontSize: "1.05rem",
-      lineHeight: "1",
-    });
+    try {
+      Object.assign(modalCloseBtn.style, {
+        position: "absolute",
+        top: "0.6rem",
+        right: "0.6rem",
+        zIndex: String(MODAL_ZINDEX + 2),
+        pointerEvents: "auto",
+        background: "rgba(0,0,0,0.65)",
+        color: "#fff",
+        border: "none",
+        padding: "6px 10px",
+        borderRadius: "6px",
+        cursor: "pointer",
+        fontSize: "1.05rem",
+        lineHeight: "1",
+      });
+    } catch (_) {}
     modalCloseBtn.addEventListener("click", (ev) => {
       try {
         ev && ev.stopPropagation && ev.stopPropagation();
@@ -198,8 +239,29 @@
     // コンテンツ領域とソースノート
     previewSourceNote = document.createElement("div");
     previewSourceNote.className = "preview-source-note";
+    try {
+      Object.assign(previewSourceNote.style, {
+        padding: "0.5rem 0.75rem",
+        fontSize: "12px",
+        color: "var(--color-text-muted,#aaa)",
+        background: "transparent",
+      });
+    } catch (_) {}
+
     modalContent = document.createElement("div");
     modalContent.className = "modal-content";
+    try {
+      Object.assign(modalContent.style, {
+        background: "var(--color-surface,#121212)",
+        color: "var(--color-text,#fff)",
+        width: "100%",
+        maxHeight: "calc(92vh - 48px)",
+        overflow: "auto",
+        padding: "1rem",
+        boxSizing: "border-box",
+        borderRadius: "8px",
+      });
+    } catch (_) {}
 
     // DOM 組み立て
     modalContainer.appendChild(modalOpenBtn);
@@ -216,11 +278,14 @@
 
     // Esc で閉じる
     document.addEventListener("keydown", (ev) => {
-      if (
-        ev.key === "Escape" &&
-        modalOverlay.classList.contains("is-open")
-      )
-        hideModal();
+      try {
+        if (
+          ev.key === "Escape" &&
+          modalOverlay.classList.contains("is-open")
+        ) {
+          hideModal();
+        }
+      } catch (_) {}
     });
 
     // capture での close 保険（他の拡張等がバブリングを止めるケースに対処）
@@ -258,8 +323,15 @@
 
   function showModal() {
     ensureModal();
-    modalOverlay.classList.add("is-open");
-    document.body.classList.add("no-scroll");
+    // display を確実に切り替えて残骸を防ぐ
+    try {
+      modalOverlay.style.display = "flex";
+    } catch (_) {}
+    try {
+      // クラスは残してアニメーション等を使えるようにする
+      modalOverlay.classList.add("is-open");
+      document.body.classList.add("no-scroll");
+    } catch (_) {}
   }
 
   function cleanupIframe() {
@@ -293,14 +365,19 @@
     if (!modalOverlay) return;
     modalOverlay.classList.remove("is-open");
     document.body.classList.remove("no-scroll");
+    const HIDE_DELAY = 220;
     setTimeout(() => {
+      try {
+        // hide completely to avoid UI remnants
+        modalOverlay.style.display = "none";
+      } catch (_) {}
       cleanupIframe();
       cleanupShadow();
       currentPreviewUrl = null;
       if (modalContent) modalContent.innerHTML = "";
       if (previewSourceNote)
         previewSourceNote.textContent = "";
-    }, 220);
+    }, HIDE_DELAY);
   }
 
   /* =========================
@@ -321,6 +398,48 @@
       "text/html",
     );
     return { doc, resolved };
+  }
+
+  function sanitizeNode(node) {
+    // 簡易なサニタイズ: script, iframe 等を削除
+    try {
+      const toRemove = node.querySelectorAll(
+        "script, iframe, noscript",
+      );
+      toRemove.forEach((n) => n.remove());
+    } catch (_) {}
+  }
+
+  function fixRelativePaths(node, baseUrl) {
+    try {
+      // img, a, link[href], script[src] 等の相対パスを解決
+      const attrs = [
+        { sel: "img", attr: "src" },
+        { sel: "source", attr: "src" },
+        { sel: "a", attr: "href" },
+        { sel: "link[rel=stylesheet]", attr: "href" },
+        { sel: "script", attr: "src" },
+      ];
+      for (const { sel, attr } of attrs) {
+        const nodes = node.querySelectorAll(sel);
+        nodes.forEach((el) => {
+          try {
+            const v =
+              el.getAttribute && el.getAttribute(attr);
+            if (
+              v &&
+              !v.match(/^https?:\/\//) &&
+              !v.startsWith("data:")
+            ) {
+              el.setAttribute(
+                attr,
+                new URL(v, baseUrl).href,
+              );
+            }
+          } catch (_) {}
+        });
+      }
+    } catch (_) {}
   }
 
   function buildModalNodeFromDocument(doc, baseUrl) {
@@ -415,6 +534,7 @@
     iframe.style.height = "80vh";
     iframe.style.border = "0";
     iframe.style.background = "transparent";
+    iframe.style.display = "block";
 
     currentPreviewUrl = resolvedUrl;
     if (previewSourceNote)
@@ -543,7 +663,6 @@
 
   /* =========================
    * プレスインジケータ（長押しのビジュアル）
-   * - カーソル／指に追従する円形の進捗表示
    * ========================= */
   function ensurePressIndicator() {
     if (pressIndicator) return;
@@ -552,6 +671,19 @@
     pressIndicator.setAttribute("aria-hidden", "true");
     pressIndicator.innerHTML =
       '<div class="ppi-ring"></div>';
+    try {
+      Object.assign(pressIndicator.style, {
+        position: "fixed",
+        display: "none",
+        width: "48px",
+        height: "48px",
+        borderRadius: "50%",
+        alignItems: "center",
+        justifyContent: "center",
+        pointerEvents: "none",
+        zIndex: String(MODAL_ZINDEX - 1),
+      });
+    } catch (_) {}
     document.body.appendChild(pressIndicator);
   }
 
@@ -609,6 +741,18 @@
     hoverHint.className = "preview-hint";
     hoverHint.setAttribute("aria-hidden", "true");
     hoverHint.textContent = "長押しでプレビュー";
+    try {
+      Object.assign(hoverHint.style, {
+        position: "fixed",
+        display: "none",
+        padding: "6px 8px",
+        background: "rgba(0,0,0,0.8)",
+        color: "#fff",
+        borderRadius: "6px",
+        fontSize: "12px",
+        zIndex: String(MODAL_ZINDEX - 1),
+      });
+    } catch (_) {}
     document.body.appendChild(hoverHint);
   }
 
@@ -644,6 +788,8 @@
     const hrefAttr = a.getAttribute("href");
     if (!hrefAttr) return;
     if (!isSameOriginUrl(hrefAttr)) return;
+    // TOC 等でビルド時に付与したフラグがあればプレビューを無効化
+    if (isPreviewDisabled(a)) return;
 
     activeAnchor = a;
     pointerStartX = ev.clientX;
@@ -794,6 +940,8 @@
         navigator.maxTouchPoints > 0
       )
         return;
+      // プレビュー無効フラグがついている場合はホバーヒントを表示しない
+      if (isPreviewDisabled(a)) return;
       showHoverHintFor(a);
     } catch (_) {}
   });
@@ -836,6 +984,8 @@
 .preview-press-indicator{position:fixed;display:none;width:48px;height:48px;border-radius:50%;align-items:center;justify-content:center;pointer-events:none;z-index:2147483646}
 .preview-press-indicator .ppi-ring{width:40px;height:40px;border-radius:50%;background:conic-gradient(#fff calc(var(--ppi-progress,0)*1turn), rgba(255,255,255,0.12) 0);opacity:0.95}
 .preview-hint{position:fixed;display:none;padding:6px 8px;background:rgba(0,0,0,0.8);color:#fff;border-radius:6px;font-size:12px;z-index:2147483646}
+/* Ensure modal overlay is positioned fixed and above other page elements (footer, etc.) */
+.modal-overlay{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;z-index:2147483647;background:rgba(0,0,0,0.5);pointer-events:auto}
 .modal-container .modal-close{z-index:2147483647}
 .modal-content{padding:1rem;box-sizing:border-box;max-height:92vh;overflow:auto}
 .preview-source-note{font-size:12px;color:var(--color-text-muted,#666);margin-bottom:8px}

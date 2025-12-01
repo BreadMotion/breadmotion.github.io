@@ -266,8 +266,21 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function createAndAppendCard(post) {
-    const card = document.createElement("article");
+    // If a contentPath exists, use an anchor so preview.js can detect links.
+    // Otherwise, fall back to an article element for non-clickable cards.
+    const isLink = !!post.contentPath;
+    const card = isLink
+      ? document.createElement("a")
+      : document.createElement("article");
+
+    // Preserve existing class names
     card.className = "card card--clickable blog-card";
+
+    if (isLink) {
+      card.setAttribute("href", post.contentPath);
+      // Optionally allow opening in same tab; preview.js intercepts long-press.
+      card.setAttribute("role", "link");
+    }
 
     if (post.thumbnail) {
       const thumb = document.createElement("div");
@@ -317,8 +330,30 @@ document.addEventListener("DOMContentLoaded", () => {
         const tag = document.createElement("span");
         tag.className = "tag";
         tag.textContent = t;
+
+        // Prevent navigation when pressing a tag (pointer/touch) so the card anchor doesn't activate.
+        // Keep the click handler for filtering behavior.
+        try {
+          const onTagPrevent = (ev) => {
+            try {
+              ev.preventDefault && ev.preventDefault();
+              ev.stopPropagation && ev.stopPropagation();
+            } catch (_) {}
+          };
+          tag.addEventListener(
+            "pointerdown",
+            onTagPrevent,
+            { passive: false },
+          );
+          tag.addEventListener("touchstart", onTagPrevent, {
+            passive: false,
+          });
+        } catch (_) {}
         tag.addEventListener("click", (e) => {
-          e.stopPropagation();
+          try {
+            e.stopPropagation && e.stopPropagation();
+            e.preventDefault && e.preventDefault();
+          } catch (_) {}
           if (searchInput) searchInput.value = t;
           if (categorySelect) categorySelect.value = "";
           currentPage = 1;
@@ -330,10 +365,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     card.appendChild(body);
-    card.addEventListener("click", () => {
-      if (post.contentPath)
-        window.location.href = post.contentPath;
-    });
+    // If not using an anchor, fall back to click handler for navigation.
+    if (!isLink) {
+      card.addEventListener("click", () => {
+        if (post.contentPath) {
+          window.location.href = post.contentPath;
+        }
+      });
+    } else {
+      // For anchors, optionally prevent middle-click/ctrl-click handling here if needed.
+      // Keep default behavior for normal clicks (navigation) but preview.js handles long-press.
+    }
     listEl.appendChild(card);
   }
 
