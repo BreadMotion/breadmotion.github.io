@@ -1,7 +1,31 @@
+/**
+ * @file build-blog.js
+ * @description Markdown ブログ記事から HTML ページと blogList.json を生成するスクリプト
+ * @summary
+ *   - content/blog 内の .md ファイルを読み込み、blog/ ディレクトリに HTML を生成
+ *   - 日本語版と英語版（.en.md）を別々に処理
+ *   - サムネイル画像のダウンロードと管理
+ *   - assets/data/blogList.json / blogList_en.json の更新
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ */
+
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
 const locales = require("./locales");
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 const ROOT = path.join(__dirname, "..");
 const CONTENT_DIR = path.join(ROOT, "content", "blog");
@@ -329,9 +353,7 @@ function createHtml({
     const enPath = path.join(CONTENT_DIR, `${id}.en.md`);
 
     if (!fs.existsSync(jaPath)) {
-      console.warn(
-        `Japanese content not found for ID: ${id}`,
-      );
+      logger.warn(`Japanese content not found for ID: ${id}`);
       continue;
     }
 
@@ -385,9 +407,7 @@ function createHtml({
               filename,
             );
 
-            console.log(
-              `Downloading thumbnail for ${id} (${lang}) from ${thumbnail}`,
-            );
+            logger.info(`Downloading thumbnail for ${id} (${lang}) from ${thumbnail}`);
             const res = await fetch(thumbnail);
             if (res.ok) {
               const buffer = Buffer.from(
@@ -397,9 +417,7 @@ function createHtml({
               thumbnail = `assets/img/thumbnails/${filename}`;
               usedThumbnails.add(filename);
             } else {
-              console.error(
-                `Failed to fetch thumbnail for ${id}: ${res.statusText}`,
-              );
+              logger.error(`Failed to fetch thumbnail for ${id}: ${res.statusText}`);
             }
           } else if (
             thumbnail.includes("assets/img/thumbnails/")
@@ -408,10 +426,7 @@ function createHtml({
             usedThumbnails.add(filename);
           }
         } catch (e) {
-          console.error(
-            `Failed to process thumbnail for ${id}:`,
-            e,
-          );
+          logger.error(`Failed to process thumbnail for ${id}: ${e.message}`);
         }
       }
 
@@ -446,9 +461,7 @@ function createHtml({
           : path.join(enOutputDir, `${id}.html`);
 
       fs.writeFileSync(outputFilePath, html, "utf8");
-      console.log(
-        `generated (${lang}): ${path.relative(ROOT, outputFilePath)}`,
-      );
+      logger.info(`Generated (${lang}): ${path.relative(ROOT, outputFilePath)}`);
 
       postsMap[lang].push({
         id,
@@ -471,7 +484,7 @@ function createHtml({
     const allThumbnails = fs.readdirSync(THUMBNAIL_DIR);
     for (const file of allThumbnails) {
       if (!usedThumbnails.has(file)) {
-        console.log(`Removing unused thumbnail: ${file}`);
+        logger.info(`Removing unused thumbnail: ${file}`);
         fs.unlinkSync(path.join(THUMBNAIL_DIR, file));
       }
     }
@@ -485,7 +498,7 @@ function createHtml({
     JSON.stringify(postsMap.ja, null, 2),
     "utf8",
   );
-  console.log(`updated: assets/data/blogList.json`);
+  logger.success("Updated: assets/data/blogList.json");
 
   postsMap.en.sort(
     (a, b) => new Date(b.date) - new Date(a.date),
@@ -495,8 +508,8 @@ function createHtml({
     JSON.stringify(postsMap.en, null, 2),
     "utf8",
   );
-  console.log(`updated: assets/data/blogList_en.json`);
+  logger.success("Updated: assets/data/blogList_en.json");
 })().catch((err) => {
-  console.error(err);
+  logger.error(err.message);
   process.exit(1);
 });

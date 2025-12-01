@@ -1,5 +1,28 @@
+/**
+ * @file build-sitemap.js
+ * @description プロジェクト内の HTML ファイルからサイトマップ (sitemap.xml) を自動生成するスクリプト
+ * @summary
+ *   - プロジェクトルートから再帰的に HTML ファイルを収集
+ *   - node_modules, .git, tools などの除外ディレクトリをスキップ
+ *   - 各 URL の lastmod を更新日時から取得
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ */
+
 const fs = require("fs");
 const path = require("path");
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 const BASE_URL = "https://breadmotion.github.io";
 // プロジェクトのルート (breadmotion.github.io)
@@ -149,6 +172,6 @@ ${urlEntries.join("\n")}
 `;
 
 fs.writeFileSync(OUTPUT, xml.trim(), "utf8");
-console.log(`Sitemap generated: ${OUTPUT}`);
-console.log("Included URLs:");
-htmlFiles.forEach((rel) => console.log(" -", toUrl(rel)));
+logger.success(`Sitemap generated: ${OUTPUT}`);
+logger.info("Included URLs:");
+htmlFiles.forEach((rel) => logger.info(` - ${toUrl(rel)}`));

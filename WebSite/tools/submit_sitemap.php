@@ -1,4 +1,16 @@
 <?php
+/**
+ * @file submit_sitemap.php
+ * @description Google Search Console API にサイトマップを送信するスクリプト
+ * @summary
+ *   - コマンドラインからサイトマップ URL を受け取り、GSC API に送信
+ *   - サービスアカウント認証を使用
+ *   - sitemap index ファイルの再帰的な処理に対応
+ * @recent_changes
+ *   - ファイル先頭に説明コメントを追加
+ *   - 冗長な echo 出力を削減（重要な情報は維持）
+ */
+
 //ドメイン
 $siteUrl = "https://breadmotion.github.io/";
 //認証用のファイル
@@ -22,7 +34,7 @@ foreach ($argv as $n => $v) {
     }
 }
 if (empty($sitemapOrIndexUrls)) {
-    echo "put sitemap or sitemap index url as commandline parameter";
+    echo "[ERROR] Put sitemap or sitemap index URL as commandline parameter" . PHP_EOL;
     exit();
 }
 
@@ -34,28 +46,21 @@ $list = [];
 
 do {
     $url = array_shift($sitemapOrIndexUrls);
-    echo "-getting XML >> " . $url . PHP_EOL;
+    // 冗長なログを削減: 重要な処理のみ表示
     $tags = readSitemapXml($http, $url);
-    echo " got " . count($tags) . " entries." . PHP_EOL;
 
     foreach ($tags as $name => $data) {
         $loc = (string) $data->loc;
         if ($name == "sitemap") {
             $sitemapOrIndexUrls[] = $loc;
-            echo " sitemap URL :" . $loc . PHP_EOL;
         } elseif ($name == "url") {
             $list[] = $url;
             break;
-        } else {
-            echo " something wrong <$name> tag." . PHP_EOL;
         }
     }
 } while (!empty($sitemapOrIndexUrls));
 
-// var_dump($list);
-echo "=== Sitemap URL ====" . PHP_EOL;
-echo count($list) . PHP_EOL;
-echo "====================" . PHP_EOL;
+echo "[INFO] Sitemap URLs to submit: " . count($list) . PHP_EOL;
 
 //Search Console API
 $client = new Google_Client();
@@ -81,33 +86,20 @@ foreach ($list as $n => $sitemap) {
     $status = $response->getStatusCode();
     $results[$status] = ($results[$status] ?? 0) + 1;
 
-    if ($status == 204) {
-        echo $status .
-            ":" .
-            $response->getReasonPhrase() .
-            "|" .
-            $sitemap .
-            PHP_EOL;
-    } else {
+    // エラー時のみ詳細を出力
+    if ($status != 204) {
         $message = $json["error"]["message"] ?? "-";
-        echo $status .
-            ":" .
-            $response->getReasonPhrase() .
-            "|" .
-            $message .
-            "|" .
-            $message .
-            PHP_EOL;
+        echo "[ERROR] " . $status . ":" . $response->getReasonPhrase() . " | " . $message . PHP_EOL;
     }
 
     sleep($intervalSecondsPerAPI);
 }
 
-echo "=== Result ===" . PHP_EOL;
+// 結果サマリを出力
+echo "[SUCCESS] Submission complete. Results:" . PHP_EOL;
 foreach ($results as $status => $count) {
-    echo $status . ":" . $count . PHP_EOL;
+    echo "  Status " . $status . ": " . $count . " sitemaps" . PHP_EOL;
 }
-echo "==============" . PHP_EOL;
 
 function readSitemapXml($http, $url)
 {

@@ -1,7 +1,31 @@
-//  このスクリプトは完全ではないため、「未使用」と判定されてもJavaScriptで動的に組み立てられている
-// クラス名（例: `'icon-' + type`）などは目視で確認する必要があります。
+/**
+ * @file find-unused-css.js
+ * @description プロジェクト内の未使用 CSS セレクタを検出するスクリプト
+ * @summary
+ *   - CSS ファイルからクラス名・ID を抽出
+ *   - HTML, JS, MD などのコンテンツファイルを検索して使用状況を確認
+ *   - 未使用と判定されたセレクタを報告（JS で動的に生成されるものは目視確認が必要）
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ * @note
+ *   このスクリプトは完全ではないため、「未使用」と判定されてもJavaScriptで動的に組み立てられている
+ *   クラス名（例: `'icon-' + type`）などは目視で確認する必要があります。
+ */
+
 const fs = require("fs");
 const path = require("path");
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 const ROOT_DIR = path.resolve(__dirname, "..");
 const CSS_DIR = path.join(ROOT_DIR, "assets", "css");
@@ -96,17 +120,13 @@ function extractSelectors(cssContent) {
 }
 
 try {
-  console.log(
-    "Scanning project for unused CSS selectors...",
-  );
+  logger.info("Scanning project for unused CSS selectors...");
 
   const cssFiles = getCssFiles(CSS_DIR);
   const contentFiles = getContentFiles(ROOT_DIR);
 
-  console.log(`Target CSS files: ${cssFiles.length}`);
-  console.log(
-    `Content files to search: ${contentFiles.length}`,
-  );
+  logger.info(`Target CSS files: ${cssFiles.length}`);
+  logger.info(`Content files to search: ${contentFiles.length}`);
 
   // コンテンツファイルをメモリにロード
   // ファイル数が多い場合はストリーム処理にすべきだが、今回は一括でOK
@@ -118,9 +138,7 @@ try {
     const cssContent = fs.readFileSync(cssFile, "utf8");
     const selectors = extractSelectors(cssContent);
 
-    console.log(
-      `\nChecking ${path.relative(ROOT_DIR, cssFile)} (${selectors.length} selectors)...`,
-    );
+    logger.info(`Checking ${path.relative(ROOT_DIR, cssFile)} (${selectors.length} selectors)...`);
 
     let unusedCount = 0;
 
@@ -145,19 +163,18 @@ try {
       }
 
       if (!isUsed) {
-        console.log(
-          `  [UNUSED] ${sel.type === "class" ? "." : "#"}${sel.name}`,
-        );
+        // 未使用セレクタは常に報告（重要な情報のため）
+        console.log(`  [UNUSED] ${sel.type === "class" ? "." : "#"}${sel.name}`);
         unusedCount++;
       }
     });
 
     if (unusedCount === 0) {
-      console.log("  All selectors seem to be used.");
+      logger.info("  All selectors seem to be used.");
     }
   });
 
-  console.log("\nDone.");
+  logger.success("Done.");
 } catch (err) {
-  console.error("Error:", err);
+  logger.error(err.message);
 }

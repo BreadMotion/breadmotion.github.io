@@ -1,3 +1,13 @@
+/**
+ * @file locales.js
+ * @description ブログ生成用の多言語ロケール定義
+ * @summary
+ *   - 日本語 (ja) と英語 (en) のサイトタイトル、パンくずリスト、共有ボタンなどの文言を管理
+ *   - build-blog.js から参照
+ * @recent_changes
+ *   - ファイル先頭に説明コメントを追加
+ */
+
 module.exports = {
   ja: {
     lang: "ja",

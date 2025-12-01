@@ -1,9 +1,29 @@
-// tools/build-portfolio.js
-// Markdown から作品ページ HTML と portfolioList.json を生成するスクリプト
+/**
+ * @file build-portfolio.js
+ * @description Markdown からポートフォリオページ HTML と portfolioList.json を生成するスクリプト
+ * @summary
+ *   - content/portfolio 内の .md ファイルを読み込み、portfolio/ ディレクトリに HTML を生成
+ *   - サムネイル画像のダウンロードと管理（Base64、URL、ローカルパス対応）
+ *   - assets/data/portfolioList.json の更新
+ * @recent_changes
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ *   - 冗長なコンソール出力を削減
+ */
 
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 const ROOT = path.join(__dirname, "..");
 const CONTENT_DIR = path.join(ROOT, "content", "portfolio");
@@ -219,9 +239,7 @@ ${bodyHtml}
             filename,
           );
 
-          console.log(
-            `Downloading thumbnail for ${id} from ${thumbnail}`,
-          );
+          logger.info(`Downloading thumbnail for ${id} from ${thumbnail}`);
           const res = await fetch(thumbnail);
           if (res.ok) {
             const buffer = Buffer.from(
@@ -231,9 +249,7 @@ ${bodyHtml}
             thumbnail = `assets/img/thumbnails/${filename}`;
             usedThumbnails.add(filename);
           } else {
-            console.error(
-              `Failed to fetch thumbnail for ${id}: ${res.statusText}`,
-            );
+            logger.error(`Failed to fetch thumbnail for ${id}: ${res.statusText}`);
           }
         } else if (
           thumbnail.includes("assets/img/thumbnails/")
@@ -242,10 +258,7 @@ ${bodyHtml}
           usedThumbnails.add(filename);
         }
       } catch (e) {
-        console.error(
-          `Failed to process thumbnail for ${id}:`,
-          e,
-        );
+        logger.error(`Failed to process thumbnail for ${id}: ${e.message}`);
       }
     }
 
@@ -280,7 +293,7 @@ ${bodyHtml}
       html,
       "utf8",
     );
-    console.log(`generated: portfolio/${id}.html`);
+    logger.info(`Generated: portfolio/${id}.html`);
 
     // 一覧用データ
     works.push({
@@ -307,7 +320,7 @@ ${bodyHtml}
     JSON.stringify(works, null, 2),
     "utf8",
   );
-  console.log(`updated: assets/data/portfolioList.json`);
+  logger.success("Updated: assets/data/portfolioList.json");
 
   // Clean up unused portfolio thumbnails
   if (fs.existsSync(THUMBNAIL_DIR)) {
@@ -317,12 +330,12 @@ ${bodyHtml}
         file.startsWith("portfolio_") &&
         !usedThumbnails.has(file)
       ) {
-        console.log(`Removing unused thumbnail: ${file}`);
+        logger.info(`Removing unused thumbnail: ${file}`);
         fs.unlinkSync(path.join(THUMBNAIL_DIR, file));
       }
     }
   }
 })().catch((err) => {
-  console.error(err);
+  logger.error(err.message);
   process.exit(1);
 });

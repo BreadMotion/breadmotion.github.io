@@ -1,7 +1,30 @@
+/**
+ * @file auto-translate.js
+ * @description Gemini API を使用して日本語ブログ記事を英語に自動翻訳するスクリプト
+ * @summary
+ *   - content/blog 内の .md ファイルを読み込み、英語版 (.en.md) を生成
+ *   - フロントマター（title, description, category, tags）と本文を翻訳
+ *   - 既に英語版が存在する場合はスキップ
+ * @recent_changes
+ *   - ANSIカラーコード出力を削除し、可読性を向上
+ *   - 簡易ロガー関数を追加（本番環境では verbose ログを抑制）
+ */
+
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
 require("dotenv").config();
+
+// ───────────────────────────────────────────────────────────────
+// 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
+// ───────────────────────────────────────────────────────────────
+const isProduction = process.env.NODE_ENV === "production";
+const logger = {
+  info: (msg) => !isProduction && console.log(`[INFO] ${msg}`),
+  warn: (msg) => console.warn(`[WARN] ${msg}`),
+  error: (msg) => console.error(`[ERROR] ${msg}`),
+  success: (msg) => console.log(`[SUCCESS] ${msg}`),
+};
 
 // Configuration
 const API_KEY = process.env.GEMINI_API_KEY;
@@ -14,14 +37,9 @@ const BLOG_DIR = path.join(ROOT_DIR, "content", "blog");
 
 // Validate API Key
 if (!API_KEY) {
-  console.error(
-    "\x1b[31m%s\x1b[0m",
-    "Error: GEMINI_API_KEY is not set.",
-  );
-  console.error(
-    "Please set the GEMINI_API_KEY environment variable.",
-  );
-  console.error("Example: export GEMINI_API_KEY=AIza...");
+  logger.error("GEMINI_API_KEY is not set.");
+  logger.error("Please set the GEMINI_API_KEY environment variable.");
+  logger.error("Example: export GEMINI_API_KEY=AIza...");
   process.exit(1);
 }
 
@@ -46,7 +64,7 @@ ${context ? `Context: ${context}` : ""}
         parts: [{ text: text }],
       },
     ],
-    // 修正箇所: セーフティ設定を追加し、誤検知による停止を防ぐ
+    // セーフティ設定を追加し、誤検知による停止を防ぐ
     safetySettings: [
       {
         category: "HARM_CATEGORY_HARASSMENT",
@@ -67,7 +85,7 @@ ${context ? `Context: ${context}` : ""}
     ],
     generationConfig: {
       temperature: 0.3,
-      maxOutputTokens: 8192, // 修正箇所: 長文での途中切れを防ぐため十分なトークン数を確保
+      maxOutputTokens: 8192, // 長文での途中切れを防ぐため十分なトークン数を確保
     },
   };
 
@@ -90,10 +108,7 @@ ${context ? `Context: ${context}` : ""}
     const data = await response.json();
 
     if (!data.candidates || !data.candidates[0]) {
-      console.warn(
-        "Unexpected response format:",
-        JSON.stringify(data),
-      );
+      logger.warn(`Unexpected response format: ${JSON.stringify(data)}`);
       throw new Error(
         "Failed to parse Gemini response: No candidates found",
       );
@@ -101,14 +116,12 @@ ${context ? `Context: ${context}` : ""}
 
     const candidate = data.candidates[0];
 
-    // 修正箇所: 終了理由を確認し、正常終了でない場合は警告を出す
+    // 終了理由を確認し、正常終了でない場合は警告を出す
     if (
       candidate.finishReason &&
       candidate.finishReason !== "STOP"
     ) {
-      console.warn(
-        `\x1b[33mWarning: Translation stopped early. Reason: ${candidate.finishReason}\x1b[0m`,
-      );
+      logger.warn(`Translation stopped early. Reason: ${candidate.finishReason}`);
       // SAFETY等の理由でコンテンツが空の場合はエラーとする
       if (
         !candidate.content ||
@@ -133,7 +146,7 @@ ${context ? `Context: ${context}` : ""}
 
     return candidate.content.parts[0].text.trim();
   } catch (error) {
-    console.error("Translation failed:", error);
+    logger.error(`Translation failed: ${error.message}`);
     throw error;
   }
 }
@@ -144,20 +157,18 @@ async function processFile(filePath) {
   const enFilePath = path.join(BLOG_DIR, `${id}.en.md`);
 
   if (fs.existsSync(enFilePath)) {
-    console.log(
-      `Skipping ${fileName}: English version already exists.`,
-    );
+    logger.info(`Skipping ${fileName}: English version already exists.`);
     return;
   }
 
-  console.log(`Processing ${fileName}...`);
+  logger.info(`Processing ${fileName}...`);
   const content = fs.readFileSync(filePath, "utf8");
   const { data: frontmatter, content: markdownBody } =
     matter(content);
 
   try {
     // 1. Translate Frontmatter
-    console.log(`  - Translating metadata...`);
+    logger.info(`  - Translating metadata...`);
     const translatedTitle = await translateText(
       frontmatter.title,
       "Title of the blog post",
@@ -199,7 +210,7 @@ async function processFile(filePath) {
     }
 
     // 2. Translate Body
-    console.log(`  - Translating body...`);
+    logger.info(`  - Translating body...`);
     const translatedBody = await translateText(
       markdownBody,
       "Main content of the blog post in Markdown format",
@@ -220,14 +231,9 @@ async function processFile(filePath) {
       newFrontmatter,
     );
     fs.writeFileSync(enFilePath, newContent, "utf8");
-    console.log(`\x1b[32mCreated ${id}.en.md\x1b[0m`);
+    logger.success(`Created ${id}.en.md`);
   } catch (error) {
-    console.error(
-      `\x1b[31mFailed to process ${fileName}:\x1b[0m`,
-      error.message,
-    );
-    // エラー時に中途半端なファイルを残さないため、必要であれば削除処理を追加することも検討できますが、
-    // ここではエラーログの表示にとどめます。
+    logger.error(`Failed to process ${fileName}: ${error.message}`);
   }
 }
 
@@ -247,14 +253,14 @@ async function main() {
     if (targetFile) {
       await processFile(path.join(BLOG_DIR, targetFile));
     } else {
-      console.error(`File not found: ${targetId}`);
+      logger.error(`File not found: ${targetId}`);
     }
   } else {
-    console.log(`Found ${files.length} Japanese articles.`);
+    logger.info(`Found ${files.length} Japanese articles.`);
     for (const file of files) {
       await processFile(path.join(BLOG_DIR, file));
     }
   }
 }
 
-main().catch(console.error);
+main().catch((err) => logger.error(err.message));
