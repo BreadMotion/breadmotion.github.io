@@ -1,3 +1,10 @@
+/**
+ * portfolio.js
+ * --------------------------------------------------
+ * ポートフォリオ一覧ページ用スクリプト。
+ * 作品のフィルタリング、検索、モーダル表示を管理。
+ * --------------------------------------------------
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const listEl = document.getElementById("portfolioList");
   const emptyEl = document.getElementById(

@@ -1,12 +1,18 @@
 <!doctype html>
 <html lang="ja">
     <head prefix="og: https://ogp.me/ns#">
-        <!-- Google AdSense -->
+        <!-- ========================================
+             Google AdSense
+        ======================================== -->
         <script
             async
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
             crossorigin="anonymous"
         ></script>
+
+        <!-- ========================================
+             META / 基本設定
+        ======================================== -->
         <meta charset="UTF-8" />
         <title>PanKUN | HomePage</title>
         <meta
@@ -17,14 +23,14 @@
             name="description"
             content="エンジニア PanKUNホームページ"
         />
-
-        <!-- Canonical -->
         <link
             rel="canonical"
             href="https://breadmotion.github.io/WebSite/"
         />
 
-        <!-- JSON-LD -->
+        <!-- ========================================
+             JSON-LD 構造化データ
+        ======================================== -->
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
@@ -38,7 +44,9 @@
             }
         </script>
 
-        <!-- 共通CSS -->
+        <!-- ========================================
+             CSS
+        ======================================== -->
         <link
             rel="stylesheet"
             href="assets/css/base.css"
@@ -55,7 +63,9 @@
             href="assets/css/portfolio.css"
         />
 
-        <!-- アイコン -->
+        <!-- ========================================
+             アイコン
+        ======================================== -->
         <link
             rel="icon"
             type="image/x-icon"
@@ -74,7 +84,9 @@
             sizes="192x192"
         />
 
-        <!-- OG関係 -->
+        <!-- ========================================
+             OGP / SNSシェア設定
+        ======================================== -->
         <meta
             property="og:title"
             content="PanKUN HomePage | pankun.dev"
@@ -116,7 +128,9 @@
             content="https://breadmotion.github.io/WebSite/assets/img/ogp.png"
         />
 
-        <!-- Google登録 -->
+        <!-- ========================================
+             Google 検索登録
+        ======================================== -->
         <meta
             name="google-site-verification"
             content="2us9bSy_ytt-3S-o8CVDVK8SPFWC9G3h39tzB-TKq7c"
@@ -124,7 +138,11 @@
     </head>
     <body>
         <div class="page-shell">
+            <!-- ========================================
+                 メインコンテンツ
+            ======================================== -->
             <main class="main-container">
+                <!-- ヒーローセクション -->
                 <section class="hero reveal-on-scroll">
                     <div class="hero-main">
                         <div
@@ -228,6 +246,7 @@
                     </aside>
                 </section>
 
+                <!-- プロフィールセクション -->
                 <section
                     class="section section--profile reveal-on-scroll"
                     id="about"
@@ -415,6 +434,8 @@
                         </article>
                     </div>
                 </section>
+
+                <!-- コンテンツ一覧セクション -->
                 <section
                     class="section section--top-grid reveal-on-scroll"
                 >
@@ -480,6 +501,8 @@
                         </li>
                     </ul>
                 </section>
+
+                <!-- おすすめ記事セクション -->
                 <section
                     class="section section--recommend reveal-on-scroll"
                 >
@@ -491,6 +514,8 @@
                         class="recommend-grid"
                     ></div>
                 </section>
+
+                <!-- 今後の展望セクション -->
                 <section
                     class="section section--feature reveal-on-scroll"
                 >
@@ -533,11 +558,15 @@
             </main>
         </div>
 
+        <!-- ========================================
+             スクリプト
+        ======================================== -->
         <script src="assets/js/layout.js" defer></script>
         <script src="assets/js/ui.js"></script>
         <script src="assets/js/top.js" defer></script>
         <script src="assets/js/recommend.js" defer></script>
 
+        <!-- 背景パーティクル -->
         <canvas id="menuAnimationCanvas"></canvas>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
         <script src="assets/js/particles.js"></script>

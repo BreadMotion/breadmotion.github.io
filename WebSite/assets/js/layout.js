@@ -1,3 +1,11 @@
+/**
+ * layout.js
+ * --------------------------------------------------
+ * 共通レイアウト要素（ヘッダー/フッター）を動的に読み込むスクリプト。
+ * 言語切り替え、ナビゲーションのアクティブ状態、
+ * モバイルメニュートグルを管理。
+ * --------------------------------------------------
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const shell =
     document.querySelector(".page-shell") || document.body;

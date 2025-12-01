@@ -1,3 +1,10 @@
+/**
+ * toc.js
+ * --------------------------------------------------
+ * 目次（Table of Contents）用スクリプト。
+ * 見出しのハイライト表示とドロワーメニューを管理。
+ * --------------------------------------------------
+ */
 document.addEventListener("DOMContentLoaded", () => {
   // 目次内のリンクをすべて取得
   const tocLinks = document.querySelectorAll(".toc a");

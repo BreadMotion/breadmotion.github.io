@@ -1,3 +1,10 @@
+/**
+ * products.js
+ * --------------------------------------------------
+ * プロダクト一覧ページ用スクリプト。
+ * プロダクトのフィルタリングと検索を管理。
+ * --------------------------------------------------
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const listEl = document.getElementById("productList");
   const emptyEl = document.getElementById(
