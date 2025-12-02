@@ -1,15 +1,24 @@
 <!doctype html>
 <html lang="ja">
     <head prefix="og: https://ogp.me/ns#">
+        <!-- ========================================
+             Performance: Preconnect & Preload
+        ======================================== -->
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="preload" href="assets/img/ogp.png" as="image" />
+
         <meta charset="UTF-8" />
-        <title>PanKUN | Contact</title>
+        <title>PanKUN Contact | お問い合わせ・ゲーム開発のご相談</title>
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1"
         />
         <meta
             name="description"
-            content="エンジニア PanKUNお問い合わせページ"
+            content="PanKUNへのお問い合わせページ - Unity/C#ゲーム開発、Discord Bot開発、ツール開発のご依頼・ご相談はこちら。"
         />
 
         <!-- Canonical -->
@@ -31,18 +40,44 @@
             crossorigin="anonymous"
         ></script>
 
-        <!-- JSON-LD -->
+        <!-- JSON-LD: ContactPage -->
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
                 "@type": "ContactPage",
                 "name": "PanKUN Contact",
-                "description": "エンジニア PanKUNお問い合わせページ",
+                "description": "PanKUNへのお問い合わせページ - Unity/C#ゲーム開発、Discord Bot開発、ツール開発のご依頼・ご相談",
                 "url": "https://breadmotion.github.io/WebSite/contact.html",
                 "author": {
                     "@type": "Person",
-                    "name": "PanKUN"
+                    "name": "PanKUN",
+                    "url": "https://breadmotion.github.io/WebSite/",
+                    "sameAs": [
+                        "https://github.com/breadmotion",
+                        "https://x.com/pankun2000_"
+                    ]
                 }
+            }
+        </script>
+        <!-- JSON-LD: BreadcrumbList -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "ホーム",
+                        "item": "https://breadmotion.github.io/WebSite/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "お問い合わせ",
+                        "item": "https://breadmotion.github.io/WebSite/contact.html"
+                    }
+                ]
             }
         </script>
 
@@ -83,13 +118,13 @@
         <!-- OG関係 -->
         <meta
             property="og:title"
-            content="PanKUN Contact | pankun.dev"
+            content="PanKUN Contact | お問い合わせ・ゲーム開発のご相談"
         />
         <meta
             property="og:description"
-            content="エンジニア PanKUNお問い合わせページ"
+            content="PanKUNへのお問い合わせページ - Unity/C#ゲーム開発、Discord Bot開発、ツール開発のご依頼・ご相談はこちら。"
         />
-        <meta property="og:type" content="article" />
+        <meta property="og:type" content="website" />
         <meta
             property="og:url"
             content="https://breadmotion.github.io/WebSite/contact.html"
@@ -111,11 +146,11 @@
         />
         <meta
             name="twitter:title"
-            content="PanKUN Contact | pankun.dev"
+            content="PanKUN Contact | お問い合わせ・ゲーム開発のご相談"
         />
         <meta
             name="twitter:description"
-            content="エンジニア PanKUNお問い合わせページ"
+            content="PanKUNへのお問い合わせページ - Unity/C#ゲーム開発、Discord Bot開発、ツール開発のご依頼・ご相談はこちら。"
         />
         <meta
             name="twitter:image"
@@ -266,12 +301,12 @@
 
         <!-- 共通JS -->
         <script src="assets/js/layout.js" defer></script>
-        <script src="assets/js/ui.js"></script>
+        <script src="assets/js/ui.js" defer></script>
         <script src="assets/js/contact.js" defer></script>
-        <script src="assets/js/preview.js"></script>
+        <script src="assets/js/preview.js" defer></script>
 
         <canvas id="menuAnimationCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-        <script src="assets/js/particles.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+        <script src="assets/js/particles.js" defer></script>
     </body>
 </html>

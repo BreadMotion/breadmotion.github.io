@@ -2,6 +2,15 @@
 <html lang="ja">
     <head prefix="og: https://ogp.me/ns#">
         <!-- ========================================
+             Performance: Preconnect & Preload
+        ======================================== -->
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="preload" href="assets/img/ogp.png" as="image" />
+
+        <!-- ========================================
              Google AdSense
         ======================================== -->
         <script
@@ -14,19 +23,22 @@
              META / 基本設定
         ======================================= -->
         <meta charset="UTF-8" />
-        <title>PanKUN | HomePage</title>
+        <title>PanKUN | Unity・C#ゲーム開発エンジニア ポートフォリオ・技術ブログ</title>
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1"
         />
         <meta
             name="description"
-            content="エンジニア PanKUNホームページ"
+            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。ゲームクライアント開発からCI/CDまで幅広く対応。"
         />
         <link
             rel="canonical"
             href="https://breadmotion.github.io/WebSite/"
         />
+        <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/" />
+        <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/index.html" />
+        <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/" />
 
         <!-- ========================================
              JSON-LD 構造化データ
@@ -39,8 +51,25 @@
                 "url": "https://breadmotion.github.io/WebSite/",
                 "author": {
                     "@type": "Person",
-                    "name": "PanKUN"
+                    "name": "PanKUN",
+                    "url": "https://breadmotion.github.io/WebSite/",
+                    "sameAs": [
+                        "https://github.com/breadmotion",
+                        "https://x.com/pankun2000_"
+                    ]
                 }
+            }
+        </script>
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [{
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "ホーム",
+                    "item": "https://breadmotion.github.io/WebSite/"
+                }]
             }
         </script>
 
@@ -93,11 +122,11 @@
         ======================================== -->
         <meta
             property="og:title"
-            content="PanKUN HomePage | pankun.dev"
+            content="PanKUN | Unity・C#ゲーム開発エンジニア ポートフォリオ・技術ブログ"
         />
         <meta
             property="og:description"
-            content="エンジニア PanKUNホームページ"
+            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。"
         />
         <meta property="og:type" content="website" />
         <meta
@@ -121,11 +150,11 @@
         />
         <meta
             name="twitter:title"
-            content="PanKUN Homepage | pankun.dev"
+            content="PanKUN | Unity・C#ゲーム開発エンジニア ポートフォリオ・技術ブログ"
         />
         <meta
             name="twitter:description"
-            content="エンジニア PanKUNホームページ"
+            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。"
         />
         <meta
             name="twitter:image"
@@ -546,14 +575,14 @@
              スクリプト
         ======================================== -->
         <script src="assets/js/layout.js" defer></script>
-        <script src="assets/js/ui.js"></script>
+        <script src="assets/js/ui.js" defer></script>
         <script src="assets/js/top.js" defer></script>
         <script src="assets/js/recommend.js" defer></script>
-        <script src="assets/js/preview.js"></script>
+        <script src="assets/js/preview.js" defer></script>
 
         <!-- 背景パーティクル -->
         <canvas id="menuAnimationCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-        <script src="assets/js/particles.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+        <script src="assets/js/particles.js" defer></script>
     </body>
 </html>
