@@ -1,322 +1,116 @@
 <!doctype html>
 <html lang="ja">
-    <head>
-        <meta charset="UTF-8" />
-        <title>
-            p5.jsで背景アニメーションを実装してみた | PanKUN
-            Blog
-        </title>
-        <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1"
-        />
-        <meta
-            name="description"
-            content="静的なサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。"
-        />
-        <link
-            rel="canonical"
-            href="https://breadmotion.github.io/WebSite/blog/blog_00015.html"
-        />
-        <link
-            rel="alternate"
-            hreflang="ja"
-            href="https://breadmotion.github.io/WebSite/blog/blog_00015.html"
-        />
-        <link
-            rel="alternate"
-            hreflang="en"
-            href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html"
-        />
-        <link
-            rel="alternate"
-            hreflang="x-default"
-            href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html"
-        />
-        <!-- Google AdSense -->
-        <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
-            crossorigin="anonymous"
-        ></script>
+  <head>
+    <meta charset="UTF-8" />
+    <title>p5.jsで背景アニメーションを実装してみた | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html" />
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
 
-        <script type="application/ld+json">
-            {
-                "@context": "https://schema.org",
-                "@type": "BlogPosting",
-                "mainEntityOfPage": {
-                    "@type": "WebPage",
-                    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00015.html"
-                },
-                "headline": "p5.jsで背景アニメーションを実装してみた",
-                "description": "静的なサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。",
-                "image": [
-                    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
-                ],
-                "datePublished": "2025-11-29T00:00:00.000Z",
-                "dateModified": "2025-11-29T00:00:00.000Z",
-                "author": {
-                    "@type": "Person",
-                    "name": "PanKUN",
-                    "url": "https://breadmotion.github.io/WebSite"
-                },
-                "publisher": {
-                    "@type": "Organization",
-                    "name": "PanKUN",
-                    "logo": {
-                        "@type": "ImageObject",
-                        "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
-                    }
-                }
-            }
-        </script>
-        <meta
-            property="og:title"
-            content="p5.jsで背景アニメーションを実装してみた | PanKUN Blog"
-        />
-        <meta
-            property="og:description"
-            content="静的なプロダクトサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。"
-        />
-        <meta property="og:type" content="article" />
-        <meta
-            property="og:url"
-            content="https://breadmotion.github.io/WebSite/blog/blog_00015.html"
-        />
-        <meta
-            property="og:image"
-            content="https://breadmotion.github.io/WebSite/assets/img/ogp.png"
-        />
-        <meta property="og:site_name" content="PanKUN" />
-        <link
-            rel="shortcut icon"
-            href="../../favicon.ico"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            href="../assets/img/favicon-32.png"
-            sizes="32x32"
-        />
-        <link
-            rel="icon"
-            type="image/png"
-            href="../assets/img/favicon-192.png"
-            sizes="192x192"
-        />
-        <link
-            rel="apple-touch-icon"
-            href="../assets/img/favicon-192.png"
-        />
-        <link
-            rel="stylesheet"
-            href="../assets/css/base.css"
-        />
-        <link
-            rel="stylesheet"
-            href="../assets/css/layout.css"
-        />
-        <link
-            rel="stylesheet"
-            href="../assets/css/blog.css"
-        />
-        <link
-            rel="stylesheet"
-            href="../assets/css/preview.css"
-        />
-    </head>
-    <body data-page="blog" data-post-id="blog_00015">
-        <div class="page-shell">
-            <main class="main-container">
-                <div class="post-layout">
-                    <div
-                        class="post-content reveal-on-scroll"
-                    >
-                        <article class="post-detail">
-                            <nav
-                                aria-label="breadcrumb"
-                                class="breadcrumb"
-                            >
-                                <ol
-                                    class="breadcrumb__list"
-                                >
-                                    <li
-                                        class="breadcrumb__item"
-                                    >
-                                        <a
-                                            href="../index.html"
-                                            >ホーム</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="breadcrumb__item"
-                                    >
-                                        <a
-                                            href="../blog.html"
-                                            >ブログ</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="breadcrumb__item"
-                                        aria-current="page"
-                                    >
-                                        p5.jsで背景アニメーションを実装してみた
-                                    </li>
-                                </ol>
-                            </nav>
-                            <header
-                                class="post-detail__header"
-                            >
-                                <p
-                                    class="post-detail__meta"
-                                >
-                                    2025/11/29 / 技術メモ
-                                </p>
-                                <h1
-                                    class="post-detail__title"
-                                >
-                                    p5.jsで背景アニメーションを実装してみた
-                                </h1>
-                                <p
-                                    class="post-detail__description"
-                                >
-                                    静的なプロダクトサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。
-                                </p>
-                                <p
-                                    class="post-detail__tags"
-                                >
-                                    <a
-                                        class="tag"
-                                        href="../blog.html?tag=p5js"
-                                        >p5js</a
-                                    >
-                                    <a
-                                        class="tag"
-                                        href="../blog.html?tag=javascript"
-                                        >javascript</a
-                                    >
-                                </p>
-                                <div class="share-buttons">
-                                    <p
-                                        class="share-buttons__title"
-                                    >
-                                        SHARE
-                                    </p>
-                                    <ul
-                                        class="share-buttons__list"
-                                    >
-                                        <li
-                                            class="share-buttons__item"
-                                        >
-                                            <a
-                                                href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F"
-                                                class="share-buttons__link share-buttons__link--twitter"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                aria-label="Twitterでシェア"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    fill="currentColor"
-                                                    width="20"
-                                                    height="20"
-                                                >
-                                                    <path
-                                                        d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                                                    ></path>
-                                                </svg>
-                                            </a>
-                                        </li>
-
-                                        <li
-                                            class="share-buttons__item"
-                                        >
-                                            <a
-                                                href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html"
-                                                class="share-buttons__link share-buttons__link--facebook"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                aria-label="Facebookでシェア"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="0 0 24 24"
-                                                    fill="currentColor"
-                                                    width="20"
-                                                    height="20"
-                                                >
-                                                    <path
-                                                        d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"
-                                                    ></path>
-                                                </svg>
-                                            </a>
-                                        </li>
-
-                                        <li
-                                            class="share-buttons__item"
-                                        >
-                                            <a
-                                                href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html"
-                                                class="share-buttons__link share-buttons__link--line"
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                aria-label="LINEでシェア"
-                                            >
-                                                <svg
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                    viewBox="-2 -2.5 24 24"
-                                                    width="24"
-                                                    height="24"
-                                                    fill="currentColor"
-                                                >
-                                                    <path
-                                                        d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"
-                                                    />
-                                                </svg>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </header>
-                            <section
-                                class="post-detail__body markdown-body reveal-on-scroll"
-                            >
-                                <p>
-                                    こんにちは！パン君です。
-                                </p>
-                                <p>
-                                    クリエイティブコーディングの世界で有名な
-                                    <strong>p5.js</strong>
-                                    を使ってみることにしました。
-                                </p>
-                                <h2 id="p5js-とは？">
-                                    p5.js とは？
-                                </h2>
-                                <p>
-                                    Processing
-                                    というアート向けプログラミング言語をWeb
-                                    (JavaScript)
-                                    で動くようにしたライブラリです。<br />「キャンバスに絵を描く」「動かす」といったことが、驚くほど簡単なコードで書けます。
-                                </p>
-                                <h3 id="導入は超簡単">
-                                    導入は超簡単
-                                </h3>
-                                <p>
-                                    npm
-                                    でインストールする方法もありますが、今回は手軽に
-                                    CDN で導入しました。<br />HTMLに1行足すだけです。
-                                </p>
-                                <pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00015.html"
+  },
+  "headline": "p5.jsで背景アニメーションを実装してみた",
+  "description": "静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2025-11-29T00:00:00.000Z",
+  "dateModified": "2025-11-29T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <meta property="og:title" content="p5.jsで背景アニメーションを実装してみた | PanKUN Blog" />
+    <meta property="og:description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00015">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">p5.jsで背景アニメーションを実装してみた</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2025/11/29 / 技術メモ</p>
+                <h1 class="post-detail__title">p5.jsで背景アニメーションを実装してみた</h1>
+                <p class="post-detail__description">静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=p5js">p5js</a> <a class="tag" href="../blog.html?tag=javascript">javascript</a></p>
+                <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
+<p>クリエイティブコーディングの世界で有名な <strong>p5.js</strong> を使ってみることにしました。</p>
+<h2 id="p5js-とは？">p5.js とは？</h2><p>Processing というアート向けプログラミング言語をWeb (JavaScript) で動くようにしたライブラリです。<br>「キャンバスに絵を描く」「動かす」といったことが、驚くほど簡単なコードで書けます。</p>
+<h3 id="導入は超簡単">導入は超簡単</h3><p>npm でインストールする方法もありますが、今回は手軽に CDN で導入しました。<br>HTMLに1行足すだけです。</p>
+<pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;
 </code></pre>
-                                <p>これだけで準備完了。</p>
-                                <h2 id="さっそく書いてみる">
-                                    さっそく書いてみる
-                                </h2>
-                                <p>
-                                    まずは「画面全体にキャンバスを作って、円を表示する」ところから始めました。
-                                </p>
-                                <pre><code class="language-javascript">function setup() {
+<p>これだけで準備完了。</p>
+<h2 id="さっそく書いてみる">さっそく書いてみる</h2><p>まずは「画面全体にキャンバスを作って、円を表示する」ところから始めました。  </p>
+<pre><code class="language-javascript">function setup() {
   // 画面いっぱいのキャンバスを作る
   createCanvas(windowWidth, windowHeight);
 }
@@ -324,446 +118,150 @@
 function draw() {
   // 背景をクリア
   clear();
-
+  
   // 円を描く (x, y, size)
   circle(100, 100, 50);
 }
 </code></pre>
-                                <p>
-                                    たったこれだけで描画できました。<br /><code
-                                        >setup()</code
-                                    >
-                                    が最初に1回だけ呼ばれて、<code
-                                        >draw()</code
-                                    >
-                                    が毎フレーム呼ばれる仕組みです。
-                                </p>
-                                <h2
-                                    id="パーティクルを飛ばしてみる"
-                                >
-                                    パーティクルを飛ばしてみる
-                                </h2>
-                                <p>
-                                    円をクラス化して配列に入れ、座標を更新するようにすれば無数のパーティクルが動くアニメーションになります。
-                                </p>
-                                <pre><code class="language-javascript">class Particle {
+<p>たったこれだけで描画できました。<br><code>setup()</code> が最初に1回だけ呼ばれて、<code>draw()</code> が毎フレーム呼ばれる仕組みです。</p>
+<h2 id="パーティクルを飛ばしてみる">パーティクルを飛ばしてみる</h2><p>円をクラス化して配列に入れ、座標を更新するようにすれば無数のパーティクルが動くアニメーションになります。</p>
+<pre><code class="language-javascript">class Particle {
   constructor() {
     this.x = random(width);
     this.y = random(height);
   }
-
+  
   update() {
     this.y -= 1; // 上に昇る
   }
-
+  
   display() {
     circle(this.x, this.y, 5);
   }
 }
 </code></pre>
-                                <p>
-                                    これを
-                                    <code>draw()</code>
-                                    の中でループさせれば、泡のように昇るアニメーションの完成です。<br />ベクトルや三角関数を使えば、もっと複雑な動きも作れます。
-                                </p>
-                                <h2
-                                    id="調子に乗って10パターン作った"
-                                >
-                                    調子に乗って10パターン作った
-                                </h2>
-                                <p>
-                                    楽しくなってきたので、いろいろなパターンを実装してみました。
-                                </p>
-                                <ol>
-                                    <li>
-                                        <strong
-                                            >Network</strong
-                                        >:
-                                        粒子同士を線でつなぐ（ニューラルネットワーク風）
-                                    </li>
-                                    <li>
-                                        <strong
-                                            >Cosmos</strong
-                                        >: 星がキラキラ瞬く
-                                    </li>
-                                    <li>
-                                        <strong>Rain</strong
-                                        >:
-                                        デジタルな雨（マトリックス風）
-                                    </li>
-                                    <li>
-                                        <strong
-                                            >Circuit</strong
-                                        >:
-                                        回路図のようなパルスが走る
-                                    </li>
-                                </ol>
-                                <p>
-                                    ...などなど、合計10種類！
-                                </p>
-                                <p>
-                                    ページを開くたびにランダムで切り替わるようにしたので、<br />リロードするたびに違う雰囲気が楽しめます。
-                                </p>
-                                <h2 id="スマホ対策の罠">
-                                    スマホ対策の罠
-                                </h2>
-                                <p>
-                                    実装中に一つハマったのが、
-                                    <strong
-                                        >スマホでの横スクロール発生</strong
-                                    >
-                                    です。<br /><code
-                                        >createCanvas(windowWidth,
-                                        windowHeight)</code
-                                    ><br />と書くと、PCでは問題ないのですが、スマホだとスクロールバーの幅が含まれたりして、微妙に画面幅を超えてしまうことがありました。
-                                </p>
-                                <p>最終的には、</p>
-                                <pre><code class="language-javascript">let w = document.documentElement.clientWidth;
+<p>これを <code>draw()</code> の中でループさせれば、泡のように昇るアニメーションの完成です。<br>ベクトルや三角関数を使えば、もっと複雑な動きも作れます。</p>
+<h2 id="調子に乗って10パターン作った">調子に乗って10パターン作った</h2><p>楽しくなってきたので、いろいろなパターンを実装してみました。</p>
+<ol>
+<li><strong>Network</strong>: 粒子同士を線でつなぐ（ニューラルネットワーク風）</li>
+<li><strong>Cosmos</strong>: 星がキラキラ瞬く</li>
+<li><strong>Rain</strong>: デジタルな雨（マトリックス風）</li>
+<li><strong>Circuit</strong>: 回路図のようなパルスが走る</li>
+</ol>
+<p>...などなど、合計10種類！</p>
+<p>ページを開くたびにランダムで切り替わるようにしたので、<br>リロードするたびに違う雰囲気が楽しめます。</p>
+<h2 id="スマホ対策の罠">スマホ対策の罠</h2><p>実装中に一つハマったのが、 <strong>スマホでの横スクロール発生</strong> です。<br><code>createCanvas(windowWidth, windowHeight)</code><br>と書くと、PCでは問題ないのですが、スマホだとスクロールバーの幅が含まれたりして、微妙に画面幅を超えてしまうことがありました。</p>
+<p>最終的には、</p>
+<pre><code class="language-javascript">let w = document.documentElement.clientWidth;
 </code></pre>
-                                <p>
-                                    のように、スクロールバーを除いた正確な幅を取得することで解決しました。
-                                </p>
-                                <h2 id="まとめ">まとめ</h2>
-                                <p>
-                                    初めて p5.js
-                                    を触ってみましたが、
-                                    <strong
-                                        >「コードで絵を描く」</strong
-                                    >
-                                    という体験はとても新鮮で楽しかったです。
-                                </p>
-                                <p>
-                                    みなさんも、自分のサイトに「ちょっとした遊び心」を足してみてはいかがでしょうか。
-                                </p>
-                            </section>
-                            <div class="share-buttons">
-                                <p
-                                    class="share-buttons__title"
-                                >
-                                    SHARE
-                                </p>
-                                <ul
-                                    class="share-buttons__list"
-                                >
-                                    <li
-                                        class="share-buttons__item"
-                                    >
-                                        <a
-                                            href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F"
-                                            class="share-buttons__link share-buttons__link--twitter"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            aria-label="Twitterでシェア"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                fill="currentColor"
-                                                width="20"
-                                                height="20"
-                                            >
-                                                <path
-                                                    d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"
-                                                ></path>
-                                            </svg>
-                                        </a>
-                                    </li>
-
-                                    <li
-                                        class="share-buttons__item"
-                                    >
-                                        <a
-                                            href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html"
-                                            class="share-buttons__link share-buttons__link--facebook"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            aria-label="Facebookでシェア"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="0 0 24 24"
-                                                fill="currentColor"
-                                                width="20"
-                                                height="20"
-                                            >
-                                                <path
-                                                    d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"
-                                                ></path>
-                                            </svg>
-                                        </a>
-                                    </li>
-
-                                    <li
-                                        class="share-buttons__item"
-                                    >
-                                        <a
-                                            href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html"
-                                            class="share-buttons__link share-buttons__link--line"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            aria-label="LINEでシェア"
-                                        >
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                viewBox="-2 -2.5 24 24"
-                                                width="24"
-                                                height="24"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"
-                                                />
-                                            </svg>
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div
-                                class="post-detail__nav post-detail__nav--bottom"
-                            >
-                                <a
-                                    href="../blog.html"
-                                    class="btn btn--back"
-                                    >← ブログ一覧へ戻る</a
-                                >
-                            </div>
-                        </article>
-                    </div>
-                    <aside class="post-sidebar">
-                        <div class="toc-sticky-container">
-                            <nav class="toc">
-                                <h2 class="toc__title">
-                                    目次
-                                </h2>
-                                <ul class="toc-list">
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#p5js-とは？"
-                                            data-no-preview
-                                            >p5.js とは？</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-3"
-                                    >
-                                        <a
-                                            href="#導入は超簡単"
-                                            data-no-preview
-                                            >導入は超簡単</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#さっそく書いてみる"
-                                            data-no-preview
-                                            >さっそく書いてみる</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#パーティクルを飛ばしてみる"
-                                            data-no-preview
-                                            >パーティクルを飛ばしてみる</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#調子に乗って10パターン作った"
-                                            data-no-preview
-                                            >調子に乗って10パターン作った</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#スマホ対策の罠"
-                                            data-no-preview
-                                            >スマホ対策の罠</a
-                                        >
-                                    </li>
-                                    <li
-                                        class="toc-item toc-item--level-2"
-                                    >
-                                        <a
-                                            href="#まとめ"
-                                            data-no-preview
-                                            >まとめ</a
-                                        >
-                                    </li>
-                                </ul>
-                            </nav>
-                        </div>
-                    </aside>
-                </div>
-                <section class="section section--comments">
-                    <h2 class="section__title">コメント</h2>
-                    <div
-                        id="comments"
-                        class="post-comments"
-                    >
-                        <div
-                            class="giscus-placeholder"
-                            data-giscus-config='{"repo":"BreadMotion/breadmotion.github.io","repoId":"R_kgDOM8I6Fg","category":"Comment","categoryId":"DIC_kwDOM8I6Fs4CzPPY","mapping":"og:title","theme":"preferred_color_scheme"}'
-                        >
-                            <p class="giscus-loading">
-                                コメントを読み込み中...
-                            </p>
-                        </div>
-                    </div>
-                </section>
-                <script>
-                    (function () {
-                        var placeholder =
-                            document.querySelector(
-                                ".giscus-placeholder",
-                            );
-                        if (!placeholder) return;
-                        var observer =
-                            new IntersectionObserver(
-                                function (entries) {
-                                    entries.forEach(
-                                        function (entry) {
-                                            if (
-                                                entry.isIntersecting
-                                            ) {
-                                                observer.disconnect();
-                                                try {
-                                                    var config =
-                                                        JSON.parse(
-                                                            placeholder.getAttribute(
-                                                                "data-giscus-config",
-                                                            ),
-                                                        );
-                                                    var script =
-                                                        document.createElement(
-                                                            "script",
-                                                        );
-                                                    script.src =
-                                                        "https://giscus.app/client.js";
-                                                    script.setAttribute(
-                                                        "data-repo",
-                                                        config.repo,
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-repo-id",
-                                                        config.repoId,
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-category",
-                                                        config.category,
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-category-id",
-                                                        config.categoryId,
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-mapping",
-                                                        config.mapping,
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-strict",
-                                                        "0",
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-reactions-enabled",
-                                                        "1",
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-emit-metadata",
-                                                        "0",
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-input-position",
-                                                        "bottom",
-                                                    );
-                                                    script.setAttribute(
-                                                        "data-theme",
-                                                        config.theme,
-                                                    );
-                                                    script.setAttribute(
-                                                        "crossorigin",
-                                                        "anonymous",
-                                                    );
-                                                    script.async = true;
-                                                    placeholder.innerHTML =
-                                                        "";
-                                                    placeholder.appendChild(
-                                                        script,
-                                                    );
-                                                } catch (e) {
-                                                    console.error(
-                                                        "Failed to load Giscus comments:",
-                                                        e,
-                                                    );
-                                                    placeholder.innerHTML =
-                                                        '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
-                                                }
-                                            }
-                                        },
-                                    );
-                                },
-                                { rootMargin: "200px" },
-                            );
-                        observer.observe(placeholder);
-                    })();
-                </script>
-                <section class="section section--related">
-                    <h2 class="section__title">関連記事</h2>
-                    <div
-                        id="relatedList"
-                        class="recommend-grid"
-                    ></div>
-                </section>
-                <section class="section section--recommend">
-                    <h2 class="section__title">
-                        おすすめ記事
-                    </h2>
-                    <div
-                        id="recommendList"
-                        class="recommend-grid"
-                    ></div>
-                </section>
-            </main>
-            <div class="toc-overlay"></div>
-            <button
-                type="button"
-                class="toc-toggle"
-                aria-label="目次を開く"
-            >
-                <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="currentColor"
-                    width="20"
-                    height="20"
-                    aria-hidden="true"
-                >
-                    <path
-                        d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"
-                    ></path>
-                </svg>
-                <span>目次</span>
-            </button>
+<p>のように、スクロールバーを除いた正確な幅を取得することで解決しました。</p>
+<h2 id="まとめ">まとめ</h2><p>初めて p5.js を触ってみましたが、 <strong>「コードで絵を描く」</strong> という体験はとても新鮮で楽しかったです。</p>
+<p>みなさんも、自分のサイトに「ちょっとした遊び心」を足してみてはいかがでしょうか。</p>
+</section>
+              <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+              <div class="post-detail__nav post-detail__nav--bottom">
+                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
+              </div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#p5js-とは？" data-no-preview>p5.js とは？</a></li><li class="toc-item toc-item--level-3"><a href="#導入は超簡単" data-no-preview>導入は超簡単</a></li><li class="toc-item toc-item--level-2"><a href="#さっそく書いてみる" data-no-preview>さっそく書いてみる</a></li><li class="toc-item toc-item--level-2"><a href="#パーティクルを飛ばしてみる" data-no-preview>パーティクルを飛ばしてみる</a></li><li class="toc-item toc-item--level-2"><a href="#調子に乗って10パターン作った" data-no-preview>調子に乗って10パターン作った</a></li><li class="toc-item toc-item--level-2"><a href="#スマホ対策の罠" data-no-preview>スマホ対策の罠</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
         </div>
-        <script src="../assets/js/layout.js" defer></script>
-        <script src="../assets/js/ui.js"></script>
-        <script src="../assets/js/preview.js"></script>
-        <canvas id="menuAnimationCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-        <script src="../assets/js/particles.js"></script>
-        <script src="../assets/js/toc.js" defer></script>
-        <script
-            src="../assets/js/recommend.js"
-            defer
-        ></script>
-    </body>
+        <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/preview.js"></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="../assets/js/particles.js"></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+  </body>
 </html>
