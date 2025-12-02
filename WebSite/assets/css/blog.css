@@ -584,38 +584,48 @@
 /* ==========================================================================
    7. 記事詳細のナビゲーション
    ========================================================================== */
+/* Navigation: desktop = equal-width row; mobile = stacked column */
 .post-detail__nav--bottom {
     margin-top: 3rem;
     margin-bottom: 0;
-    /* 横並びにして中央寄せ、ボタン間の間隔を確保 */
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    flex-wrap: wrap;
+    /* 横幅に余裕があれば折り返さず等幅にする */
+    flex-wrap: nowrap;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-/* 共通ボタンスタイル（back / prev / next） */
+/* 共通ボタンスタイル（back / prev / next） - デスクトップは等幅 */
 .post-detail__nav--bottom .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.5rem 0.9rem;
+    padding: 0.6rem 1rem;
     border-radius: var(--radius-md);
     background: var(--color-surface);
-    color: var(--color-text-muted);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 600;
-    font-size: 12px;
+    font-size: 13px;
     transition: var(--transition-smooth);
     border: 1px solid var(--color-border);
+    /* 等幅にするための flex 指定（親が横並び） */
+    flex: 1 1 0;
+    min-width: 0; /* overflow 対策 */
     /* 長いタイトルは省略表示 */
-    max-width: 16rem;
-    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
+/* 中央の戻るボタンはやや目立たせるための余白調整（必要なら上書き） */
+.btn--back {
+    /* デフォルトは他ボタンと同等幅 */
+}
 .btn--back:hover {
     background: var(--color-accent-soft);
     color: var(--color-text);
@@ -643,6 +653,28 @@
     color: var(--color-text);
     border-color: var(--color-accent);
     transform: translateX(4px);
+}
+
+/* モバイル: ボタンを縦積み（タップしやすく、順序が明確） */
+@media (max-width: 600px) {
+    .post-detail__nav--bottom {
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: stretch;
+    }
+    .post-detail__nav--bottom .btn {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+        white-space: normal;
+    }
+    .btn--prev,
+    .btn--next {
+        padding-left: 0.75rem;
+        padding-right: 0.75rem;
+    }
 }
 
 /* ==========================================================================

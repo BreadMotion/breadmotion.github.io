@@ -136,7 +136,7 @@ function createTocHtml(headings, locale) {
  *  - デフォルト最大長は 20 文字（指定可能）
  *  - 切り詰めた場合は末尾に "…" を付与
  */
-function truncateTitle(str = "", max = 20) {
+function truncateTitle(str = "", max = 10) {
   if (!str) return "";
   const arr = Array.from(String(str));
   return arr.length > max
@@ -163,7 +163,7 @@ function buildPrevNextNavHtml(prev, next, locale, lang) {
       : lang === "ja"
         ? "次の記事"
         : "Next";
-  const maxLen = 20;
+  const maxLen = 12;
 
   let html =
     '<div class="post-detail__nav post-detail__nav--bottom">';
