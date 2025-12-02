@@ -4,7 +4,7 @@
 
 下記ページが記載されている自作ホームページです。
 
-- Portfolio
+- Product
 - 技術Blog
 - Product(tool, game, 資料等)
 

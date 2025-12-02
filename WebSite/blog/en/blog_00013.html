@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Improving UX by Modaling Portfolio Details | PanKUN Blog</title>
+    <title>Improving UX by Modaling Product Details | PanKUN Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="I modalized the portfolio work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation." />
+    <meta name="description" content="I modalized the product work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation." />
     <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html" />
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00013.html" />
     <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html" />
@@ -23,8 +23,8 @@
     "@type": "WebPage",
     "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00013.html"
   },
-  "headline": "Improving UX by Modaling Portfolio Details",
-  "description": "I modalized the portfolio work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation.",
+  "headline": "Improving UX by Modaling Product Details",
+  "description": "I modalized the product work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation.",
   "image": [
     "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
   ],
@@ -44,8 +44,8 @@
     }
   }
 }</script>
-    <meta property="og:title" content="Improving UX by Modaling Portfolio Details | PanKUN Blog" />
-    <meta property="og:description" content="I modalized the portfolio work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation." />
+    <meta property="og:title" content="Improving UX by Modaling Product Details | PanKUN Blog" />
+    <meta property="og:description" content="I modalized the product work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
@@ -69,20 +69,20 @@
                 <ol class="breadcrumb__list">
                   <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
                   <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
-                  <li class="breadcrumb__item" aria-current="page">Improving UX by Modaling Portfolio Details</li>
+                  <li class="breadcrumb__item" aria-current="page">Improving UX by Modaling Product Details</li>
                 </ol>
               </nav>
               <header class="post-detail__header">
                 <p class="post-detail__meta">2025/11/27 / Technical Note</p>
-                <h1 class="post-detail__title">Improving UX by Modaling Portfolio Details</h1>
-                <p class="post-detail__description">I modalized the portfolio work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation.</p>
+                <h1 class="post-detail__title">Improving UX by Modaling Product Details</h1>
+                <p class="post-detail__description">I modalized the product work details so they can be viewed without page transitions. About HTML acquisition using DOMParser and pitfalls during implementation.</p>
                 <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=javascript">javascript</a> <a class="tag" href="../../blog.html?tag=ui-ux">ui-ux</a></p>
                 <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00013.html&text=Improving%20UX%20by%20Modaling%20Portfolio%20Details" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00013.html&text=Improving%20UX%20by%20Modaling%20Product%20Details" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -103,13 +103,13 @@
   </div>
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
-<p>Until now, clicking a work from the &quot;Portfolio List&quot; on this site would transition to a detail page (<code>portfolio/xxxx.html</code>).</p>
-<p>However, people who come to see the portfolio probably want to &quot;<strong>zap through various works</strong>&quot;.
+<p>Until now, clicking a work from the &quot;Product List&quot; on this site would transition to a detail page (<code>portfolio/xxxx.html</code>).</p>
+<p>However, people who come to see the product probably want to &quot;<strong>zap through various works</strong>&quot;.
 Operations like &quot;click to move to details&quot; -&gt; &quot;back with browser back&quot; -&gt; &quot;scroll again to the next work...&quot; are quietly stressful.</p>
 <p>So I modified it to <strong>display detailed information in a modal window superimposed while maintaining the list page</strong>.</p>
 <hr>
 <h2 id="implementation-policy">Implementation Policy</h2><p>This site generates static HTML files from Markdown files using build tools.
-Portfolio detail pages already exist as actual files like <code>portfolio/work_01.html</code>.</p>
+Product detail pages already exist as actual files like <code>portfolio/work_01.html</code>.</p>
 <p>There is also a method of packing all information into JSON data and building it with JS, but
 <strong>&quot;reusing already generated HTML of detail pages&quot;</strong> is less wasteful in terms of SEO and build flow.</p>
 <h3 id="process-flow">Process Flow</h3><ol>
@@ -179,7 +179,7 @@ detail.classList.remove(&quot;reveal-on-scroll&quot;);
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00013.html&text=Improving%20UX%20by%20Modaling%20Portfolio%20Details" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00013.html&text=Improving%20UX%20by%20Modaling%20Product%20Details" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
