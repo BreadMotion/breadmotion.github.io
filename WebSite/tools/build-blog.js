@@ -163,7 +163,7 @@ function buildPrevNextNavHtml(prev, next, locale, lang) {
       : lang === "ja"
         ? "次の記事"
         : "Next";
-  const maxLen = 12;
+  const maxLen = 13;
 
   let html =
     '<div class="post-detail__nav post-detail__nav--bottom">';
