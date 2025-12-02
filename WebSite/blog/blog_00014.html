@@ -79,17 +79,9 @@
                 <p class="post-detail__description">個人開発のWebサイトで溜まりがちな「使われていないCSS」をNode.jsスクリプトでサクッと検出して整理しました。</p>
                 <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=css">css</a> <a class="tag" href="../blog.html?tag=nodejs">nodejs</a></p>
                 
-    <div class="post-actions" aria-hidden="false">
-      <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00014" aria-pressed="false" aria-label="いいね">
-        <span class="icon-like" aria-hidden="true">❤</span>
-        <span class="like-count">0</span>
-      </button>
-      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00014" aria-pressed="false" aria-label="ブックマーク">
-        <span class="icon-bookmark" aria-hidden="true">🔖</span>
-      </button>
-    </div>
-  
-                <div class="share-buttons">
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -113,6 +105,20 @@
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00014" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00014" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
 <p>機能追加やデザイン変更を繰り返しているうちにCSSファイルの中に <strong>「これ、どこで使ってるんだっけ？」</strong> というクラスが増えてきました。</p>
@@ -164,7 +170,10 @@ Checking assets\css\top.css...
 <h2 id="まとめ">まとめ</h2><p>リファクタリングというと大掛かりな作業をイメージしがちですが、<br><strong>「気になったら小さなスクリプトを書いてサクッと調べる」</strong><br>というアプローチなら日常的にコードをきれいに保てそうです。</p>
 <p>自分の手で作ったツールで自分のサイトを改善していくのは、エンジニアならではの楽しみですね。</p>
 </section>
-              <div class="share-buttons">
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -188,6 +197,20 @@ Checking assets\css\top.css...
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00014" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00014" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00012.html" class="btn btn--prev">← 静的サイトにお問い合わせフ…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00015.html" class="btn btn--next">p5.jsで背景アニメーシ… →</a></div>
             </article>
           </div>

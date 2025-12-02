@@ -79,17 +79,9 @@
                 <p class="post-detail__description">Discord Bot の構成メモ コマンド／イベントをプラグイン的に追加</p>
                 <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=discord">discord</a> <a class="tag" href="../blog.html?tag=nodejs">nodejs</a> <a class="tag" href="../blog.html?tag=architecture">architecture</a> <a class="tag" href="../blog.html?tag=plugin">plugin</a> <a class="tag" href="../blog.html?tag=tool">tool</a></p>
                 
-    <div class="post-actions" aria-hidden="false">
-      <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00008" aria-pressed="false" aria-label="いいね">
-        <span class="icon-like" aria-hidden="true">❤</span>
-        <span class="like-count">0</span>
-      </button>
-      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00008" aria-pressed="false" aria-label="ブックマーク">
-        <span class="icon-bookmark" aria-hidden="true">🔖</span>
-      </button>
-    </div>
-  
-                <div class="share-buttons">
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -113,6 +105,20 @@
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00008" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00008" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは!パン君です。</p>
 <p>この記事では、個人で運用している <strong>Discord Bot のアーキテクチャをどう組み直したか</strong> をまとめます。</p>
@@ -298,7 +304,10 @@ pm2 restart bread-bot
 <p>同じように Bot を長期運用したい人の参考になれば嬉しいです。</p>
 <hr>
 </section>
-              <div class="share-buttons">
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -322,6 +331,20 @@ pm2 restart bread-bot
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00008" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00008" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00003.html" class="btn btn--prev">← Odin でコンテキストエ…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00004.html" class="btn btn--next">Modoium Remot… →</a></div>
             </article>
           </div>

@@ -377,14 +377,21 @@ function createHtml({
     (locale.lang === "ja" ? "ブックマーク" : "Bookmark");
 
   const postActionsHtml = `
-    <div class="post-actions" aria-hidden="false">
-      <button type="button" class="btn btn--icon btn-like" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(likeLabel)}">
-        <span class="icon-like" aria-hidden="true">❤</span>
-        <span class="like-count">0</span>
-      </button>
-      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(bookmarkLabel)}">
-        <span class="icon-bookmark" aria-hidden="true">🔖</span>
-      </button>
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        ${shareButtonsHtml}
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(likeLabel)}">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(bookmarkLabel)}">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
     </div>
   `;
 
@@ -483,10 +490,9 @@ function createHtml({
                 ${safeDesc ? `<p class="post-detail__description">${safeDesc}</p>` : ""}
                 ${tagsHtml}
                 ${postActionsHtml}
-                ${shareButtonsHtml}
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll">${bodyHtml}</section>
-              ${shareButtonsHtml}
+              ${postActionsHtml}
               <div class="post-detail__nav post-detail__nav--bottom">
                 <a href="${pathPrefix}/blog.html" class="btn btn--back">${locale.back_to_blog}</a>
               </div>

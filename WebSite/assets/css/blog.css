@@ -387,7 +387,7 @@
     color: var(--color-text-muted);
 }
 /* スマホなどで崩れる場合は縦並びに */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .markdown-body dl {
         display: block;
     }
@@ -494,7 +494,7 @@
 /* ==========================================================================
    5. レスポンシブデザイン
    ========================================================================== */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .blog-filters {
         flex-direction: column;
         align-items: stretch;
@@ -664,7 +664,7 @@
 }
 
 /* モバイル: ボタンを縦積み（タップしやすく、順序が明確） */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .post-detail__nav--bottom {
         flex-direction: column;
         gap: 0.6rem;
@@ -758,7 +758,7 @@
     display: none;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 968px) {
     .post-layout {
         grid-template-columns: minmax(0, 1fr) 250px;
         gap: 1rem;
@@ -901,7 +901,7 @@
         visibility 0s 0.3s;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .toc-toggle {
         display: flex; /* SP/Tabletで表示 */
     }
@@ -1007,6 +1007,54 @@
     border-color: #00c300;
 }
 
+/* ==========================================================================
+   Post header: align share buttons center and place Like/Bookmark at the right end
+   - On wide screens: share buttons centered, like/bookmark pinned to right edge of the same line
+   - On small screens: left-aligned and stacked (share buttons first, actions below)
+   ========================================================================== */
+.post-header-actions {
+    position: relative;
+    width: 100%;
+    margin: 0.6rem 0 1rem 0;
+    box-sizing: border-box;
+}
+
+/* Left area contains the existing share-buttons markup and remains centered by default */
+.post-header-actions__left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Right area holds the .post-actions (いいね / ブックマーク) and is pinned to the right */
+.post-header-actions__right {
+    position: absolute;
+    right: 0;
+    top: 65%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Keep internal .post-actions spacing consistent with post-interactions.css */
+.post-header-actions .post-actions {
+    margin: 0;
+}
+
+/* Responsive behavior: on narrow viewports switch to left alignment and flow stacking */
+@media (max-width: 968px) {
+    .post-header-actions__left {
+        justify-content: flex-start;
+    }
+
+    /* Ensure share buttons in this header follow the same left alignment tweak */
+    .post-header-actions .share-buttons {
+        text-align: left;
+        margin: 0.5rem 0;
+    }
+}
+
 .section--related {
     margin-top: 4rem;
 }
@@ -1072,7 +1120,7 @@
 }
 
 /* 小さい画面での調整 */
-@media (max-width: 768px) {
+@media (max-width: 968px) {
     .section--comments {
         margin-top: 2rem;
     }
