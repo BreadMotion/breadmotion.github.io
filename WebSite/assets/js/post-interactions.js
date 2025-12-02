@@ -2,12 +2,12 @@
  * post-interactions.js
  * - いいね（Like）とブックマークのクライアント実装
  * - localStorage を利用したフォールバック（サーバーが無くても動作）
- * - window.__POST_INTERACTIONS_CONFIG に API のベース URL が埋め込まれていれば
- *   可能な限り API と同期を試みる（API の仕様に応じて修正してください）
+ * - window.__POST_INTERACTIONS_CONFIG に GAS Web App URL が埋め込まれていれば
+ *   GET クエリ（action=get|like|unlike&postId=...）を使って API と同期
  *
  * 実装方針（軽量）:
  * - Bookmark: localStorage に保存（ユーザー毎のブックマーク）
- * - Like: ユーザー単体の「自分がいいねしたか」は localStorage。総数は localStorage に保存（グローバル永続化には API が必要）
+ * - Like: ユーザー単体の「自分がいいねしたか」は localStorage。総数は API から取得（グローバル永続化）
  *
  * 依存なし（Vanilla JS）
  */
@@ -96,16 +96,18 @@
     else btn.classList.remove("is-bookmarked");
   }
 
-  // API 呼び出し（あくまで「試みる」実装。実際のエンドポイント仕様に合わせて調整してください）
+  // GAS Web App API 呼び出し
+  // GET: action=get|like|unlike&postId=...
+  // レスポンス: { likes: number, ... }
   async function fetchLikeCountFromApi(postId) {
     if (!API_BASE) return null;
     try {
-      const res = await fetch(
-        `${API_BASE.replace(/\/$/, "")}/posts/${encodeURIComponent(postId)}`,
-      );
+      const url = new URL(API_BASE);
+      url.searchParams.set("action", "get");
+      url.searchParams.set("postId", postId);
+      const res = await fetch(url.toString());
       if (!res.ok) return null;
       const json = await res.json();
-      // 期待: { likes: number, ... }
       return typeof json.likes === "number"
         ? json.likes
         : null;
@@ -117,14 +119,10 @@
   async function sendLikeToggleToApi(postId, action) {
     if (!API_BASE) return null;
     try {
-      const res = await fetch(
-        `${API_BASE.replace(/\/$/, "")}/posts/${encodeURIComponent(postId)}/like`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ action }), // action: 'like' or 'unlike'
-        },
-      );
+      const url = new URL(API_BASE);
+      url.searchParams.set("action", action); // 'like' or 'unlike'
+      url.searchParams.set("postId", postId);
+      const res = await fetch(url.toString());
       if (!res.ok) return null;
       const json = await res.json();
       return typeof json.likes === "number"

@@ -77,10 +77,13 @@ const GISCUS_ENABLED =
   (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
 
 // ---------------------------
-// POST / Like API ベース URL（任意）
-// 環境変数 POST_API_URL を設定するとクライアントが API に接続を試みます。
+// POST / Like API ベース URL
+// 環境変数 POST_API_URL を設定すると上書きします。
+// デフォルトは GAS Web App URL を使用。
 // ---------------------------
-const POST_API_URL = process.env.POST_API_URL || "";
+const POST_API_URL =
+  process.env.POST_API_URL ||
+  "https://script.google.com/macros/s/AKfycby8h3ZR4vBDs6fOk3hIF8jed8BhnzU0IesQmPgSqkOyzYK1TfkhX9HDyixyrBH7N_SR/exec";
 
 // ---------------------------
 // helper: XML/HTML escape
