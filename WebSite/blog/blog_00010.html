@@ -79,17 +79,9 @@
                 <p class="post-detail__description">プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。</p>
                 <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=tool">tool</a> <a class="tag" href="../blog.html?tag=cloudstrage">cloudstrage</a> <a class="tag" href="../blog.html?tag=git">git</a></p>
                 
-    <div class="post-actions" aria-hidden="false">
-      <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="いいね">
-        <span class="icon-like" aria-hidden="true">❤</span>
-        <span class="like-count">0</span>
-      </button>
-      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="ブックマーク">
-        <span class="icon-bookmark" aria-hidden="true">🔖</span>
-      </button>
-    </div>
-  
-                <div class="share-buttons">
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -113,6 +105,20 @@
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
 <p>前回の記事ではWindows環境におけるrcloneの導入フローとGoogle Driveとの連携について解説しました。<br>今回はその続きとして、 <strong>プロジェクトでの大規模アセット管理</strong> という具体的な課題に対し、rcloneとシェルスクリプトを組み合わせた運用術をご紹介します。  </p>
@@ -220,7 +226,10 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
 <h2 id="まとめ">まとめ</h2><p>プロジェクトにおけるアセット管理はチーム開発の効率を大きく左右する重要な課題です。<br>rcloneとカスタムシェルスクリプト <code>Aup.sh</code>, <code>Adown.sh</code>, <code>Alock.sh</code>, <code>Aunlock.sh</code> を組み合わせることで、Gitリポジトリを軽量に保ちつつ大容量アセットを外部ストレージで効率的に管理し、さらにCI/CDパイプラインとの連携もスムーズに行うことが可能になります。  </p>
 <p>この運用術を導入することで開発者はアセットの容量やGit LFSの制限に煩わされることなくコンテンツ制作と開発に集中できるようになるでしょう。</p>
 </section>
-              <div class="share-buttons">
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
       
@@ -244,6 +253,20 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
       
     </ul>
   </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
               <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00009.html" class="btn btn--prev">← ZedでC#開発環境を構築…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00011.html" class="btn btn--next">自作Discord Bot… →</a></div>
             </article>
           </div>
