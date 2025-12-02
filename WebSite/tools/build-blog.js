@@ -399,6 +399,10 @@ function createHtml({
           </aside>
         </div>
         ${commentHtml}
+        <section class="section section--related">
+          <h2 class="section__title">${locale.related_title}</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
         <section class="section section--recommend">
           <h2 class="section__title">${locale.recommended_title}</h2>
           <div id="recommendList" class="recommend-grid"></div>
