@@ -36,7 +36,6 @@ const TARGET_FILES = [
   "index.html",
   "blog.html",
   "portfolio.html",
-  "products.html",
   "contact.html",
 ];
 
