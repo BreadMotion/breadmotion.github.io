@@ -2,11 +2,11 @@
  * @file locales/static.js
  * @description 静的 HTML 翻訳用の多言語ロケール定義（英語版）
  * @summary
- *   - index.html, blog.html, portfolio.html, products.html, contact.html の翻訳データ
+ *   - index.html, blog.html, portfolio.html, contact.html の翻訳データ
  *   - CSS セレクタベースで翻訳対象を指定
  *   - translate-static.js から参照
  * @recent_changes
- *   - ファイル先頭に説明コメントを追加
+ *   - products.html を削除し、portfolio.html へリダイレクトするよう変更
  */
 
 module.exports = {
@@ -21,7 +21,6 @@ module.exports = {
       ".site-nav a[data-nav='index.html']": "Home",
       ".site-nav a[data-nav='blog.html']": "Blog",
       ".site-nav a[data-nav='portfolio.html']": "Portfolio",
-      ".site-nav a[data-nav$='products.html']": "Products",
       ".site-nav a[data-nav$='contact.html']": "Contact",
 
       // Footer
@@ -110,11 +109,6 @@ module.exports = {
         "Introduction of created games and tools.",
       ".card--link:has(h3:contains('Portfolio')) .card__more":
         "Go to Portfolio List →",
-
-      ".card--link:has(h3:contains('Products')) p":
-        "Distributed / Sold Content",
-      ".card--link:has(h3:contains('Products')) .card__more":
-        "Go to Content List →",
 
       ".card--link:has(h3:contains('Contact')) p":
         "Business inquiries, etc.",
@@ -234,53 +228,6 @@ module.exports = {
 
       "#portfolioEmptyMessage":
         "No works match the criteria.",
-    },
-
-    // -------------------------------------------------------------------------
-    // products.html
-    // -------------------------------------------------------------------------
-    products: {
-      title: "PanKUN | Products",
-      "meta[name='description']": {
-        attr: "content",
-        value: "Engineer PanKUN Products List",
-      },
-      "meta[property='og:title']": {
-        attr: "content",
-        value: "PanKUN Products | pankun.dev",
-      },
-      "meta[property='og:description']": {
-        attr: "content",
-        value: "Engineer PanKUN Products List",
-      },
-      "meta[name='twitter:title']": {
-        attr: "content",
-        value: "PanKUN Products | pankun.dev",
-      },
-      "meta[name='twitter:description']": {
-        attr: "content",
-        value: "Engineer PanKUN Products List",
-      },
-
-      ".page-header h1": "Products",
-      ".page-header p:contains('自分が制作')":
-        "List of games, plugins, and tools I have created and sold.",
-      ".page-header p:contains('外部ストア')":
-        "Summarizing links to external stores and download links for executables.",
-
-      ".section-header h2": "List",
-
-      ".products-filter__label:contains('種類')": "Type",
-      "#productTypeFilter option[value='']": "All",
-
-      ".products-filter__label:contains('検索')": "Search",
-      "#productSearch": {
-        attr: "placeholder",
-        value: "Search by title, tag, or platform",
-      },
-
-      "#productEmptyMessage":
-        "No products match the criteria.",
     },
 
     // -------------------------------------------------------------------------
