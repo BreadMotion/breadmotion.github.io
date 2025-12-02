@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://breadmotion.github.io/</loc>
-    <lastmod>2025-12-01</lastmod>
+    <loc>https://breadmotion.github.io/WebSite/</loc>
+    <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/"/>
+  </url>
+  <url>
+    <loc>https://breadmotion.github.io/WebSite/en/index.html</loc>
+    <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/index.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/blog/blog_00001.html</loc>
@@ -151,33 +162,40 @@
   <url>
     <loc>https://breadmotion.github.io/WebSite/blog.html</loc>
     <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/contact.html</loc>
-    <lastmod>2025-12-01</lastmod>
+    <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/contact.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/en/blog.html</loc>
     <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/blog.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/en/contact.html</loc>
     <lastmod>2025-12-02</lastmod>
-  </url>
-  <url>
-    <loc>https://breadmotion.github.io/WebSite/en/</loc>
-    <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/contact.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/contact.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/en/portfolio.html</loc>
     <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/portfolio.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/portfolio.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/portfolio.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/en/products.html</loc>
-    <lastmod>2025-12-02</lastmod>
-  </url>
-  <url>
-    <loc>https://breadmotion.github.io/WebSite/</loc>
     <lastmod>2025-12-02</lastmod>
   </url>
   <url>
@@ -195,6 +213,9 @@
   <url>
     <loc>https://breadmotion.github.io/WebSite/portfolio.html</loc>
     <lastmod>2025-12-02</lastmod>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/portfolio.html"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/portfolio.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/portfolio.html"/>
   </url>
   <url>
     <loc>https://breadmotion.github.io/WebSite/products.html</loc>

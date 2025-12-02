@@ -1,21 +1,92 @@
 <!doctype html>
 <html lang="ja">
   <head prefix="og: https://ogp.me/ns#">
+    <!-- ========================================
+         Preconnect for external resources
+    ======================================== -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+
     <meta charset="UTF-8" />
     <title>クマの逆転プロ野球 | PanKUN Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="カジュアル" />
+    <meta name="description" content="カジュアルゲーム「クマの逆転プロ野球」。PanKUNがFull Stack Engineerとして参加。Unity/C#で開発。" />
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/portfolio/portfolio_0002.html" />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VideoGame",
+            "name": "クマの逆転プロ野球",
+            "description": "カジュアルゲーム「クマの逆転プロ野球」。PanKUNがFull Stack Engineerとして参加。",
+            "url": "https://breadmotion.github.io/WebSite/portfolio/portfolio_0002.html",
+            "image": "https://breadmotion.github.io/WebSite/assets/img/ogp.png",
+            "author": {
+              "@id": "https://breadmotion.github.io/WebSite/#person"
+            },
+            "creator": {
+              "@type": "Organization",
+              "name": "Game Creators School"
+            },
+            "gamePlatform": ["Android", "iOS", "Steam"],
+            "genre": "Casual",
+            "applicationCategory": "Game"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://breadmotion.github.io/WebSite/#person",
+            "name": "PanKUN",
+            "url": "https://breadmotion.github.io/WebSite/",
+            "sameAs": [
+              "https://github.com/breadmotion",
+              "https://x.com/pankun2000_"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ホーム",
+                "item": "https://breadmotion.github.io/WebSite/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "制作物",
+                "item": "https://breadmotion.github.io/WebSite/portfolio.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "クマの逆転プロ野球",
+                "item": "https://breadmotion.github.io/WebSite/portfolio/portfolio_0002.html"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
 
     <meta property="og:title" content="クマの逆転プロ野球 | PanKUN Portfolio" />
-    <meta property="og:description" content="カジュアル" />
+    <meta property="og:description" content="カジュアルゲーム「クマの逆転プロ野球」。PanKUNがFull Stack Engineerとして参加。" />
     <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/portfolio/portfolio_0002.html" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
     <meta property="og:site_name" content="PanKUN" />
     <meta property="og:email" content="pankun.dev@gmail.com" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="クマの逆転プロ野球" />
-    <meta name="twitter:description" content="カジュアル" />
+    <meta name="twitter:title" content="クマの逆転プロ野球 | PanKUN Portfolio" />
+    <meta name="twitter:description" content="カジュアルゲーム「クマの逆転プロ野球」" />
     <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
 
     <link rel="shortcut icon" href="../favicon.ico">
@@ -29,8 +100,11 @@
     <link rel="stylesheet" href="../assets/css/preview.css" />
   </head>
   <body data-page="portfolio">
+    <!-- Skip link for accessibility -->
+    <a class="skip-link" href="#main">Skip to content</a>
+    
     <div class="page-shell">
-      <main class="main-container">
+      <main id="main" class="main-container">
         <article class="work-detail reveal-on-scroll">
           <header class="work-detail__header">
             <p class="work-detail__meta">Game / Role: Full Stack Engineer</p>
@@ -60,11 +134,11 @@
     </div>
 
     <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js"></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
 
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="../assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
   </body>
 </html>

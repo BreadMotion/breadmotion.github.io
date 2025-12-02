@@ -1,21 +1,93 @@
 <!doctype html>
 <html lang="ja">
   <head prefix="og: https://ogp.me/ns#">
+    <!-- ========================================
+         Preconnect for external resources
+    ======================================== -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+    <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+
     <meta charset="UTF-8" />
     <title>霊迷の湯 | PanKUN Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="８番ライクホラー" />
+    <meta name="description" content="８番ライクホラーゲーム「霊迷の湯」。PanKUNがFull Stack Engineerとして参加。Unity/C#で開発。" />
+    
+    <!-- Canonical -->
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/portfolio/portfolio_0001.html" />
+
+    <!-- JSON-LD structured data -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "VideoGame",
+            "name": "霊迷の湯",
+            "description": "８番ライクホラーゲーム「霊迷の湯」。PanKUNがFull Stack Engineerとして参加。",
+            "url": "https://breadmotion.github.io/WebSite/portfolio/portfolio_0001.html",
+            "image": "https://breadmotion.github.io/WebSite/assets/img/ogp.png",
+            "author": {
+              "@id": "https://breadmotion.github.io/WebSite/#person"
+            },
+            "creator": {
+              "@type": "Organization",
+              "name": "Studio ShiroGorilla"
+            },
+            "datePublished": "2024-03-08",
+            "gamePlatform": "Steam",
+            "genre": "Horror",
+            "applicationCategory": "Game"
+          },
+          {
+            "@type": "Person",
+            "@id": "https://breadmotion.github.io/WebSite/#person",
+            "name": "PanKUN",
+            "url": "https://breadmotion.github.io/WebSite/",
+            "sameAs": [
+              "https://github.com/breadmotion",
+              "https://x.com/pankun2000_"
+            ]
+          },
+          {
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "ホーム",
+                "item": "https://breadmotion.github.io/WebSite/"
+              },
+              {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "制作物",
+                "item": "https://breadmotion.github.io/WebSite/portfolio.html"
+              },
+              {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "霊迷の湯",
+                "item": "https://breadmotion.github.io/WebSite/portfolio/portfolio_0001.html"
+              }
+            ]
+          }
+        ]
+      }
+    </script>
 
     <meta property="og:title" content="霊迷の湯 | PanKUN Portfolio" />
-    <meta property="og:description" content="８番ライクホラー" />
+    <meta property="og:description" content="８番ライクホラーゲーム「霊迷の湯」。PanKUNがFull Stack Engineerとして参加。" />
     <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/portfolio/portfolio_0001.html" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
     <meta property="og:site_name" content="PanKUN" />
     <meta property="og:email" content="pankun.dev@gmail.com" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="霊迷の湯" />
-    <meta name="twitter:description" content="８番ライクホラー" />
+    <meta name="twitter:title" content="霊迷の湯 | PanKUN Portfolio" />
+    <meta name="twitter:description" content="８番ライクホラーゲーム「霊迷の湯」" />
     <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
 
     <link rel="shortcut icon" href="../favicon.ico">
@@ -29,8 +101,11 @@
     <link rel="stylesheet" href="../assets/css/preview.css" />
   </head>
   <body data-page="portfolio">
+    <!-- Skip link for accessibility -->
+    <a class="skip-link" href="#main">Skip to content</a>
+    
     <div class="page-shell">
-      <main class="main-container">
+      <main id="main" class="main-container">
         <article class="work-detail reveal-on-scroll">
           <header class="work-detail__header">
             <p class="work-detail__meta">Game / Role: Full Stack Engineer</p>
@@ -58,11 +133,11 @@
     </div>
 
     <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js"></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
 
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="../assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
   </body>
 </html>

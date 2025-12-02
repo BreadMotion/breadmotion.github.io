@@ -276,3 +276,26 @@ button {
     opacity: 0 !important;
     transition: none !important;
 }
+
+/* ==========================================================================
+   10. Accessibility - Skip Link
+   ========================================================================== */
+.skip-link {
+    position: absolute;
+    top: -40px;
+    left: 0;
+    background: var(--color-accent);
+    color: #fff;
+    padding: 8px 16px;
+    z-index: 10000;
+    text-decoration: none;
+    font-weight: 600;
+    border-radius: 0 0 var(--radius-md) 0;
+    transition: top 0.2s ease;
+}
+
+.skip-link:focus {
+    top: 0;
+    outline: 2px solid var(--color-accent-dark);
+    outline-offset: 2px;
+}

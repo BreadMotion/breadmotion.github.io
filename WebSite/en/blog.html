@@ -1,11 +1,26 @@
 <!DOCTYPE html><html lang="en"><head prefix="og: https://ogp.me/ns#">
+        <!-- ========================================
+             Preconnect for external resources
+        ======================================== -->
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com">
+
         <meta charset="UTF-8">
-        <title>PanKUN | Blog</title>
+        <title>Blog — PanKUN | Technical Blog</title>
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Engineer PanKUN Technical Blog">
+        <meta name="description" content="PanKUN's technical blog. Notes and knowledge about game development including Unity, UE5, and tool development.">
 
         <!-- Canonical -->
         <link rel="canonical" href="https://breadmotion.github.io/WebSite/en/blog.html">
+        
+        <!-- ========================================
+             hreflang declarations for i18n
+        ======================================== -->
+        <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog.html">
+        <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/blog.html">
+        <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog.html">
 
         <!--
             AdSense クローラーに低品質なページと判定されることを防ぐため、
@@ -20,14 +35,44 @@
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
-                "@type": "CollectionPage",
-                "name": "PanKUN Blog",
-                "description": "エンジニア PanKUN技術ブログ",
-                "url": "https://breadmotion.github.io/WebSite/blog.html",
-                "author": {
-                    "@type": "Person",
-                    "name": "PanKUN"
-                }
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "name": "Blog — PanKUN | Technical Blog",
+                        "description": "PanKUN's technical blog. Notes and knowledge about game development including Unity, UE5, and tool development.",
+                        "url": "https://breadmotion.github.io/WebSite/en/blog.html",
+                        "author": {
+                            "@id": "https://breadmotion.github.io/WebSite/#person"
+                        }
+                    },
+                    {
+                        "@type": "Person",
+                        "@id": "https://breadmotion.github.io/WebSite/#person",
+                        "name": "PanKUN",
+                        "url": "https://breadmotion.github.io/WebSite/",
+                        "sameAs": [
+                            "https://github.com/breadmotion",
+                            "https://x.com/pankun2000_"
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "Home",
+                                "item": "https://breadmotion.github.io/WebSite/en/index.html"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "Blog",
+                                "item": "https://breadmotion.github.io/WebSite/en/blog.html"
+                            }
+                        ]
+                    }
+                ]
             }
         </script>
 
@@ -43,22 +88,25 @@
         <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
 
         <!-- OG関係 -->
-        <meta property="og:title" content="PanKUN Blog | pankun.dev">
-        <meta property="og:description" content="Engineer PanKUN Technical Blog">
+        <meta property="og:title" content="Blog — PanKUN | Technical Blog">
+        <meta property="og:description" content="PanKUN's technical blog. Notes and knowledge about game development including Unity, UE5, and tool development.">
         <meta property="og:type" content="website">
-        <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog.html">
+        <meta property="og:url" content="https://breadmotion.github.io/WebSite/en/blog.html">
         <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
         <meta property="og:site_name" content="PanKUN">
         <meta property="og:email" content="pankun.dev@gmail.com">
 
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="PanKUN Blog | pankun.dev">
-        <meta name="twitter:description" content="Engineer PanKUN Technical Blog">
+        <meta name="twitter:title" content="Blog — PanKUN | Technical Blog">
+        <meta name="twitter:description" content="PanKUN's technical blog. Notes and knowledge about game development.">
         <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog.html"><link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/blog.html"><link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog.html"></head>
+    </head>
     <body data-page="blog">
+        <!-- Skip link for accessibility -->
+        <a class="skip-link" href="#main">Skip to content</a>
+        
         <div class="page-shell">
-            <main class="main-container">
+            <main id="main" class="main-container">
                 <section class="page-header reveal-on-scroll">
                     <h1>Blog</h1>
                     <p>Technical notes and knowledge regarding game development, including Unity, UE5, and tool development.</p>
@@ -94,13 +142,13 @@
         </div>
 
         <script src="../assets/js/layout.js" defer=""></script>
-        <script src="../assets/js/ui.js"></script>
+        <script src="../assets/js/ui.js" defer></script>
         <script src="../assets/js/blog.js" defer=""></script>
-        <script src="../assets/js/preview.js"></script>
+        <script src="../assets/js/preview.js" defer></script>
 
         <canvas id="menuAnimationCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-        <script src="../assets/js/particles.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+        <script src="../assets/js/particles.js" defer></script>
     
 
 </body></html>
