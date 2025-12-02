@@ -387,7 +387,7 @@
     color: var(--color-text-muted);
 }
 /* スマホなどで崩れる場合は縦並びに */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .markdown-body dl {
         display: block;
     }
@@ -584,9 +584,8 @@
 /* ==========================================================================
    7. 記事詳細のナビゲーション
    ========================================================================== */
-/* Navigation: desktop = equal-width row; mobile = stacked column */
 .post-detail__nav--bottom {
-    margin-top: 3rem;
+    margin-top: 2rem;
     margin-bottom: 0;
     display: flex;
     justify-content: center;
@@ -665,7 +664,7 @@
 }
 
 /* モバイル: ボタンを縦積み（タップしやすく、順序が明確） */
-@media (max-width: 600px) {
+@media (max-width: 768px) {
     .post-detail__nav--bottom {
         flex-direction: column;
         gap: 0.6rem;
@@ -759,7 +758,7 @@
     display: none;
 }
 
-@media (min-width: 1000px) {
+@media (min-width: 768px) {
     .post-layout {
         grid-template-columns: minmax(0, 1fr) 250px;
         gap: 1rem;
@@ -902,7 +901,7 @@
         visibility 0s 0.3s;
 }
 
-@media (max-width: 999px) {
+@media (max-width: 768px) {
     .toc-toggle {
         display: flex; /* SP/Tabletで表示 */
     }
@@ -954,16 +953,16 @@
    Share Buttons
    ========================================================================== */
 .share-buttons {
-    margin: 2rem 0;
+    margin: 1rem 0;
     text-align: center;
 }
 
 .share-buttons__title {
-    margin-bottom: 1rem;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     font-weight: 700;
     color: var(--color-text-muted);
     letter-spacing: 0.1em;
+    margin: 0.3rem 0;
 }
 
 .share-buttons__list {
@@ -1073,7 +1072,7 @@
 }
 
 /* 小さい画面での調整 */
-@media (max-width: 640px) {
+@media (max-width: 768px) {
     .section--comments {
         margin-top: 2rem;
     }
@@ -1086,6 +1085,40 @@
 
     .giscus-placeholder {
         min-height: 150px;
+    }
+
+    .share-buttons {
+        margin: 1rem 0;
+        text-align: left;
+    }
+
+    .share-buttons__title {
+        font-size: 0.7rem;
+        font-weight: 700;
+        color: var(--color-text-muted);
+        letter-spacing: 0.1em;
+        margin: 0.3rem 0;
+    }
+
+    .share-buttons__list {
+        display: inline-flex;
+        gap: 1rem;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .share-buttons__link {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        transition: var(--transition-smooth);
+        border: 1px solid var(--color-border);
     }
 }
 
