@@ -234,3 +234,45 @@ button {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* ==========================================================================
+   5. カードのホバー表現を無効化するための属性
+   ========================================================================== */
+/*
+ Usage:
+  - 個別カードを無効化: <article class="card" data-disable-hover></article>
+  - 親要素配下の全カードを無効化: <section data-disable-card-hover>...</section>
+  - 属性名は自由に変更可（data-disable-hover / data-disable-card-hover）
+*/
+.card[data-disable-hover],
+[data-disable-card-hover] .card {
+    /* 非ホバー時の通常スタイルを保持する（強制上書き） */
+    transition: none !important;
+    transform: none !important;
+    box-shadow: var(--shadow-md) !important;
+    background: var(--color-surface) !important;
+}
+
+/* 擬似要素のホバー演出も無効化 */
+.card[data-disable-hover]::before,
+[data-disable-card-hover] .card::before {
+    transition: none !important;
+    opacity: 0 !important;
+    background: none !important;
+    border-color: transparent !important;
+}
+
+/* ホバー状態に移行しても変化しないようにする */
+.card[data-disable-hover]:hover,
+[data-disable-card-hover] .card:hover {
+    transform: none !important;
+    box-shadow: var(--shadow-md) !important;
+    background: var(--color-surface) !important;
+}
+
+/* ホバー時の擬似要素も無効化 */
+.card[data-disable-hover]:hover::before,
+[data-disable-card-hover] .card:hover::before {
+    opacity: 0 !important;
+    transition: none !important;
+}
