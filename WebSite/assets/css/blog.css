@@ -622,10 +622,6 @@
     white-space: nowrap;
 }
 
-/* 中央の戻るボタンはやや目立たせるための余白調整（必要なら上書き） */
-.btn--back {
-    /* デフォルトは他ボタンと同等幅 */
-}
 .btn--back:hover {
     background: var(--color-accent-soft);
     color: var(--color-text);
