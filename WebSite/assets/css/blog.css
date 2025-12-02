@@ -584,31 +584,115 @@
 /* ==========================================================================
    7. 記事詳細のナビゲーション
    ========================================================================== */
+/* Navigation: desktop = equal-width row; mobile = stacked column */
 .post-detail__nav--bottom {
     margin-top: 3rem;
     margin-bottom: 0;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    /* 横幅に余裕があれば折り返さず等幅にする */
+    flex-wrap: nowrap;
+    max-width: 900px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.btn--back {
+/* 共通ボタンスタイル（back / prev / next） - デスクトップは等幅 */
+.post-detail__nav--bottom .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
+    padding: 0.6rem 0.5rem;
     border-radius: var(--radius-md);
     background: var(--color-surface);
-    color: var(--color-text-muted);
+    color: var(--color-text);
     text-decoration: none;
     font-weight: 600;
+    font-size: 13px;
     transition: var(--transition-smooth);
     border: 1px solid var(--color-border);
+    /* 等幅にするための flex 指定（親が横並び） */
+    flex: 1 1 0;
+    min-width: 0; /* overflow 対策 */
+    /* 長いタイトルは省略表示 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.post-detail__nav--bottom .btn--prev {
+    justify-content: flex-start;
+    text-align: left;
+}
+.post-detail__nav--bottom .btn--back {
+    justify-content: center;
+    text-align: center;
+}
+.post-detail__nav--bottom .btn--next {
+    justify-content: flex-end;
+    text-align: right;
 }
 
 .btn--back:hover {
     background: var(--color-accent-soft);
     color: var(--color-text);
     border-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* 前の記事（左） */
+.btn--prev {
+    padding-left: 0.8rem;
+}
+.btn--prev:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    border-color: var(--color-accent);
     transform: translateX(-4px);
+}
+
+/* 次の記事（右） */
+.btn--next {
+    padding-right: 0.8rem;
+}
+.btn--next:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    transform: translateX(4px);
+}
+
+/* モバイル: ボタンを縦積み（タップしやすく、順序が明確） */
+@media (max-width: 600px) {
+    .post-detail__nav--bottom {
+        flex-direction: column;
+        gap: 0.6rem;
+        align-items: stretch;
+    }
+    .post-detail__nav--bottom .btn {
+        flex: none;
+        width: 100%;
+        max-width: none;
+        justify-content: center;
+        padding: 0.7rem 1rem;
+        white-space: normal;
+    }
+
+    /* Mobile: maintain left/center/right alignment within full-width buttons */
+    .post-detail__nav--bottom .btn--prev {
+        justify-content: center;
+        text-align: center;
+    }
+    .post-detail__nav--bottom .btn--back {
+        justify-content: center;
+        text-align: center;
+    }
+    .post-detail__nav--bottom .btn--next {
+        justify-content: center;
+        text-align: center;
+    }
 }
 
 /* ==========================================================================

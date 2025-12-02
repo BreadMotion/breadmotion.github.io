@@ -131,6 +131,71 @@ function createTocHtml(headings, locale) {
   return tocHtml;
 }
 
+/**
+ * Helper: タイトルを最大長で切り詰め（マルチバイト安全）
+ *  - デフォルト最大長は 20 文字（指定可能）
+ *  - 切り詰めた場合は末尾に "…" を付与
+ */
+function truncateTitle(str = "", max = 10) {
+  if (!str) return "";
+  const arr = Array.from(String(str));
+  return arr.length > max
+    ? arr.slice(0, max).join("") + "…"
+    : String(str);
+}
+
+/**
+ * Helper: prev/next ナビ HTML を組み立てる
+ * - prev/next は postsMap の要素（{id, title, contentPath, ...}）
+ * - locale はロケールオブジェクト（locale.back_to_blog などを利用）
+ * - lang は 'ja' か 'en'（ラベルのデフォルト選択などに使用）
+ */
+function buildPrevNextNavHtml(prev, next, locale, lang) {
+  const prevLabel =
+    locale && locale.prev_label
+      ? locale.prev_label
+      : lang === "ja"
+        ? "前の記事"
+        : "Previous";
+  const nextLabel =
+    locale && locale.next_label
+      ? locale.next_label
+      : lang === "ja"
+        ? "次の記事"
+        : "Next";
+  const maxLen = 13;
+
+  let html =
+    '<div class="post-detail__nav post-detail__nav--bottom">';
+  // 前の記事（左）
+  if (prev) {
+    const prevHref = path.basename(prev.contentPath);
+    const prevTitle = truncateTitle(
+      prev.title || prev.id,
+      maxLen,
+    );
+    html += `<a href="${prevHref}" class="btn btn--prev">← ${escapeHtml(prevTitle)}</a>`;
+  }
+
+  // 中央: 一覧へ戻る（既存ロケール文言）
+  const blogHref =
+    lang === "ja" ? "../blog.html" : "../blog.html"; // 生成ファイルは同ディレクトリ内なので ../blog.html works for both (en files are inside blog/en/)
+  html += `<a href="${blogHref}" class="btn btn--back">${locale.back_to_blog}</a>`;
+
+  // 次の記事（右）
+  if (next) {
+    const nextHref = path.basename(next.contentPath);
+    const nextTitle = truncateTitle(
+      next.title || next.id,
+      maxLen,
+    );
+    html += `<a href="${nextHref}" class="btn btn--next">${escapeHtml(nextTitle)} →</a>`;
+  }
+
+  html += "</div>";
+  return html;
+}
+
 function createShareButtonsHtml(title, url, locale) {
   const encodedTitle = encodeURIComponent(title);
   const encodedUrl = encodeURIComponent(url);
@@ -398,7 +463,6 @@ function createHtml({
             </div>
           </aside>
         </div>
-        ${commentHtml}
         <section class="section section--related">
           <h2 class="section__title">${locale.related_title}</h2>
           <div id="relatedList" class="recommend-grid"></div>
@@ -407,6 +471,7 @@ function createHtml({
           <h2 class="section__title">${locale.recommended_title}</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
+         ${commentHtml}
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="${locale.toc_button_label}">
@@ -644,6 +709,65 @@ function createHtml({
     "utf8",
   );
   logger.success("Updated: assets/data/blogList_en.json");
+
+  // ------------------------------------------------------------
+  // 生成済み記事 HTML に対して「前の記事 / 一覧へ戻る / 次の記事」を注入する
+  // - postsMap は既に日付降順（新しい順）でソート済み
+  // - 配列インデックスの扱い: 新しい順なので
+  //     index - 1 => next (より新しい記事)
+  //     index + 1 => prev (より古い記事)
+  // ------------------------------------------------------------
+  try {
+    for (const lang of ["ja", "en"]) {
+      const list = postsMap[lang] || [];
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        const prev = list[i + 1] || null;
+        const next = list[i - 1] || null;
+
+        const outPath =
+          lang === "ja"
+            ? path.join(OUTPUT_DIR, `${item.id}.html`)
+            : path.join(enOutputDir, `${item.id}.html`);
+
+        if (!fs.existsSync(outPath)) {
+          logger.warn(
+            `Output file not found for nav injection: ${path.relative(ROOT, outPath)}`,
+          );
+          continue;
+        }
+
+        let htmlText = fs.readFileSync(outPath, "utf8");
+
+        // 既存の nav ブロックを置換（最初のマッチのみ）
+        const newNavHtml = buildPrevNextNavHtml(
+          prev,
+          next,
+          locales[lang] || locales.ja,
+          lang,
+        );
+        const replaced = htmlText.replace(
+          /<div class="post-detail__nav post-detail__nav--bottom">[\s\S]*?<\/div>/,
+          newNavHtml,
+        );
+
+        if (replaced !== htmlText) {
+          fs.writeFileSync(outPath, replaced, "utf8");
+          logger.info(
+            `Updated nav for ${path.relative(ROOT, outPath)}`,
+          );
+        } else {
+          logger.info(
+            `No nav block replaced for ${path.relative(ROOT, outPath)}`,
+          );
+        }
+      }
+    }
+  } catch (e) {
+    logger.error(
+      `Failed to inject prev/next nav: ${e.message}`,
+    );
+  }
 })().catch((err) => {
   logger.error(err.message);
   process.exit(1);
