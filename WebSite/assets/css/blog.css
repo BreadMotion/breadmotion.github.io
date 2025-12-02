@@ -587,28 +587,62 @@
 .post-detail__nav--bottom {
     margin-top: 3rem;
     margin-bottom: 0;
-    text-align: center;
+    /* 横並びにして中央寄せ、ボタン間の間隔を確保 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+    flex-wrap: wrap;
 }
 
-.btn--back {
+/* 共通ボタンスタイル（back / prev / next） */
+.post-detail__nav--bottom .btn {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.6rem 1.2rem;
+    padding: 0.5rem 0.9rem;
     border-radius: var(--radius-md);
     background: var(--color-surface);
     color: var(--color-text-muted);
     text-decoration: none;
     font-weight: 600;
+    font-size: 12px;
     transition: var(--transition-smooth);
     border: 1px solid var(--color-border);
+    /* 長いタイトルは省略表示 */
+    max-width: 16rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .btn--back:hover {
     background: var(--color-accent-soft);
     color: var(--color-text);
     border-color: var(--color-accent);
+    transform: translateY(-2px);
+}
+
+/* 前の記事（左） */
+.btn--prev {
+    padding-left: 0.8rem;
+}
+.btn--prev:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    border-color: var(--color-accent);
     transform: translateX(-4px);
+}
+
+/* 次の記事（右） */
+.btn--next {
+    padding-right: 0.8rem;
+}
+.btn--next:hover {
+    background: var(--color-accent-soft);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+    transform: translateX(4px);
 }
 
 /* ==========================================================================
