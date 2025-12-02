@@ -2,19 +2,45 @@
 <html lang="ja">
     <head>
         <!-- ========================================
-             META / 基本設定
+             README: GitHub Pages Redirect
+             
+             This page uses a meta refresh + JavaScript redirect because
+             GitHub Pages does not support HTTP 301 redirects.
+             
+             If you host on a platform that supports server-side redirects
+             (Netlify, Vercel, Apache, Nginx), configure a true 301:
+             
+             Netlify (_redirects file):
+               / /WebSite/ 301
+             
+             Apache (.htaccess):
+               Redirect 301 / /WebSite/
+             
+             Nginx:
+               rewrite ^/$ /WebSite/ permanent;
         ======================================== -->
         <meta charset="UTF-8" />
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1.0"
         />
-        <title>PanKUN | Portal</title>
+        <title>Redirecting to PanKUN Portfolio...</title>
         <meta
             name="description"
-            content="PanKUNのポータルサイトです。"
+            content="PanKUNのポートフォリオサイトへリダイレクトします。"
         />
-        <meta name="robots" content="noindex" />
+        
+        <!-- Canonical URL pointing to main site -->
+        <link
+            rel="canonical"
+            href="https://breadmotion.github.io/WebSite/"
+        />
+        
+        <!-- Meta refresh redirect (0 seconds delay) -->
+        <meta
+            http-equiv="refresh"
+            content="0; url=/WebSite/"
+        />
 
         <!-- ========================================
              アイコン
@@ -36,15 +62,6 @@
             href="./WebSite/assets/img/favicon-192.png"
             sizes="192x192"
         />
-
-        <!-- ========================================
-             Google AdSense
-        ======================================== -->
-        <script
-            async
-            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
-            crossorigin="anonymous"
-        ></script>
 
         <!-- ========================================
              スタイル
@@ -76,32 +93,28 @@
             }
             h1 {
                 margin-bottom: 1rem;
-                font-size: 2rem;
+                font-size: 1.5rem;
                 color: #2c3e50;
             }
             p {
-                margin-bottom: 1.5rem;
+                margin-bottom: 1rem;
                 line-height: 1.6;
             }
-            .btn {
-                display: inline-block;
-                padding: 0.8rem 1.5rem;
-                background-color: #3498db;
-                color: white;
+            a {
+                color: #3498db;
                 text-decoration: none;
-                border-radius: 4px;
-                transition: background-color 0.3s;
-                font-weight: bold;
             }
-            .btn:hover {
-                background-color: #2980b9;
-            }
-            footer {
-                margin-top: 2rem;
-                font-size: 0.8rem;
-                color: #777;
+            a:hover {
+                text-decoration: underline;
             }
         </style>
+
+        <!-- ========================================
+             JavaScript redirect fallback
+        ======================================== -->
+        <script>
+            window.location.replace('/WebSite/');
+        </script>
 
         <!-- ========================================
              Google 検索登録
@@ -113,23 +126,19 @@
     </head>
     <body>
         <!-- ========================================
-             メインコンテンツ
+             Fallback content for non-JS clients
         ======================================== -->
-        <div class="container">
-            <h1>Welcome to PanKUN's Portal</h1>
-            <p>
-                こんにちは、PanKUNです。<br />
-                こちらは私のポートフォリオやブログをまとめたポータルページです。<br />
-                技術記事や制作物の詳細は、メインサイトをご覧ください。
-            </p>
-            <a href="./WebSite/index.html" class="btn"
-                >メインサイトへ移動</a
-            >
-        </div>
-
-        <!-- ========================================
-             フッター
-        ======================================== -->
-        <footer>&copy; PanKUN. All Rights Reserved.</footer>
+        <noscript>
+            <div class="container">
+                <h1>リダイレクト中 / Redirecting...</h1>
+                <p>
+                    メインサイトへ移動しています。自動的にリダイレクトされない場合は、以下のリンクをクリックしてください。<br />
+                    If you are not redirected automatically, please click the link below.
+                </p>
+                <p>
+                    <a href="/WebSite/">PanKUN Portfolio へ移動 / Go to PanKUN Portfolio</a>
+                </p>
+            </div>
+        </noscript>
     </body>
 </html>

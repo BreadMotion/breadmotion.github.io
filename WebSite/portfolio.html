@@ -1,15 +1,23 @@
 <!doctype html>
 <html lang="ja">
     <head prefix="og: https://ogp.me/ns#">
+        <!-- ========================================
+             Preconnect for external resources
+        ======================================== -->
+        <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin />
+        <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin />
+        <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
+
         <meta charset="UTF-8" />
-        <title>PanKUN | Product</title>
+        <title>制作物 — PanKUN | Portfolio</title>
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1"
         />
         <meta
             name="description"
-            content="エンジニア PanKUNポートフォリオ一覧"
+            content="PanKUNの制作物一覧。ゲーム、ツール、プラグインなど個人制作・インディー・業務で関わった作品を掲載。"
         />
 
         <!-- Canonical -->
@@ -17,6 +25,13 @@
             rel="canonical"
             href="https://breadmotion.github.io/WebSite/portfolio.html"
         />
+        
+        <!-- ========================================
+             hreflang declarations for i18n
+        ======================================== -->
+        <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/portfolio.html" />
+        <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/en/portfolio.html" />
+        <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/portfolio.html" />
 
         <meta name="robots" content="noindex" />
 
@@ -31,14 +46,44 @@
         <script type="application/ld+json">
             {
                 "@context": "https://schema.org",
-                "@type": "CollectionPage",
-                "name": "PanKUN Product",
-                "description": "エンジニア PanKUNポートフォリオ一覧",
-                "url": "https://breadmotion.github.io/WebSite/portfolio.html",
-                "author": {
-                    "@type": "Person",
-                    "name": "PanKUN"
-                }
+                "@graph": [
+                    {
+                        "@type": "CollectionPage",
+                        "name": "制作物 — PanKUN | Portfolio",
+                        "description": "PanKUNの制作物一覧。ゲーム、ツール、プラグインなど個人制作・インディー・業務で関わった作品を掲載。",
+                        "url": "https://breadmotion.github.io/WebSite/portfolio.html",
+                        "author": {
+                            "@id": "https://breadmotion.github.io/WebSite/#person"
+                        }
+                    },
+                    {
+                        "@type": "Person",
+                        "@id": "https://breadmotion.github.io/WebSite/#person",
+                        "name": "PanKUN",
+                        "url": "https://breadmotion.github.io/WebSite/",
+                        "sameAs": [
+                            "https://github.com/breadmotion",
+                            "https://x.com/pankun2000_"
+                        ]
+                    },
+                    {
+                        "@type": "BreadcrumbList",
+                        "itemListElement": [
+                            {
+                                "@type": "ListItem",
+                                "position": 1,
+                                "name": "ホーム",
+                                "item": "https://breadmotion.github.io/WebSite/"
+                            },
+                            {
+                                "@type": "ListItem",
+                                "position": 2,
+                                "name": "制作物",
+                                "item": "https://breadmotion.github.io/WebSite/portfolio.html"
+                            }
+                        ]
+                    }
+                ]
             }
         </script>
 
@@ -115,8 +160,11 @@
         />
     </head>
     <body data-page="portfolio">
+        <!-- Skip link for accessibility -->
+        <a class="skip-link" href="#main">Skip to content</a>
+        
         <div class="page-shell">
-            <main class="main-container">
+            <main id="main" class="main-container">
                 <section
                     class="page-header reveal-on-scroll"
                 >
@@ -196,12 +244,12 @@
         </div>
 
         <script src="assets/js/layout.js" defer></script>
-        <script src="assets/js/ui.js"></script>
+        <script src="assets/js/ui.js" defer></script>
         <script src="assets/js/portfolio.js" defer></script>
-        <script src="assets/js/preview.js"></script>
+        <script src="assets/js/preview.js" defer></script>
 
         <canvas id="menuAnimationCanvas"></canvas>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-        <script src="assets/js/particles.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+        <script src="assets/js/particles.js" defer></script>
     </body>
 </html>
