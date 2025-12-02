@@ -7,6 +7,7 @@
  *   - サムネイル画像のダウンロードと管理
  *   - assets/data/blogList.json / blogList_en.json の更新
  *   - Giscus コメント埋め込み対応（環境変数で有効化）
+ *   - いいね / ブックマーク UI の埋め込み（クライアント実装を別ファイルで提供）
  */
 
 const fs = require("fs");
@@ -74,6 +75,12 @@ const GISCUS_MAPPING =
 const GISCUS_ENABLED =
   COMMENT_PROVIDER === "giscus" ||
   (GISCUS_REPO_ID && GISCUS_CATEGORY_ID);
+
+// ---------------------------
+// POST / Like API ベース URL（任意）
+// 環境変数 POST_API_URL を設定するとクライアントが API に接続を試みます。
+// ---------------------------
+const POST_API_URL = process.env.POST_API_URL || "";
 
 // ---------------------------
 // helper: XML/HTML escape
@@ -358,6 +365,26 @@ function createHtml({
     locale,
   );
 
+  // ----- ここで Like / Bookmark UI を組み立て -----
+  const likeLabel =
+    locale.like_button ||
+    (locale.lang === "ja" ? "いいね" : "Like");
+  const bookmarkLabel =
+    locale.bookmark_button ||
+    (locale.lang === "ja" ? "ブックマーク" : "Bookmark");
+
+  const postActionsHtml = `
+    <div class="post-actions" aria-hidden="false">
+      <button type="button" class="btn btn--icon btn-like" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(likeLabel)}">
+        <span class="icon-like" aria-hidden="true">❤</span>
+        <span class="like-count">0</span>
+      </button>
+      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="${escapeHtmlAttr(id)}" aria-pressed="false" aria-label="${escapeHtmlAttr(bookmarkLabel)}">
+        <span class="icon-bookmark" aria-hidden="true">🔖</span>
+      </button>
+    </div>
+  `;
+
   let imageUrl = thumbnail;
 
   if (imageUrl && !imageUrl.startsWith("http")) {
@@ -399,6 +426,12 @@ function createHtml({
   const jaUrl = `${BASE_URL}/blog/${id}.html`;
   const enUrl = `${BASE_URL}/blog/en/${id}.html`;
 
+  // クライアント設定（POST API など）をページに埋め込む
+  const clientConfig = {
+    apiUrl: POST_API_URL || "",
+    postId: id,
+  };
+
   return `<!doctype html>
 <html lang="${locale.lang}">
   <head>
@@ -426,6 +459,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/layout.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
+    <link rel="stylesheet" href="${pathPrefix}/assets/css/post-interactions.css" />
   </head>
   <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
     <div class="page-shell">
@@ -445,6 +479,7 @@ function createHtml({
                 <h1 class="post-detail__title">${safeTitle}</h1>
                 ${safeDesc ? `<p class="post-detail__description">${safeDesc}</p>` : ""}
                 ${tagsHtml}
+                ${postActionsHtml}
                 ${shareButtonsHtml}
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll">${bodyHtml}</section>
@@ -479,9 +514,14 @@ function createHtml({
         <span>${locale.toc_button_text}</span>
       </button>
     </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
+
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
     <script src="${pathPrefix}/assets/js/ui.js"></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="${pathPrefix}/assets/js/post-interactions.js" defer></script>
+    <script src="${pathPrefix}/assets/js/preview.js"></script>
     <canvas id="menuAnimationCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="${pathPrefix}/assets/js/particles.js"></script>

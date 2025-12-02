@@ -58,6 +58,7 @@
     <link rel="stylesheet" href="../../assets/css/layout.css" />
     <link rel="stylesheet" href="../../assets/css/blog.css" />
     <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00001">
     <div class="page-shell">
@@ -77,6 +78,17 @@
                 <h1 class="post-detail__title">Started a Blog</h1>
                 <p class="post-detail__description">Self-introduction of the author</p>
                 <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=diary">diary</a></p>
+                
+    <div class="post-actions" aria-hidden="false">
+      <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00001" aria-pressed="false" aria-label="Like">
+        <span class="icon-like" aria-hidden="true">❤</span>
+        <span class="like-count">0</span>
+      </button>
+      <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00001" aria-pressed="false" aria-label="Bookmark">
+        <span class="icon-bookmark" aria-hidden="true">🔖</span>
+      </button>
+    </div>
+  
                 <div class="share-buttons">
     <p class="share-buttons__title">SHARE</p>
     <ul class="share-buttons__list">
@@ -243,9 +255,14 @@ Thank you for your continued support.</p>
         <span>TOC</span>
       </button>
     </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"","postId":"blog_00001"};</script>
+
     <script src="../../assets/js/layout.js" defer></script>
     <script src="../../assets/js/ui.js"></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js"></script>
     <canvas id="menuAnimationCanvas"></canvas>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
     <script src="../../assets/js/particles.js"></script>

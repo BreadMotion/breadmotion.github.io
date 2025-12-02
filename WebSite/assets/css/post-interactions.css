@@ -1,0 +1,74 @@
+/* post-interactions.css
+   - いいね / ブックマーク用の最小スタイル
+   - blog.css のボタン群と雰囲気を合わせて作成
+*/
+
+.post-actions {
+    display: inline-flex;
+    gap: 0.6rem;
+    align-items: center;
+    justify-content: center;
+}
+
+/* アイコンボタン共通 */
+.btn--icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.45rem 0.8rem;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    color: var(--color-text);
+    cursor: pointer;
+    font-weight: 600;
+    transition: var(--transition-smooth);
+}
+
+.btn--icon .icon-like,
+.btn--icon .icon-bookmark {
+    font-size: 1rem;
+    line-height: 1;
+}
+
+/* いいねカウント */
+.btn--icon .like-count {
+    display: inline-block;
+    min-width: 2ch;
+    text-align: left;
+    font-weight: 700;
+    color: var(--color-text-muted);
+}
+
+/* liked / bookmarked 状態 */
+.btn--icon.is-liked {
+    background: linear-gradient(
+        90deg,
+        var(--color-accent),
+        var(--color-accent-dark)
+    );
+    color: #fff;
+    border-color: transparent;
+    box-shadow: var(--shadow-glow);
+}
+.btn--icon.is-bookmarked {
+    background: var(--color-accent-soft);
+    color: var(--color-heading);
+    border-color: var(--color-accent);
+}
+
+/* hover 効果 */
+.btn--icon:hover {
+    transform: translateY(-2px);
+}
+
+/* モバイルで少し大きめに */
+@media (max-width: 600px) {
+    .post-actions {
+        justify-content: flex-start;
+    }
+    .btn--icon {
+        padding: 0.6rem 1rem;
+        font-size: 0.95rem;
+    }
+}
