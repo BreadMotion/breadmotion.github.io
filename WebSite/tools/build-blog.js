@@ -362,7 +362,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
   </head>
-  <body data-page="blog">
+  <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">
@@ -399,6 +399,10 @@ function createHtml({
           </aside>
         </div>
         ${commentHtml}
+        <section class="section section--related">
+          <h2 class="section__title">${locale.related_title}</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
         <section class="section section--recommend">
           <h2 class="section__title">${locale.recommended_title}</h2>
           <div id="recommendList" class="recommend-grid"></div>
