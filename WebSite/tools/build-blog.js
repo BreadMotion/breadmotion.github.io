@@ -398,7 +398,6 @@ function createHtml({
             </div>
           </aside>
         </div>
-        ${commentHtml}
         <section class="section section--related">
           <h2 class="section__title">${locale.related_title}</h2>
           <div id="relatedList" class="recommend-grid"></div>
@@ -407,6 +406,7 @@ function createHtml({
           <h2 class="section__title">${locale.recommended_title}</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
+         ${commentHtml}
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="${locale.toc_button_label}">
