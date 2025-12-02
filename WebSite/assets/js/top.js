@@ -175,8 +175,9 @@ document.addEventListener("DOMContentLoaded", async () => {
           li.className = "home-latest-item";
 
           const a = document.createElement("a");
-          a.className = "home-latest-link";
+          a.setAttribute("data-no-preview", "");
           a.href = "#";
+
           a.addEventListener("click", (e) => {
             e.preventDefault();
             if (

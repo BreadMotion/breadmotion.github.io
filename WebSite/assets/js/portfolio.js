@@ -23,6 +23,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /** @type {Array<any>} */
   let allWorks = [];
+  // 保存しておくことで、モーダル表示後に body/html の overflow を元に戻せる
+  let previousBodyOverflow = "";
+  let previousHtmlOverflow = "";
 
   // ============================================================
   // モーダル初期化
@@ -46,6 +49,20 @@ document.addEventListener("DOMContentLoaded", () => {
     // コンテンツ領域
     modalContent = document.createElement("div");
     modalContent.className = "modal-content";
+
+    // --- ここで親をスクロール不可、子をスクロール可能に設定 ---
+    try {
+      // 親コンテナはスクロールさせない（子に委譲）
+      modalContainer.style.overflow = "hidden";
+      modalContainer.style.overflowY = "hidden";
+      // 子は唯一のスクロール領域にする
+      modalContent.style.overflow = "auto";
+      modalContent.style.overflowY = "auto";
+      modalContent.style.maxHeight = "calc(92vh - 48px)";
+      modalContent.style.boxSizing = "border-box";
+      // ミニマム高さで flex コンテナとの相性を保つ
+      modalContent.style.minHeight = "0";
+    } catch (_) {}
 
     modalContainer.appendChild(modalCloseBtn);
     modalContainer.appendChild(modalContent);
@@ -80,8 +97,29 @@ document.addEventListener("DOMContentLoaded", () => {
       '<div style="padding:4rem;text-align:center;color:var(--color-text-muted);">Loading...</div>';
 
     // 表示
+    // Save previous overflow and disable background scrolling (html + body)
+    try {
+      previousBodyOverflow =
+        document.body.style.overflow || "";
+      previousHtmlOverflow =
+        document.documentElement.style.overflow || "";
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    } catch (_) {}
     modalOverlay.classList.add("is-open");
     document.body.classList.add("no-scroll");
+    // 再度親/子の overflow 状態を強制して二重スクロールを防ぐ
+    try {
+      if (modalContainer) {
+        modalContainer.style.overflow = "hidden";
+        modalContainer.style.overflowY = "hidden";
+      }
+      if (modalContent) {
+        modalContent.style.overflow = "auto";
+        modalContent.style.overflowY = "auto";
+        modalContent.style.maxHeight = "calc(92vh - 48px)";
+      }
+    } catch (_) {}
 
     try {
       // Resolve contentPath to an absolute URL where possible to avoid
@@ -152,7 +190,31 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function closeModal() {
     modalOverlay.classList.remove("is-open");
+    // restore body/html overflow if we changed it
+    try {
+      document.body.style.overflow =
+        previousBodyOverflow || "";
+    } catch (_) {}
+    try {
+      document.documentElement.style.overflow =
+        previousHtmlOverflow || "";
+    } catch (_) {}
+    previousBodyOverflow = "";
+    previousHtmlOverflow = "";
     document.body.classList.remove("no-scroll");
+    // added inline styles を可能な限りクリーンアップ
+    try {
+      if (modalContainer) {
+        modalContainer.style.removeProperty("overflow");
+        modalContainer.style.removeProperty("overflow-y");
+      }
+      if (modalContent) {
+        modalContent.style.removeProperty("overflow");
+        modalContent.style.removeProperty("overflow-y");
+        modalContent.style.removeProperty("max-height");
+        modalContent.style.removeProperty("min-height");
+      }
+    } catch (_) {}
     // アニメーション後にクリア
     setTimeout(() => {
       if (!modalOverlay.classList.contains("is-open")) {

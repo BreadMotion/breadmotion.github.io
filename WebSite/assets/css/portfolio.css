@@ -229,6 +229,9 @@
     visibility: visible;
 }
 
+/* Make the modal container act as a framing box only.
+   Parent should not be the scroll container to avoid double scrollbars.
+   The inner .modal-content will be the single scrollable area. */
 .modal-container {
     width: 100%;
     max-width: 900px;
@@ -238,7 +241,7 @@
     border: 1px solid var(--color-border);
     box-shadow: var(--shadow-xl);
     position: relative;
-    overflow-y: auto;
+    overflow: hidden; /* CHANGED: prevent parent scrolling, delegate to .modal-content */
     opacity: 0;
     transform: translateY(20px) scale(0.95);
     transition:
@@ -249,6 +252,18 @@
 .modal-overlay.is-open .modal-container {
     opacity: 1;
     transform: translateY(0) scale(1);
+}
+
+/* The actual scrollable area inside the modal.
+   This keeps a single scrollbar inside .modal-content. */
+.modal-content {
+    overflow: auto;
+    overflow-y: auto;
+    max-height: calc(90vh - 48px);
+    padding: 1rem;
+    box-sizing: border-box;
+    -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+    min-height: 0; /* ensure flex children don't force parent to grow */
 }
 
 /* 閉じるボタン */
@@ -292,7 +307,6 @@
     text-align: center;
     margin-bottom: 2.5rem;
     border-bottom: 1px solid var(--color-border-soft);
-    padding-bottom: 2rem;
 }
 
 .work-detail__title {
@@ -497,6 +511,13 @@
         max-height: 100dvh;
         border-radius: 0;
         border: none;
+        overflow: hidden; /* keep parent non-scrollable on mobile as well */
+    }
+    .modal-content {
+        max-height: calc(
+            100dvh - 48px
+        ); /* adapt the content scroll area for full-height modal */
+        overflow: auto;
     }
     .work-detail {
         padding: 1.5rem;
