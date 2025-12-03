@@ -123,7 +123,7 @@ function createHtml({
     <meta name="twitter:description" content="${safeDesc}" />
     <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
 
-    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="shortcut icon" href="../../favicon.ico">
     <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
     <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
