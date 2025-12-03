@@ -29,7 +29,7 @@ const logger = {
 
 const ROOT = path.join(__dirname, "..");
 const DIST_DIR = path.join(ROOT, "en");
-const BASE_URL = "https://breadmotion.github.io/WebSite";
+const BASE_URL = "https://breadmotion.github.io";
 
 // Files to process
 const TARGET_FILES = [

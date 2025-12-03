@@ -20,10 +20,10 @@ thumbnail: assets/img/ogp.png
 
 自作コマンド、イベントをDiscordチャンネルから追加、実行できるようになるボットです。
 セキュリティの都合上公開は控えさせてもらいました。
-詳細は[こちら](https://breadmotion.github.io/WebSite/blog/blog_00008.html) のブログから
+詳細は[こちら](https://breadmotion.github.io/blog/blog_00008.html) のブログから
 
 ---
 
 ### URL
 
-[Discordサーバーへ追加依頼](https://breadmotion.github.io/WebSite/contact.html, "Contact　Page")
+[Discordサーバーへ追加依頼](https://breadmotion.github.io/contact.html, "Contact　Page")

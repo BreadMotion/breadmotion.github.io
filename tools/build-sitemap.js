@@ -26,7 +26,7 @@ const logger = {
 
 const BASE_URL = "https://breadmotion.github.io";
 // プロジェクトのルート (breadmotion.github.io)
-const ROOT = path.join(__dirname, "..", "..");
+const ROOT = path.join(__dirname, "..");
 const OUTPUT = path.join(ROOT, "sitemap.xml");
 
 // スキャンから完全に除外するディレクトリ名

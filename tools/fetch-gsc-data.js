@@ -31,8 +31,8 @@ const logger = {
 
 // Google Search Console に登録しているプロパティURL
 // ドメインプロパティの場合は 'sc-domain:breadmotion.github.io' のように記述
-// URLプレフィックスの場合は 'https://breadmotion.github.io/WebSite/' のように記述
-const SITE_URL = 'https://breadmotion.github.io/WebSite/';
+// URLプレフィックスの場合は 'https://breadmotion.github.io/' のように記述
+const SITE_URL = 'https://breadmotion.github.io/';
 
 // サービスアカウントキーのパス
 // 環境変数 GSC_KEY_FILE または tools/service-account.json を参照

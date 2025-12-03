@@ -110,24 +110,24 @@ function createHtml({
     <title>${safeTitle} | PanKUN Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content="${safeDesc}" />
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/portfolio/${id}.html" />
+    <link rel="canonical" href="https://breadmotion.github.io/portfolio/${id}.html" />
 
     <!-- Performance hints -->
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
 
     <meta property="og:title" content="${safeTitle} | PanKUN Portfolio" />
     <meta property="og:description" content="${safeDesc}" />
     <meta property="og:type" content="article" />
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/ogp.png" />
     <meta property="og:site_name" content="PanKUN" />
     <meta property="og:email" content="pankun.dev@gmail.com" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="${safeTitle}" />
     <meta name="twitter:description" content="${safeDesc}" />
-    <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta name="twitter:image" content="https://breadmotion.github.io/assets/img/ogp.png" />
 
     <script type="application/ld+json">${JSON.stringify(
       {
@@ -136,14 +136,14 @@ function createHtml({
         name: safeTitle,
         description: safeDesc,
         image: [
-          `https://breadmotion.github.io/WebSite/assets/img/ogp.png`,
+          `https://breadmotion.github.io/assets/img/ogp.png`,
         ],
-        url: `https://breadmotion.github.io/WebSite/portfolio/${id}.html`,
+        url: `https://breadmotion.github.io/portfolio/${id}.html`,
         datePublished: date || "",
         author: {
           "@type": "Person",
           name: "PanKUN",
-          url: "https://breadmotion.github.io/WebSite/",
+          url: "https://breadmotion.github.io/",
           sameAs: [
             "https://github.com/breadmotion",
             "https://x.com/pankun2000_",

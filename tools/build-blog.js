@@ -55,7 +55,7 @@ const THUMBNAIL_DIR = path.join(
   "thumbnails",
 );
 
-const BASE_URL = "https://breadmotion.github.io/WebSite";
+const BASE_URL = "https://breadmotion.github.io";
 
 // ---------------------------
 // Giscus 設定（環境変数で設定）
