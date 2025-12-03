@@ -83,7 +83,7 @@ const GISCUS_ENABLED =
 // ---------------------------
 const POST_API_URL =
   process.env.POST_API_URL ||
-  "https://script.google.com/macros/s/AKfycbyWEVYHX1dV4HidCrmaTHO6wWsFR4xZo1VM_c9AC53aj7MxSM3W4_UAFR1fGd9RC-1n/exec";
+  "https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec";
 
 // ---------------------------
 // helper: XML/HTML escape
