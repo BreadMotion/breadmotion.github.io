@@ -509,15 +509,21 @@
 .mermaid-wrapper {
     margin: 1.25rem 0;
     overflow: auto;
-    background: transparent;
+    background: var(--color-panel);
     cursor: grab;
     /* 明示的にパン（横/縦）とピンチズームを許可 */
     touch-action: pan-x pan-y pinch-zoom;
+    -webkit-overflow-scrolling: touch;
     /* ページ全体へのオーバースクロール伝播を抑制（UX向上） */
     overscroll-behavior: contain;
-    -webkit-overflow-scrolling: touch;
     /* 図の選択を防ぐ（ドラッグ時の余分な選択を抑制） */
     user-select: none;
+    /* 図の領域が分かるように枠・背景・陰影を付与 */
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    padding: 0.75rem;
+    box-shadow: var(--shadow-md);
+    position: relative;
 }
 .mermaid-wrapper:active {
     cursor: grabbing;
@@ -527,6 +533,8 @@
     /* transform を使う場合に備え、変換の起点と最適化を指定 */
     transform-origin: 0 0;
     will-change: transform;
+    transition: transform 180ms
+        cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 .mermaid-wrapper .mermaid svg {
     max-width: none;
@@ -535,6 +543,108 @@
     /* SVG 内のタッチアクションは個別に扱う（ピンチ操作はラッパーで処理） */
     touch-action: none;
     user-select: none;
+}
+
+/* Mermaid toolbar (右上に縦並び) */
+.mermaid-toolbar {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    /* 高いスタッキングで常にコンテンツより前面に表示 */
+    z-index: 9999;
+    /* 右端に寄せてボタン群がコンテンツの右上に揃うようにする */
+    align-items: flex-end;
+    /* ツールバー自身でポインターイベントを受け取る（親で無効化していたため有効化） */
+    pointer-events: auto;
+    /* レイヤーを分離してアニメーション時の描画安定化を助ける */
+    transform: translateZ(0);
+}
+.mermaid-toolbar .btn {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    /* 少し濃いめの背景で見やすくする（ダーク/ライト両対応の調整はここで可能） */
+    background: rgba(0, 0, 0, 0.7);
+    color: #fff;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: var(--shadow-sm);
+    cursor: pointer;
+    transition:
+        transform 120ms ease,
+        background 120ms ease;
+    font-size: 14px;
+    /* ボタンを前面にしてクリックを確実化 */
+    position: relative;
+    z-index: 10000;
+}
+.mermaid-toolbar .btn:hover {
+    transform: translateY(-2px);
+    background: rgba(0, 0, 0, 0.75);
+}
+.mermaid-toolbar .btn:active {
+    transform: translateY(0);
+}
+
+/* Scale badge */
+.mermaid-toolbar .scale-badge {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    height: 28px;
+    padding: 0 8px;
+    border-radius: 14px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+/* Mermaid 内タイトルの見やすさ改善 */
+.mermaid-wrapper .mermaid svg text.title,
+.mermaid-wrapper .mermaid svg .title,
+.mermaid-wrapper .mermaid svg .label {
+    fill: var(--color-heading);
+    font-weight: 700;
+    font-size: 1.05em;
+    paint-order: stroke fill;
+    stroke: rgba(0, 0, 0, 0.02);
+    stroke-width: 0.4px;
+}
+
+/* optionally target the first text child (graph title fallback) */
+.mermaid-wrapper .mermaid svg text:first-of-type {
+    fill: var(--color-heading);
+    font-weight: 700;
+    font-size: 1.05em;
+}
+
+/* small responsive tweaks */
+@media (max-width: 680px) {
+    .mermaid-toolbar {
+        top: 6px;
+        right: 6px;
+        gap: 6px;
+    }
+    .mermaid-toolbar .btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 6px;
+        font-size: 13px;
+    }
+    .mermaid-toolbar .scale-badge {
+        min-width: 40px;
+        height: 24px;
+        font-size: 11px;
+    }
 }
 
 /* モバイルでヘッダーが重ならないように調整 */

@@ -1,335 +1,678 @@
 /*!
  * mermaid-interactions.js
- * 軽量なパン（ドラッグでスクロール）およびズーム（ピンチ / Ctrl/Cmd + ホイール）ハンドラ
+ * Improved pan / pinch / zoom interactions for mermaid diagrams
  *
- * 特徴:
- * - .mermaid-wrapper 内でのマウス/タッチによるドラッグでスクロール（パン）
- * - Ctrl (Windows) / Meta (Mac) + ホイールで図の拡縮（SVG を transform: scale で拡縮）
- * - タッチのピンチ操作（2本指）で図を拡縮（pointer events ベース）
- * - mermaid.js が描画した SVG が挿入された後でも動作するように MutationObserver を使用
+ * Key fixes requested:
+ *  - Use committedScale * transientScale when computing transforms and displayed scale
+ *  - Set transformOrigin relative to the content (so zoom animates toward pointer)
+ *  - Ensure toolbar receives pointer events and wrapper handlers ignore toolbar-originated events
  *
- * 注意:
- * - 軽量実装を優先しています。複雑な慣性スクロールや複雑な二本指パン等は実装していません。
- * - ブラウザやデバイスのデフォルト挙動（例: ブラウザのピンチでページ全体をズームする等）が想定通り動かない場合、
- *   CSS 側で touch-action の調整が必要です（既に blog.css で touch-action: pan-x pan-y pinch-zoom を付与しています）。
+ * Behavior:
+ *  - Mouse drag pans the wrapper (scroll)
+ *  - Ctrl/Cmd + wheel zooms toward mouse pointer (animated)
+ *  - Two-finger pinch zooms toward the pinch center
+ *  - Toolbar (right-top) provides + / % badge / - / reset controls
+ *  - When threshold crossed, the SVG size is committed (width/height set) then transient transform reset,
+ *    which results in a crisper rendering at new scale.
  *
- * 目的: Mermaid 図をより直観的に操作できるようにする（記事内の図に対する限定的なインタラクション）。
+ * Notes:
+ *  - This file is intentionally defensive and avoids relying on external libraries.
+ *  - It attempts to avoid layout thrash by batching DOM updates in requestAnimationFrame.
  */
 
 (function () {
   "use strict";
 
-  // 設定
+  // Config
   const MIN_SCALE = 0.25;
   const MAX_SCALE = 4;
-  const SCALE_STEP = 0.1; // wheel 一回転あたりの倍率係数（調整用）
+  const COMMIT_UPPER = 1.2; // commit when total scale >= this
+  const COMMIT_LOWER = 0.8; // commit when total scale <= this
+  const TRANSITION =
+    "transform 220ms cubic-bezier(0.2,0.8,0.2,1)";
 
-  // ヘルパー
   function clamp(v, a, b) {
     return Math.max(a, Math.min(b, v));
   }
 
-  function getPointRelativeToElement(pageX, pageY, el) {
-    const rect = el.getBoundingClientRect();
-    return { x: pageX - rect.left - window.pageXOffset, y: pageY - rect.top - window.pageYOffset };
-  }
-
-  // 要素ごとの状態を保持
-  function createInteractionFor(wrapper) {
+  // Initialize interactions for one wrapper element
+  function initWrapper(wrapper) {
+    // wrapper must have .mermaid element inside (the element mermaid used as container)
     const content = wrapper.querySelector(".mermaid");
     if (!content) return null;
 
-    let scale = 1;
+    // Ensure wrapper positioning so toolbar absolute positioning works
+    const wrapperStyle = window.getComputedStyle(wrapper);
+    if (wrapperStyle.position === "static") {
+      wrapper.style.position = "relative";
+    }
+
+    // State
+    // committedScale: scale that has already been baked into SVG width/height (via commit)
+    // transientScale: temporary transform applied while interacting (animated)
+    let committedScale = 1;
+    let transientScale = 1;
+
+    // RAF handle for transform updates
     let rafId = null;
-
-    // pointer-based pan state
-    let isPointerDown = false;
-    let lastPointerPos = { x: 0, y: 0 };
-    // active pointers for pinch handling (map pointerId -> {x,y})
-    const pointers = new Map();
-    let initialPinch = null; // {distance, scale, centerClientX, centerClientY}
-
-    // apply transform to content (transform-origin: 0 0 is set in CSS)
     function applyTransform() {
-      // Use translate to compensate scroll? We only scale the content. Scrolling is handled by wrapper.
-      content.style.transform = `scale(${scale})`;
+      // totalScale is what user sees
+      const total = committedScale * transientScale;
+      // apply total scale via CSS transform
+      content.style.transform = `scale(${total})`;
+      // update badge if present
+      updateScaleBadge(total);
       rafId = null;
     }
-
     function scheduleApplyTransform() {
-      if (rafId == null) {
-        rafId = requestAnimationFrame(applyTransform);
+      if (rafId != null) return;
+      rafId = requestAnimationFrame(applyTransform);
+    }
+
+    // Toolbar: + badge - reset
+    const toolbar = document.createElement("div");
+    toolbar.className = "mermaid-toolbar";
+    // Inline minimal accessible structure; CSS will style
+    const btnIn = document.createElement("button");
+    btnIn.type = "button";
+    btnIn.className = "mermaid-btn mermaid-zoom-in";
+    btnIn.setAttribute("aria-label", "拡大");
+    btnIn.textContent = "+";
+
+    const badge = document.createElement("div");
+    badge.className = "mermaid-scale-badge";
+    badge.setAttribute("aria-hidden", "true");
+    badge.textContent = "100%";
+
+    const btnOut = document.createElement("button");
+    btnOut.type = "button";
+    btnOut.className = "mermaid-btn mermaid-zoom-out";
+    btnOut.setAttribute("aria-label", "縮小");
+    btnOut.textContent = "−";
+
+    const btnReset = document.createElement("button");
+    btnReset.type = "button";
+    btnReset.className = "mermaid-btn mermaid-reset";
+    btnReset.setAttribute("aria-label", "リセット");
+    btnReset.textContent = "⟲";
+
+    // Insert toolbar as last child so it overlays content; keep pointer events enabled
+    toolbar.appendChild(btnIn);
+    toolbar.appendChild(badge);
+    toolbar.appendChild(btnOut);
+    toolbar.appendChild(btnReset);
+    toolbar.style.position = "absolute";
+    toolbar.style.top = "8px";
+    toolbar.style.right = "8px";
+    toolbar.style.pointerEvents = "auto";
+    toolbar.style.zIndex = "9999";
+    // minimal inline styles to avoid CSS race; final styles controlled by CSS file
+    wrapper.appendChild(toolbar);
+
+    function updateScaleBadge(total) {
+      if (!badge) return;
+      const pct = Math.round(
+        (typeof total === "number"
+          ? total
+          : committedScale * transientScale) * 100,
+      );
+      badge.textContent = pct + "%";
+    }
+
+    // Commit resolution: bake total scale into SVG pixel width/height for crisper result
+    function commitIfNeeded(focusClient) {
+      try {
+        const svg = content.querySelector("svg");
+        if (!svg) return;
+
+        const totalScale = committedScale * transientScale;
+        // Only commit if total crosses thresholds (relative to 1.0)
+        if (
+          !(
+            totalScale >= COMMIT_UPPER ||
+            totalScale <= COMMIT_LOWER
+          )
+        )
+          return;
+
+        // Get logical bbox (try getBBox, then viewBox, fallback to boundingClientRect)
+        let bbox;
+        try {
+          bbox = svg.getBBox();
+        } catch (e) {
+          if (
+            svg.viewBox &&
+            svg.viewBox.baseVal &&
+            svg.viewBox.baseVal.width
+          ) {
+            bbox = {
+              width: svg.viewBox.baseVal.width,
+              height: svg.viewBox.baseVal.height,
+            };
+          } else {
+            const r = svg.getBoundingClientRect();
+            bbox = {
+              width: r.width || 1,
+              height: r.height || 1,
+            };
+          }
+        }
+
+        // Compute new pixel size for SVG to match visual size
+        const newW = Math.max(1, bbox.width * totalScale);
+        const newH = Math.max(1, bbox.height * totalScale);
+
+        // Decide focal point to keep stable (prefer provided focusClient, otherwise center)
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const focal = focusClient || {
+          clientX: wrapperRect.left + wrapperRect.width / 2,
+          clientY: wrapperRect.top + wrapperRect.height / 2,
+        };
+        // compute content coordinates (in SVG user units) before commit
+        const contentRect = content.getBoundingClientRect();
+        const localX =
+          focal.clientX -
+          contentRect.left +
+          wrapper.scrollLeft;
+        const localY =
+          focal.clientY -
+          contentRect.top +
+          wrapper.scrollTop;
+        // convert to SVG user coordinates (divide by totalScale)
+        const svgUserX = localX / totalScale;
+        const svgUserY = localY / totalScale;
+
+        // Temporarily disable CSS transition to set explicit pixel size
+        const prevTrans = content.style.transition;
+        content.style.transition = "none";
+
+        // Apply explicit pixel sizes to SVG (forces browser to raster/render at that size)
+        svg.style.width = `${Math.round(newW)}px`;
+        svg.style.height = `${Math.round(newH)}px`;
+
+        // Update committedScale and reset transientScale
+        committedScale = totalScale;
+        transientScale = 1;
+        // Apply transform (committedScale * 1)
+        content.style.transform = `scale(${committedScale})`;
+
+        // Recalculate scroll to keep the same svgUserX/svgUserY under the focal point:
+        // new scrollLeft = svgUserX * committedScale - (focal.clientX - wrapperRect.left)
+        const newScrollLeft = Math.max(
+          0,
+          svgUserX * committedScale -
+            (focal.clientX - wrapperRect.left),
+        );
+        const newScrollTop = Math.max(
+          0,
+          svgUserY * committedScale -
+            (focal.clientY - wrapperRect.top),
+        );
+
+        // Apply scroll adjustments in next RAF for smoother layout
+        requestAnimationFrame(() => {
+          try {
+            wrapper.scrollLeft = Math.max(
+              0,
+              Math.min(
+                newScrollLeft,
+                wrapper.scrollWidth - wrapper.clientWidth,
+              ),
+            );
+            wrapper.scrollTop = Math.max(
+              0,
+              Math.min(
+                newScrollTop,
+                wrapper.scrollHeight - wrapper.clientHeight,
+              ),
+            );
+          } finally {
+            // restore CSS transition
+            content.style.transition =
+              prevTrans || TRANSITION;
+            updateScaleBadge(committedScale);
+          }
+        });
+      } catch (e) {
+        // don't let commit failures break interaction
+        console.warn("mermaid commit failed:", e);
       }
     }
 
-    // Wheel zoom (Ctrl/Cmd + wheel)
-    function onWheel(e) {
-      // Zoom only when ctrlKey (Windows) or metaKey (Mac) is pressed
-      if (!(e.ctrlKey || e.metaKey)) {
-        return; // allow normal scroll
-      }
-      e.preventDefault();
+    // --- Input handlers: wheel, pointer/pinch, mouse drag ---
+    // Utility: ignore events originating from toolbar (so toolbar clickable)
+    function eventFromToolbar(ev) {
+      return (
+        ev.target &&
+        ev.target.closest &&
+        ev.target.closest(".mermaid-toolbar")
+      );
+    }
 
-      // compute zoom delta
-      const delta = e.deltaY;
-      // Chrome/Firefox deltaMode differences are minor; use a normalized factor
-      const zoomFactor = Math.exp(-delta * 0.0015); // smooth exponential
-      const newScale = clamp(scale * zoomFactor, MIN_SCALE, MAX_SCALE);
-      if (newScale === scale) return;
+    // Wheel zoom with ctrl/cmd
+    function onWheel(ev) {
+      if (eventFromToolbar(ev)) return; // ignore wheel if on toolbar
+      if (!(ev.ctrlKey || ev.metaKey)) return; // normal scroll otherwise
+      ev.preventDefault();
 
-      // Keep the focal point stable: adjust scroll to keep point under cursor at same visual position
+      // compute zoom factor
+      const delta = ev.deltaY;
+      const zoomFactor = Math.exp(-delta * 0.0015);
+      const newTransient = clamp(
+        transientScale * zoomFactor,
+        MIN_SCALE / committedScale,
+        MAX_SCALE / committedScale,
+      );
+      if (Math.abs(newTransient - transientScale) < 1e-6)
+        return;
+
+      // set transform origin relative to content so zoom animates toward pointer
+      const contentRect = content.getBoundingClientRect();
+      const originX = ev.clientX - contentRect.left;
+      const originY = ev.clientY - contentRect.top;
+      content.style.transformOrigin = `${originX}px ${originY}px`;
+
+      // compute svg user coords for scroll preservation
       const wrapperRect = wrapper.getBoundingClientRect();
-      const cx = e.clientX - wrapperRect.left;
-      const cy = e.clientY - wrapperRect.top;
+      const cx = ev.clientX - wrapperRect.left;
+      const cy = ev.clientY - wrapperRect.top;
+      const contentClientX = cx + wrapper.scrollLeft;
+      const contentClientY = cy + wrapper.scrollTop;
 
-      // Coordinates in content's coordinate system BEFORE scaling
-      const contentClientX = (cx + wrapper.scrollLeft) / scale;
-      const contentClientY = (cy + wrapper.scrollTop) / scale;
-
-      scale = newScale;
+      // update transientScale and apply transform
+      transientScale = newTransient;
       scheduleApplyTransform();
 
-      // After scaling, compute new scroll so that the same content point is under (cx, cy)
-      const newScrollLeft = contentClientX * scale - cx;
-      const newScrollTop = contentClientY * scale - cy;
-      wrapper.scrollLeft = newScrollLeft;
-      wrapper.scrollTop = newScrollTop;
+      // compute new scroll to keep focal point stable (operation in RAF)
+      requestAnimationFrame(() => {
+        const total = committedScale * transientScale;
+        const newScrollLeft =
+          (contentClientX / committedScale) * total - cx;
+        const newScrollTop =
+          (contentClientY / committedScale) * total - cy;
+        wrapper.scrollLeft = newScrollLeft;
+        wrapper.scrollTop = newScrollTop;
+      });
     }
 
-    // Pointer events: support single-finger drag to scroll and two-finger pinch to zoom
-    function onPointerDown(e) {
-      // Only react to primary button for mouse (button === 0) or any touch
-      if (e.pointerType === "mouse" && e.button !== 0) return;
+    // Pointer events: support pinch (two pointers) and pan (one pointer)
+    let pointerDown = false;
+    let lastPointer = { x: 0, y: 0 };
 
-      wrapper.setPointerCapture && wrapper.setPointerCapture(e.pointerId);
-      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    function onPointerDown(ev) {
+      if (eventFromToolbar(ev)) return; // toolbar interactions should not start pan/pinch
+      if (ev.pointerType === "mouse" && ev.button !== 0)
+        return;
+      wrapper.setPointerCapture &&
+        wrapper.setPointerCapture(ev.pointerId);
+      pointers.set(ev.pointerId, {
+        x: ev.clientX,
+        y: ev.clientY,
+      });
 
-      // if we now have two pointers, initialize pinch
       if (pointers.size === 2) {
+        // init pinch
         const coords = Array.from(pointers.values());
         const dx = coords[0].x - coords[1].x;
         const dy = coords[0].y - coords[1].y;
-        const distance = Math.hypot(dx, dy);
+        const d = Math.hypot(dx, dy);
         const centerX = (coords[0].x + coords[1].x) / 2;
         const centerY = (coords[0].y + coords[1].y) / 2;
         initialPinch = {
-          distance,
-          scale,
+          distance: d,
           centerX,
           centerY,
-          // store content coords under center
-          contentClientX: (centerX - wrapper.getBoundingClientRect().left + wrapper.scrollLeft) / scale,
-          contentClientY: (centerY - wrapper.getBoundingClientRect().top + wrapper.scrollTop) / scale,
+          startTransient: transientScale,
         };
       } else {
-        // single pointer -> start panning
-        isPointerDown = true;
-        lastPointerPos = { x: e.clientX, y: e.clientY };
+        pointerDown = true;
+        lastPointer = { x: ev.clientX, y: ev.clientY };
       }
     }
 
-    function onPointerMove(e) {
-      if (!pointers.has(e.pointerId)) return;
-      const prev = pointers.get(e.pointerId);
-      const cur = { x: e.clientX, y: e.clientY };
-      pointers.set(e.pointerId, cur);
+    function onPointerMove(ev) {
+      if (!pointers.has(ev.pointerId)) {
+        // if pointer hasn't been registered (rare), still track for pan fallback
+        if (!pointerDown) return;
+      }
+      if (eventFromToolbar(ev)) return;
+
+      pointers.set(ev.pointerId, {
+        x: ev.clientX,
+        y: ev.clientY,
+      });
 
       if (pointers.size === 2 && initialPinch) {
-        // pinch zoom
         const coords = Array.from(pointers.values());
         const dx = coords[0].x - coords[1].x;
         const dy = coords[0].y - coords[1].y;
-        const distance = Math.hypot(dx, dy);
-        const scaleFactor = distance / initialPinch.distance;
-        let newScale = clamp(initialPinch.scale * scaleFactor, MIN_SCALE, MAX_SCALE);
-        if (newScale === scale) return;
+        const d = Math.hypot(dx, dy);
+        const factor = d / initialPinch.distance;
+        const newTransient = clamp(
+          initialPinch.startTransient * factor,
+          MIN_SCALE / committedScale,
+          MAX_SCALE / committedScale,
+        );
+        if (Math.abs(newTransient - transientScale) < 1e-6)
+          return;
 
-        // Compute center point (use average of two pointers)
+        // set transform origin to pinch center relative to content
         const centerX = (coords[0].x + coords[1].x) / 2;
         const centerY = (coords[0].y + coords[1].y) / 2;
+        const crect = content.getBoundingClientRect();
+        const orgX = centerX - crect.left;
+        const orgY = centerY - crect.top;
+        content.style.transformOrigin = `${orgX}px ${orgY}px`;
 
-        // Maintain focal point: contentClient coords from initialPinch
-        scale = newScale;
+        transientScale = newTransient;
         scheduleApplyTransform();
 
-        // Adjust scroll so that the content point remains under the center
-        const cx = centerX - wrapper.getBoundingClientRect().left;
-        const cy = centerY - wrapper.getBoundingClientRect().top;
-        const newScrollLeft = initialPinch.contentClientX * scale - cx;
-        const newScrollTop = initialPinch.contentClientY * scale - cy;
-        wrapper.scrollLeft = newScrollLeft;
-        wrapper.scrollTop = newScrollTop;
-      } else if (isPointerDown && pointers.size === 1) {
-        // drag to scroll (pan)
-        const dx = cur.x - lastPointerPos.x;
-        const dy = cur.y - lastPointerPos.y;
-        // Invert movement: dragging right should scroll left, so subtract dx
+        // adjust scroll to keep center stable
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const localCx = centerX - wrapperRect.left;
+        const localCy = centerY - wrapperRect.top;
+        requestAnimationFrame(() => {
+          const total = committedScale * transientScale;
+          const newScrollLeft =
+            ((orgX + wrapper.scrollLeft) / committedScale) *
+              total -
+            localCx;
+          const newScrollTop =
+            ((orgY + wrapper.scrollTop) / committedScale) *
+              total -
+            localCy;
+          wrapper.scrollLeft = newScrollLeft;
+          wrapper.scrollTop = newScrollTop;
+        });
+      } else if (pointerDown && pointers.size <= 1) {
+        const dx = ev.clientX - lastPointer.x;
+        const dy = ev.clientY - lastPointer.y;
         wrapper.scrollLeft -= dx;
         wrapper.scrollTop -= dy;
-        lastPointerPos = cur;
+        lastPointer = { x: ev.clientX, y: ev.clientY };
       }
     }
 
-    function onPointerUp(e) {
-      pointers.delete(e.pointerId);
-      wrapper.releasePointerCapture && wrapper.releasePointerCapture(e.pointerId);
+    function onPointerUp(ev) {
+      wrapper.releasePointerCapture &&
+        wrapper.releasePointerCapture(ev.pointerId);
+      pointers.delete(ev.pointerId);
+      if (pointers.size < 2) initialPinch = null;
+      if (pointers.size === 0) pointerDown = false;
 
-      if (pointers.size < 2) {
-        initialPinch = null;
-      }
-      if (pointers.size === 0) {
-        isPointerDown = false;
-      }
+      // After pointers lifted, schedule commit check (delay slightly to allow transition)
+      setTimeout(() => {
+        commitIfNeeded({
+          clientX: ev.clientX,
+          clientY: ev.clientY,
+        });
+      }, 80);
     }
 
-    // Mouse fallback: allow click-drag to scroll (also handled by pointer events in supporting browsers)
-    // But keep mouse-specific handlers as progressive enhancement (in case pointer events absent)
-    let mouseDown = false;
-    let lastMousePos = { x: 0, y: 0 };
-    function onMouseDown(e) {
-      if (e.button !== 0) return;
-      mouseDown = true;
-      lastMousePos = { x: e.clientX, y: e.clientY };
-      wrapper.classList.add("is-dragging");
-      e.preventDefault();
+    // Mouse fallback for dragging
+    let mouseDragging = false;
+    function onMouseDown(ev) {
+      if (eventFromToolbar(ev)) return;
+      if (ev.button !== 0) return;
+      mouseDragging = true;
+      lastPointer = { x: ev.clientX, y: ev.clientY };
+      ev.preventDefault();
     }
-    function onMouseMove(e) {
-      if (!mouseDown) return;
-      const dx = e.clientX - lastMousePos.x;
-      const dy = e.clientY - lastMousePos.y;
+    function onMouseMove(ev) {
+      if (!mouseDragging) return;
+      const dx = ev.clientX - lastPointer.x;
+      const dy = ev.clientY - lastPointer.y;
       wrapper.scrollLeft -= dx;
       wrapper.scrollTop -= dy;
-      lastMousePos = { x: e.clientX, y: e.clientY };
+      lastPointer = { x: ev.clientX, y: ev.clientY };
     }
-    function onMouseUp() {
-      mouseDown = false;
-      wrapper.classList.remove("is-dragging");
+    function onMouseUp(ev) {
+      mouseDragging = false;
+      setTimeout(
+        () =>
+          commitIfNeeded({
+            clientX: ev.clientX,
+            clientY: ev.clientY,
+          }),
+        80,
+      );
     }
 
-    // Double-click or double-tap to reset scale (optional UX)
-    function onDoubleClick(e) {
-      // reset to 1 and center on clicked point
-      const rect = wrapper.getBoundingClientRect();
-      const cx = e.clientX - rect.left;
-      const cy = e.clientY - rect.top;
-      const contentClientX = (cx + wrapper.scrollLeft) / scale;
-      const contentClientY = (cy + wrapper.scrollTop) / scale;
-
-      scale = 1;
+    // Double click resets to natural size
+    function onDoubleClick(ev) {
+      if (eventFromToolbar(ev)) return;
+      committedScale = 1;
+      transientScale = 1;
       scheduleApplyTransform();
-      wrapper.scrollLeft = contentClientX * scale - cx;
-      wrapper.scrollTop = contentClientY * scale - cy;
+      const svg = content.querySelector("svg");
+      if (svg) {
+        svg.style.width = "";
+        svg.style.height = "";
+      }
+      updateScaleBadge();
     }
 
-    // Setup events (pointer events preferred)
+    // Attach handlers
+    wrapper.addEventListener("wheel", onWheel, {
+      passive: false,
+    });
     if (window.PointerEvent) {
-      wrapper.addEventListener("pointerdown", onPointerDown, { passive: false });
-      window.addEventListener("pointermove", onPointerMove, { passive: false });
-      window.addEventListener("pointerup", onPointerUp, { passive: false });
-      window.addEventListener("pointercancel", onPointerUp, { passive: false });
+      wrapper.addEventListener(
+        "pointerdown",
+        onPointerDown,
+        { passive: false },
+      );
+      window.addEventListener(
+        "pointermove",
+        onPointerMove,
+        { passive: false },
+      );
+      window.addEventListener("pointerup", onPointerUp, {
+        passive: false,
+      });
+      window.addEventListener(
+        "pointercancel",
+        onPointerUp,
+        { passive: false },
+      );
     } else {
-      // fallback for old browsers: mouse/touch
-      wrapper.addEventListener("mousedown", onMouseDown, { passive: false });
-      window.addEventListener("mousemove", onMouseMove, { passive: false });
-      window.addEventListener("mouseup", onMouseUp, { passive: false });
-      // touch -> map to mouse-like dragging
-      wrapper.addEventListener("touchstart", function (ev) {
-        if (ev.touches.length === 1) {
-          const t = ev.touches[0];
-          mouseDown = true;
-          lastMousePos = { x: t.clientX, y: t.clientY };
-        }
-      }, { passive: false });
-      wrapper.addEventListener("touchmove", function (ev) {
-        if (mouseDown && ev.touches.length === 1) {
-          const t = ev.touches[0];
-          const dx = t.clientX - lastMousePos.x;
-          const dy = t.clientY - lastMousePos.y;
-          wrapper.scrollLeft -= dx;
-          wrapper.scrollTop -= dy;
-          lastMousePos = { x: t.clientX, y: t.clientY };
-          ev.preventDefault();
-        }
-      }, { passive: false });
-      wrapper.addEventListener("touchend", function () {
-        mouseDown = false;
-      }, { passive: false });
+      wrapper.addEventListener("mousedown", onMouseDown, {
+        passive: false,
+      });
+      window.addEventListener("mousemove", onMouseMove, {
+        passive: false,
+      });
+      window.addEventListener("mouseup", onMouseUp, {
+        passive: false,
+      });
+      // basic touch support
+      wrapper.addEventListener(
+        "touchstart",
+        function (ev) {
+          if (ev.touches.length === 1) {
+            mouseDragging = true;
+            lastPointer = {
+              x: ev.touches[0].clientX,
+              y: ev.touches[0].clientY,
+            };
+          }
+        },
+        { passive: false },
+      );
+      wrapper.addEventListener(
+        "touchmove",
+        function (ev) {
+          if (mouseDragging && ev.touches.length === 1) {
+            const t = ev.touches[0];
+            const dx = t.clientX - lastPointer.x;
+            const dy = t.clientY - lastPointer.y;
+            wrapper.scrollLeft -= dx;
+            wrapper.scrollTop -= dy;
+            lastPointer = { x: t.clientX, y: t.clientY };
+            ev.preventDefault();
+          }
+        },
+        { passive: false },
+      );
+      wrapper.addEventListener(
+        "touchend",
+        function (ev) {
+          mouseDragging = false;
+          commitIfNeeded({
+            clientX:
+              ev.changedTouches && ev.changedTouches[0]
+                ? ev.changedTouches[0].clientX
+                : wrapper.getBoundingClientRect().left +
+                  wrapper.clientWidth / 2,
+            clientY:
+              ev.changedTouches && ev.changedTouches[0]
+                ? ev.changedTouches[0].clientY
+                : wrapper.getBoundingClientRect().top +
+                  wrapper.clientHeight / 2,
+          });
+        },
+        { passive: false },
+      );
     }
 
-    // Wheel zoom handler
-    wrapper.addEventListener("wheel", onWheel, { passive: false });
-
-    // Double-click to reset
     wrapper.addEventListener("dblclick", onDoubleClick);
 
-    // Observe content replacement (mermaid may re-render). If content element changes, reset refs.
-    const mo = new MutationObserver((mutations) => {
-      for (const m of mutations) {
-        if (m.type === "childList") {
-          // If the mermaid content was replaced, update reference and reset transform style
-          const newContent = wrapper.querySelector(".mermaid");
-          if (newContent && newContent !== content) {
-            // apply current scale to new content and continue (note: we don't reconstruct all handlers)
-            // This implementation assumes wrapper remains the same and event handlers are on wrapper/window.
-            // Replace content variable's style by copying transform to new element.
-            try {
-              // copy computed transform origin etc.
-              newContent.style.transform = `scale(${scale})`;
-              newContent.style.transformOrigin = "0 0";
-            } catch (e) {
-              // ignore
-            }
-          }
+    // Transitionend: commit if thresholds crossed (ensure using total committed*transient)
+    content.addEventListener(
+      "transitionend",
+      function (ev) {
+        if (
+          ev.propertyName &&
+          ev.propertyName.indexOf("transform") !== -1
+        ) {
+          // small delay then commit
+          setTimeout(() => commitIfNeeded(), 40);
         }
+      },
+    );
+
+    // Toolbar button handlers (use pointerdown + click to be robust)
+    function zoomInHandler(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+      // zoom toward event point if available, otherwise center
+      const focus =
+        ev && ev.clientX
+          ? { clientX: ev.clientX, clientY: ev.clientY }
+          : null;
+      transientScale = clamp(
+        transientScale * 1.2,
+        MIN_SCALE / committedScale,
+        MAX_SCALE / committedScale,
+      );
+      // set origin relative to content center or pointer
+      if (focus) {
+        const crect = content.getBoundingClientRect();
+        content.style.transformOrigin = `${focus.clientX - crect.left}px ${focus.clientY - crect.top}px`;
       }
-    });
-    mo.observe(wrapper, { childList: true, subtree: false });
+      scheduleApplyTransform();
+      // adjust scroll after transform
+      requestAnimationFrame(() => commitIfNeeded(focus));
+    }
+    function zoomOutHandler(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+      const focus =
+        ev && ev.clientX
+          ? { clientX: ev.clientX, clientY: ev.clientY }
+          : null;
+      transientScale = clamp(
+        transientScale / 1.2,
+        MIN_SCALE / committedScale,
+        MAX_SCALE / committedScale,
+      );
+      if (focus) {
+        const crect = content.getBoundingClientRect();
+        content.style.transformOrigin = `${focus.clientX - crect.left}px ${focus.clientY - crect.top}px`;
+      }
+      scheduleApplyTransform();
+      requestAnimationFrame(() => commitIfNeeded(focus));
+    }
+    function resetHandler(ev) {
+      ev.stopPropagation();
+      ev.preventDefault();
+      committedScale = 1;
+      transientScale = 1;
+      scheduleApplyTransform();
+      const svg = content.querySelector("svg");
+      if (svg) {
+        svg.style.width = "";
+        svg.style.height = "";
+      }
+      updateScaleBadge();
+    }
 
-    // initial apply
-    applyTransform();
+    // support pointerdown (for touch), and click (fallback)
+    btnIn.addEventListener("pointerdown", zoomInHandler);
+    btnOut.addEventListener("pointerdown", zoomOutHandler);
+    btnReset.addEventListener("pointerdown", resetHandler);
+    btnIn.addEventListener("click", zoomInHandler);
+    btnOut.addEventListener("click", zoomOutHandler);
+    btnReset.addEventListener("click", resetHandler);
 
-    // return cleanup if needed
+    // Initial style and render
+    content.style.transition =
+      content.style.transition || TRANSITION;
+    content.style.transformOrigin =
+      content.style.transformOrigin || "0 0";
+    scheduleApplyTransform();
+
+    // return cleanup
     return function cleanup() {
       try {
-        if (window.PointerEvent) {
-          wrapper.removeEventListener("pointerdown", onPointerDown);
-          window.removeEventListener("pointermove", onPointerMove);
-          window.removeEventListener("pointerup", onPointerUp);
-          window.removeEventListener("pointercancel", onPointerUp);
-        } else {
-          wrapper.removeEventListener("mousedown", onMouseDown);
-          window.removeEventListener("mousemove", onMouseMove);
-          window.removeEventListener("mouseup", onMouseUp);
-        }
         wrapper.removeEventListener("wheel", onWheel);
-        wrapper.removeEventListener("dblclick", onDoubleClick);
-        mo.disconnect();
+        wrapper.removeEventListener(
+          "pointerdown",
+          onPointerDown,
+        );
+        window.removeEventListener(
+          "pointermove",
+          onPointerMove,
+        );
+        window.removeEventListener(
+          "pointerup",
+          onPointerUp,
+        );
+        wrapper.removeEventListener(
+          "mousedown",
+          onMouseDown,
+        );
+        window.removeEventListener(
+          "mousemove",
+          onMouseMove,
+        );
+        window.removeEventListener("mouseup", onMouseUp);
+        wrapper.removeEventListener("touchstart", () => {});
+        wrapper.removeEventListener("touchmove", () => {});
+        wrapper.removeEventListener("touchend", () => {});
+        wrapper.removeEventListener(
+          "dblclick",
+          onDoubleClick,
+        );
+        content.removeEventListener(
+          "transitionend",
+          commitIfNeeded,
+        );
+        try {
+          wrapper.removeChild(toolbar);
+        } catch (e) {}
       } catch (e) {
         // ignore cleanup errors
       }
     };
   }
 
-  // 初期化: DOMContentLoaded 後に .mermaid-wrapper を検出して適用
+  // Initialize all wrappers on DOMContentLoaded
   function initAll() {
-    const wrappers = Array.from(document.querySelectorAll(".mermaid-wrapper"));
-    if (!wrappers.length) return;
-
-    // store cleanup fns in case needed
-    const cleanups = [];
-    wrappers.forEach((w) => {
-      const c = createInteractionFor(w);
-      if (typeof c === "function") cleanups.push(c);
-    });
-
-    // 戻り値は使わないが、将来的に外部から破棄できるように window に保持してもよい
-    window.__mermaidInteractionsCleanup = function () {
-      cleanups.forEach((fn) => {
-        try {
-          fn();
-        } catch (e) {}
-      });
-    };
+    const wrappers = Array.from(
+      document.querySelectorAll(".mermaid-wrapper"),
+    );
+    wrappers.forEach((w) => initWrapper(w));
   }
 
   if (document.readyState === "loading") {
