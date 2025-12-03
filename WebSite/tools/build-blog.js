@@ -83,7 +83,7 @@ const GISCUS_ENABLED =
 // ---------------------------
 const POST_API_URL =
   process.env.POST_API_URL ||
-  "https://script.google.com/macros/s/AKfycbyWEVYHX1dV4HidCrmaTHO6wWsFR4xZo1VM_c9AC53aj7MxSM3W4_UAFR1fGd9RC-1n/exec";
+  "https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec";
 
 // ---------------------------
 // helper: XML/HTML escape
@@ -442,6 +442,44 @@ function createHtml({
     postId: id,
   };
 
+  // Additional JSON-LD: Person with sameAs and BreadcrumbList for richer results
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "PanKUN",
+    url: BASE_URL,
+    sameAs: [
+      "https://github.com/breadmotion",
+      "https://x.com/pankun2000_",
+      "https://twitter.com/pankun2000_",
+    ],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${BASE_URL}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${BASE_URL}/blog.html`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
   return `<!doctype html>
 <html lang="${locale.lang}">
   <head>
@@ -453,8 +491,16 @@ function createHtml({
     <link rel="alternate" hreflang="ja" href="${jaUrl}" />
     <link rel="alternate" hreflang="en" href="${enUrl}" />
     <link rel="alternate" hreflang="x-default" href="${enUrl}" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="${BASE_URL}/assets/img/ogp.png">
+
     ${adScript}
     <script type="application/ld+json">${JSON.stringify(jsonLd, null, 2)}</script>
+    <script type="application/ld+json">${JSON.stringify(personJsonLd, null, 2)}</script>
+    <script type="application/ld+json">${JSON.stringify(breadcrumbJsonLd, null, 2)}</script>
     <meta property="og:title" content="${safeTitle}${locale.site_title_suffix}" />
     <meta property="og:description" content="${safeDesc}" />
     <meta property="og:type" content="article" />
@@ -528,12 +574,12 @@ function createHtml({
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
-    <script src="${pathPrefix}/assets/js/ui.js"></script>
+    <script src="${pathPrefix}/assets/js/ui.js" defer></script>
     <script src="${pathPrefix}/assets/js/post-interactions.js" defer></script>
-    <script src="${pathPrefix}/assets/js/preview.js"></script>
+    <script src="${pathPrefix}/assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="${pathPrefix}/assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="${pathPrefix}/assets/js/particles.js" defer></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
   </body>
@@ -616,7 +662,8 @@ function createHtml({
         if (src && src.startsWith("../")) {
           src = `${relativePrefix}/${src.substring(3)}`;
         }
-        return `<img src="${src}" alt="${text}" title="${title || ""}" />`;
+        // Add lazy loading and decoding to improve performance and reduce CLS
+        return `<img src="${src}" alt="${escapeHtml(text)}" title="${escapeHtml(title || "")}" loading="lazy" decoding="async" />`;
       };
 
       const htmlBody = marked.parse(content, { renderer });
