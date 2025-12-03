@@ -585,6 +585,7 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/particles.js" defer></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
+    <script src="${pathPrefix}/assets/js/mermaid-interactions.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->

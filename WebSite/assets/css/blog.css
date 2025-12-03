@@ -511,19 +511,30 @@
     overflow: auto;
     background: transparent;
     cursor: grab;
-    touch-action: pan-x pan-y;
+    /* 明示的にパン（横/縦）とピンチズームを許可 */
+    touch-action: pan-x pan-y pinch-zoom;
+    /* ページ全体へのオーバースクロール伝播を抑制（UX向上） */
+    overscroll-behavior: contain;
     -webkit-overflow-scrolling: touch;
+    /* 図の選択を防ぐ（ドラッグ時の余分な選択を抑制） */
+    user-select: none;
 }
 .mermaid-wrapper:active {
     cursor: grabbing;
 }
 .mermaid-wrapper .mermaid {
     display: block;
+    /* transform を使う場合に備え、変換の起点と最適化を指定 */
+    transform-origin: 0 0;
+    will-change: transform;
 }
 .mermaid-wrapper .mermaid svg {
     max-width: none;
     width: auto;
     display: block;
+    /* SVG 内のタッチアクションは個別に扱う（ピンチ操作はラッパーで処理） */
+    touch-action: none;
+    user-select: none;
 }
 
 /* モバイルでヘッダーが重ならないように調整 */
