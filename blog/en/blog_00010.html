@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RClone Operation Flow | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project." />
+    <link rel="canonical" href="https://breadmotion.github.io/blog/en/blog_00010.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/blog/blog_00010.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/blog/en/blog_00010.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/blog/en/blog_00010.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/blog/en/blog_00010.html"
+  },
+  "headline": "RClone Operation Flow",
+  "description": "Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project.",
+  "image": [
+    "https://breadmotion.github.io/assets/img/thumbnails/blog_00010.png"
+  ],
+  "datePublished": "2025-11-20T00:00:00.000Z",
+  "dateModified": "2025-11-20T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "RClone Operation Flow",
+      "item": "https://breadmotion.github.io/blog/en/blog_00010.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="RClone Operation Flow | PanKUN Blog" />
+    <meta property="og:description" content="Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/blog/en/blog_00010.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/thumbnails/blog_00010.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00010">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">RClone Operation Flow</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2025/11/20 / CloudStorage</p>
+                <h1 class="post-detail__title">RClone Operation Flow</h1>
+                <p class="post-detail__description">Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=tool">tool</a> <a class="tag" href="../../blog.html?tag=cloudstorage">cloudstorage</a> <a class="tag" href="../../blog.html?tag=git">git</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html&text=RClone%20Operation%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
+<p>In the previous article, I explained the introduction flow of rclone in a Windows environment and its linkage with Google Drive.
+This time, as a continuation, I will introduce an operational technique combining rclone and shell scripts for the specific issue of <strong>large-scale asset management in projects</strong>.</p>
+<p>I will explore practical approaches to solve capacity limits and performance issues that often occur in Git LFS operations, and to smooth asset management efficiency and CI/CD integration in team development.</p>
+<h2 id="goal-of-this-article">Goal of this article</h2><ul>
+<li>Efficiently manage large-scale assets (models, textures, sounds, etc.) of a project with rclone.</li>
+<li>Automate the coordination between Git and rclone using the following custom shell scripts.<ul>
+<li><code>Aup.sh</code>: Asset upload</li>
+<li><code>Adown.sh</code>: Asset download</li>
+<li><code>Alock.sh</code>: Asset lock</li>
+<li><code>Aunlock.sh</code>: Asset unlock</li>
+</ul>
+</li>
+<li>Grasp the image of automatic asset synchronization and build integration in the CI/CD pipeline.</li>
+</ul>
+<h2 id="challenges-of-large-scale-asset-management-and-advantages-of-rclone">Challenges of Large-Scale Asset Management and Advantages of rclone</h2><p>In game development, large-scale assets such as 3D models, high-resolution textures, and long sound files often appear in units of GB.
+Directly managing these with Git tends to bloat the repository, causing problems such as slow cloning and fetching, or hitting the capacity limit of Git LFS.</p>
+<p>By linking rclone with external storage (such as Google Drive), it becomes possible to separate these large assets from the Git repository and manage them efficiently.
+Git manages only references to assets, and actual data is stored in external storage via rclone, realizing a lightweight and high-speed repository.</p>
+<h2 id="rclone-operation-strategy-in-ue">RClone Operation Strategy in UE</h2><p>Prepare <code>Tool</code> in the root directory of UE and prepare 4 shell scripts. (It should be fine to replace them with batch files and adjust the commands)</p>
+<ul>
+<li><code>Aup.sh</code></li>
+<li><code>Adown.sh</code></li>
+<li><code>Alock.sh</code></li>
+<li><code>Aunlock.sh</code></li>
+</ul>
+<p>These scripts wrap rclone commands targeting prefixes that can be large files under the <code>Assets</code> directory and automate asset synchronization and locking.
+(If you want to target extensions other than .uasset, add a judgment)</p>
+<h3 id="1-aupsh-asset-upload">1. <code>Aup.sh</code>: Asset Upload</h3><p><code>Aup.sh</code> is used to upload local project assets to Google Drive (or the configured remote storage).
+This is an image executed when asset editing is complete and ready for sharing.</p>
+<p><strong>Usage Example:</strong></p>
+<pre><code class="language-sh"># Execute at the root directory of the Unity project
+sh ./Tool/Aup.sh
+</code></pre>
+<p><strong>Overview of internal processing:</strong></p>
+<ol>
+<li>Scan files under the <code>Content</code> directory.</li>
+<li>Upload each file to remote storage with the rclone command.</li>
+<li>Commit placeholder files (or path information only) of the uploaded assets to the Git repository.</li>
+</ol>
+<h3 id="2-adownsh-asset-download">2. <code>Adown.sh</code>: Asset Download</h3><p><code>Adown.sh</code> is used to download assets on remote storage to the local project.
+Execute this when team members clone the project or want to update to the latest assets.</p>
+<p><strong>Usage Example:</strong></p>
+<pre><code class="language-sh"># Execute at the root directory of the project
+sh ./Tool/Adown.sh
+</code></pre>
+<p><strong>Overview of internal processing:</strong></p>
+<ol>
+<li>Get asset reference information in the Git repository.</li>
+<li>Download corresponding asset files from remote storage to the <code>Content</code> directory using the rclone command.</li>
+<li>Adjust downloaded assets so they are recognized by the editor (if necessary).</li>
+</ol>
+<h3 id="3-alocksh-asset-lock">3. <code>Alock.sh</code>: Asset Lock</h3><p>The locking mechanism is very important to prevent conflicts due to simultaneous editing of large assets.
+<code>Alock.sh</code> locks specific assets so that other members cannot edit them at the same time.</p>
+<p><strong>Usage Example:</strong></p>
+<pre><code class="language-sh"># Execute at the root directory of the UE project
+sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset
+</code></pre>
+<p><strong>Overview of internal processing:</strong></p>
+<ol>
+<li>Register lock information of the specified asset to remote storage or a dedicated lock management system.</li>
+<li>Reflect the lock state in the Git repository as well.</li>
+<li>Notify that the lock was successful. Display an error message if already locked.</li>
+</ol>
+<h3 id="4-aunlocksh-asset-unlock">4. <code>Aunlock.sh</code>: Asset Unlock</h3><p>When asset editing is complete and uploading with <code>Aup.sh</code> is done, use <code>Aunlock.sh</code> to release the lock.</p>
+<p><strong>Usage Example:</strong></p>
+<pre><code class="language-sh"># Execute at the root directory of the project
+sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
+</code></pre>
+<p><strong>Overview of internal processing:</strong></p>
+<ol>
+<li>Release lock information of the specified asset from remote storage or lock management system.</li>
+<li>Update the lock state of the Git repository.</li>
+<li>Notify that unlock was successful. Display an error message if the file is not locked or locked by another user.</li>
+</ol>
+<h2 id="integration-with-cicd-pipeline">Integration with CI/CD Pipeline</h2><p>These scripts can be easily incorporated into the CI/CD pipeline.</p>
+<p><strong>Example of automatic synchronization on build server:</strong></p>
+<ol>
+<li>When CI is triggered, first fetch the repository with <code>git clone</code>.</li>
+<li>Next, execute <code>./Tool/Adown.sh</code> to automatically download necessary assets.</li>
+<li>Execute command line build.</li>
+</ol>
+<p>This allows the build server to always execute builds with the latest code and assets, saving the trouble of manual asset synchronization.</p>
+<h2 id="image-referencing-mmd_rclonepng-virtual-diagram">Image referencing <code>MMD_rclone.png</code> (Virtual Diagram)</h2><p>The previous RClone introduction flowchart (<code>MMD_rclone.png</code>) was the setting flow of RClone itself,
+but the flow of assets in this operational technique looks like the following image.</p>
+<p>The final version of the flowchart is <a href="https://breadmotion.github.io/content/other/Rclone2.html">here</a>.
+<img src="https://breadmotion.github.io/assets/img/MMD_rclone2.png" alt="RClone Introduction Flowchart" title="" loading="lazy" decoding="async" /></p>
+<h2 id="importance-of-lockunlock-alocksh--aunlocksh">Importance of Lock/Unlock (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>When multiple people edit at the same time, unintended overwrites and conflicts are problems to avoid.
+Like the file locking function of Git LFS, this locking mechanism becomes very important in asset management using <code>rclone</code>. <code>Alock.sh</code> and <code>Aunlock.sh</code> are custom shell scripts for that purpose.</p>
+<h3 id="alocksh-asset-lock"><code>Alock.sh</code>: Asset Lock</h3><p><code>Alock.sh</code> marks the specified asset file as &quot;locked&quot; on remote storage.
+This prevents other developers from editing the same file at the same time and significantly reduces the risk of conflict occurrence.</p>
+<p><strong>Main functions:</strong></p>
+<ul>
+<li>Receive the path of the specified asset.</li>
+<li>Use rclone&#39;s lock function (or external lock management system) to lock the file on remote storage.</li>
+<li>Notify if the lock is successful.</li>
+<li>If it is already locked by another user, display that information and refuse the lock.</li>
+</ul>
+<p><strong>Operation Image:</strong>
+Before a developer starts editing a specific asset, execute <code>Alock.sh Content/Model/SK_ModelA.uasset</code>.
+If the lock is successful, you can proceed with the work with peace of mind.</p>
+<h3 id="aunlocksh-asset-unlock"><code>Aunlock.sh</code>: Asset Unlock</h3><p>When asset editing and uploading to remote storage with <code>Aup.sh</code> is done, use <code>Aunlock.sh</code> to release the lock.
+This allows other developers to lock and edit that asset.</p>
+<p><strong>Main functions:</strong></p>
+<ul>
+<li>Receive the path of the specified asset.</li>
+<li>Release the lock of the file on remote storage.</li>
+<li>Notify if the unlock is successful.</li>
+<li>Notify an error if attempting to unlock a file that is not locked or locked by a user other than yourself.</li>
+</ul>
+<p><strong>Operation Image:</strong>
+When asset editing and uploading are finished, execute <code>Aunlock.sh Content/Model/SK_ModelA.uasset</code> to release the lock.
+This allows other team members to get the latest version of that asset and, if necessary, lock and start editing.</p>
+<h3 id="merits-of-lock-mechanism">Merits of Lock Mechanism</h3><ul>
+<li><strong>Prevention of conflicts</strong>: Can avoid complex merge work of large assets.</li>
+<li><strong>Clear scope of responsibility</strong>: You can see at a glance who is editing which asset, preventing useless work duplication.</li>
+<li><strong>Efficiency of team development</strong>: Smooth asset coordination improves the productivity of the entire development.</li>
+</ul>
+<p>By properly operating these scripts and flows, asset management of projects combining Git and rclone will become more robust and efficient.</p>
+<h2 id="summary">Summary</h2><p>Asset management in projects is an important issue that greatly affects the efficiency of team development.
+By combining rclone with custom shell scripts <code>Aup.sh</code>, <code>Adown.sh</code>, <code>Alock.sh</code>, <code>Aunlock.sh</code>, it becomes possible to keep the Git repository lightweight while efficiently managing large assets in external storage, and further smooth integration with the CI/CD pipeline.</p>
+<p>By introducing this operational technique, developers will be able to concentrate on content creation and development without being bothered by asset capacity or Git LFS limits.</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html&text=RClone%20Operation%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00010.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00009.html" class="btn btn--prev">← Tried Buildin…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a><a href="blog_00011.html" class="btn btn--next">Story of My S… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#goal-of-this-article" data-no-preview>Goal of this article</a></li><li class="toc-item toc-item--level-2"><a href="#challenges-of-large-scale-asset-management-and-advantages-of-rclone" data-no-preview>Challenges of Large-Scale Asset Management and Advantages of rclone</a></li><li class="toc-item toc-item--level-2"><a href="#rclone-operation-strategy-in-ue" data-no-preview>RClone Operation Strategy in UE</a></li><li class="toc-item toc-item--level-3"><a href="#1-aupsh-asset-upload" data-no-preview>1. &lt;code&gt;Aup.sh&lt;/code&gt;: Asset Upload</a></li><li class="toc-item toc-item--level-3"><a href="#2-adownsh-asset-download" data-no-preview>2. &lt;code&gt;Adown.sh&lt;/code&gt;: Asset Download</a></li><li class="toc-item toc-item--level-3"><a href="#3-alocksh-asset-lock" data-no-preview>3. &lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#4-aunlocksh-asset-unlock" data-no-preview>4. &lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-2"><a href="#integration-with-cicd-pipeline" data-no-preview>Integration with CI/CD Pipeline</a></li><li class="toc-item toc-item--level-2"><a href="#image-referencing-mmd_rclonepng-virtual-diagram" data-no-preview>Image referencing &lt;code&gt;MMD_rclone.png&lt;/code&gt; (Virtual Diagram)</a></li><li class="toc-item toc-item--level-2"><a href="#importance-of-lockunlock-alocksh--aunlocksh" data-no-preview>Importance of Lock/Unlock (&lt;code&gt;Alock.sh&lt;/code&gt; / &lt;code&gt;Aunlock.sh&lt;/code&gt;)</a></li><li class="toc-item toc-item--level-3"><a href="#alocksh-asset-lock" data-no-preview>&lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#aunlocksh-asset-unlock" data-no-preview>&lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-3"><a href="#merits-of-lock-mechanism" data-no-preview>Merits of Lock Mechanism</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">Comments</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">Loading comments...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00010"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+  </body>
+</html>

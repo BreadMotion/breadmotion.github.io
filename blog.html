@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="ja">
+    <head prefix="og: https://ogp.me/ns#">
+        <!-- ========================================
+             Performance: Preconnect & Preload
+        ======================================== -->
+        <link
+            rel="preconnect"
+            href="https://pagead2.googlesyndication.com"
+            crossorigin
+        />
+        <link
+            rel="preconnect"
+            href="https://cdnjs.cloudflare.com"
+            crossorigin
+        />
+        <link
+            rel="dns-prefetch"
+            href="https://pagead2.googlesyndication.com"
+        />
+        <link
+            rel="dns-prefetch"
+            href="https://cdnjs.cloudflare.com"
+        />
+        <link
+            rel="preload"
+            href="assets/img/ogp.png"
+            as="image"
+        />
+
+        <meta charset="UTF-8" />
+        <title>PanKUN | Blog</title>
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1"
+        />
+        <meta
+            name="description"
+            content="PanKUN技術ブログ - Unity、C#、UE5、Discord Bot開発などゲーム開発・ツール開発に関する技術メモとナレッジ。ゲーム制作のノウハウを発信中。"
+        />
+
+        <!-- Canonical -->
+        <link
+            rel="canonical"
+            href="https://breadmotion.github.io/blog.html"
+        />
+
+        <!-- AMP -->
+        <link
+            rel="amphtml"
+            href="https://breadmotion.github.io/blog.amp.html"
+        />
+
+        <!-- Google AdSense -->
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+            crossorigin="anonymous"
+        ></script>
+
+        <!-- JSON-LD: CollectionPage -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "CollectionPage",
+                "name": "PanKUN Blog",
+                "description": "PanKUN技術ブログ - Unity、C#、UE5、Discord Bot開発などゲーム開発・ツール開発に関する技術メモとナレッジ",
+                "url": "https://breadmotion.github.io/blog.html",
+                "author": {
+                    "@type": "Person",
+                    "name": "PanKUN",
+                    "url": "https://breadmotion.github.io/",
+                    "sameAs": [
+                        "https://github.com/breadmotion",
+                        "https://x.com/pankun2000_"
+                    ]
+                }
+            }
+        </script>
+        <!-- JSON-LD: BreadcrumbList -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "name": "ホーム",
+                        "item": "https://breadmotion.github.io/"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "name": "ブログ",
+                        "item": "https://breadmotion.github.io/blog.html"
+                    }
+                ]
+            }
+        </script>
+        <!-- JSON-LD: ItemList (sample articles) -->
+        <script type="application/ld+json">
+            {
+                "@context": "https://schema.org",
+                "@type": "ItemList",
+                "name": "PanKUN ブログ記事一覧",
+                "itemListElement": [
+                    {
+                        "@type": "ListItem",
+                        "position": 1,
+                        "url": "https://breadmotion.github.io/blog/blog_00001.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 2,
+                        "url": "https://breadmotion.github.io/blog/blog_00002.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 3,
+                        "url": "https://breadmotion.github.io/blog/blog_00003.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 4,
+                        "url": "https://breadmotion.github.io/blog/blog_00004.html"
+                    },
+                    {
+                        "@type": "ListItem",
+                        "position": 5,
+                        "url": "https://breadmotion.github.io/blog/blog_00005.html"
+                    }
+                ]
+            }
+        </script>
+
+        <!-- 共通CSS -->
+        <link rel="stylesheet" href="assets/css/base.css" />
+        <link
+            rel="stylesheet"
+            href="assets/css/layout.css"
+        />
+        <link rel="stylesheet" href="assets/css/blog.css" />
+        <link
+            rel="stylesheet"
+            href="assets/css/preview.css"
+        />
+
+        <!-- アイコン -->
+        <link
+            rel="icon"
+            href="favicon.ico"
+            sizes="any"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="assets/img/favicon-32.png"
+            sizes="32x32"
+        />
+        <link
+            rel="icon"
+            type="image/png"
+            href="assets/img/favicon-192.png"
+            sizes="192x192"
+        />
+
+        <!-- OG関係 -->
+        <meta
+            property="og:title"
+            content="PanKUN Blog | Unity・UE5・ツール開発の技術ブログ"
+        />
+        <meta
+            property="og:description"
+            content="PanKUN技術ブログ - Unity、C#、UE5、Discord Bot開発などゲーム開発・ツール開発に関する技術メモとナレッジ。"
+        />
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:url"
+            content="https://breadmotion.github.io/blog.html"
+        />
+        <meta
+            property="og:image"
+            content="https://breadmotion.github.io/assets/img/ogp.png"
+        />
+        <meta property="og:site_name" content="PanKUN" />
+        <meta
+            property="og:email"
+            content="pankun.dev@gmail.com"
+        />
+
+        <meta
+            name="twitter:card"
+            content="summary_large_image"
+        />
+        <meta
+            name="twitter:title"
+            content="PanKUN Blog | Unity・UE5・ツール開発の技術ブログ"
+        />
+        <meta
+            name="twitter:description"
+            content="PanKUN技術ブログ - Unity、C#、UE5、Discord Bot開発などゲーム開発・ツール開発に関する技術メモとナレッジ。"
+        />
+        <meta
+            name="twitter:image"
+            content="https://breadmotion.github.io/assets/img/ogp.png"
+        />
+    </head>
+    <body data-page="blog">
+        <div class="page-shell">
+            <main class="main-container">
+                <section
+                    class="page-header reveal-on-scroll"
+                >
+                    <h1>Blog</h1>
+                    <p>
+                        Unity / UE5 /
+                        ツール開発などゲーム制作まわりの技術メモやナレッジをまとめています。
+                    </p>
+                </section>
+
+                <section class="section reveal-on-scroll">
+                    <div class="section-header">
+                        <h2>記事一覧</h2>
+
+                        <!-- フィルタ UI -->
+                        <div class="blog-filters">
+                            <div class="blog-filter">
+                                <span
+                                    class="blog-filter__label"
+                                    >カテゴリ</span
+                                >
+                                <select
+                                    id="blogCategoryFilter"
+                                    class="select blog-filter__control"
+                                >
+                                    <option value="">
+                                        すべて
+                                    </option>
+                                </select>
+                            </div>
+
+                            <div class="blog-filter">
+                                <span
+                                    class="blog-filter__label"
+                                    >検索</span
+                                >
+                                <input
+                                    type="search"
+                                    id="blogSearch"
+                                    class="input input--search blog-filter__control"
+                                    placeholder="タイトル・概要・タグで検索"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        id="blogList"
+                        class="card-grid"
+                    ></div>
+
+                    <p
+                        id="blogEmptyMessage"
+                        class="text-muted"
+                        style="display: none"
+                    >
+                        条件に一致する記事がありません。
+                    </p>
+
+                    <div
+                        id="paginationContainer"
+                        class="pagination"
+                    ></div>
+                </section>
+            </main>
+        </div>
+
+        <script src="assets/js/layout.js" defer></script>
+        <script src="assets/js/ui.js" defer></script>
+        <script src="assets/js/blog.js" defer></script>
+        <script src="assets/js/preview.js" defer></script>
+
+        <canvas id="menuAnimationCanvas"></canvas>
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"
+            defer
+        ></script>
+        <script src="assets/js/particles.js" defer></script>
+    </body>
+</html>

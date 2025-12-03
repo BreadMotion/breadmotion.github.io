@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Odin でコンテキストエディター作ってみた | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Odin でプランナー向けのコンテキストエディターを作った話" />
+    <link rel="canonical" href="https://breadmotion.github.io/blog/blog_00003.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/blog/blog_00003.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/blog/en/blog_00003.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/blog/en/blog_00003.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/blog/blog_00003.html"
+  },
+  "headline": "Odin でコンテキストエディター作ってみた",
+  "description": "Odin でプランナー向けのコンテキストエディターを作った話",
+  "image": [
+    "https://breadmotion.github.io/assets/img/thumbnails/blog_00003.png"
+  ],
+  "datePublished": "2024-06-10T00:00:00.000Z",
+  "dateModified": "2024-06-10T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Odin でコンテキストエディター作ってみた",
+      "item": "https://breadmotion.github.io/blog/blog_00003.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="Odin でコンテキストエディター作ってみた | PanKUN Blog" />
+    <meta property="og:description" content="Odin でプランナー向けのコンテキストエディターを作った話" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/blog/blog_00003.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/thumbnails/blog_00003.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00003">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">Odin でコンテキストエディター作ってみた</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2024/06/10 / Unity</p>
+                <h1 class="post-detail__title">Odin でコンテキストエディター作ってみた</h1>
+                <p class="post-detail__description">Odin でプランナー向けのコンテキストエディターを作った話</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=unity">unity</a> <a class="tag" href="../blog.html?tag=plugin">plugin</a> <a class="tag" href="../blog.html?tag=tool">tool</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00003" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00003" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
+<p>インディーズのプロジェクトで <strong>Odin Inspector</strong> を使用して、<br>プランナーが Unity の知見をあまり持っていなくても触れるような <strong>プロジェクト専用の「コンテキストエディター」</strong> を作成しました。</p>
+<p>ここでいう「コンテキストエディター」は、</p>
+<blockquote>
+<p>「ゲーム内の◯◯に関係するデータを、ひとつの画面でまとめて編集できるツール」</p>
+</blockquote>
+<p>のイメージです。</p>
+<ul>
+<li>キャラやステージのパラメータ</li>
+<li>掲載テキストや説明文</li>
+<li>報酬テーブルやフラグ設定</li>
+</ul>
+<p>など <strong>まとまりとして扱いたい情報を、一箇所から編集できるようにした</strong> という話になります。</p>
+<hr>
+<h2 id="概要">概要</h2><p>もともとプロジェクトでは、データ構造を ScriptableObject や CSV で管理していましたが、</p>
+<ul>
+<li>「どのデータがどこにあるのか」が分かりづらい</li>
+<li>パラメータを変えるために <strong>何個もアセットを開く必要がある</strong></li>
+<li>プランナーが Unity の Project ウィンドウを漁るのに時間がかかる</li>
+</ul>
+<p>という課題がありました。</p>
+<p>そこで、</p>
+<blockquote>
+<p>「◯◯の仕様を触るときは、とりあえずこのウィンドウを開けばいい」</p>
+</blockquote>
+<p>という <strong>専用の編集画面（コンテキストエディター）</strong> をOdinで作りました。</p>
+<p>やったことをざっくりまとめると：</p>
+<ul>
+<li>Odin の <code>OdinEditorWindow</code> を使って <strong>専用ウィンドウを作成</strong></li>
+<li>プランナーが触る想定の <strong>ScriptableObject をまとめてバインド</strong></li>
+<li>絞り込み・検索・ボタン操作などを Odin の属性でサクッと実装</li>
+<li>「触ってはいけない項目」は <strong>ReadOnly / Foldout / Box などでガード</strong></li>
+</ul>
+<p>という構成です。</p>
+<hr>
+<h2 id="やりたかったこと">やりたかったこと</h2><p>このコンテキストエディターでは、主に次のような体験を目指しました。</p>
+<h3 id="1-「どこを触ればいいか」が一目で分かる">1. 「どこを触ればいいか」が一目で分かる</h3><ul>
+<li>プランナーが Unity に詳しくなくても、<ul>
+<li><strong>左側にカテゴリー</strong></li>
+<li><strong>右側に編集する内容</strong></li>
+</ul>
+</li>
+<li>という形で、「エクセルを開く感覚」でパラメータを触れるようにしました。</li>
+</ul>
+<p>具体的には：</p>
+<ul>
+<li>セクションごとに <code>Foldout</code> や <code>Title</code> 属性で区切る</li>
+<li>「ゲーム内に表示される文言」だけをまとめた枠を用意</li>
+<li>管理用の ID や内部フラグは ReadOnly で表示のみ</li>
+</ul>
+<p>など、Odin の装飾系属性をフル活用しています。</p>
+<h3 id="2-関連データを横断して編集できる">2. 関連データを横断して編集できる</h3><p>たとえば「◯◯イベント」のコンテキストだったら、</p>
+<ul>
+<li>イベント全体の基本設定</li>
+<li>各ステージの難易度テーブル</li>
+<li>報酬テーブル</li>
+<li>ガイド用のテキスト</li>
+</ul>
+<p>など、別々の ScriptableObject に分かれている情報を、 <strong>1つのウィンドウに並べて編集</strong> できるようにしました。</p>
+<p>Odin の <code>InlineEditor</code> や <code>TableList</code> を使うことで、</p>
+<ul>
+<li>参照先の ScriptableObject を、その場で展開して編集</li>
+<li>配列・リストをテーブル形式で編集</li>
+</ul>
+<p>といった UI を、カスタム EditorWindow 側に貼り付けることができました。</p>
+<h3 id="3-安全な範囲だけ触れるようにする">3. 安全な範囲だけ触れるようにする</h3><ul>
+<li>プランナーには見えてほしいが、触ってほしくないフィールド</li>
+<li>開発途中で変更すると危険なフラグ</li>
+</ul>
+<p>こういったものは、</p>
+<ul>
+<li><code>ReadOnly</code> 属性でロック</li>
+<li><code>HideIf</code> / <code>ShowIf</code> でそもそも見せない</li>
+<li><code>InfoBox</code> で注意書きを出す</li>
+</ul>
+<p>などの工夫を入れて、 <strong>「自由度は残しつつ、壊れにくい UI」にする</strong> ことを意識しました。</p>
+<hr>
+<h2 id="実装構成">実装構成</h2><p>技術的な構成は、おおよそこんな感じです。</p>
+<h3 id="1-ベースとなる-window-クラス">1. ベースとなる Window クラス</h3><ul>
+<li><code>OdinEditorWindow</code> を継承した <code>ContextEditorWindow</code> を用意</li>
+<li><code>MenuItem</code> 属性でメニューから開けるようにする</li>
+</ul>
+<pre><code class="language-csharp">using Sirenix.OdinInspector;
+using Sirenix.OdinInspector.Editor;
+using UnityEditor;
+using UnityEngine;
+
+public class ContextEditorWindow : OdinEditorWindow
+{
+    [MenuItem(&quot;Tools/Context Editor&quot;)]
+    private static void Open()
+    {
+        GetWindow&lt;ContextEditorWindow&gt;(&quot;Context Editor&quot;);
+    }
+
+    // プランナーが触る対象をここに並べる
+    [Title(&quot;イベント基本設定&quot;)]
+    [InlineEditor(Expanded = true)]
+    public EventConfig eventConfig;
+
+    [Title(&quot;ステージ設定&quot;)]
+    [TableList]
+    public StageConfig[] stages;
+
+    [Title(&quot;報酬設定&quot;)]
+    [TableList]
+    public RewardConfig[] rewards;
+
+    // 必要なら、検索・フィルタ用のフィールドもここに置く
+}
+</code></pre>
+<p>ウィンドウを開くだけで</p>
+<ul>
+<li>指定したScriptableObjectの中身が <strong>同じ画面</strong> に展開される</li>
+<li>その場で値を編集、ほぞんが　反映される</li>
+</ul>
+<p>という状態にできます。</p>
+<h3 id="2-scriptableobject側の設計">2. ScriptableObject側の設計</h3><p>もともとのデータ構造をScriptableObject化しておけば</p>
+<ul>
+<li>プロジェクト全体では通常通りScriptableObjectとして利用</li>
+<li>編集時だけコンテキストエディターのウィンドウからアクセス</li>
+</ul>
+<p>という二重の使い方ができます。</p>
+<p>例えば :</p>
+<pre><code class="language-csharp">[CreateAssetMenu(menuName = &quot;Game/Event&quot;)]
+public class EventConfig : ScriptableObject
+{
+    [LabelText(&quot;イベント名&quot;)]
+    public string eventName;
+    
+    [LabelText(&quot;開催期間&quot;)]
+    public string durationText;
+    
+    [LabelText(&quot;説明文&quot;)]
+    public string description;
+    
+    [LabelText(&quot;有効フラグ&quot;)]
+    public bool isEnabled;
+}
+</code></pre>
+<p>これを先ほどのContextEditorWindowのフィールドとして参照しておけば、<br>ウィンドウ側でInlineEditorしたときに、 <strong>Odinのデコレーション込みで表示されます</strong> 。</p>
+<h3 id="3-ちょっとしたux改善">3. ちょっとしたUX改善</h3><p>例：</p>
+<ul>
+<li>「選択中のステージだけテストシーンを起動する」ボタン</li>
+<li>「報酬テーブルをデフォルト値で初期化する」ボタン</li>
+<li>「特定 ID のデータを検索してフォーカス」ボタン</li>
+</ul>
+<p>Odin の Button 属性を使えば、EditorWindow 内にメソッドをそのままボタンとして出せるので、
+ちょっとしたツール感を簡単に足せます</p>
+<h2 id="実際に運用してみて">実際に運用してみて</h2><p>実際にプランナーに使ってもらって感じたメリットはこんな感じでした。</p>
+<ul>
+<li>「この仕様を触りたいときは、このウィンドウを開けばいい」という入口が固定された</li>
+<li>Unity の Project ウィンドウや Inspector をさまよう時間が減った</li>
+<li>パラメータの更新とコミュニケーションのログが取りやすくなった（「この画面のここを変えました」と言いやすい）</li>
+<li>誤操作されると困る部分は最初からロックしておけるので、事故が減った</li>
+</ul>
+<p>一方で、課題としては：</p>
+<ul>
+<li>コンテキストエディター自体のメンテナンスコストが発生する</li>
+<li>データ構造を弄るときは、Editor 側の反映も忘れないようにする必要がある</li>
+<li>UI を作り込みすぎると「専用ツール」になりすぎて、柔軟性が落ちる</li>
+</ul>
+<p>といった点もありました。</p>
+<h2 id="最後に">最後に</h2><p>Odin を使ったコンテキストエディターは、</p>
+<ul>
+<li>「プランナーが直接触れる Unity ツール」を作りたいとき</li>
+<li>「プロジェクト専用の編集画面」をサクッと用意したいとき</li>
+</ul>
+<p>にかなり相性がいいと感じました。</p>
+<p>Inspector 拡張だけでは足りないけれど、EditorWindow をフルスクラッチするのは大変<br>というケースでは、Odin の属性と EditorWindow を組み合わせるだけで、<br>「ちょうどいいライン」のツールが作りやすいです。  </p>
+<p>今後は、</p>
+<ul>
+<li>もう少し UI/UX を整理したバージョン</li>
+<li>別プロジェクトでも使い回せるような抽象化</li>
+</ul>
+<p>にもチャレンジしてみたいと思っています。</p>
+<p>興味があれば、別の記事で具体的なコードや属性の使い方も掘り下げていくので、また読んでもらえたら嬉しいです。</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00003" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00003" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00002.html" class="btn btn--prev">← Odin を導入してみた</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00008.html" class="btn btn--next">Discord Bot の… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#概要" data-no-preview>概要</a></li><li class="toc-item toc-item--level-2"><a href="#やりたかったこと" data-no-preview>やりたかったこと</a></li><li class="toc-item toc-item--level-3"><a href="#1-「どこを触ればいいか」が一目で分かる" data-no-preview>1. 「どこを触ればいいか」が一目で分かる</a></li><li class="toc-item toc-item--level-3"><a href="#2-関連データを横断して編集できる" data-no-preview>2. 関連データを横断して編集できる</a></li><li class="toc-item toc-item--level-3"><a href="#3-安全な範囲だけ触れるようにする" data-no-preview>3. 安全な範囲だけ触れるようにする</a></li><li class="toc-item toc-item--level-2"><a href="#実装構成" data-no-preview>実装構成</a></li><li class="toc-item toc-item--level-3"><a href="#1-ベースとなる-window-クラス" data-no-preview>1. ベースとなる Window クラス</a></li><li class="toc-item toc-item--level-3"><a href="#2-scriptableobject側の設計" data-no-preview>2. ScriptableObject側の設計</a></li><li class="toc-item toc-item--level-3"><a href="#3-ちょっとしたux改善" data-no-preview>3. ちょっとしたUX改善</a></li><li class="toc-item toc-item--level-2"><a href="#実際に運用してみて" data-no-preview>実際に運用してみて</a></li><li class="toc-item toc-item--level-2"><a href="#最後に" data-no-preview>最後に</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00003"};</script>
+
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+  </body>
+</html>

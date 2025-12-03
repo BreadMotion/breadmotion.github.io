@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>UE5 Plugin Development | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Plugin development in UE5 for game development" />
+    <link rel="canonical" href="https://breadmotion.github.io/blog/en/blog_00006.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/blog/blog_00006.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/blog/en/blog_00006.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/blog/en/blog_00006.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/blog/en/blog_00006.html"
+  },
+  "headline": "UE5 Plugin Development",
+  "description": "Plugin development in UE5 for game development",
+  "image": [
+    "https://breadmotion.github.io/assets/img/thumbnails/blog_00006.png"
+  ],
+  "datePublished": "2025-10-09T00:00:00.000Z",
+  "dateModified": "2025-10-09T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "UE5 Plugin Development",
+      "item": "https://breadmotion.github.io/blog/en/blog_00006.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="UE5 Plugin Development | PanKUN Blog" />
+    <meta property="og:description" content="Plugin development in UE5 for game development" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/blog/en/blog_00006.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/thumbnails/blog_00006.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00006">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">UE5 Plugin Development</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2025/10/09 / UE5</p>
+                <h1 class="post-detail__title">UE5 Plugin Development</h1>
+                <p class="post-detail__description">Plugin development in UE5 for game development</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=ue5">ue5</a> <a class="tag" href="../../blog.html?tag=cpp">cpp</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html&text=UE5%20Plugin%20Development" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00006" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00006" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
+<p>This time, it&#39;s about turning features into plugins, which will be useful for future projects if you keep it in mind when developing UE5 games.</p>
+<hr>
+<h2 id="overview">Overview</h2><p>When creating a certain function of a game, paying attention to the granularity of responsibility has the following merits.</p>
+<ul>
+<li>Maintainability
+Since functions are grouped together, it is easy to understand the scope of influence of bug fixes and specification changes.</li>
+<li>Readability
+&quot;Look at this plugin for this function&quot; becomes clear, improving the overall visibility of the project.</li>
+<li>Reusability
+When taking it to another project, <strong>copy-pasting the plugin or adding dependencies</strong> is all that&#39;s needed.</li>
+<li>Compatibility with team development
+It is easy to divide roles and draw module boundaries for each person in charge.</li>
+</ul>
+<p>In this article, I will summarize focusing on <strong>&quot;what to be conscious of when cutting out as a plugin to make it beneficial&quot;</strong>.</p>
+<hr>
+<h2 id="timing-to-be-conscious-of-plugin-creation">Timing to be conscious of plugin creation</h2><p>Personally, if it fits any of the following, I try to stop and consider it as a &quot;candidate for a plugin&quot;.</p>
+<ul>
+<li>Functions that are likely to be reused in other projects in the future</li>
+<li>When &quot;game-specific logic&quot; and &quot;common mechanisms&quot; start to mix</li>
+<li>When it is a &quot;function independent of game execution&quot; such as Editor extensions and tools</li>
+</ul>
+<p>Also, <strong>this is not a recommendation to turn everything into plugins</strong>, but rather
+<strong>&quot;functions you want to survive across projects&quot;</strong> are easier to benefit from later if separated as plugins from the beginning.</p>
+<hr>
+<h2 id="how-to-decide-the-granularity-of-responsibility">How to decide the granularity of responsibility</h2><p>The guidelines I often use when deciding the granularity of responsibility are like this.</p>
+<h3 id="1-can-it-be-explained-in-one-phrase">1. Can it be explained in one phrase?</h3><p>Whether the description of the plugin can be expressed in one phrase.</p>
+<ul>
+<li>OK examples:<ul>
+<li>This plugin handles <strong>save/load management in the game</strong></li>
+<li>This plugin summarizes <strong>camera tracking, shaking, and zoom control</strong></li>
+</ul>
+</li>
+<li>NG examples:<ul>
+<li>It saves, displays UI, and also tweaks enemy parameters</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-how-to-separate-game-dependent-parts">2. How to separate game-dependent parts</h3><p>If the code on the plugin side has direct references to:</p>
+<ul>
+<li>Project-specific GameMode names</li>
+<li>Specific character classes</li>
+<li>Specific map names</li>
+</ul>
+<p>Then <strong>reusability drops dramatically</strong>.</p>
+<p>So,</p>
+<ul>
+<li>Plugin side: Define abstract interfaces and events</li>
+<li>Game side: Implement them and write &quot;concrete processing&quot;</li>
+</ul>
+<hr>
+<h2 id="procedure-for-creating-a-plugin">Procedure for creating a plugin</h2><p>The position of fine buttons changes slightly depending on the UE version, but the flow is like this.</p>
+<ol>
+<li>In UE5 Editor
+<code>Plugins</code> -&gt; Select template from &quot;New Plugin&quot;<ul>
+<li>Select according to usage such as Runtime Plugin / Editor Plugin</li>
+</ul>
+</li>
+<li>C++ / BP is generated in <code>Plugins/YourPluginName/</code> of the project</li>
+<li>In <code>.uplugin</code> of the plugin, describe<ul>
+<li>Module type (Runtime / Editor)</li>
+<li>Dependency modules</li>
+</ul>
+</li>
+<li>In the case of C++, write initialization and release processing in <code>StartupModule</code> / <code>ShutdownModule</code> of <code>YourPluginNameModule</code> class</li>
+<li>After that, build functions &quot;with the same feeling as normal project code&quot;
+However, <strong>be careful not to depend heavily on game-specific names</strong></li>
+</ol>
+<p>There is no need to aim for perfect design from the beginning, first</p>
+<ol>
+<li>Create a box with a granularity of &quot;This chunk seems like it can be independent as a plugin&quot;</li>
+<li><strong>Gradually turn parts you care about into interfaces</strong> while using it</li>
+</ol>
+<p>Then a &quot;nice boundary of responsibility&quot; will naturally become visible.</p>
+<hr>
+<h2 id="examples-of-failures-that-tend-to-happen-when-creating-plugins">Examples of failures that tend to happen when creating plugins</h2><p>Here are some patterns I got stuck in / saw.</p>
+<h3 id="1-stuffing-everything-into-one-plugin">1. Stuffing everything into one plugin</h3><p>If you can no longer explain it in one phrase, it is easier to think that it is time to split the plugin.</p>
+<ul>
+<li><p>In a plugin named &quot;Common System&quot;</p>
+<ul>
+<li>Save/Load</li>
+<li>Common UI parts</li>
+<li>Debug console</li>
+<li>Network wrapper</li>
+</ul>
+<p>As a result of putting all of them in, it becomes <strong>just a huge project</strong>.</p>
+</li>
+</ul>
+<h3 id="2-directly-writing-game-specific-classes">2. Directly writing game-specific classes</h3><ul>
+<li>Directly referencing <code>AMyGameCharacter</code> or <code>AMyGameGameMode</code> in the plugin code</li>
+<li>The moment you take it to the next project, <strong>all compilation errors</strong></li>
+</ul>
+<p>Portability increases dramatically if you use interfaces (<code>UInterface</code> and Delegates) like this:</p>
+<ul>
+<li>Have &quot;information the plugin wants&quot; supplied from outside via events or functions</li>
+<li>The plugin itself operates on the premise that &quot;someone will implement this&quot;</li>
+</ul>
+<hr>
+<h2 id="summary">Summary</h2><ul>
+<li>When making a game with UE5, it is easier later if you separate <strong>&quot;functions you want to use in the next project&quot;</strong> as plugins from the beginning</li>
+<li>It is easy to organize if you think about the granularity of responsibility based on<ul>
+<li>Can it be explained in one phrase?</li>
+<li>Is it separated from game-specific parts?</li>
+</ul>
+</li>
+<li>There is no need to make it perfect suddenly<ul>
+<li>First, &quot;Let&#39;s make this function a plugin&quot;</li>
+<li>It is realistic to adjust boundaries and interfaces while using it</li>
+</ul>
+</li>
+</ul>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html&text=UE5%20Plugin%20Development" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00006.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00006" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00006" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00005.html" class="btn btn--prev">← Tried using D…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a><a href="blog_00007.html" class="btn btn--next">RClone Introd… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#overview" data-no-preview>Overview</a></li><li class="toc-item toc-item--level-2"><a href="#timing-to-be-conscious-of-plugin-creation" data-no-preview>Timing to be conscious of plugin creation</a></li><li class="toc-item toc-item--level-2"><a href="#how-to-decide-the-granularity-of-responsibility" data-no-preview>How to decide the granularity of responsibility</a></li><li class="toc-item toc-item--level-3"><a href="#1-can-it-be-explained-in-one-phrase" data-no-preview>1. Can it be explained in one phrase?</a></li><li class="toc-item toc-item--level-3"><a href="#2-how-to-separate-game-dependent-parts" data-no-preview>2. How to separate game-dependent parts</a></li><li class="toc-item toc-item--level-2"><a href="#procedure-for-creating-a-plugin" data-no-preview>Procedure for creating a plugin</a></li><li class="toc-item toc-item--level-2"><a href="#examples-of-failures-that-tend-to-happen-when-creating-plugins" data-no-preview>Examples of failures that tend to happen when creating plugins</a></li><li class="toc-item toc-item--level-3"><a href="#1-stuffing-everything-into-one-plugin" data-no-preview>1. Stuffing everything into one plugin</a></li><li class="toc-item toc-item--level-3"><a href="#2-directly-writing-game-specific-classes" data-no-preview>2. Directly writing game-specific classes</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">Comments</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">Loading comments...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00006"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+  </body>
+</html>

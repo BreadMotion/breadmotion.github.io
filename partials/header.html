@@ -1,0 +1,76 @@
+<!-- ========================================
+     サイトヘッダー
+======================================== -->
+<header class="site-header">
+    <div class="site-header__inner">
+        <!-- ロゴ -->
+        <a
+            href="https://breadmotion.github.io/index.html"
+            class="site-logo"
+        >
+            <span class="site-logo__mark">P</span>
+            <span class="site-logo__text">pankun.dev</span>
+        </a>
+
+        <!-- モバイルメニュートグル -->
+        <button
+            class="nav-toggle"
+            aria-label="Toggle navigation"
+        >
+            <span class="nav-toggle__icon"></span>
+        </button>
+
+        <!-- ナビゲーション -->
+        <nav class="site-nav">
+            <a
+                href="https://breadmotion.github.io/index.html"
+                data-nav="index.html"
+                >Home</a
+            >
+            <a
+                href="https://breadmotion.github.io/blog.html"
+                data-nav="blog.html"
+                >Blog</a
+            >
+            <a
+                href="https://breadmotion.github.io/portfolio.html"
+                data-nav="portfolio.html"
+                >Product</a
+            >
+            <a
+                href="https://breadmotion.github.io/contact.html"
+                data-nav="contact.html"
+                >Contact</a
+            >
+            <!-- 言語切り替え -->
+            <div class="lang-group">
+                <svg
+                    class="lang-icon"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                >
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <line
+                        x1="2"
+                        y1="12"
+                        x2="22"
+                        y2="12"
+                    ></line>
+                    <path
+                        d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"
+                    ></path>
+                </svg>
+                <span class="lang-option active">JP</span>
+                <span class="lang-sep">/</span>
+                <a href="#" class="lang-option lang-switch"
+                    >EN</a
+                >
+            </div>
+        </nav>
+    </div>
+</header>

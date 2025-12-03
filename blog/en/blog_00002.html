@@ -1,0 +1,454 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Trying out Odin Inspector | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Trouble points and solutions when introducing Odin in a team" />
+    <link rel="canonical" href="https://breadmotion.github.io/blog/en/blog_00002.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/blog/blog_00002.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/blog/en/blog_00002.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/blog/en/blog_00002.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/blog/en/blog_00002.html"
+  },
+  "headline": "Trying out Odin Inspector",
+  "description": "Trouble points and solutions when introducing Odin in a team",
+  "image": [
+    "https://breadmotion.github.io/assets/img/thumbnails/blog_00002.png"
+  ],
+  "datePublished": "2024-06-02T00:00:00.000Z",
+  "dateModified": "2024-06-02T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Trying out Odin Inspector",
+      "item": "https://breadmotion.github.io/blog/en/blog_00002.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="Trying out Odin Inspector | PanKUN Blog" />
+    <meta property="og:description" content="Trouble points and solutions when introducing Odin in a team" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/blog/en/blog_00002.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/thumbnails/blog_00002.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../../favicon.ico">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00002">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">Trying out Odin Inspector</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2024/06/02 / Unity</p>
+                <h1 class="post-detail__title">Trying out Odin Inspector</h1>
+                <p class="post-detail__description">Trouble points and solutions when introducing Odin in a team</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=unity">unity</a> <a class="tag" href="../../blog.html?tag=plugin">plugin</a> <a class="tag" href="../../blog.html?tag=tool">tool</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html&text=Trying%20out%20Odin%20Inspector" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00002" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00002" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
+<p>This time, I will summarize the troubles that occurred when introducing <strong>Odin Inspector</strong> in an indie project and the actions taken at that time.</p>
+<p>Roughly speaking, the situation was:</p>
+<ul>
+<li><strong>Differences appear in <code>.meta</code> files related to Odin</strong></li>
+<li>Unity <strong>only starts in Safe Mode</strong> in some environments</li>
+<li>Errors related to Test Framework also appear</li>
+</ul>
+<p>It did not reproduce in my environment, and since &quot;people for whom it works&quot; and &quot;people for whom it doesn&#39;t&quot; were mixed, it was necessary to isolate the cause and establish response rules within the team.</p>
+<p>In this article, I will write from the perspective of <strong>&quot;doing this makes it less likely to cause accidents during the initial introduction&quot;</strong> based on the steps actually taken.</p>
+<hr>
+<h2 id="organizing-error-details">Organizing Error Details</h2><p>First, I will organize the symptoms that were actually occurring within the team.</p>
+<h3 id="1-differences-and-warnings-in-meta-files">1. Differences and warnings in meta files</h3><p>In the environment of some members, differences occurred in <code>.meta</code> files related to Odin, and warnings like:</p>
+<blockquote>
+<p>Invalid meta file exists</p>
+</blockquote>
+<p>or errors where Odin-related assemblies were not recognized correctly appeared.</p>
+<h3 id="2-starting-in-safe-mode">2. Starting in Safe Mode</h3><ul>
+<li>It starts normally in my environment</li>
+<li><strong>Unity can only be opened in Safe Mode</strong> for other members</li>
+</ul>
+<p>This became the state.</p>
+<p>Even though there was no problem when I:</p>
+<ul>
+<li>Imported Odin</li>
+<li>Performed <code>Clean -&gt; Checkout</code> in another local project to verify</li>
+</ul>
+<p>I received reports that only some members were sent to Safe Mode.</p>
+<h3 id="3-test-framework-errors">3. Test Framework Errors</h3><p>When I looked at the logs in Safe Mode, there were patterns where:</p>
+<ul>
+<li><strong>Errors related to Test Framework</strong></li>
+</ul>
+<p>were appearing separately from Odin.</p>
+<p>Unity&#39;s Test Framework is:</p>
+<ul>
+<li>Unity Editor top menu:
+<code>Window &gt; General &gt; Test Runner (name varies slightly depending on version)</code></li>
+<li>A package for writing unit tests using attributes like <code>[Test]</code> in code</li>
+</ul>
+<p>As far as reading the logs, it seemed that:</p>
+<ul>
+<li>Somewhere related to Odin <strong>depends on the Test Framework</strong></li>
+<li>However, the Test Framework is broken / unreadable in some members&#39; environments</li>
+</ul>
+<p>However, since:</p>
+<ul>
+<li>The version of Test Framework on <code>Packages/manifest.json</code> is consistent</li>
+<li>It works without problems with the same version in my other projects</li>
+</ul>
+<p>I judged that <strong>the package itself is not broken</strong>.</p>
+<hr>
+<h2 id="possible-causes">Possible Causes</h2><p>Here are some likely causes while looking at the logs.</p>
+<ol>
+<li><strong>Version differences in Unity / Odin / Test Framework</strong><ul>
+<li>Only specific members have different Unity minor versions</li>
+<li>The version when Odin was imported is slightly different</li>
+</ul>
+</li>
+<li><strong>State differences in <code>.meta</code> files or <code>Library</code></strong><ul>
+<li>The <code>Library</code> folder remains old</li>
+<li>Some <code>.meta</code> files are generated only locally and not uploaded to Git</li>
+</ul>
+</li>
+<li><strong>Difference in installation state of Test Framework</strong><ul>
+<li>Once deleted or disabled on Package Manager</li>
+<li>Cache is broken and re-import is not completed</li>
+</ul>
+</li>
+</ol>
+<p>Actually, rather than &quot;one of these&quot;, it felt like <strong>multiple conditions overlapped and caused it to be sent to Safe Mode</strong>.</p>
+<hr>
+<h2 id="actual-response-procedures">Actual Response Procedures</h2><p>From here, I will organize and write down the procedures that the team actually followed.</p>
+<h3 id="step-1-unify-everyone39s-work-procedures">Step 1: Unify everyone&#39;s work procedures</h3><p>First, we fixed <strong>&quot;what to do after Pulling&quot;</strong>.</p>
+<ol>
+<li>Do <code>git pull</code></li>
+<li>With Unity closed<ul>
+<li>Delete the <code>Library</code> folder</li>
+<li>Delete <code>Temp</code> and <code>obj</code> if necessary (optional)</li>
+</ul>
+</li>
+<li>Restart Unity and <strong>wait for the initial re-import to finish</strong></li>
+</ol>
+<p>Since there were several members who were not doing this,
+I documented the procedure and shared it via Discord / DM, unifying it as <strong>&quot;Start from here&quot;</strong>.</p>
+<blockquote>
+<p>Since this alone fixed it for some people,
+I recommend distributing a &quot;procedure manual set&quot; when introducing Odin.</p>
+</blockquote>
+<h3 id="step-2-check-status-of-odin-and-test-framework">Step 2: Check status of Odin and Test Framework</h3><p>Next, for <strong>members who still had problems</strong>, I asked them to check the package status.</p>
+<ul>
+<li>Open <code>Window &gt; Package Manager</code></li>
+<li>Check the version of <strong>Odin</strong><ul>
+<li>Is it consistent with the imported version?</li>
+</ul>
+</li>
+<li>Check <strong>Test Framework</strong> on <code>Unity Registry</code> side<ul>
+<li>Is it installed?</li>
+<li>Is the version the same as other members?</li>
+<li>Is the status not <code>Error</code> / waiting for <code>Resolve</code>?</li>
+</ul>
+</li>
+</ul>
+<p>If the Test Framework seems broken:</p>
+<ol>
+<li>Temporarily &quot;Remove&quot; the Test Framework package</li>
+<li>Restart Unity</li>
+<li>Re-install Test Framework from Package Manager again</li>
+</ol>
+<p>I asked them to re-import in this way.</p>
+<h3 id="step-3-organizing-meta-differences">Step 3: Organizing <code>.meta</code> differences</h3><p>If there are differences in <code>.meta</code> files related to Odin:</p>
+<ul>
+<li>First, <strong>commit the correct state of Odin + meta</strong> to the repository side</li>
+<li>Then, for other members:</li>
+</ul>
+<pre><code class="language-text">  1. Evacuate local changes in work branch (stash or commit)
+  2. Sync to latest branch
+  3. Delete Library
+  4. After restarting Unity, check if .meta differences related to Odin appear
+</code></pre>
+<p>I asked them to move in this flow.</p>
+<p>The idea is to set the &quot;working environment&quot; as correct and fix it in the repository, then align other environments to it.</p>
+<h2 id="operation-rules-when-introducing-odin-in-a-team">Operation Rules when introducing Odin in a team</h2><p>Based on this trouble, I will summarize the points I decided to be careful about in the next project onwards.</p>
+<h3 id="1-decide-a-quotperson-in-chargequot-before-introduction">1. Decide a &quot;person in charge&quot; before introduction</h3><ul>
+<li>Selection of Odin version</li>
+<li>Import to project</li>
+<li>Initial commit</li>
+</ul>
+<p>It is less likely to cause accidents if <strong>one person in charge does this all at once</strong>.</p>
+<p>If multiple people import individually in a halfway state,
+.meta and manifest.json tend to become messy.</p>
+<h3 id="2-document-quotassumed-versionsquot-of-unity--odin--test-framework">2. Document &quot;assumed versions&quot; of Unity / Odin / Test Framework</h3><ul>
+<li>At the start of the project<ul>
+<li>Unity version</li>
+<li>Odin version</li>
+<li>Test Framework version
+write these down in some document.
+It becomes sufficient just to guide members joining later to &quot;please match this&quot;.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-write-initial-setup-procedures-in-readme">3. Write initial setup procedures in README</h3><p>Like what we did this time:</p>
+<ul>
+<li>Things to do after git clone / git pull<ul>
+<li>Delete Library</li>
+<li>Restart Unity</li>
+</ul>
+</li>
+<li>Confirmation points when it didn&#39;t start well<ul>
+<li>Status check of Odin / Test Framework</li>
+<li>Ask to report with logs attached when it becomes Safe Mode</li>
+</ul>
+</li>
+</ul>
+<p>Just by making a simple procedure manual for such contents, the communication cost during trouble drops considerably.</p>
+<h2 id="summary">Summary</h2><p>Summarizing what I learned from this Odin introduction, it looks like this.</p>
+<ul>
+<li>Odin itself is convenient, but it is easy to have accidents due to differences in &quot;Unity / Test Framework / meta files&quot; during team introduction</li>
+<li>It is easy to adopt a policy of deciding one &quot;working environment&quot;, committing the state of Odin + Test Framework from there, and aligning other members&#39; environments to that state</li>
+<li>Just <strong>documenting the procedure and assumed version lightly in advance</strong> makes it much safer</li>
+</ul>
+<p>Since Odin is a quite powerful tool around custom inspectors and editor extensions,
+once you can create a form that can be introduced stably in a team, <strong>projects from the next one onwards will be much easier</strong>.</p>
+<p>I hope to write about what features I am actually making with Odin (attribute-based Editor extensions, ingenuity of Data management, etc.) in another article in the future.</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html&text=Trying%20out%20Odin%20Inspector" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00002.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00002" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00002" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00001.html" class="btn btn--prev">← Started a Blo…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a><a href="blog_00003.html" class="btn btn--next">Tried Creatin… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#organizing-error-details" data-no-preview>Organizing Error Details</a></li><li class="toc-item toc-item--level-3"><a href="#1-differences-and-warnings-in-meta-files" data-no-preview>1. Differences and warnings in meta files</a></li><li class="toc-item toc-item--level-3"><a href="#2-starting-in-safe-mode" data-no-preview>2. Starting in Safe Mode</a></li><li class="toc-item toc-item--level-3"><a href="#3-test-framework-errors" data-no-preview>3. Test Framework Errors</a></li><li class="toc-item toc-item--level-2"><a href="#possible-causes" data-no-preview>Possible Causes</a></li><li class="toc-item toc-item--level-2"><a href="#actual-response-procedures" data-no-preview>Actual Response Procedures</a></li><li class="toc-item toc-item--level-3"><a href="#step-1-unify-everyone39s-work-procedures" data-no-preview>Step 1: Unify everyone&amp;#39;s work procedures</a></li><li class="toc-item toc-item--level-3"><a href="#step-2-check-status-of-odin-and-test-framework" data-no-preview>Step 2: Check status of Odin and Test Framework</a></li><li class="toc-item toc-item--level-3"><a href="#step-3-organizing-meta-differences" data-no-preview>Step 3: Organizing &lt;code&gt;.meta&lt;/code&gt; differences</a></li><li class="toc-item toc-item--level-2"><a href="#operation-rules-when-introducing-odin-in-a-team" data-no-preview>Operation Rules when introducing Odin in a team</a></li><li class="toc-item toc-item--level-3"><a href="#1-decide-a-quotperson-in-chargequot-before-introduction" data-no-preview>1. Decide a &amp;quot;person in charge&amp;quot; before introduction</a></li><li class="toc-item toc-item--level-3"><a href="#2-document-quotassumed-versionsquot-of-unity--odin--test-framework" data-no-preview>2. Document &amp;quot;assumed versions&amp;quot; of Unity / Odin / Test Framework</a></li><li class="toc-item toc-item--level-3"><a href="#3-write-initial-setup-procedures-in-readme" data-no-preview>3. Write initial setup procedures in README</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">Comments</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">Loading comments...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00002"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+  </body>
+</html>

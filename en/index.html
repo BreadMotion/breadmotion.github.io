@@ -5,7 +5,7 @@
     - Updated canonical URLs and hreflang tags
     - Added og:image dimensions for better social sharing
 -->
-<html lang="ja">
+<html lang="en">
     <head prefix="og: https://ogp.me/ns#">
         <!-- ========================================
              Performance: Preconnect & Preload
@@ -13,12 +13,12 @@
         <link
             rel="preconnect"
             href="https://pagead2.googlesyndication.com"
-            crossorigin
+            crossorigin=""
         />
         <link
             rel="preconnect"
             href="https://cdnjs.cloudflare.com"
-            crossorigin
+            crossorigin=""
         />
         <link
             rel="dns-prefetch"
@@ -30,7 +30,7 @@
         />
         <link
             rel="preload"
-            href="assets/img/ogp.png"
+            href="../assets/img/ogp.png"
             as="image"
         />
 
@@ -38,7 +38,7 @@
              Google AdSense
         ======================================== -->
         <script
-            async
+            async=""
             src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
             crossorigin="anonymous"
         ></script>
@@ -47,33 +47,18 @@
              META / 基本設定
         ======================================= -->
         <meta charset="UTF-8" />
-        <title>PanKUN | HomePage</title>
+        <title>PanKUN | Portfolio</title>
         <meta
             name="viewport"
             content="width=device-width, initial-scale=1"
         />
         <meta
             name="description"
-            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。ゲームクライアント開発からCI/CDまで幅広く対応。"
+            content="Engineer PanKUN Portfolio"
         />
         <link
             rel="canonical"
-            href="https://breadmotion.github.io/"
-        />
-        <link
-            rel="alternate"
-            hreflang="ja"
-            href="https://breadmotion.github.io/"
-        />
-        <link
-            rel="alternate"
-            hreflang="en"
             href="https://breadmotion.github.io/en/index.html"
-        />
-        <link
-            rel="alternate"
-            hreflang="x-default"
-            href="https://breadmotion.github.io/"
         />
 
         <!-- ========================================
@@ -104,7 +89,7 @@
                     {
                         "@type": "ListItem",
                         "position": 1,
-                        "name": "ホーム",
+                        "name": "Home",
                         "item": "https://breadmotion.github.io/"
                     }
                 ]
@@ -116,22 +101,25 @@
         ======================================== -->
         <link
             rel="stylesheet"
-            href="assets/css/base.css"
+            href="../assets/css/base.css"
             class="active"
         />
         <link
             rel="stylesheet"
-            href="assets/css/layout.css"
+            href="../assets/css/layout.css"
             class="active"
         />
-        <link rel="stylesheet" href="assets/css/top.css" />
         <link
             rel="stylesheet"
-            href="assets/css/portfolio.css"
+            href="../assets/css/top.css"
         />
         <link
             rel="stylesheet"
-            href="assets/css/preview.css"
+            href="../assets/css/portfolio.css"
+        />
+        <link
+            rel="stylesheet"
+            href="../assets/css/preview.css"
         />
 
         <!-- ========================================
@@ -140,18 +128,18 @@
         <link
             rel="icon"
             type="image/x-icon"
-            href="favicon.ico"
+            href="../favicon.ico"
         />
         <link
             rel="icon"
             type="image/png"
-            href="assets/img/favicon-32.png"
+            href="../assets/img/favicon-32.png"
             sizes="32x32"
         />
         <link
             rel="icon"
             type="image/png"
-            href="assets/img/favicon-192.png"
+            href="../assets/img/favicon-192.png"
             sizes="192x192"
         />
 
@@ -160,16 +148,16 @@
         ======================================== -->
         <meta
             property="og:title"
-            content="PanKUN | Unity・C#ゲーム開発エンジニア ポートフォリオ・技術ブログ"
+            content="PanKUN Portfolio | pankun.dev"
         />
         <meta
             property="og:description"
-            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。"
+            content="Engineer PanKUN Portfolio"
         />
         <meta property="og:type" content="website" />
         <meta
             property="og:url"
-            content="https://breadmotion.github.io/"
+            content="https://breadmotion.github.io/en/index.html"
         />
         <meta
             property="og:image"
@@ -191,11 +179,11 @@
         />
         <meta
             name="twitter:title"
-            content="PanKUN | Unity・C#ゲーム開発エンジニア ポートフォリオ・技術ブログ"
+            content="PanKUN Portfolio | pankun.dev"
         />
         <meta
             name="twitter:description"
-            content="PanKUN - Unity/C#/UE5を使ったゲーム開発、Discord Botやツール開発を手がけるエンジニアのポートフォリオ・技術ブログサイト。"
+            content="Engineer PanKUN Portfolio"
         />
         <meta
             name="twitter:image"
@@ -208,6 +196,21 @@
         <meta
             name="google-site-verification"
             content="2us9bSy_ytt-3S-o8CVDVK8SPFWC9G3h39tzB-TKq7c"
+        />
+        <link
+            rel="alternate"
+            hreflang="ja"
+            href="https://breadmotion.github.io/"
+        />
+        <link
+            rel="alternate"
+            hreflang="en"
+            href="https://breadmotion.github.io/en/index.html"
+        />
+        <link
+            rel="alternate"
+            hreflang="x-default"
+            href="https://breadmotion.github.io/"
         />
     </head>
     <body>
@@ -226,7 +229,7 @@
                         <div class="hero-bg-overlay"></div>
                         <h1>PanKUN</h1>
                         <p class="hero-subtitle">
-                            クライアント/ツール/サーバーエンジニア
+                            Client / Tool / Server Engineer
                         </p>
 
                         <div class="hero-badges">
@@ -284,14 +287,14 @@
                                 >
                                     <path
                                         d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"
-                                    />
+                                    ></path>
                                 </svg>
                             </a>
                         </div>
                     </div>
 
                     <aside class="hero-side">
-                        <h2>最近の更新</h2>
+                        <h2>Recent Updates</h2>
                         <div class="home-latest">
                             <div class="home-latest-block">
                                 <h3
@@ -324,40 +327,48 @@
                 <section
                     class="section section--profile reveal-on-scroll"
                     id="about"
-                    data-disable-card-hover
+                    data-disable-card-hover=""
                 >
                     <h2 class="section__title">
-                        プロフィール
+                        About / Profile
                     </h2>
 
                     <div class="profile-grid">
                         <!-- 経験年数 -->
                         <article class="card card--profile">
                             <h3 class="card__title">
-                                経験
+                                Experience
                             </h3>
                             <ul class="profile-list">
                                 <li>
                                     <span
                                         class="profile-label"
-                                        >学生開発</span
+                                        >Student Dev</span
                                     ><span
                                         class="profile-value"
-                                        >約 4 年</span
+                                        >Approx. 4
+                                        years</span
                                     >
                                 </li>
                                 <li>
                                     <span
                                         class="profile-label"
-                                        >業務（ゲームクライアント）・個人</span
+                                        >Professional /
+                                        Personal</span
                                     ><span
                                         class="profile-value"
-                                        >約 2.5 年</span
+                                        >Approx. 2.5
+                                        years</span
                                     >
                                 </li>
                             </ul>
                             <p class="profile-note">
-                                学生時代から一貫してゲーム開発に関わりつつ、ツールやインフラ周りも触りながら守備範囲が広くコミット力の高いポジションを目指しています
+                                Aiming for a position with
+                                high commitment and wide
+                                coverage, involving not only
+                                game development but also
+                                tools and infrastructure
+                                since student days.
                             </p>
                         </article>
 
@@ -463,48 +474,50 @@
                                 <li>
                                     <span
                                         class="profile-label"
-                                        >ゲームクライアント</span
+                                        >Game Client</span
                                     >
                                     <span
                                         class="profile-value"
+                                        >Game Logic / Core
+                                        Logic / Asset Ops /
+                                        UI/UX /
+                                        Effects</span
                                     >
-                                        ゲームロジック /
-                                        コアロジック /
-                                        アセット運用 / UI/UX
-                                        / 演出
-                                    </span>
                                 </li>
                                 <li>
                                     <span
                                         class="profile-label"
-                                        >ツール開発</span
+                                        >Tool Dev</span
                                     >
                                     <span
                                         class="profile-value"
                                         >Discord Bot / Slack
-                                        Bot /
-                                        自動化スクリプト /
-                                        CI/CD /
-                                        社内運営に関わるツール
-                                        / API開発
-                                    </span>
+                                        Bot / Automation /
+                                        CI/CD / Internal
+                                        Tools / API
+                                        Dev</span
+                                    >
                                 </li>
                                 <li>
                                     <span
                                         class="profile-label"
-                                        >インフラ遊び</span
+                                        >Infrastructure</span
                                     >
                                     <span
                                         class="profile-value"
-                                        >自宅常駐サーバー(Discord
-                                        Bot, API Minecraft,
-                                        トンネル接続)</span
+                                        >Home Server
+                                        (Discord Bot, API
+                                        Minecraft,
+                                        Tunneling)</span
                                     >
                                 </li>
                             </ul>
                             <p class="profile-note">
-                                「とりあえず必要なものは自前で用意してみる」スタイルで、クライアント開発に限らず周辺の環境整備も一緒にやることが多いです
-                                非エンジニアでも高度なことができるようにしつつ、どのような環境でも様々な視点で行動できるようにしています
+                                Adopting a 'build it
+                                yourself if needed' style, I
+                                often work on environment
+                                setups around client
+                                development.
                             </p>
                         </article>
                     </div>
@@ -514,9 +527,7 @@
                 <section
                     class="section section--top-grid reveal-on-scroll"
                 >
-                    <h2 class="section__title">
-                        コンテンツ
-                    </h2>
+                    <h2 class="section__title">Contents</h2>
                     <ul class="card-list">
                         <li>
                             <a
@@ -525,11 +536,12 @@
                             >
                                 <h3>Blog</h3>
                                 <p class="text-muted">
-                                    技術メモや開発日誌など
+                                    Technical notes and dev
+                                    logs
                                 </p>
-                                <span class="card__more">
-                                    ブログ一覧へ →
-                                </span>
+                                <span class="card__more"
+                                    >Go to Blog List →</span
+                                >
                             </a>
                         </li>
                         <li>
@@ -553,11 +565,11 @@
                             >
                                 <h3>Contact</h3>
                                 <p class="text-muted">
-                                    お仕事のご相談など
+                                    Business inquiries, etc.
                                 </p>
-                                <span class="card__more">
-                                    お問い合わせ →
-                                </span>
+                                <span class="card__more"
+                                    >Contact →</span
+                                >
                             </a>
                         </li>
                     </ul>
@@ -568,7 +580,7 @@
                     class="section section--recommend reveal-on-scroll"
                 >
                     <h2 class="section__title">
-                        おすすめ記事
+                        Recommended Articles
                     </h2>
                     <div
                         id="recommendList"
@@ -579,32 +591,34 @@
                 <!-- 今後の展望セクション -->
                 <section
                     class="section section--feature reveal-on-scroll"
-                    data-disable-card-hover
+                    data-disable-card-hover=""
                 >
                     <h2 class="section__title">
-                        今後の展望
+                        Features / Future Plans
                     </h2>
                     <div class="card-list">
                         <article class="card">
-                            <h3>UI/UXの改善</h3>
+                            <h3>UI/UX Improvement</h3>
                             <p class="text-muted">
-                                ユーザー体験向上のためのデザイン刷新
+                                Redesign for better user
+                                experience.
                             </p>
                         </article>
                         <article class="card">
-                            <h3>コンテンツ拡充</h3>
+                            <h3>Content Expansion</h3>
                             <p class="text-muted">
-                                新しいブログ記事やプロダクトの追加
+                                Adding new blog posts and
+                                portfolio items.
                             </p>
                         </article>
                         <article class="card">
-                            <h3>プロダクトの拡充</h3>
+                            <h3>Product Expansion</h3>
                             <p class="text-muted">
-                                主に下記の開発、販売を行います<br />
-                                - Unityゲーム、ツール <br />
-                                - UEゲーム、ツール <br />
-                                - Discordボットの機能追加
-                                <br />
+                                Mainly developing and
+                                selling:<br />- Unity games,
+                                tools<br />- UE games,
+                                tools<br />- Discord bot
+                                features
                             </p>
                         </article>
                     </div>
@@ -615,18 +629,30 @@
         <!-- ========================================
              スクリプト
         ======================================== -->
-        <script src="assets/js/layout.js" defer></script>
-        <script src="assets/js/ui.js" defer></script>
-        <script src="assets/js/top.js" defer></script>
-        <script src="assets/js/recommend.js" defer></script>
-        <script src="assets/js/preview.js" defer></script>
+        <script
+            src="../assets/js/layout.js"
+            defer=""
+        ></script>
+        <script src="../assets/js/ui.js" defer=""></script>
+        <script src="../assets/js/top.js" defer=""></script>
+        <script
+            src="../assets/js/recommend.js"
+            defer=""
+        ></script>
+        <script
+            src="../assets/js/preview.js"
+            defer=""
+        ></script>
 
         <!-- 背景パーティクル -->
         <canvas id="menuAnimationCanvas"></canvas>
         <script
             src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"
-            defer
+            defer=""
         ></script>
-        <script src="assets/js/particles.js" defer></script>
+        <script
+            src="../assets/js/particles.js"
+            defer=""
+        ></script>
     </body>
 </html>

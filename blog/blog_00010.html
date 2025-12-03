@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <title>RClone運用フロー | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。" />
+    <link rel="canonical" href="https://breadmotion.github.io/blog/blog_00010.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/blog/blog_00010.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/blog/en/blog_00010.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/blog/en/blog_00010.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/blog/blog_00010.html"
+  },
+  "headline": "RClone運用フロー",
+  "description": "プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。",
+  "image": [
+    "https://breadmotion.github.io/assets/img/thumbnails/blog_00010.png"
+  ],
+  "datePublished": "2025-11-20T00:00:00.000Z",
+  "dateModified": "2025-11-20T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "RClone運用フロー",
+      "item": "https://breadmotion.github.io/blog/blog_00010.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="RClone運用フロー | PanKUN Blog" />
+    <meta property="og:description" content="プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/blog/blog_00010.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/assets/img/thumbnails/blog_00010.png" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00010">
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">RClone運用フロー</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2025/11/20 / CloudStrage</p>
+                <h1 class="post-detail__title">RClone運用フロー</h1>
+                <p class="post-detail__description">プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=tool">tool</a> <a class="tag" href="../blog.html?tag=cloudstrage">cloudstrage</a> <a class="tag" href="../blog.html?tag=git">git</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html&text=RClone%E9%81%8B%E7%94%A8%E3%83%95%E3%83%AD%E3%83%BC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
+<p>前回の記事ではWindows環境におけるrcloneの導入フローとGoogle Driveとの連携について解説しました。<br>今回はその続きとして、 <strong>プロジェクトでの大規模アセット管理</strong> という具体的な課題に対し、rcloneとシェルスクリプトを組み合わせた運用術をご紹介します。  </p>
+<p>特にGit LFSの運用で直面しがちな容量制限やパフォーマンスの問題を解決し、<br>チーム開発におけるアセット管理の効率化とCI/CD連携をスムーズに行うための実践的なアプローチを探ります。  </p>
+<h2 id="この記事のゴール">この記事のゴール</h2><ul>
+<li>プロジェクトの大規模アセット（モデル、テクスチャ、サウンドなど）をrcloneで効率的に管理する。</li>
+<li>以下のカスタムシェルスクリプトを活用し、Gitとrcloneの連携を自動化する。<ul>
+<li><code>Aup.sh</code>: アセットのアップロード</li>
+<li><code>Adown.sh</code>: アセットのダウンロード</li>
+<li><code>Alock.sh</code>: アセットのロック</li>
+<li><code>Aunlock.sh</code>: アセットのアンロック</li>
+</ul>
+</li>
+<li>CI/CDパイプラインにおけるアセットの自動同期・ビルド連携のイメージを掴む。</li>
+</ul>
+<h2 id="大規模アセット管理の課題とrcloneの優位性">大規模アセット管理の課題とrcloneの優位性</h2><p>ゲーム開発では3Dモデル、高解像度テクスチャ、長尺サウンドファイルなど、GB単位の大規模アセットが頻繁に登場します。<br>これらをGitで直接管理するとリポジトリが肥大化し、クローンやフェッチに時間がかかったりGit LFSの容量制限に引っかかったりといった問題が発生しがちです。  </p>
+<p>rcloneを外部ストレージ（Google Driveなどと連携させることでこれらの大容量アセットをGitリポジトリから切り離し効率的に管理することが可能になります。<br>Gitではアセットへの参照のみを管理し実際のデータはrclone経由で外部ストレージに保存することでリポジトリの軽量化と高速化を実現します。  </p>
+<h2 id="ueでのrclone運用戦略">UEでのRClone運用戦略</h2><p>UEのルートディレクトリに<code>Tool</code>を用意して4つのシェルスクリプトを用意します。(batchファイルに置き換えてコマンド調整しても大丈夫なはず) </p>
+<ul>
+<li><code>Aup.sh</code></li>
+<li><code>Adown.sh</code></li>
+<li><code>Alock.sh</code></li>
+<li><code>Aunlock.sh</code></li>
+</ul>
+<p>これらのスクリプトは<code>Assets</code>ディレクトリ以下の大容量ファイルになりうるプリフィックスを対象としてrcloneコマンドをラップしアセットの同期とロックを自動化します。<br>(拡張子が.uasset以外の物で対象にしたい場合、判定を追加する事)</p>
+<h3 id="1-aupsh：アセットのアップロード">1. <code>Aup.sh</code>：アセットのアップロード</h3><p><code>Aup.sh</code>は、ローカルのプロジェクトのアセットをGoogle Drive（または設定されたリモートストレージにアップロードするために使用します。<br>これはアセットの編集が完了し、共有準備ができた際に実行するイメージです。</p>
+<p><strong>使用例:</strong></p>
+<pre><code class="language-sh"># Unityプロジェクトのルートディレクトリで実行
+sh ./Tool/Aup.sh
+</code></pre>
+<p><strong>内部処理の概要:</strong></p>
+<ol>
+<li><code>Content</code> ディレクトリ以下のファイルを走査。</li>
+<li>各ファイルをrcloneコマンドでリモートストレージにアップロード。</li>
+<li>Gitリポジトリには、アップロードされたアセットのプレースホルダーファイル（またはパス情報のみ）をコミット。</li>
+</ol>
+<h3 id="2-adownsh：アセットのダウンロード">2. <code>Adown.sh</code>：アセットのダウンロード</h3><p><code>Adown.sh</code> はリモートストレージ上のアセットをローカルのプロジェクトにダウンロードするために使用します。<br>チームメンバーがプロジェクトをクローンしたり、最新のアセットに更新したい場合に実行します。</p>
+<p><strong>使用例:</strong></p>
+<pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+sh ./Tool/Adown.sh
+</code></pre>
+<p><strong>内部処理の概要:</strong></p>
+<ol>
+<li>Gitリポジトリ内のアセット参照情報を取得。</li>
+<li>rcloneコマンドで、対応するアセットファイルをリモートストレージから <code>Content</code> ディレクトリにダウンロード。</li>
+<li>ダウンロードされたアセットがエディタで認識されるように調整（必要であれば）。</li>
+</ol>
+<h3 id="3-alocksh：アセットのロック">3. <code>Alock.sh</code>：アセットのロック</h3><p>大規模アセットの同時編集によるコンフリクトを防ぐためにロック機構は非常に重要です。<br><code>Alock.sh</code> は、特定のアセットをロックし、他のメンバーが同時に編集できないようにします。  </p>
+<p><strong>使用例:</strong></p>
+<pre><code class="language-sh"># UEプロジェクトのルートディレクトリで実行
+sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset
+</code></pre>
+<p><strong>内部処理の概要:</strong></p>
+<ol>
+<li>指定されたアセットのロック情報をリモートストレージまたは専用のロック管理システムに登録。</li>
+<li>Gitリポジトリにもロック状態を反映する。</li>
+<li>ロックが成功したことを通知。既にロックされている場合はエラーメッセージを表示。</li>
+</ol>
+<h3 id="4-aunlocksh：アセットのアンロック">4. <code>Aunlock.sh</code>：アセットのアンロック</h3><p>アセットの編集が完了し<code>Aup.sh</code> でアップロードが済んだら<code>Aunlock.sh</code> を使ってロックを解除します。</p>
+<p><strong>使用例:</strong></p>
+<pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
+</code></pre>
+<p><strong>内部処理の概要:</strong></p>
+<ol>
+<li>指定されたアセットのロック情報をリモートストレージまたはロック管理システムから解除。</li>
+<li>Gitリポジトリのロック状態を更新。</li>
+<li>アンロックが成功したことを通知。ロックされていない場合や他のユーザーがロックしている場合はエラーメッセージを表示。</li>
+</ol>
+<h2 id="cicdパイプラインとの連携">CI/CDパイプラインとの連携</h2><p>これらのスクリプトはCI/CDパイプラインにも容易に組み込むことができます。</p>
+<p><strong>ビルドサーバーでの自動同期例:</strong></p>
+<ol>
+<li>CIがトリガーされた際、まず <code>git clone</code> でリポジトリをフェッチ。</li>
+<li>次に <code>./Tool/Adown.sh</code> を実行し、必要なアセットを自動ダウンロード。</li>
+<li>コマンドラインビルドを実行。</li>
+</ol>
+<p>これによりビルドサーバーは常に最新のコードとアセットでビルドを実行でき、手動でのアセット同期の手間を省くことができます。</p>
+<h2 id="mmd_rclonepng-を参照したイメージ（仮想的な図）"><code>MMD_rclone.png</code> を参照したイメージ（仮想的な図）</h2><p>前回のRClone導入フローチャート (<code>MMD_rclone.png</code>) は、RClone自体の設定フローでしたが<br>今回の運用術におけるアセットの流れは以下のようなイメージになります。  </p>
+<p>最終版のフローチャートは<a href="https://breadmotion.github.io/content/other/Rclone2.html">こちら</a>です。<br><img src="https://breadmotion.github.io/assets/img/MMD_rclone2.png" alt="RClone導入フローチャート" title="" loading="lazy" decoding="async" /></p>
+<h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
+<h3 id="alocksh：アセットのロック"><code>Alock.sh</code>：アセットのロック</h3><p><code>Alock.sh</code> は指定したアセットファイルをリモートストレージ上で「ロック済み」としてマークします。<br>これにより他の開発者が同じファイルを同時に編集するのを防ぎ、コンフリクト発生のリスクを大幅に軽減します。  </p>
+<p><strong>主な機能:</strong></p>
+<ul>
+<li>指定されたアセットのパスを受け取る。</li>
+<li>rclone のロック機能（または外部のロック管理システム）を利用し、リモートストレージ上のファイルにロックをかける。</li>
+<li>ロックが成功した場合その旨を通知。</li>
+<li>既に他のユーザーによってロックされている場合はその情報を表示し、ロックを拒否する。</li>
+</ul>
+<p><strong>運用イメージ:</strong><br>開発者が特定のアセットの編集を始める前に <code>Alock.sh Content/Model/SK_ModelA.uasset</code> を実行します。<br>ロックが成功すれば安心して作業を進めることができます。  </p>
+<h3 id="aunlocksh：アセットのアンロック"><code>Aunlock.sh</code>：アセットのアンロック</h3><p>アセットの編集が完了し<code>Aup.sh</code>でリモートストレージへのアップロードが済んだら<code>Aunlock.sh</code>を使ってロックを解除します。<br>これにより他の開発者がそのアセットをロックし、編集できるようになります。  </p>
+<p><strong>主な機能:</strong></p>
+<ul>
+<li>指定されたアセットのパスを受け取る。</li>
+<li>リモートストレージ上のファイルのロックを解除する。</li>
+<li>ロック解除が成功した場合その旨を通知。</li>
+<li>ロックされていないファイルや自分以外のユーザーがロックしているファイルを解除しようとした場合はエラーを通知する。</li>
+</ul>
+<p><strong>運用イメージ:</strong><br>アセットの編集とアップロードが終わったら<code>Aunlock.sh Content/Model/SK_ModelA.uasset</code>を実行してロックを解除します。<br>これにより他のチームメンバーがそのアセットの最新版を取得し、必要であればロックして編集を開始できます。</p>
+<h3 id="ロック機構のメリット">ロック機構のメリット</h3><ul>
+<li><strong>コンフリクトの防止</strong>: 大容量アセットの複雑なマージ作業を回避できる。</li>
+<li><strong>明確な担当範囲</strong>: 誰がどのアセットを編集しているか一目で分かり、無駄な作業重複を防ぐ。</li>
+<li><strong>チーム開発の効率化</strong>: スムーズなアセット連携により開発全体の生産性が向上する。</li>
+</ul>
+<p>これらのスクリプトとフローを適切に運用することで、Gitとrcloneを組み合わせたプロジェクトのアセット管理はより堅牢で効率的なものとなるでしょう。</p>
+<h2 id="まとめ">まとめ</h2><p>プロジェクトにおけるアセット管理はチーム開発の効率を大きく左右する重要な課題です。<br>rcloneとカスタムシェルスクリプト <code>Aup.sh</code>, <code>Adown.sh</code>, <code>Alock.sh</code>, <code>Aunlock.sh</code> を組み合わせることで、Gitリポジトリを軽量に保ちつつ大容量アセットを外部ストレージで効率的に管理し、さらにCI/CDパイプラインとの連携もスムーズに行うことが可能になります。  </p>
+<p>この運用術を導入することで開発者はアセットの容量やGit LFSの制限に煩わされることなくコンテンツ制作と開発に集中できるようになるでしょう。</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html&text=RClone%E9%81%8B%E7%94%A8%E3%83%95%E3%83%AD%E3%83%BC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00010.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00010" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00010" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00009.html" class="btn btn--prev">← ZedでC#開発環境を構築…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00011.html" class="btn btn--next">自作Discord Bot… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#この記事のゴール" data-no-preview>この記事のゴール</a></li><li class="toc-item toc-item--level-2"><a href="#大規模アセット管理の課題とrcloneの優位性" data-no-preview>大規模アセット管理の課題とrcloneの優位性</a></li><li class="toc-item toc-item--level-2"><a href="#ueでのrclone運用戦略" data-no-preview>UEでのRClone運用戦略</a></li><li class="toc-item toc-item--level-3"><a href="#1-aupsh：アセットのアップロード" data-no-preview>1. &lt;code&gt;Aup.sh&lt;/code&gt;：アセットのアップロード</a></li><li class="toc-item toc-item--level-3"><a href="#2-adownsh：アセットのダウンロード" data-no-preview>2. &lt;code&gt;Adown.sh&lt;/code&gt;：アセットのダウンロード</a></li><li class="toc-item toc-item--level-3"><a href="#3-alocksh：アセットのロック" data-no-preview>3. &lt;code&gt;Alock.sh&lt;/code&gt;：アセットのロック</a></li><li class="toc-item toc-item--level-3"><a href="#4-aunlocksh：アセットのアンロック" data-no-preview>4. &lt;code&gt;Aunlock.sh&lt;/code&gt;：アセットのアンロック</a></li><li class="toc-item toc-item--level-2"><a href="#cicdパイプラインとの連携" data-no-preview>CI/CDパイプラインとの連携</a></li><li class="toc-item toc-item--level-2"><a href="#mmd_rclonepng-を参照したイメージ（仮想的な図）" data-no-preview>&lt;code&gt;MMD_rclone.png&lt;/code&gt; を参照したイメージ（仮想的な図）</a></li><li class="toc-item toc-item--level-2"><a href="#ロック・アンロックの重要性-alocksh--aunlocksh" data-no-preview>ロック・アンロックの重要性 (&lt;code&gt;Alock.sh&lt;/code&gt; / &lt;code&gt;Aunlock.sh&lt;/code&gt;)</a></li><li class="toc-item toc-item--level-3"><a href="#alocksh：アセットのロック" data-no-preview>&lt;code&gt;Alock.sh&lt;/code&gt;：アセットのロック</a></li><li class="toc-item toc-item--level-3"><a href="#aunlocksh：アセットのアンロック" data-no-preview>&lt;code&gt;Aunlock.sh&lt;/code&gt;：アセットのアンロック</a></li><li class="toc-item toc-item--level-3"><a href="#ロック機構のメリット" data-no-preview>ロック機構のメリット</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00010"};</script>
+
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+  </body>
+</html>
