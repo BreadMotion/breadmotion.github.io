@@ -182,7 +182,7 @@ Portfolio detail pages already exist as actual files like <code>portfolio/work_0
 </ol>
 <hr>
 <h2 id="technical-points">Technical Points</h2><h3 id="1-fetch-html-and-parse">1. Fetch HTML and Parse</h3><p>What can be obtained with <code>fetch</code> is just a &quot;string&quot;. Use <code>DOMParser</code> to handle this as a DOM element.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// Get HTML
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// Get HTML
 const res = await fetch(contentPath);
 const text = await res.text();
 
@@ -198,7 +198,7 @@ modalContent.appendChild(detail);</code></pre></figure><p>With this, you can emb
 <h3 id="2-trap-of-relative-paths">2. Trap of Relative Paths</h3><p>Since detail pages are built on the premise that they are under the <code>portfolio/</code> directory, paths for images etc. are like <code>../assets/img/...</code>.
 If you display this as is in the modal of the top page (root hierarchy), the links will be broken.</p>
 <p>Therefore, I performed path rewriting processing on the extracted DOM.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// Fix paths starting with &quot;../&quot;
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// Fix paths starting with &quot;../&quot;
 function fixPaths(element) {
   const nodes = element.querySelectorAll('[src], [href]');
   nodes.forEach((node) =&gt; {
@@ -209,14 +209,14 @@ function fixPaths(element) {
 <h2 id="stuck-point-content-not-displayed">Stuck Point: Content Not Displayed?</h2><p>When I implemented it and tried to move it, a phenomenon occurred where the modal opens but <strong>the content is pure white</strong>.
 Looking at the developer tools, the element exists, but it is not reflected on the screen.</p>
 <h3 id="cause-scroll-animation">Cause: Scroll Animation</h3><p>The cause was the class <code>reveal-on-scroll</code> used on the detail page side to &quot;display softly when scrolled&quot;.</p>
-<figure class="code-block" data-lang="css"><div class="code-header">CSS</div><pre><code class="language-css">.reveal-on-scroll {
+<figure class="code-block" data-lang="css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">CSS</span></div><pre><code class="language-css">.reveal-on-scroll {
     opacity: 0; /* Initially transparent */
     transform: translateY(20px);
     /* Becomes opaque with .is-visible when scrolled into screen */
 }</code></pre></figure><p>When displaying as a detail page, the scroll detection script works, so there is no problem, but
 when inserted into the modal, that script does not move, and it ended up <strong>waiting with <code>opacity: 0</code> forever</strong>.</p>
 <h3 id="solution">Solution</h3><p>I decided to remove this class before inserting it into the modal.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">const detail = doc.querySelector(&quot;.work-detail&quot;);
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const detail = doc.querySelector(&quot;.work-detail&quot;);
 // Force display by removing animation class
 detail.classList.remove(&quot;reveal-on-scroll&quot;);</code></pre></figure><p>With this, it is now displayed safely.</p>
 <hr>

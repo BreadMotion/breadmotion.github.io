@@ -195,7 +195,7 @@ Git manages only references to assets, and actual data is stored in external sto
 <h3 id="1-aupsh-asset-upload">1. <code>Aup.sh</code>: Asset Upload</h3><p><code>Aup.sh</code> is used to upload local project assets to Google Drive (or the configured remote storage).
 This is an image executed when asset editing is complete and ready for sharing.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Execute at the root directory of the Unity project
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the Unity project
 sh ./Tool/Aup.sh</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
 <ol>
 <li>Scan files under the <code>Content</code> directory.</li>
@@ -205,7 +205,7 @@ sh ./Tool/Aup.sh</code></pre></figure><p><strong>Overview of internal processing
 <h3 id="2-adownsh-asset-download">2. <code>Adown.sh</code>: Asset Download</h3><p><code>Adown.sh</code> is used to download assets on remote storage to the local project.
 Execute this when team members clone the project or want to update to the latest assets.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Execute at the root directory of the project
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the project
 sh ./Tool/Adown.sh</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
 <ol>
 <li>Get asset reference information in the Git repository.</li>
@@ -215,7 +215,7 @@ sh ./Tool/Adown.sh</code></pre></figure><p><strong>Overview of internal processi
 <h3 id="3-alocksh-asset-lock">3. <code>Alock.sh</code>: Asset Lock</h3><p>The locking mechanism is very important to prevent conflicts due to simultaneous editing of large assets.
 <code>Alock.sh</code> locks specific assets so that other members cannot edit them at the same time.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Execute at the root directory of the UE project
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the UE project
 sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
 <ol>
 <li>Register lock information of the specified asset to remote storage or a dedicated lock management system.</li>
@@ -224,7 +224,7 @@ sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><stron
 </ol>
 <h3 id="4-aunlocksh-asset-unlock">4. <code>Aunlock.sh</code>: Asset Unlock</h3><p>When asset editing is complete and uploading with <code>Aup.sh</code> is done, use <code>Aunlock.sh</code> to release the lock.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Execute at the root directory of the project
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the project
 sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
 <ol>
 <li>Release lock information of the specified asset from remote storage or lock management system.</li>

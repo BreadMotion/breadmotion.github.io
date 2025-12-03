@@ -179,7 +179,7 @@
 </ol>
 <hr>
 <h2 id="技術的なポイント">技術的なポイント</h2><h3 id="1-htmlをfetchしてパースする">1. HTMLをfetchしてパースする</h3><p><code>fetch</code> で取得できるのは単なる「文字列」です。これをDOM要素として扱うために <code>DOMParser</code> を使います。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// HTMLを取得
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// HTMLを取得
 const res = await fetch(contentPath);
 const text = await res.text();
 
@@ -194,7 +194,7 @@ const detail = doc.querySelector(&quot;.work-detail&quot;);
 modalContent.appendChild(detail);</code></pre></figure><p>これで、<code>iframe</code> を使わずにシームレスにコンテンツを埋め込むことができます。</p>
 <h3 id="2-相対パスの罠">2. 相対パスの罠</h3><p>詳細ページは <code>portfolio/</code> ディレクトリ配下にある前提でビルドされているため、画像などのパスが <code>../assets/img/...</code> のようになっています。<br>これをトップページ（ルート階層）のモーダルでそのまま表示すると、リンク切れになってしまいます。</p>
 <p>そこで、取り出したDOMに対してパスの書き換え処理を行いました。  </p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// &quot;../&quot; で始まるパスを修正する
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// &quot;../&quot; で始まるパスを修正する
 function fixPaths(element) {
   const nodes = element.querySelectorAll('[src], [href]');
   nodes.forEach((node) =&gt; {
@@ -204,13 +204,13 @@ function fixPaths(element) {
 }</code></pre></figure><hr>
 <h2 id="ハマったポイント：中身が表示されない？">ハマったポイント：中身が表示されない？</h2><p>実装していざ動かしてみるとモーダルは開くのに <strong>中身が真っ白</strong> という現象が発生しました。<br>開発者ツールで見ると要素は存在しているのに、画面には映っていません。</p>
 <h3 id="原因：スクロールアニメーション">原因：スクロールアニメーション</h3><p>原因は、詳細ページ側で使っていた「スクロールしたらふわっと表示する」ためのクラス <code>reveal-on-scroll</code> でした。</p>
-<figure class="code-block" data-lang="css"><div class="code-header">CSS</div><pre><code class="language-css">.reveal-on-scroll {
+<figure class="code-block" data-lang="css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">CSS</span></div><pre><code class="language-css">.reveal-on-scroll {
     opacity: 0; /* 初期状態は透明 */
     transform: translateY(20px);
     /* スクロールして画面内に入ったら .is-visible が付いて不透明になる */
 }</code></pre></figure><p>詳細ページとして表示するときはスクロール検知スクリプトが動くので問題ないのですが、<br>モーダル内に挿入されたときはそのスクリプトが動かず、 <strong>永遠に <code>opacity: 0</code> のまま待機</strong> してしまっていたのです。</p>
 <h3 id="解決策">解決策</h3><p>モーダルに挿入する前にこのクラスを削除するようにしました。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">const detail = doc.querySelector(&quot;.work-detail&quot;);
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const detail = doc.querySelector(&quot;.work-detail&quot;);
 // アニメーション用クラスを削除して強制表示
 detail.classList.remove(&quot;reveal-on-scroll&quot;);</code></pre></figure><p>これで無事に表示されるようになりました。</p>
 <hr>

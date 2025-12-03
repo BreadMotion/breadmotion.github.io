@@ -200,7 +200,7 @@
 <li><strong>CORS対策</strong> として、適切なヘッダーを返す必要がある。</li>
 </ul>
 <p>実際のコード（抜粋）はこんな感じです。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">function doPost(e) {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function doPost(e) {
   // CORS対策ヘッダー
   const headers = {
     &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,
@@ -242,7 +242,7 @@
 <h2 id="フロントエンド実装-javascript">フロントエンド実装 (JavaScript)</h2><p>次にこの API を叩くフロントエンド側の処理です。<br><code>fetch</code> API を使って非同期送信を行います。</p>
 <h3 id="corsのエラーを回避するコツ">CORSのエラーを回避するコツ</h3><p>GAS に対して <code>application/json</code> で POST すると、CORS (Cross-Origin Resource Sharing) のプリフライトリクエスト (OPTIONS) が発生し、GAS がうまく返答できずにエラーになることがあります。</p>
 <p>これを回避するためにあえて <code>text/plain</code> としてデータを送信する方法を採用しました。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
 
 form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     e.preventDefault();

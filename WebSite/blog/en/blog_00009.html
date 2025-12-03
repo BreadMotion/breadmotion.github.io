@@ -199,12 +199,12 @@ I will describe how to introduce these somewhere else. (It&#39;s not particularl
 </ul>
 <hr>
 <h2 id="download-csharp-language-server">Download csharp-language-server</h2><p>If you have cargo, use the following:</p>
-<figure class="code-block" data-lang="shell"><div class="code-header">Shell</div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>If you don&#39;t have it, please get the binary for Windows from Releases on the official page.
+<figure class="code-block" data-lang="shell"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>If you don&#39;t have it, please get the binary for Windows from Releases on the official page.
 The page is <a href="https://github.com/SofusA/csharp-language-server">here</a>
 Don&#39;t forget to pass the path to the stored location from environment variables.</p>
 <p>This time I will go with the following.</p>
-<figure class="code-block" data-lang="markdown"><div class="code-header">Markdown</div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="link-language-server-to-zed-settings">Link language server to Zed settings</h2><p>Open Zed&#39;s Settings.json (please match which Setting.json to your environment).</p>
-<figure class="code-block" data-lang="json"><div class="code-header">JSON</div><pre><code class="language-json">{
+<figure class="code-block" data-lang="markdown"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Markdown</span></div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="link-language-server-to-zed-settings">Link language server to Zed settings</h2><p>Open Zed&#39;s Settings.json (please match which Setting.json to your environment).</p>
+<figure class="code-block" data-lang="json"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">JSON</span></div><pre><code class="language-json">{
   &quot;languages&quot;: {
     &quot;CSharp&quot;: {
       &quot;language_servers&quot;: [&quot;omnisharp&quot;],

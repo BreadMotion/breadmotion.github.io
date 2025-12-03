@@ -197,10 +197,10 @@
 </ul>
 <hr>
 <h2 id="csharp-language-serverをダウンロード">csharp-language-serverをダウンロード</h2><p>cargoがある方は下記</p>
-<figure class="code-block" data-lang="shell"><div class="code-header">Shell</div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>無い方は公式ページのReleasesからWindows用のバイナリを手に入れてください。<br>ページは<a href="https://github.com/SofusA/csharp-language-server">こちら</a><br>環境変数からまた格納した場所にパスを通すのも忘れずに</p>
+<figure class="code-block" data-lang="shell"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>無い方は公式ページのReleasesからWindows用のバイナリを手に入れてください。<br>ページは<a href="https://github.com/SofusA/csharp-language-server">こちら</a><br>環境変数からまた格納した場所にパスを通すのも忘れずに</p>
 <p>今回は下記でいきます。  </p>
-<figure class="code-block" data-lang="markdown"><div class="code-header">Markdown</div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="zedの設定に言語サーバーを紐付ける">Zedの設定に言語サーバーを紐付ける</h2><p>ZedのSettings.jsonを開いて(どのSetting.jsonかは環境に合わせてください。)</p>
-<figure class="code-block" data-lang="json"><div class="code-header">JSON</div><pre><code class="language-json">{
+<figure class="code-block" data-lang="markdown"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Markdown</span></div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="zedの設定に言語サーバーを紐付ける">Zedの設定に言語サーバーを紐付ける</h2><p>ZedのSettings.jsonを開いて(どのSetting.jsonかは環境に合わせてください。)</p>
+<figure class="code-block" data-lang="json"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">JSON</span></div><pre><code class="language-json">{
   &quot;languages&quot;: {
     &quot;CSharp&quot;: {
       &quot;language_servers&quot;: [&quot;omnisharp&quot;],

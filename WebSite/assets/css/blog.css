@@ -467,6 +467,26 @@
     z-index: 2;
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
+    display: inline-flex;
+    align-items: center;
+}
+
+/* 言語アイコン */
+.code-header .lang-icon,
+.code-block .lang-icon {
+    display: inline-flex;
+    width: 18px;
+    height: 18px;
+    margin-right: 0.4rem;
+    line-height: 1;
+    vertical-align: middle;
+}
+
+/* ラベルテキスト */
+.code-header .lang-label {
+    display: inline-block;
+    font-weight: 600;
+    font-size: 12px;
 }
 
 /* code-block 内の pre を調整してヘッダー分の余白を確保 */
@@ -485,11 +505,25 @@
     background: transparent;
 }
 
-/* Mermaid コンテナ */
-.mermaid {
+/* Mermaid コンテナラッパー（スクロールとドラッグ対応） */
+.mermaid-wrapper {
     margin: 1.25rem 0;
     overflow: auto;
     background: transparent;
+    cursor: grab;
+    touch-action: pan-x pan-y;
+    -webkit-overflow-scrolling: touch;
+}
+.mermaid-wrapper:active {
+    cursor: grabbing;
+}
+.mermaid-wrapper .mermaid {
+    display: block;
+}
+.mermaid-wrapper .mermaid svg {
+    max-width: none;
+    width: auto;
+    display: block;
 }
 
 /* モバイルでヘッダーが重ならないように調整 */

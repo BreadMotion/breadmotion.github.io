@@ -203,7 +203,7 @@ Write a process to receive data POSTed from the form and send it to your email a
 <li>Need to return appropriate headers as <strong>CORS measures</strong>.</li>
 </ul>
 <p>The actual code (excerpt) looks like this.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">function doPost(e) {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function doPost(e) {
   // CORS Headers
   const headers = {
     &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,
@@ -246,7 +246,7 @@ Write a process to receive data POSTed from the form and send it to your email a
 Perform asynchronous transmission using the <code>fetch</code> API.</p>
 <h3 id="tips-to-avoid-cors-errors">Tips to avoid CORS errors</h3><p>If you POST to GAS with <code>application/json</code>, a preflight request (OPTIONS) for CORS (Cross-Origin Resource Sharing) occurs, and GAS may fail to reply successfully, resulting in an error.</p>
 <p>To avoid this, I adopted a method of daringly sending data as <code>text/plain</code>.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
 
 form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     e.preventDefault();

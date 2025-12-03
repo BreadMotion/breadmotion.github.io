@@ -182,7 +182,7 @@
 <li>「抽出したクラス名が、どのファイルにも一度も登場しない」場合、それを<strong>未使用候補</strong>として出力する。</li>
 </ol>
 <p>これだけです。厳密な構文解析（AST）などはせず、単純な文字列検索（<code>includes</code>）で判定します。<br>その分「クラス名と偶然同じ単語が文章中にあったら検知漏れする」という弱点はありますが、 <strong>「使っていないものを安全に削除する」</strong> という目的には十分です。  </p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// tools/find-unused-css.js (抜粋)
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// tools/find-unused-css.js (抜粋)
 
 const cssContent = fs.readFileSync(cssFile, 'utf8');
 const selectors = extractSelectors(cssContent); // 正規表現で抽出

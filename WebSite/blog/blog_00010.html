@@ -190,7 +190,7 @@
 <p>これらのスクリプトは<code>Assets</code>ディレクトリ以下の大容量ファイルになりうるプリフィックスを対象としてrcloneコマンドをラップしアセットの同期とロックを自動化します。<br>(拡張子が.uasset以外の物で対象にしたい場合、判定を追加する事)</p>
 <h3 id="1-aupsh：アセットのアップロード">1. <code>Aup.sh</code>：アセットのアップロード</h3><p><code>Aup.sh</code>は、ローカルのプロジェクトのアセットをGoogle Drive（または設定されたリモートストレージにアップロードするために使用します。<br>これはアセットの編集が完了し、共有準備ができた際に実行するイメージです。</p>
 <p><strong>使用例:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Unityプロジェクトのルートディレクトリで実行
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Unityプロジェクトのルートディレクトリで実行
 sh ./Tool/Aup.sh</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li><code>Content</code> ディレクトリ以下のファイルを走査。</li>
@@ -199,7 +199,7 @@ sh ./Tool/Aup.sh</code></pre></figure><p><strong>内部処理の概要:</strong>
 </ol>
 <h3 id="2-adownsh：アセットのダウンロード">2. <code>Adown.sh</code>：アセットのダウンロード</h3><p><code>Adown.sh</code> はリモートストレージ上のアセットをローカルのプロジェクトにダウンロードするために使用します。<br>チームメンバーがプロジェクトをクローンしたり、最新のアセットに更新したい場合に実行します。</p>
 <p><strong>使用例:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
 sh ./Tool/Adown.sh</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>Gitリポジトリ内のアセット参照情報を取得。</li>
@@ -208,7 +208,7 @@ sh ./Tool/Adown.sh</code></pre></figure><p><strong>内部処理の概要:</stron
 </ol>
 <h3 id="3-alocksh：アセットのロック">3. <code>Alock.sh</code>：アセットのロック</h3><p>大規模アセットの同時編集によるコンフリクトを防ぐためにロック機構は非常に重要です。<br><code>Alock.sh</code> は、特定のアセットをロックし、他のメンバーが同時に編集できないようにします。  </p>
 <p><strong>使用例:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># UEプロジェクトのルートディレクトリで実行
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># UEプロジェクトのルートディレクトリで実行
 sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>指定されたアセットのロック情報をリモートストレージまたは専用のロック管理システムに登録。</li>
@@ -217,7 +217,7 @@ sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><stron
 </ol>
 <h3 id="4-aunlocksh：アセットのアンロック">4. <code>Aunlock.sh</code>：アセットのアンロック</h3><p>アセットの編集が完了し<code>Aup.sh</code> でアップロードが済んだら<code>Aunlock.sh</code> を使ってロックを解除します。</p>
 <p><strong>使用例:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
 sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>指定されたアセットのロック情報をリモートストレージまたはロック管理システムから解除。</li>
@@ -234,7 +234,7 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><str
 <p>これによりビルドサーバーは常に最新のコードとアセットでビルドを実行でき、手動でのアセット同期の手間を省くことができます。</p>
 <h2 id="mmd_rclonepng-を参照したイメージ（仮想的な図）"><code>MMD_rclone.png</code> を参照したイメージ（仮想的な図）</h2><p>前回のRClone導入フローチャート (<code>MMD_rclone.png</code>) は、RClone自体の設定フローでしたが<br>今回の運用術におけるアセットの流れは以下のようなイメージになります。  </p>
 <p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">こちら</a>です。  </p>
-<div class="mermaid">---
+<div class="mermaid-wrapper"><div class="mermaid">---
 title: RClone開発フロー
 config:
     theme:
@@ -283,7 +283,7 @@ R1 --&gt; Adown
 L1 --&gt; Adown
 Adown --&gt; L1
 
-</div><h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
+</div></div><h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
 <h3 id="alocksh：アセットのロック"><code>Alock.sh</code>：アセットのロック</h3><p><code>Alock.sh</code> は指定したアセットファイルをリモートストレージ上で「ロック済み」としてマークします。<br>これにより他の開発者が同じファイルを同時に編集するのを防ぎ、コンフリクト発生のリスクを大幅に軽減します。  </p>
 <p><strong>主な機能:</strong></p>
 <ul>

@@ -170,9 +170,9 @@
 Things like &quot;drawing pictures on a canvas&quot; and &quot;moving them&quot; can be written with surprisingly simple code.</p>
 <h3 id="introduction-is-super-easy">Introduction is Super Easy</h3><p>There is also a method to install with npm, but this time I introduced it easily with CDN.
 Just add one line to HTML.</p>
-<figure class="code-block" data-lang="html"><div class="code-header">HTML</div><pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;</code></pre></figure><p>Preparation is complete with just this.</p>
+<figure class="code-block" data-lang="html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">HTML</span></div><pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;</code></pre></figure><p>Preparation is complete with just this.</p>
 <h2 id="let39s-write-immediately">Let&#39;s Write Immediately</h2><p>First, I started from &quot;creating a canvas on the entire screen and displaying a circle&quot;.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">function setup() {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function setup() {
   // Create a canvas full of screen
   createCanvas(windowWidth, windowHeight);
 }
@@ -186,7 +186,7 @@ function draw() {
 }</code></pre></figure><p>I was able to draw with just this.
 It is a mechanism where <code>setup()</code> is called only once at the beginning, and <code>draw()</code> is called every frame.</p>
 <h2 id="trying-to-fly-particles">Trying to Fly Particles</h2><p>If you classify the circle, put it in an array, and update the coordinates, it becomes an animation where countless particles move.</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">class Particle {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">class Particle {
   constructor() {
     this.x = random(width);
     this.y = random(height);
@@ -216,7 +216,7 @@ If you write
 <code>createCanvas(windowWidth, windowHeight)</code>
 it is no problem on PC, but on smartphones, the width of the scroll bar is included, and sometimes it slightly exceeds the screen width.</p>
 <p>Finally,</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">let w = document.documentElement.clientWidth;</code></pre></figure><p>I solved it by getting the accurate width excluding the scroll bar like this.</p>
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">let w = document.documentElement.clientWidth;</code></pre></figure><p>I solved it by getting the accurate width excluding the scroll bar like this.</p>
 <h2 id="summary">Summary</h2><p>I touched p5.js for the first time, but the experience of <strong>&quot;drawing pictures with code&quot;</strong> was very fresh and fun.</p>
 <p>Why don&#39;t you add &quot;a little playfulness&quot; to your site too?</p>
 </section>
