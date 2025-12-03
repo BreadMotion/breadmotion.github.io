@@ -518,6 +518,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
     <div class="page-shell">
@@ -584,6 +585,20 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/particles.js" defer></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js initialization failed:', e);
+          }
+        }
+      });
+    </script>
   </body>
 </html>`;
 }

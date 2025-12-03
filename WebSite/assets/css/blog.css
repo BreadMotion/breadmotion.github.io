@@ -320,13 +320,12 @@
 .markdown-body h3 {
     font-size: 1.5rem;
     padding-bottom: 0.4rem;
-    border-bottom: 2px solid var(--color-border-soft);
 }
 .markdown-body h3::after {
     /* アクセントの下線を追加 */
     content: "";
     display: block;
-    width: 60px;
+    width: auto;
     height: 2px;
     background: var(--color-accent);
     margin-top: 0.4rem;
@@ -339,12 +338,12 @@
 
 /* 段落・リスト */
 .markdown-body p {
-    margin: 1.5rem 0;
+    margin: 1rem 0;
 }
 .markdown-body ul,
 .markdown-body ol {
     padding-left: 1.5rem;
-    margin: 1.5rem 0;
+    margin: 0rem 0;
 }
 .markdown-body ul {
     list-style: disc;
@@ -353,7 +352,7 @@
     list-style: decimal;
 }
 .markdown-body li {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.1rem;
     padding-left: 0.2rem;
 }
 .markdown-body li::marker {
@@ -433,7 +432,7 @@
 
 .markdown-body pre {
     position: relative;
-    background: #0d1117; /* GitHub Dark Dimmed 風 */
+    background: #0d1117;
     padding: 1.25rem;
     border-radius: var(--radius-md);
     overflow-x: auto;
@@ -442,12 +441,6 @@
     margin: 2rem 0;
     border: 1px solid var(--color-border);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
-}
-.markdown-body pre code {
-    background: transparent;
-    padding: 0;
-    color: #c9d1d9; /* 標準的なコード色 */
-    border-radius: 0;
 }
 
 /* 画像 */
