@@ -190,10 +190,8 @@
 <p>これらのスクリプトは<code>Assets</code>ディレクトリ以下の大容量ファイルになりうるプリフィックスを対象としてrcloneコマンドをラップしアセットの同期とロックを自動化します。<br>(拡張子が.uasset以外の物で対象にしたい場合、判定を追加する事)</p>
 <h3 id="1-aupsh：アセットのアップロード">1. <code>Aup.sh</code>：アセットのアップロード</h3><p><code>Aup.sh</code>は、ローカルのプロジェクトのアセットをGoogle Drive（または設定されたリモートストレージにアップロードするために使用します。<br>これはアセットの編集が完了し、共有準備ができた際に実行するイメージです。</p>
 <p><strong>使用例:</strong></p>
-<pre><code class="language-sh"># Unityプロジェクトのルートディレクトリで実行
-sh ./Tool/Aup.sh
-</code></pre>
-<p><strong>内部処理の概要:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># Unityプロジェクトのルートディレクトリで実行
+sh ./Tool/Aup.sh</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li><code>Content</code> ディレクトリ以下のファイルを走査。</li>
 <li>各ファイルをrcloneコマンドでリモートストレージにアップロード。</li>
@@ -201,10 +199,8 @@ sh ./Tool/Aup.sh
 </ol>
 <h3 id="2-adownsh：アセットのダウンロード">2. <code>Adown.sh</code>：アセットのダウンロード</h3><p><code>Adown.sh</code> はリモートストレージ上のアセットをローカルのプロジェクトにダウンロードするために使用します。<br>チームメンバーがプロジェクトをクローンしたり、最新のアセットに更新したい場合に実行します。</p>
 <p><strong>使用例:</strong></p>
-<pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
-sh ./Tool/Adown.sh
-</code></pre>
-<p><strong>内部処理の概要:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+sh ./Tool/Adown.sh</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>Gitリポジトリ内のアセット参照情報を取得。</li>
 <li>rcloneコマンドで、対応するアセットファイルをリモートストレージから <code>Content</code> ディレクトリにダウンロード。</li>
@@ -212,10 +208,8 @@ sh ./Tool/Adown.sh
 </ol>
 <h3 id="3-alocksh：アセットのロック">3. <code>Alock.sh</code>：アセットのロック</h3><p>大規模アセットの同時編集によるコンフリクトを防ぐためにロック機構は非常に重要です。<br><code>Alock.sh</code> は、特定のアセットをロックし、他のメンバーが同時に編集できないようにします。  </p>
 <p><strong>使用例:</strong></p>
-<pre><code class="language-sh"># UEプロジェクトのルートディレクトリで実行
-sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset
-</code></pre>
-<p><strong>内部処理の概要:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># UEプロジェクトのルートディレクトリで実行
+sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>指定されたアセットのロック情報をリモートストレージまたは専用のロック管理システムに登録。</li>
 <li>Gitリポジトリにもロック状態を反映する。</li>
@@ -223,10 +217,8 @@ sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset
 </ol>
 <h3 id="4-aunlocksh：アセットのアンロック">4. <code>Aunlock.sh</code>：アセットのアンロック</h3><p>アセットの編集が完了し<code>Aup.sh</code> でアップロードが済んだら<code>Aunlock.sh</code> を使ってロックを解除します。</p>
 <p><strong>使用例:</strong></p>
-<pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
-sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
-</code></pre>
-<p><strong>内部処理の概要:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header">Shell</div><pre><code class="language-sh"># プロジェクトのルートディレクトリで実行
+sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>内部処理の概要:</strong></p>
 <ol>
 <li>指定されたアセットのロック情報をリモートストレージまたはロック管理システムから解除。</li>
 <li>Gitリポジトリのロック状態を更新。</li>
@@ -241,8 +233,57 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
 </ol>
 <p>これによりビルドサーバーは常に最新のコードとアセットでビルドを実行でき、手動でのアセット同期の手間を省くことができます。</p>
 <h2 id="mmd_rclonepng-を参照したイメージ（仮想的な図）"><code>MMD_rclone.png</code> を参照したイメージ（仮想的な図）</h2><p>前回のRClone導入フローチャート (<code>MMD_rclone.png</code>) は、RClone自体の設定フローでしたが<br>今回の運用術におけるアセットの流れは以下のようなイメージになります。  </p>
-<p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">こちら</a>です。<br><img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone2.png" alt="RClone導入フローチャート" title="" loading="lazy" decoding="async" /></p>
-<h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
+<p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">こちら</a>です。  </p>
+<div class="mermaid">---
+title: RClone開発フロー
+config:
+    theme:
+    themeVariables:
+        fontSize: 10px
+---
+graph TB
+subgraph Adown[Pullするとき]
+    direction TB
+    G{Adown.sh を実行};
+    G --&gt; H[rcloneでGoogle Driveからダウンロード];
+    H --&gt; I[ローカルプロジェクトにアセット同期];
+end
+
+subgraph Aup[Pushするとき]
+    direction TB
+    B{Aup.sh を実行} --&gt;|rcloneでGoogle Driveへアップロード| D[Gitリポジトリにアセット参照コミット]
+    D --&gt; E[Git Push];
+end
+subgraph Alock[ロック]
+    direction TB
+    L2{Alock.sh を実行};
+    L2 -- 成功の場合 --&gt; L3[アセットをロック済みとしてマーク];
+    L2 -- 失敗の場合 (既にロック済み) --&gt; L4[エラー通知];
+    L4
+
+    L3 --&gt; L5[アセット編集開始];
+end
+
+subgraph Aunlock[アンロック]
+    direction TB
+    L7{Aunlock.sh を実行} --&gt; L8[アセットのロックを解除];
+end
+
+L1[アセット編集開始]
+R1[別の作業を行う]
+
+L1 --&gt; Alock
+Alock --&gt; L1
+Alock --&gt;|ロック状態で編集が完了したら| Aup
+Aup --&gt; Aunlock
+
+Alock --&gt;|エラーの場合| R1
+Aunlock --&gt; L1
+R1 --&gt; Adown
+L1 --&gt; Adown
+Adown --&gt; L1
+
+</div><h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
 <h3 id="alocksh：アセットのロック"><code>Alock.sh</code>：アセットのロック</h3><p><code>Alock.sh</code> は指定したアセットファイルをリモートストレージ上で「ロック済み」としてマークします。<br>これにより他の開発者が同じファイルを同時に編集するのを防ぎ、コンフリクト発生のリスクを大幅に軽減します。  </p>
 <p><strong>主な機能:</strong></p>
 <ul>
@@ -397,17 +438,45 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

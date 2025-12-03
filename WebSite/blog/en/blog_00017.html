@@ -183,7 +183,7 @@ Simply select one and press Enter to expand the pre-configured prompt.</p>
 <p>The part that you used to type in manually, such as &quot;Please explain about ~&quot;, can now be done with just <code>/explain</code>.</p>
 <h3 id="creating-your-own-slash-commands">Creating Your Own Slash Commands</h3><p>A powerful feature of Zed is that you can define these slash commands yourself.
 You can add them by writing in the configuration file (<code>settings.json</code>) as follows:</p>
-<pre><code class="language-json">{
+<figure class="code-block" data-lang="json"><div class="code-header">JSON</div><pre><code class="language-json">{
   &quot;assistant&quot;: {
     &quot;slash_commands&quot;: {
       &quot;refactor&quot;: {
@@ -196,9 +196,7 @@ You can add them by writing in the configuration file (<code>settings.json</code
       }
     }
   }
-}
-</code></pre>
-<p>By setting it up like this, you can instantly call up a well-thought-out, high-precision prompt simply by typing <code>/refactor</code>.</p>
+}</code></pre></figure><p>By setting it up like this, you can instantly call up a well-thought-out, high-precision prompt simply by typing <code>/refactor</code>.</p>
 <h2 id="how-to-use--and-">How to Use <code>@</code> and <code>/</code></h2><ul>
 <li><strong><code>@</code> (Context)</strong>: &quot;What&quot; to talk about (file, symbol, document, etc.)</li>
 <li><strong><code>/</code> (Command)</strong>: &quot;What&quot; to make it do (explain, modify, generate tests, etc.)</li>
@@ -337,17 +335,45 @@ In particular, slash commands are fun to develop your own favorite prompts, so b
     <script src="../../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

@@ -182,9 +182,9 @@
 <li>「抽出したクラス名が、どのファイルにも一度も登場しない」場合、それを<strong>未使用候補</strong>として出力する。</li>
 </ol>
 <p>これだけです。厳密な構文解析（AST）などはせず、単純な文字列検索（<code>includes</code>）で判定します。<br>その分「クラス名と偶然同じ単語が文章中にあったら検知漏れする」という弱点はありますが、 <strong>「使っていないものを安全に削除する」</strong> という目的には十分です。  </p>
-<pre><code class="language-javascript">// tools/find-unused-css.js (抜粋)
+<figure class="code-block" data-lang="javascript"><div class="code-header">Javascript</div><pre><code class="language-javascript">// tools/find-unused-css.js (抜粋)
 
-const cssContent = fs.readFileSync(cssFile, &#39;utf8&#39;);
+const cssContent = fs.readFileSync(cssFile, 'utf8');
 const selectors = extractSelectors(cssContent); // 正規表現で抽出
 
 selectors.forEach(sel =&gt; {
@@ -200,16 +200,12 @@ selectors.forEach(sel =&gt; {
     if (!isUsed) {
         console.log(`[UNUSED] ${sel.name}`);
     }
-});
-</code></pre>
-<h2 id="実行結果">実行結果</h2><p>スクリプトを実行してみるといくつかの未使用クラスが見つかりました。</p>
-<pre><code>Checking assets\css\layout.css...
+});</code></pre></figure><h2 id="実行結果">実行結果</h2><p>スクリプトを実行してみるといくつかの未使用クラスが見つかりました。</p>
+<figure class="code-block" data-lang=""><pre><code class="">Checking assets\css\layout.css...
   [UNUSED] .section--soft
 
 Checking assets\css\top.css...
-  [UNUSED] .btn-outline
-</code></pre>
-<p>確認してみると<br><code>section--soft</code> は初期デザイン案で作ったカードのバリエーション<br><code>btn-outline</code> は枠線のみのボタンで現在は塗りつぶしボタンしか使っていませんでした。</p>
+  [UNUSED] .btn-outline</code></pre></figure><p>確認してみると<br><code>section--soft</code> は初期デザイン案で作ったカードのバリエーション<br><code>btn-outline</code> は枠線のみのボタンで現在は塗りつぶしボタンしか使っていませんでした。</p>
 <p>これらは完全に不要なので迷わず削除！<br>CSSファイルが少しスリムになりました。</p>
 <h2 id="まとめ">まとめ</h2><p>リファクタリングというと大掛かりな作業をイメージしがちですが、<br><strong>「気になったら小さなスクリプトを書いてサクッと調べる」</strong><br>というアプローチなら日常的にコードをきれいに保てそうです。</p>
 <p>自分の手で作ったツールで自分のサイトを改善していくのは、エンジニアならではの楽しみですね。</p>
@@ -341,17 +337,45 @@ Checking assets\css\top.css...
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

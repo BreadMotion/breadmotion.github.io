@@ -278,12 +278,10 @@
 <li>まずはリポジトリ側に <strong>正しい状態の Odin + meta をコミット</strong></li>
 <li>その後、他メンバーには</li>
 </ul>
-<pre><code class="language-text">  1. 作業ブランチでローカル変更を避難する（stash or commit）
+<figure class="code-block" data-lang="text"><div class="code-header">Text</div><pre><code class="language-text">  1. 作業ブランチでローカル変更を避難する（stash or commit）
   2. 最新ブランチに同期
   3. Library を削除
-  4. Unity 再起動後、Odin 関係の .meta 差分が出るか確認
-</code></pre>
-<p>という流れで動いてもらいました。
+  4. Unity 再起動後、Odin 関係の .meta 差分が出るか確認</code></pre></figure><p>という流れで動いてもらいました。
 　
 「動いている環境」をいったん正としてリポジトリに固め、それ以外の環境を合わせにいく<br>という考え方です。</p>
 <h2 id="チームで-odin-を導入するときの運用ルール">チームで Odin を導入するときの運用ルール</h2><p>今回のトラブルを踏まえて、次のプロジェクト以降で気をつけようと思ったポイントをまとめておきます。  </p>
@@ -457,17 +455,45 @@
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

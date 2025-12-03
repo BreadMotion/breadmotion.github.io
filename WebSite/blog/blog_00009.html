@@ -197,14 +197,10 @@
 </ul>
 <hr>
 <h2 id="csharp-language-serverをダウンロード">csharp-language-serverをダウンロード</h2><p>cargoがある方は下記</p>
-<pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server
-</code></pre>
-<p>無い方は公式ページのReleasesからWindows用のバイナリを手に入れてください。<br>ページは<a href="https://github.com/SofusA/csharp-language-server">こちら</a><br>環境変数からまた格納した場所にパスを通すのも忘れずに</p>
+<figure class="code-block" data-lang="shell"><div class="code-header">Shell</div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>無い方は公式ページのReleasesからWindows用のバイナリを手に入れてください。<br>ページは<a href="https://github.com/SofusA/csharp-language-server">こちら</a><br>環境変数からまた格納した場所にパスを通すのも忘れずに</p>
 <p>今回は下記でいきます。  </p>
-<pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe
-</code></pre>
-<h2 id="zedの設定に言語サーバーを紐付ける">Zedの設定に言語サーバーを紐付ける</h2><p>ZedのSettings.jsonを開いて(どのSetting.jsonかは環境に合わせてください。)</p>
-<pre><code class="language-json">{
+<figure class="code-block" data-lang="markdown"><div class="code-header">Markdown</div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="zedの設定に言語サーバーを紐付ける">Zedの設定に言語サーバーを紐付ける</h2><p>ZedのSettings.jsonを開いて(どのSetting.jsonかは環境に合わせてください。)</p>
+<figure class="code-block" data-lang="json"><div class="code-header">JSON</div><pre><code class="language-json">{
   &quot;languages&quot;: {
     &quot;CSharp&quot;: {
       &quot;language_servers&quot;: [&quot;omnisharp&quot;],
@@ -218,9 +214,7 @@
       }
     }
   }
-}
-</code></pre>
-<p>Zedを再起動して適当な.csファイルを開いてみましょう。<br>これだけで稼働自体はするはずです。  </p>
+}</code></pre></figure><p>Zedを再起動して適当な.csファイルを開いてみましょう。<br>これだけで稼働自体はするはずです。  </p>
 <h3 id="zedのomnisharp拡張が古いフォルダを掴んでエラーになる">ZedのOmniSharp拡張が古いフォルダを掴んでエラーになる</h3><p>Zedソフトが格納されているディレクトリ内の <strong>extensions/work</strong> の csharpフォルダを手動削除で解決するかも</p>
 <hr>
 <h2 id="稼働しなかった場合">稼働しなかった場合</h2><ol>
@@ -368,17 +362,45 @@
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

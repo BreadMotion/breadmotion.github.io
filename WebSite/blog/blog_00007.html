@@ -174,8 +174,113 @@
 のステップを 一つのフローチャートにまとめて可視化しました。</li>
 </ul>
 <h2 id="rclone-導入フロー（mermaid版）">RClone 導入フロー（Mermaid版）</h2><p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone.html">こちら</a>です。</p>
-<p><img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone.png" alt="RClone導入フローチャート" title="" loading="lazy" decoding="async" /></p>
-<hr>
+<div class="mermaid">---
+title: RClone導入フロー
+config:
+    theme:
+    themeVariables:
+        fontSize: 10px
+---
+flowchart TD
+    %% --- classDef 定義 ---
+    classDef startNode   fill:#d5f5e3,stroke:#27ae60,stroke-width:2px,color:black;
+    classDef endNode     fill:#fdebd0,stroke:#e67e22,stroke-width:2px,color:black;
+    classDef processNode fill:#e8f8f5,stroke:#148f77,stroke-width:1px,color:black;
+    classDef checkNode   fill:#fef9e7,stroke:#b7950b,stroke-width:1px,color:black;
+
+    %% --- 要素定義 ---
+    Start(&quot;開始
+        ターミナルを開く&quot;)
+
+    subgraph G1[WinGet導入]
+        direction LR
+        S1Start(start)
+        S1Check{&quot;WinGetの存在確認
+`winget version`&quot;}
+        S1Install[WingetのDownloadとInstall]
+        S1Note[&quot;WinGet がない場合にやること
+
+1. 下記URLをクリックでブラウザが開く
+2. インストール
+https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP&quot;]
+
+        S1End(end)
+
+        S1Start --&gt; S1Check
+        S1Check --&gt;|バージョン表記なし| S1Install
+        S1Check ---&gt;|バージョン表記あり| S1End
+        S1Install --&gt; S1Check
+        S1Check ~~~ S1Note
+    end
+
+    subgraph G2[rclone導入]
+        direction LR
+        S2Start(start)
+        S2Check{&quot;rcloneの存在確認
+`rclone --version`&quot;}
+        S2Install[&quot;rcloneのインストール
+`winget install rclone.rclone`&quot;]
+
+        S2End(end)
+
+        S2Start --&gt; S2Check
+        S2Check --&gt;|バージョン表記あり| S2End
+        S2Check -- バージョン表記なし --&gt; S2Install
+        S2Install --&gt; S2Check
+    end
+
+    subgraph G3[rclone設定]
+        direction LR
+        S3Start(start)
+        S3Setting[&quot;GoogleDriveリモート設定
+(rclone の設定)&quot;]
+        S3SettingNote[&quot;やること
+
+1. `rclone config` を実行
+2. `n` で新しいリモートを作成
+3. Name: `gdrive` と設定する
+4. Storage: `drive` を選択
+5. Scope: `drive` (フルアクセス) を選択
+6. `root_folder_id` にドライブフォルダIDを設定&quot;]
+
+        S3SettingNote1[&quot;フォルダIDの取得方法
+
+1. 対象の共有フォルダのURLを取得する
+2. https://drive.google.com/drive/u/0/folders/XXXXXXXXXXXXXXXXXXXXだったとする
+3. XXXXXXXXXXXXXXXXXXXXがフォルダID&quot;]
+        S3Check{動作確認}
+        S3CheckNote[&quot;やること
+
+1. `rclone lsd gdrive:` でリスト取得
+2. 必要なら `rclone ls gdrive:unity-assets` で中身を確認
+3. 実際のプロジェクト共有ファイルになっていればOK&quot;]
+
+        S3End(end)
+
+        S3Start --&gt; S3Setting --&gt; S3Check
+        S3Start ~~~ S3SettingNote
+        S3Start ~~~ S3SettingNote1
+        S3SettingNote ~~~ S3CheckNote
+        S3Check --&gt;| 同期していない| S3Setting
+        S3Check --&gt;|同期している| S3End
+    end
+
+    Start --&gt; G1 --&gt; G2 --&gt; G3 --&gt; End(構築完了)
+
+    linkStyle 1 stroke:blue,stroke-width:2px;
+    linkStyle 2 stroke:red,stroke-width:2px;
+    linkStyle 6 stroke:red,stroke-width:2px;
+    linkStyle 7 stroke:blue,stroke-width:2px;
+    linkStyle 14 stroke:blue,stroke-width:2px;
+    linkStyle 15 stroke:red,stroke-width:2px;
+
+    %% --- classDef の適用 ---
+    class Start startNode
+    class End endNode
+    class S1Check,S2Check,S3Check checkNode
+    class S1Install,S2Install,S3Setting processNode
+    click S1Note href &quot;https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP&quot;
+</div><hr>
 <h2 id="このフローで何ができる？">このフローで何ができる？</h2><p>このフローは、Windows環境で以下の一連の作業をミスなく実行できるように可視化したものです。</p>
 <ul>
 <li>WinGet がない場合の対処</li>
@@ -329,17 +434,45 @@
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

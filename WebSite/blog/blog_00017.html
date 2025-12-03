@@ -179,7 +179,7 @@
 <h3 id="基本的な使い方">基本的な使い方</h3><p>Assistant Panelの入力欄で <code>/</code> を入力すると、登録されているコマンドのリストが表示されます。<br>選択してEnterを押すだけで事前に設定したプロンプトが展開されます。</p>
 <p>これまでは毎回「～について解説してください」と手入力していた部分が <code>/explain</code> だけで済むようになります。</p>
 <h3 id="独自のスラッシュコマンドを作る">独自のスラッシュコマンドを作る</h3><p>Zedの強力な点はこのスラッシュコマンドを自分で定義できることです。<br>設定ファイル (<code>settings.json</code>) に以下のように記述することで追加できます。</p>
-<pre><code class="language-json">{
+<figure class="code-block" data-lang="json"><div class="code-header">JSON</div><pre><code class="language-json">{
   &quot;assistant&quot;: {
     &quot;slash_commands&quot;: {
       &quot;refactor&quot;: {
@@ -192,9 +192,7 @@
       }
     }
   }
-}
-</code></pre>
-<p>このように設定しておけば<code>/refactor</code> と打つだけであらかじめ練り上げた精度の高いプロンプトを瞬時に呼び出せます。</p>
+}</code></pre></figure><p>このように設定しておけば<code>/refactor</code> と打つだけであらかじめ練り上げた精度の高いプロンプトを瞬時に呼び出せます。</p>
 <h2 id="-と--の使い分け"><code>@</code> と <code>/</code> の使い分け</h2><ul>
 <li><strong><code>@</code> (Context)</strong> : 「何について」話すか（ファイル、シンボル、ドキュメントなど）</li>
 <li><strong><code>/</code> (Command)</strong> : 「何をさせる」か（解説、修正、テスト生成など）</li>
@@ -330,17 +328,45 @@
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

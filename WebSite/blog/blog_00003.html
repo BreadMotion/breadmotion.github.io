@@ -246,7 +246,7 @@
 <li><code>OdinEditorWindow</code> を継承した <code>ContextEditorWindow</code> を用意</li>
 <li><code>MenuItem</code> 属性でメニューから開けるようにする</li>
 </ul>
-<pre><code class="language-csharp">using Sirenix.OdinInspector;
+<figure class="code-block" data-lang="csharp"><div class="code-header">Csharp</div><pre><code class="language-csharp">using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
@@ -273,9 +273,7 @@ public class ContextEditorWindow : OdinEditorWindow
     public RewardConfig[] rewards;
 
     // 必要なら、検索・フィルタ用のフィールドもここに置く
-}
-</code></pre>
-<p>ウィンドウを開くだけで</p>
+}</code></pre></figure><p>ウィンドウを開くだけで</p>
 <ul>
 <li>指定したScriptableObjectの中身が <strong>同じ画面</strong> に展開される</li>
 <li>その場で値を編集、ほぞんが　反映される</li>
@@ -288,7 +286,7 @@ public class ContextEditorWindow : OdinEditorWindow
 </ul>
 <p>という二重の使い方ができます。</p>
 <p>例えば :</p>
-<pre><code class="language-csharp">[CreateAssetMenu(menuName = &quot;Game/Event&quot;)]
+<figure class="code-block" data-lang="csharp"><div class="code-header">Csharp</div><pre><code class="language-csharp">[CreateAssetMenu(menuName = &quot;Game/Event&quot;)]
 public class EventConfig : ScriptableObject
 {
     [LabelText(&quot;イベント名&quot;)]
@@ -302,9 +300,7 @@ public class EventConfig : ScriptableObject
     
     [LabelText(&quot;有効フラグ&quot;)]
     public bool isEnabled;
-}
-</code></pre>
-<p>これを先ほどのContextEditorWindowのフィールドとして参照しておけば、<br>ウィンドウ側でInlineEditorしたときに、 <strong>Odinのデコレーション込みで表示されます</strong> 。</p>
+}</code></pre></figure><p>これを先ほどのContextEditorWindowのフィールドとして参照しておけば、<br>ウィンドウ側でInlineEditorしたときに、 <strong>Odinのデコレーション込みで表示されます</strong> 。</p>
 <h3 id="3-ちょっとしたux改善">3. ちょっとしたUX改善</h3><p>例：</p>
 <ul>
 <li>「選択中のステージだけテストシーンを起動する」ボタン</li>
@@ -469,17 +465,45 @@ public class EventConfig : ScriptableObject
     <script src="../assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>

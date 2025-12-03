@@ -587,17 +587,45 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
     <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
       document.addEventListener('DOMContentLoaded', function() {
         if (window.hljs && typeof hljs.highlightAll === 'function') {
           try {
             hljs.highlightAll();
           } catch (e) {
-            console.error('Highlight.js initialization failed:', e);
+            console.error('Highlight.js failed:', e);
           }
         }
       });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
     </script>
   </body>
 </html>`;
@@ -668,6 +696,38 @@ function createHtml({
       const headings = [];
       const slugger = new marked.Slugger();
       const renderer = new marked.Renderer();
+
+      // 言語マップ: フェンス識別子を人間向け表示に変換
+      const LANG_MAP = {
+        js: "JavaScript",
+        jsx: "JavaScript (JSX)",
+        ts: "TypeScript",
+        tsx: "TypeScript (TSX)",
+        py: "Python",
+        rb: "Ruby",
+        java: "Java",
+        c: "C",
+        cpp: "C++",
+        h: "C/C++ Header",
+        cs: "C#",
+        go: "Go",
+        rs: "Rust",
+        php: "PHP",
+        swift: "Swift",
+        kt: "Kotlin",
+        sh: "Shell",
+        bash: "Bash",
+        zsh: "Zsh",
+        json: "JSON",
+        html: "HTML",
+        css: "CSS",
+        yml: "YAML",
+        yaml: "YAML",
+        md: "Markdown",
+        mermaid: "Mermaid",
+        mmd: "Mermaid",
+      };
+
       renderer.heading = (text, level) => {
         const id = slugger.slug(text);
         headings.push({ level, text, id });
@@ -681,6 +741,31 @@ function createHtml({
         }
         // Add lazy loading and decoding to improve performance and reduce CLS
         return `<img src="${src}" alt="${escapeHtml(text)}" title="${escapeHtml(title || "")}" loading="lazy" decoding="async" />`;
+      };
+
+      // カスタム code レンダラー:
+      // - mermaid / mmd の場合は <div class="mermaid"> を出力してクライアントで描画
+      // - その他は言語ラベルを上部に表示する <figure class="code-block"> を生成
+      renderer.code = (code, infostring, escaped) => {
+        const lang =
+          (infostring || "").trim().split(/\s+/)[0] || "";
+        const label =
+          LANG_MAP[lang] ||
+          (lang
+            ? lang.charAt(0).toUpperCase() + lang.slice(1)
+            : "");
+        // Mermaid: クライアント側で初期化して描画する
+        if (lang === "mermaid" || lang === "mmd") {
+          return `<div class="mermaid">${escapeHtml(code)}</div>`;
+        }
+        const langClass = lang
+          ? `language-${escapeHtmlAttr(lang)}`
+          : "";
+        const headerHtml = label
+          ? `<div class="code-header">${escapeHtml(label)}</div>`
+          : "";
+        const codeHtml = escaped ? code : escapeHtml(code);
+        return `<figure class="code-block" data-lang="${escapeHtmlAttr(lang)}">${headerHtml}<pre><code class="${langClass}">${codeHtml}</code></pre></figure>`;
       };
 
       const htmlBody = marked.parse(content, { renderer });
