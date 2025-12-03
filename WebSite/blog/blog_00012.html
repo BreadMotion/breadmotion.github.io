@@ -9,6 +9,12 @@
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00012.html" />
     <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00012.html" />
     <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00012.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
     <!-- Google AdSense -->
 <script
     async
@@ -43,6 +49,41 @@
       "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
     }
   }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "静的サイトにお問い合わせフォームを実装する (GAS連携)",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00012.html"
+    }
+  ]
 }</script>
     <meta property="og:title" content="静的サイトにお問い合わせフォームを実装する (GAS連携) | PanKUN Blog" />
     <meta property="og:description" content="GitHub Pagesなどの静的サイトで、サーバーを持たずにお問い合わせフォームを実装する方法（Google Apps Script利用）をまとめました。" />
@@ -309,7 +350,7 @@ form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
          <section class="section section--comments">
     <h2 class="section__title">コメント</h2>
     <div id="comments" class="post-comments">
-      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comments&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;dark&quot;}'>
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
         <p class="giscus-loading">コメントを読み込み中...</p>
       </div>
     </div>
@@ -362,12 +403,12 @@ form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00012"};</script>
 
     <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/ui.js" defer></script>
     <script src="../assets/js/post-interactions.js" defer></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="../assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
     <script src="../assets/js/toc.js" defer></script>
     <script src="../assets/js/recommend.js" defer></script>
   </body>

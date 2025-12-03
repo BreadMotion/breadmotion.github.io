@@ -9,6 +9,12 @@
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00010.html" />
     <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00010.html" />
     <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00010.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
     <!-- Google AdSense -->
 <script
     async
@@ -43,6 +49,41 @@
       "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
     }
   }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "RClone運用フロー",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00010.html"
+    }
+  ]
 }</script>
     <meta property="og:title" content="RClone運用フロー | PanKUN Blog" />
     <meta property="og:description" content="プロジェクトでrcloneとシェルスクリプトを活用し、大規模アセットの効率的な管理とCI/CD連携を実現する方法を解説します。" />
@@ -197,7 +238,7 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
 </ol>
 <p>これによりビルドサーバーは常に最新のコードとアセットでビルドを実行でき、手動でのアセット同期の手間を省くことができます。</p>
 <h2 id="mmd_rclonepng-を参照したイメージ（仮想的な図）"><code>MMD_rclone.png</code> を参照したイメージ（仮想的な図）</h2><p>前回のRClone導入フローチャート (<code>MMD_rclone.png</code>) は、RClone自体の設定フローでしたが<br>今回の運用術におけるアセットの流れは以下のようなイメージになります。  </p>
-<p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">こちら</a>です。<br><img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone2.png" alt="RClone導入フローチャート" title="" /></p>
+<p>最終版のフローチャートは<a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">こちら</a>です。<br><img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone2.png" alt="RClone導入フローチャート" title="" loading="lazy" decoding="async" /></p>
 <h2 id="ロック・アンロックの重要性-alocksh--aunlocksh">ロック・アンロックの重要性 (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>複数人で同時に編集する際、意図しない上書きやコンフリクトは避けたい問題です。<br>Git LFS のファイルロック機能と同様に<code>rclone</code>を利用したアセット管理においてもこのロック機構は非常に重要になります。<code>Alock.sh</code>と<code>Aunlock.sh</code>は、そのためのカスタムシェルスクリプトです。  </p>
 <h3 id="alocksh：アセットのロック"><code>Alock.sh</code>：アセットのロック</h3><p><code>Alock.sh</code> は指定したアセットファイルをリモートストレージ上で「ロック済み」としてマークします。<br>これにより他の開発者が同じファイルを同時に編集するのを防ぎ、コンフリクト発生のリスクを大幅に軽減します。  </p>
 <p><strong>主な機能:</strong></p>
@@ -290,7 +331,7 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
          <section class="section section--comments">
     <h2 class="section__title">コメント</h2>
     <div id="comments" class="post-comments">
-      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comments&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;dark&quot;}'>
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
         <p class="giscus-loading">コメントを読み込み中...</p>
       </div>
     </div>
@@ -343,12 +384,12 @@ sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00010"};</script>
 
     <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js"></script>
+    <script src="../assets/js/ui.js" defer></script>
     <script src="../assets/js/post-interactions.js" defer></script>
-    <script src="../assets/js/preview.js"></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="../assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
     <script src="../assets/js/toc.js" defer></script>
     <script src="../assets/js/recommend.js" defer></script>
   </body>
