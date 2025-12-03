@@ -121,6 +121,8 @@ function createHtml({
     <meta property="og:description" content="${safeDesc}" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="PanKUN" />
     <meta property="og:email" content="pankun.dev@gmail.com" />
 

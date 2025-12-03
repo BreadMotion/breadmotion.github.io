@@ -506,6 +506,8 @@ function createHtml({
     <meta property="og:type" content="article" />
     <meta property="og:url" content="${canonicalUrl}" />
     <meta property="og:image" content="${imageUrl}" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="PanKUN" />
     <link rel="shortcut icon" href="${pathPrefix}/../favicon.ico">
     <link rel="icon" type="image/png" href="${pathPrefix}/assets/img/favicon-32.png" sizes="32x32">
