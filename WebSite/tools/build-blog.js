@@ -216,19 +216,19 @@ function createShareButtonsHtml(title, url, locale) {
     {
       name: "Twitter",
       url: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.[...]`,
       className: "twitter",
     },
     {
       name: "Facebook",
       url: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.[...]`,
       className: "facebook",
     },
     {
       name: "LINE",
       url: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}`,
-      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>`,
+      icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.[...]`,
       className: "line",
     },
   ];
@@ -442,6 +442,44 @@ function createHtml({
     postId: id,
   };
 
+  // Additional JSON-LD: Person with sameAs and BreadcrumbList for richer results
+  const personJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    name: "PanKUN",
+    url: BASE_URL,
+    sameAs: [
+      "https://github.com/breadmotion",
+      "https://x.com/pankun2000_",
+      "https://twitter.com/pankun2000_",
+    ],
+  };
+
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: `${BASE_URL}/`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${BASE_URL}/blog.html`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: title,
+        item: canonicalUrl,
+      },
+    ],
+  };
+
   return `<!doctype html>
 <html lang="${locale.lang}">
   <head>
@@ -453,8 +491,16 @@ function createHtml({
     <link rel="alternate" hreflang="ja" href="${jaUrl}" />
     <link rel="alternate" hreflang="en" href="${enUrl}" />
     <link rel="alternate" hreflang="x-default" href="${enUrl}" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="${BASE_URL}/assets/img/ogp.png">
+
     ${adScript}
     <script type="application/ld+json">${JSON.stringify(jsonLd, null, 2)}</script>
+    <script type="application/ld+json">${JSON.stringify(personJsonLd, null, 2)}</script>
+    <script type="application/ld+json">${JSON.stringify(breadcrumbJsonLd, null, 2)}</script>
     <meta property="og:title" content="${safeTitle}${locale.site_title_suffix}" />
     <meta property="og:description" content="${safeDesc}" />
     <meta property="og:type" content="article" />
@@ -528,12 +574,12 @@ function createHtml({
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
-    <script src="${pathPrefix}/assets/js/ui.js"></script>
+    <script src="${pathPrefix}/assets/js/ui.js" defer></script>
     <script src="${pathPrefix}/assets/js/post-interactions.js" defer></script>
-    <script src="${pathPrefix}/assets/js/preview.js"></script>
+    <script src="${pathPrefix}/assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
-    <script src="${pathPrefix}/assets/js/particles.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="${pathPrefix}/assets/js/particles.js" defer></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
   </body>
@@ -616,7 +662,8 @@ function createHtml({
         if (src && src.startsWith("../")) {
           src = `${relativePrefix}/${src.substring(3)}`;
         }
-        return `<img src="${src}" alt="${text}" title="${title || ""}" />`;
+        // Add lazy loading and decoding to improve performance and reduce CLS
+        return `<img src="${src}" alt="${escapeHtml(text)}" title="${escapeHtml(title || "")}" loading="lazy" decoding="async" />`;
       };
 
       const htmlBody = marked.parse(content, { renderer });
