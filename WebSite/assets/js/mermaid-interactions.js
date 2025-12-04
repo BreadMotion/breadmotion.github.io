@@ -97,7 +97,10 @@
       toolbar.style.display = "";
       const pad = 8;
       // Position at top-right of the wrapper
-      const left = Math.max(0, r.right - toolbar.offsetWidth - pad);
+      const left = Math.max(
+        0,
+        r.right - toolbar.offsetWidth - pad,
+      );
       const top = Math.max(0, r.top + pad);
       toolbar.style.position = "fixed";
       toolbar.style.left = left + "px";
@@ -122,7 +125,11 @@
 
     // Zoom Logic
     function zoomTo(newScale, centerPoint) {
-      const targetScale = clamp(newScale, MIN_SCALE, MAX_SCALE);
+      const targetScale = clamp(
+        newScale,
+        MIN_SCALE,
+        MAX_SCALE,
+      );
       const ratio = targetScale / state.scale;
 
       // Calculate new position to keep centerPoint fixed
@@ -135,8 +142,10 @@
       // translate_new = P_screen - P_local * scale_new
       // translate_new = P_screen - ((P_screen - translate_old) / scale_old) * scale_new
 
-      const localX = (centerPoint.x - state.x) / state.scale;
-      const localY = (centerPoint.y - state.y) / state.scale;
+      const localX =
+        (centerPoint.x - state.x) / state.scale;
+      const localY =
+        (centerPoint.y - state.y) / state.scale;
 
       state.x = centerPoint.x - localX * targetScale;
       state.y = centerPoint.y - localY * targetScale;
@@ -146,15 +155,19 @@
     }
 
     // Wheel Zoom
-    wrapper.addEventListener("wheel", (e) => {
-      if (e.ctrlKey || e.metaKey) {
-        e.preventDefault();
-        const delta = -e.deltaY;
-        const factor = Math.exp(delta * ZOOM_SENSITIVITY);
-        const center = getPoint(e.clientX, e.clientY);
-        zoomTo(state.scale * factor, center);
-      }
-    }, { passive: false });
+    wrapper.addEventListener(
+      "wheel",
+      (e) => {
+        if (e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          const delta = -e.deltaY;
+          const factor = Math.exp(delta * ZOOM_SENSITIVITY);
+          const center = getPoint(e.clientX, e.clientY);
+          zoomTo(state.scale * factor, center);
+        }
+      },
+      { passive: false },
+    );
 
     // Pointer Events (Pan & Pinch)
     let pointers = new Map();
@@ -173,10 +186,19 @@
       };
     }
 
+    // Prevent native drag behavior
+    wrapper.addEventListener("dragstart", (e) => {
+      e.preventDefault();
+    });
+
     wrapper.addEventListener("pointerdown", (e) => {
       if (e.target.closest(".mermaid-toolbar")) return;
+      e.preventDefault();
       wrapper.setPointerCapture(e.pointerId);
-      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      pointers.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+      });
 
       content.style.transition = "none"; // Disable transition during drag
 
@@ -194,7 +216,10 @@
 
     wrapper.addEventListener("pointermove", (e) => {
       if (!pointers.has(e.pointerId)) return;
-      pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+      pointers.set(e.pointerId, {
+        x: e.clientX,
+        y: e.clientY,
+      });
 
       if (pointers.size === 2) {
         // Pinch Zoom
@@ -216,28 +241,33 @@
         // We need to convert screen center to wrapper-relative
         const rect = wrapper.getBoundingClientRect();
         const wrapperCenter = {
-            x: currentCenter.x - rect.left,
-            y: currentCenter.y - rect.top
+          x: currentCenter.x - rect.left,
+          y: currentCenter.y - rect.top,
         };
 
         // Use the zoomTo logic but manually update state to avoid double scheduling
         // zoomTo logic: newTranslate = center - (center - oldTranslate) * (newScale / oldScale)
         // Here we already panned, so 'oldTranslate' is the current state.x/y
 
-        const targetScale = clamp(newScale, MIN_SCALE, MAX_SCALE);
+        const targetScale = clamp(
+          newScale,
+          MIN_SCALE,
+          MAX_SCALE,
+        );
         // Only apply if scale changed significantly
         if (Math.abs(targetScale - state.scale) > 0.001) {
-             const localX = (wrapperCenter.x - state.x) / state.scale;
-             const localY = (wrapperCenter.y - state.y) / state.scale;
+          const localX =
+            (wrapperCenter.x - state.x) / state.scale;
+          const localY =
+            (wrapperCenter.y - state.y) / state.scale;
 
-             state.x = wrapperCenter.x - localX * targetScale;
-             state.y = wrapperCenter.y - localY * targetScale;
-             state.scale = targetScale;
+          state.x = wrapperCenter.x - localX * targetScale;
+          state.y = wrapperCenter.y - localY * targetScale;
+          state.scale = targetScale;
         }
 
         lastCenter = currentCenter;
         scheduleUpdate();
-
       } else if (pointers.size === 1) {
         // Pan
         const dx = e.clientX - lastCenter.x;
@@ -262,7 +292,8 @@
         lastCenter = { x: p.x, y: p.y };
       }
       if (pointers.size === 0) {
-        content.style.transition = "transform 0.1s ease-out"; // Re-enable transition
+        content.style.transition =
+          "transform 0.1s ease-out"; // Re-enable transition
       }
     }
 
@@ -273,13 +304,19 @@
     // --- Toolbar Handlers ---
     btnIn.addEventListener("click", () => {
       const rect = wrapper.getBoundingClientRect();
-      const center = { x: rect.width / 2, y: rect.height / 2 };
+      const center = {
+        x: rect.width / 2,
+        y: rect.height / 2,
+      };
       zoomTo(state.scale * 1.2, center);
     });
 
     btnOut.addEventListener("click", () => {
       const rect = wrapper.getBoundingClientRect();
-      const center = { x: rect.width / 2, y: rect.height / 2 };
+      const center = {
+        x: rect.width / 2,
+        y: rect.height / 2,
+      };
       zoomTo(state.scale / 1.2, center);
     });
 
@@ -289,13 +326,19 @@
     });
 
     // Window Resize / Scroll handling for toolbar
-    window.addEventListener("scroll", updateToolbarPos, true);
+    window.addEventListener(
+      "scroll",
+      updateToolbarPos,
+      true,
+    );
     window.addEventListener("resize", updateToolbarPos);
     updateToolbarPos();
   }
 
   function initAll() {
-    document.querySelectorAll(".mermaid-wrapper").forEach(initWrapper);
+    document
+      .querySelectorAll(".mermaid-wrapper")
+      .forEach(initWrapper);
   }
 
   if (document.readyState === "loading") {
