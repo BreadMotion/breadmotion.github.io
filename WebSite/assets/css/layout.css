@@ -761,13 +761,13 @@ body.no-scroll .site-header {
 
 .bread-pet__shadow {
     position: absolute;
-    bottom: -2px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
-    width: 12px;
+    width: 14px;
     height: 4px;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.15);
+    box-shadow: 0 0 0 0.5px rgba(0, 0, 0, 0.5);
     z-index: -1;
 }
 
