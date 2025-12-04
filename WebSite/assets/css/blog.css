@@ -622,13 +622,13 @@
 
 /* mermaid SVG 最大高さの制限（縦長すぎるのを防ぐ） */
 .mermaid-wrapper {
-    max-height: 40vh;
+    max-height: 60vh;
     overflow: auto;
 }
 
 /* SVG 本体にも制限をかけて縦長表示を防ぐ（アスペクトを維持） */
 .mermaid-wrapper .mermaid svg {
-    max-height: 80vh;
+    max-height: 120vh;
     height: auto;
     max-width: 100%;
     display: block;

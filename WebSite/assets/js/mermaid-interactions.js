@@ -12,7 +12,7 @@
   "use strict";
 
   // Config
-  const MIN_SCALE = 0.25;
+  const MIN_SCALE = 0.5;
   const MAX_SCALE = 4.0;
   const ZOOM_SENSITIVITY = 0.001;
 
@@ -46,8 +46,10 @@
     // Even if we remove the property setting in JS, the CSS rule in blog.css might still apply it.
     // Setting it to 'auto' overrides the CSS and forces vector re-rendering on zoom.
     content.style.willChange = "auto";
-
     content.style.transition = "transform 0.1s ease-out"; // Smooth transition for small updates
+
+    // Disable native scroll to keep toolbar fixed and enable wheel panning
+    wrapper.style.overflow = "hidden";
 
     // RAF loop
     let rafId = null;
@@ -129,16 +131,23 @@
       scheduleUpdate();
     }
 
-    // Wheel Zoom
+    // Wheel Zoom & Pan
     wrapper.addEventListener(
       "wheel",
       (e) => {
+        e.preventDefault();
+
         if (e.ctrlKey || e.metaKey) {
-          e.preventDefault();
+          // Zoom
           const delta = -e.deltaY;
           const factor = Math.exp(delta * ZOOM_SENSITIVITY);
           const center = getPoint(e.clientX, e.clientY);
           zoomTo(state.scale * factor, center);
+        } else {
+          // Pan
+          state.x -= e.deltaX;
+          state.y -= e.deltaY;
+          scheduleUpdate();
         }
       },
       { passive: false },
