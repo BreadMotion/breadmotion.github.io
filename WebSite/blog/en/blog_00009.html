@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../../assets/css/blog.css" />
     <link rel="stylesheet" href="../../assets/css/preview.css" />
     <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00009">
     <div class="page-shell">
@@ -198,16 +199,12 @@ I will describe how to introduce these somewhere else. (It&#39;s not particularl
 </ul>
 <hr>
 <h2 id="download-csharp-language-server">Download csharp-language-server</h2><p>If you have cargo, use the following:</p>
-<pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server
-</code></pre>
-<p>If you don&#39;t have it, please get the binary for Windows from Releases on the official page.
+<figure class="code-block" data-lang="shell"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-shell">cargo install --git https://github.com/SofusA/csharp-language-server</code></pre></figure><p>If you don&#39;t have it, please get the binary for Windows from Releases on the official page.
 The page is <a href="https://github.com/SofusA/csharp-language-server">here</a>
 Don&#39;t forget to pass the path to the stored location from environment variables.</p>
 <p>This time I will go with the following.</p>
-<pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe
-</code></pre>
-<h2 id="link-language-server-to-zed-settings">Link language server to Zed settings</h2><p>Open Zed&#39;s Settings.json (please match which Setting.json to your environment).</p>
-<pre><code class="language-json">{
+<figure class="code-block" data-lang="markdown"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Markdown</span></div><pre><code class="language-markdown">C:\\Users\\&lt;User Name&gt;\\AppData\\Local\\csharp-language-server\\csharp-language-server.exe</code></pre></figure><h2 id="link-language-server-to-zed-settings">Link language server to Zed settings</h2><p>Open Zed&#39;s Settings.json (please match which Setting.json to your environment).</p>
+<figure class="code-block" data-lang="json"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">JSON</span></div><pre><code class="language-json">{
   &quot;languages&quot;: {
     &quot;CSharp&quot;: {
       &quot;language_servers&quot;: [&quot;omnisharp&quot;],
@@ -221,9 +218,7 @@ Don&#39;t forget to pass the path to the stored location from environment variab
       }
     }
   }
-}
-</code></pre>
-<p>Restart Zed and try opening a suitable .cs file.
+}</code></pre></figure><p>Restart Zed and try opening a suitable .cs file.
 It should work just with this.</p>
 <h3 id="zed39s-omnisharp-extension-grabs-old-folder-and-causes-error">Zed&#39;s OmniSharp extension grabs old folder and causes error</h3><p>Manual deletion of the csharp folder in <strong>extensions/work</strong> within the directory where Zed software is stored might solve it.</p>
 <hr>
@@ -375,5 +370,48 @@ Personally, I really liked it as an &quot;editor when I want to write Unity ligh
     <script src="../../assets/js/particles.js" defer></script>
     <script src="../../assets/js/toc.js" defer></script>
     <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>

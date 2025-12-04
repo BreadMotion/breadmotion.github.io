@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../assets/css/blog.css" />
     <link rel="stylesheet" href="../assets/css/preview.css" />
     <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00015">
     <div class="page-shell">
@@ -167,11 +168,9 @@
 <p>クリエイティブコーディングの世界で有名な <strong>p5.js</strong> を使ってみることにしました。</p>
 <h2 id="p5js-とは？">p5.js とは？</h2><p>Processing というアート向けプログラミング言語をWeb (JavaScript) で動くようにしたライブラリです。<br>「キャンバスに絵を描く」「動かす」といったことが、驚くほど簡単なコードで書けます。</p>
 <h3 id="導入は超簡単">導入は超簡単</h3><p>npm でインストールする方法もありますが、今回は手軽に CDN で導入しました。<br>HTMLに1行足すだけです。</p>
-<pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;
-</code></pre>
-<p>これだけで準備完了。</p>
+<figure class="code-block" data-lang="html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">HTML</span></div><pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;</code></pre></figure><p>これだけで準備完了。</p>
 <h2 id="さっそく書いてみる">さっそく書いてみる</h2><p>まずは「画面全体にキャンバスを作って、円を表示する」ところから始めました。  </p>
-<pre><code class="language-javascript">function setup() {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function setup() {
   // 画面いっぱいのキャンバスを作る
   createCanvas(windowWidth, windowHeight);
 }
@@ -182,11 +181,9 @@ function draw() {
   
   // 円を描く (x, y, size)
   circle(100, 100, 50);
-}
-</code></pre>
-<p>たったこれだけで描画できました。<br><code>setup()</code> が最初に1回だけ呼ばれて、<code>draw()</code> が毎フレーム呼ばれる仕組みです。</p>
+}</code></pre></figure><p>たったこれだけで描画できました。<br><code>setup()</code> が最初に1回だけ呼ばれて、<code>draw()</code> が毎フレーム呼ばれる仕組みです。</p>
 <h2 id="パーティクルを飛ばしてみる">パーティクルを飛ばしてみる</h2><p>円をクラス化して配列に入れ、座標を更新するようにすれば無数のパーティクルが動くアニメーションになります。</p>
-<pre><code class="language-javascript">class Particle {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">class Particle {
   constructor() {
     this.x = random(width);
     this.y = random(height);
@@ -199,9 +196,7 @@ function draw() {
   display() {
     circle(this.x, this.y, 5);
   }
-}
-</code></pre>
-<p>これを <code>draw()</code> の中でループさせれば、泡のように昇るアニメーションの完成です。<br>ベクトルや三角関数を使えば、もっと複雑な動きも作れます。</p>
+}</code></pre></figure><p>これを <code>draw()</code> の中でループさせれば、泡のように昇るアニメーションの完成です。<br>ベクトルや三角関数を使えば、もっと複雑な動きも作れます。</p>
 <h2 id="調子に乗って10パターン作った">調子に乗って10パターン作った</h2><p>楽しくなってきたので、いろいろなパターンを実装してみました。</p>
 <ol>
 <li><strong>Network</strong>: 粒子同士を線でつなぐ（ニューラルネットワーク風）</li>
@@ -213,9 +208,7 @@ function draw() {
 <p>ページを開くたびにランダムで切り替わるようにしたので、<br>リロードするたびに違う雰囲気が楽しめます。</p>
 <h2 id="スマホ対策の罠">スマホ対策の罠</h2><p>実装中に一つハマったのが、 <strong>スマホでの横スクロール発生</strong> です。<br><code>createCanvas(windowWidth, windowHeight)</code><br>と書くと、PCでは問題ないのですが、スマホだとスクロールバーの幅が含まれたりして、微妙に画面幅を超えてしまうことがありました。</p>
 <p>最終的には、</p>
-<pre><code class="language-javascript">let w = document.documentElement.clientWidth;
-</code></pre>
-<p>のように、スクロールバーを除いた正確な幅を取得することで解決しました。</p>
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">let w = document.documentElement.clientWidth;</code></pre></figure><p>のように、スクロールバーを除いた正確な幅を取得することで解決しました。</p>
 <h2 id="まとめ">まとめ</h2><p>初めて p5.js を触ってみましたが、 <strong>「コードで絵を描く」</strong> という体験はとても新鮮で楽しかったです。</p>
 <p>みなさんも、自分のサイトに「ちょっとした遊び心」を足してみてはいかがでしょうか。</p>
 </section>
@@ -344,5 +337,48 @@ function draw() {
     <script src="../assets/js/particles.js" defer></script>
     <script src="../assets/js/toc.js" defer></script>
     <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>

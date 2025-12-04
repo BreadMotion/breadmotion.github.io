@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../../assets/css/blog.css" />
     <link rel="stylesheet" href="../../assets/css/preview.css" />
     <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00005">
     <div class="page-shell">
@@ -180,7 +181,7 @@ By the way, my custom GameEngine is created based on C++ and supports DirectX12,
 <li>Create batch files, shell scripts</li>
 </ul>
 <p>I will also list the rough directory structure of BreadEditor.</p>
-<pre><code class="language-text">BreadEditor
+<figure class="code-block" data-lang="text"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Text</span></div><pre><code class="language-text">BreadEditor
 ├── .git
 ├── Bat
 │   ├── js
@@ -191,9 +192,7 @@ By the way, my custom GameEngine is created based on C++ and supports DirectX12,
 ├── Library
 │   ├── BreadLibrary
 │   └── ExternalLibrary
-└── project.sln
-</code></pre>
-<hr>
+└── project.sln</code></pre></figure><hr>
 <h2 id="preparation">Preparation</h2><h3 id="create-a-dropbox-account">Create a Dropbox account</h3><p>You can do it from <a href="https://www.dropbox.com/home">here</a>.
 There is nothing special to mention, but if you use it regularly, it might be better to create an application-specific account to prevent accidents.</p>
 <h3 id="create-an-app-on-dropbox">Create an app on Dropbox</h3><p>Create an app from <a href="https://www.dropbox.com/developers">this page</a>.
@@ -230,7 +229,7 @@ Note down the output token somewhere. (Since it is temporary, it is necessary to
 <code>npm install --save isomorphic-fetch</code></p>
 <h3 id="create-upload-script">Create Upload Script</h3><p>I&#39;ll attach the code for now.
 First from DropboxUpload.js</p>
-<pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
 const path = require(&quot;path&quot;);
 const Dropbox = require(&quot;dropbox&quot;);
 const accessToken = &quot;{取得したアクセストークン}&quot;;
@@ -266,9 +265,7 @@ function DropboxUpload(dirPath, remotePath) {
     }
   });
 }
-DropboxUpload(&quot;{作業ディレクトリパス}&quot;, &quot;/&quot;);
-</code></pre>
-<p>Below is a simple explanation of the code.
+DropboxUpload(&quot;{作業ディレクトリパス}&quot;, &quot;/&quot;);</code></pre></figure><p>Below is a simple explanation of the code.
 DropboxUpload is processed recursively.
 The first argument &quot;dirPath : string&quot; is the directory path you want to synchronize with the local cloud storage.
 The second argument &quot;remotePath : string&quot; is the remote (cloud storage path.)</p>
@@ -280,7 +277,7 @@ It is also the reason why I am processing recursively myself.</p>
 <p>If the path obtained by readdirSync is a directory, lower the hierarchy and do the same processing.
 If it is a file, perform upload.</p>
 <h3 id="create-download-script">Create Download Script</h3><p>Next, DropboxDownload.js</p>
-<pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
 const Dropbox = require(&quot;dropbox&quot;);
 const fetch = require(&quot;isomorphic-fetch&quot;);
 const accessToken = &quot;{取得したアクセストークン}&quot;;
@@ -313,9 +310,7 @@ function DropboxDownload(originPath) {
     });
   });
 }
-DropboxDownload(&quot;&quot;);
-</code></pre>
-<p>Below is a simple explanation of the code.
+DropboxDownload(&quot;&quot;);</code></pre></figure><p>Below is a simple explanation of the code.
 Since it just drops it, there are fewer things to consider than uploading.</p>
 <p>The basic idea here is also the same as up.
 Sweep the elements returned from fileListFolder and recurse if it is a directory. If it is a file, download it is the base.</p>
@@ -471,5 +466,48 @@ Well, if you are pouring money into GitLFS, it is unnecessary.</p>
     <script src="../../assets/js/particles.js" defer></script>
     <script src="../../assets/js/toc.js" defer></script>
     <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>

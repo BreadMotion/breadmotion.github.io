@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../../assets/css/blog.css" />
     <link rel="stylesheet" href="../../assets/css/preview.css" />
     <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00012">
     <div class="page-shell">
@@ -202,7 +203,7 @@ Write a process to receive data POSTed from the form and send it to your email a
 <li>Need to return appropriate headers as <strong>CORS measures</strong>.</li>
 </ul>
 <p>The actual code (excerpt) looks like this.</p>
-<pre><code class="language-javascript">function doPost(e) {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function doPost(e) {
   // CORS Headers
   const headers = {
     &quot;Access-Control-Allow-Origin&quot;: &quot;*&quot;,
@@ -239,15 +240,13 @@ Write a process to receive data POSTed from the form and send it to your email a
     output.setMimeType(ContentService.MimeType.JSON);
     return output;
   }
-}
-</code></pre>
-<p>By deploying this as a &quot;Web App&quot; and setting the access permission to &quot;Anyone&quot;, an API URL that can be hit from the outside is issued.</p>
+}</code></pre></figure><p>By deploying this as a &quot;Web App&quot; and setting the access permission to &quot;Anyone&quot;, an API URL that can be hit from the outside is issued.</p>
 <hr>
 <h2 id="frontend-implementation-javascript">Frontend Implementation (JavaScript)</h2><p>Next is the processing on the frontend side that hits this API.
 Perform asynchronous transmission using the <code>fetch</code> API.</p>
 <h3 id="tips-to-avoid-cors-errors">Tips to avoid CORS errors</h3><p>If you POST to GAS with <code>application/json</code>, a preflight request (OPTIONS) for CORS (Cross-Origin Resource Sharing) occurs, and GAS may fail to reply successfully, resulting in an error.</p>
 <p>To avoid this, I adopted a method of daringly sending data as <code>text/plain</code>.</p>
-<pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const GAS_API_URL = &quot;https://script.google.com/macros/s/xxxx/exec&quot;;
 
 form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     e.preventDefault();
@@ -274,9 +273,7 @@ form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     } catch (err) {
         alert(&quot;Failed to send&quot;);
     }
-});
-</code></pre>
-<p>On the GAS side, by receiving with <code>JSON.parse(e.postData.contents)</code>, it can be handled as JSON without problems.</p>
+});</code></pre></figure><p>On the GAS side, by receiving with <code>JSON.parse(e.postData.contents)</code>, it can be handled as JSON without problems.</p>
 <hr>
 <h2 id="design-adjustments">Design Adjustments</h2><p>I adjusted not only the function but also the appearance to match the tone and manner of the site.</p>
 <ul>
@@ -417,5 +414,48 @@ form.addEventListener(&quot;submit&quot;, async (e) =&gt; {
     <script src="../../assets/js/particles.js" defer></script>
     <script src="../../assets/js/toc.js" defer></script>
     <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>

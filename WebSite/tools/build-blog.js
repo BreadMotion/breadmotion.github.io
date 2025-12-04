@@ -518,6 +518,7 @@ function createHtml({
     <link rel="stylesheet" href="${pathPrefix}/assets/css/blog.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/preview.css" />
     <link rel="stylesheet" href="${pathPrefix}/assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
     <div class="page-shell">
@@ -584,6 +585,49 @@ function createHtml({
     <script src="${pathPrefix}/assets/js/particles.js" defer></script>
     <script src="${pathPrefix}/assets/js/toc.js" defer></script>
     <script src="${pathPrefix}/assets/js/recommend.js" defer></script>
+    <script src="${pathPrefix}/assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>`;
 }
@@ -653,6 +697,49 @@ function createHtml({
       const headings = [];
       const slugger = new marked.Slugger();
       const renderer = new marked.Renderer();
+
+      // 言語マップ: フェンス識別子を人間向け表示に変換
+      const LANG_MAP = {
+        js: "JavaScript",
+        jsx: "JavaScript (JSX)",
+        ts: "TypeScript",
+        tsx: "TypeScript (TSX)",
+        py: "Python",
+        rb: "Ruby",
+        java: "Java",
+        c: "C",
+        cpp: "C++",
+        h: "C/C++ Header",
+        cs: "C#",
+        go: "Go",
+        rs: "Rust",
+        php: "PHP",
+        swift: "Swift",
+        kt: "Kotlin",
+        sh: "Shell",
+        bash: "Bash",
+        zsh: "Zsh",
+        json: "JSON",
+        html: "HTML",
+        css: "CSS",
+        yml: "YAML",
+        yaml: "YAML",
+        md: "Markdown",
+        mermaid: "Mermaid",
+        mmd: "Mermaid",
+      };
+
+      // 言語アイコンマップ: 簡易SVGをインラインで埋め込み（不足する言語は default を使用）
+      const ICON_MAP = {
+        js: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg>',
+        ts: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M4 4h16v16H4z" fill="none"/><path d="M7 7h3v10H7zM14 7h3v2h-2v2h2v2h-2v4h-3V7z"/></svg>',
+        py: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M12 2C8.7 2 6 4.7 6 8v1h6V8c0-1.1.9-2 2-2h2V4h-2c-1.7 0-3 1.3-3 3v1H8V8C8 4.7 10.7 2 14 2h-2zM6 13v3c0 3.3 2.7 6 6 6h2v-4h-6v-5H6z"/></svg>',
+        java: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M6 3s3 1 6 0 6-1 6-1-1 2-5 3c0 0 3 1 4 3 0 0-3 2-8 1s-7-3-3-6c0 0-2 2-1 3 0 0 2-1 1-3z"/></svg>',
+        cpp: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg>',
+        default:
+          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg>',
+      };
+
       renderer.heading = (text, level) => {
         const id = slugger.slug(text);
         headings.push({ level, text, id });
@@ -666,6 +753,33 @@ function createHtml({
         }
         // Add lazy loading and decoding to improve performance and reduce CLS
         return `<img src="${src}" alt="${escapeHtml(text)}" title="${escapeHtml(title || "")}" loading="lazy" decoding="async" />`;
+      };
+
+      // カスタム code レンダラー:
+      // - mermaid / mmd の場合は <div class="mermaid"> を出力してクライアントで描画（ラッパーでスクロール可能に）
+      // - その他は言語ラベル（アイコン + 表示名）を上部に表示する <figure class="code-block"> を生成
+      renderer.code = (code, infostring, escaped) => {
+        const lang =
+          (infostring || "").trim().split(/\s+/)[0] || "";
+        const label =
+          LANG_MAP[lang] ||
+          (lang
+            ? lang.charAt(0).toUpperCase() + lang.slice(1)
+            : "");
+        // Mermaid: クライアント側で初期化して描画する。ラッパーでスクロールを有効にする
+        if (lang === "mermaid" || lang === "mmd") {
+          return `<div class="mermaid-wrapper"><div class="mermaid">${escapeHtml(code)}</div></div>`;
+        }
+        const langClass = lang
+          ? `language-${escapeHtmlAttr(lang)}`
+          : "";
+        // アイコンを取得（なければdefault）
+        const iconHtml = ICON_MAP[lang] || ICON_MAP.default;
+        const headerHtml = label
+          ? `<div class="code-header"><span class="lang-icon">${iconHtml}</span><span class="lang-label">${escapeHtml(label)}</span></div>`
+          : "";
+        const codeHtml = escaped ? code : escapeHtml(code);
+        return `<figure class="code-block" data-lang="${escapeHtmlAttr(lang)}">${headerHtml}<pre><code class="${langClass}">${codeHtml}</code></pre></figure>`;
       };
 
       const htmlBody = marked.parse(content, { renderer });

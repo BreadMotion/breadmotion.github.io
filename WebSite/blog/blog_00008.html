@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../assets/css/blog.css" />
     <link rel="stylesheet" href="../assets/css/preview.css" />
     <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00008">
     <div class="page-shell">
@@ -196,7 +197,7 @@
 </ul>
 <hr>
 <h2 id="ディレクトリ構成">ディレクトリ構成</h2><p>最終的に落ち着いた構成はこんな感じです。</p>
-<pre><code class="language-text">bot-root/
+<figure class="code-block" data-lang="text"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Text</span></div><pre><code class="language-text">bot-root/
 ├── Command/        # コマンドモジュール
 ├── Event/          # イベントハンドラ
 ├── Data/           # JSON 等の設定・永続データ
@@ -205,9 +206,7 @@
 ├── types/          # JSDoc など型関連
 ├── logs/           # pm2 のログ出力先
 ├── config.json     # トークンや設定（dotenv でも可）
-└── index.js        # エントリポイント（コア）
-</code></pre>
-<p>ポイントは <strong>Command / Event / Data を完全に分離</strong> したことです。</p>
+└── index.js        # エントリポイント（コア）</code></pre></figure><p>ポイントは <strong>Command / Event / Data を完全に分離</strong> したことです。</p>
 <ul>
 <li>index.js(コア)は「モジュールを読み込んでWiringするだけ」</li>
 <li>コマンドの中身は Command/ 下のJSファイルが担当</li>
@@ -215,8 +214,8 @@
 という形にすることで、 <strong>Bot本体を触らずに機能追加</strong> ができるようになりました。</li>
 </ul>
 <h2 id="コマンドのプラグイン構造">コマンドのプラグイン構造</h2><h3 id="コマンドモジュールの形">コマンドモジュールの形</h3><p>各コマンドは大体こんな形のJSファイルを１ファイルで持ちます。</p>
-<pre><code class="language-js">// Command/ping.js
-/** @type {import(&#39;../types&#39;).BotCommand} */
+<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Command/ping.js
+/** @type {import('../types').BotCommand} */
 module.exports = {
   name: &quot;ping&quot;,
   description: &quot;疎通確認用コマンド&quot;,
@@ -227,9 +226,7 @@ module.exports = {
     const ms = Date.now() - start;
     console.log(`[ping] latency: ${ms}ms`);
   },
-};
-</code></pre>
-<ul>
+};</code></pre></figure><ul>
 <li>name / description / options はそのまま slash command の定義に流用</li>
 <li>execute には interaction と共通の context（設定・ロガーなど）を渡す</li>
 </ul>
@@ -249,8 +246,8 @@ module.exports = {
 だけで済むようになりました。</li>
 </ol>
 <h3 id="イベントハンドラの構造">イベントハンドラの構造</h3><p>イベントもコマンドと同じノリでファイルベースにしています。</p>
-<pre><code class="language-js">// Event/ready.js
-/** @type {import(&#39;../types&#39;).BotEvent} */
+<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/ready.js
+/** @type {import('../types').BotEvent} */
 module.exports = {
   name: &quot;ready&quot;,
   once: true,
@@ -258,8 +255,7 @@ module.exports = {
     console.log(`[ready] Logged in as ${client.user.tag}`);
   },
 };
-</code></pre>
-<pre><code class="language-js">// Event/interactionCreate.js
+</code></pre></figure><figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/interactionCreate.js
 module.exports = {
   name: &quot;interactionCreate&quot;,
   once: false,
@@ -281,23 +277,19 @@ module.exports = {
       }
     }
   },
-};
-</code></pre>
-<p>コア側では、Event/ を走査して<br><code>client.on(event.name, handler) or client.once(...)</code><br>を自動で登録するだけにしています。</p>
+};</code></pre></figure><p>コア側では、Event/ を走査して<br><code>client.on(event.name, handler) or client.once(...)</code><br>を自動で登録するだけにしています。</p>
 <hr>
 <h2 id="pm2とデプロイフロー">pm2とデプロイフロー</h2><h3 id="pm2での常駐">pm2での常駐</h3><p>Ubuntu Server 上では pm2 を使って常駐させています。</p>
-<pre><code class="language-bash">pm2 start index.js --name bread-bot
+<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">pm2 start index.js --name bread-bot
 pm2 save
-pm2 startup
-</code></pre>
-<ul>
+pm2 startup</code></pre></figure><ul>
 <li>SSH を切っても Bot は動き続ける</li>
 <li>pm2 logs bread-bot でログ確認</li>
 <li>pm2 restart bread-bot で反映</li>
 </ul>
 <p>という基本の運用です。</p>
 <h3 id="デプロイ用スクリプト">デプロイ用スクリプト</h3><p>デプロイはシンプルに Shell/ に 1 本スクリプトを置きました。</p>
-<pre><code class="language-bash">#!/usr/bin/env bash
+<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">#!/usr/bin/env bash
 set -eu
 
 cd /opt/bread-bot
@@ -310,8 +302,7 @@ npm install --production
 
 echo &quot;[deploy] restart pm2&quot;
 pm2 restart bread-bot
-</code></pre>
-<ul>
+</code></pre></figure><ul>
 <li>リポジトリを更新 → サーバー側でこのスクリプト実行</li>
 <li>将来的には Webhook や CI から叩いてもよい</li>
 </ul>
@@ -472,5 +463,48 @@ pm2 restart bread-bot
     <script src="../assets/js/particles.js" defer></script>
     <script src="../assets/js/toc.js" defer></script>
     <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>

@@ -102,6 +102,7 @@
     <link rel="stylesheet" href="../../assets/css/blog.css" />
     <link rel="stylesheet" href="../../assets/css/preview.css" />
     <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00014">
     <div class="page-shell">
@@ -184,9 +185,9 @@ There are convenient tools like <code>PurgeCSS</code> in the world, but incorpor
 </ol>
 <p>That&#39;s it. I don&#39;t do strict syntax analysis (AST) etc., but judge by simple string search (<code>includes</code>).
 To that extent, there is a weakness that &quot;detection will be missed if the same word as the class name happens to be in the text&quot;, but it is sufficient for the purpose of <strong>&quot;safely deleting unused things&quot;</strong>.</p>
-<pre><code class="language-javascript">// tools/find-unused-css.js (excerpt)
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// tools/find-unused-css.js (excerpt)
 
-const cssContent = fs.readFileSync(cssFile, &#39;utf8&#39;);
+const cssContent = fs.readFileSync(cssFile, 'utf8');
 const selectors = extractSelectors(cssContent); // Extract with regex
 
 selectors.forEach(sel =&gt; {
@@ -202,16 +203,12 @@ selectors.forEach(sel =&gt; {
     if (!isUsed) {
         console.log(`[UNUSED] ${sel.name}`);
     }
-});
-</code></pre>
-<h2 id="execution-result">Execution Result</h2><p>When I ran the script, I found several unused classes.</p>
-<pre><code>Checking assets\css\layout.css...
+});</code></pre></figure><h2 id="execution-result">Execution Result</h2><p>When I ran the script, I found several unused classes.</p>
+<figure class="code-block" data-lang=""><pre><code class="">Checking assets\css\layout.css...
   [UNUSED] .section--soft
 
 Checking assets\css\top.css...
-  [UNUSED] .btn-outline
-</code></pre>
-<p>Upon checking,
+  [UNUSED] .btn-outline</code></pre></figure><p>Upon checking,
 <code>section--soft</code> was a variation of a card made in the initial design draft,
 <code>btn-outline</code> was a button with only a border, and currently only filled buttons were used.</p>
 <p>These are completely unnecessary, so delete them without hesitation!
@@ -346,5 +343,48 @@ it seems possible to keep the code clean on a daily basis.</p>
     <script src="../../assets/js/particles.js" defer></script>
     <script src="../../assets/js/toc.js" defer></script>
     <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
   </body>
 </html>
