@@ -80,40 +80,13 @@
     toolbar.appendChild(badge);
     toolbar.appendChild(btnOut);
     toolbar.appendChild(btnReset);
-    document.body.appendChild(toolbar);
-
-    // Toolbar positioning
-    function updateToolbarPos() {
-      const r = wrapper.getBoundingClientRect();
-      if (
-        r.bottom < 0 ||
-        r.top > window.innerHeight ||
-        r.right < 0 ||
-        r.left > window.innerWidth
-      ) {
-        toolbar.style.display = "none";
-        return;
-      }
-      toolbar.style.display = "";
-      const pad = 8;
-      // Position at top-right of the wrapper
-      const left = Math.max(
-        0,
-        r.right - toolbar.offsetWidth - pad,
-      );
-      const top = Math.max(0, r.top + pad);
-      toolbar.style.position = "fixed";
-      toolbar.style.left = left + "px";
-      toolbar.style.top = top + "px";
-      toolbar.style.zIndex = "100";
-    }
+    wrapper.appendChild(toolbar);
 
     function updateScaleBadge(s) {
       badge.textContent = Math.round(s * 100) + "%";
     }
 
     // --- Interaction Logic ---
-
     // Helper: Get point relative to wrapper
     function getPoint(clientX, clientY) {
       const rect = wrapper.getBoundingClientRect();
@@ -131,17 +104,6 @@
         MAX_SCALE,
       );
       const ratio = targetScale / state.scale;
-
-      // Calculate new position to keep centerPoint fixed
-      // newX = centerPoint.x - (centerPoint.x - oldX) * ratio
-      // Simplified: newX = cx - (cx - x) * (newScale / oldScale)
-      // But since we are using translate + scale with origin 0 0:
-      // The point P in local coords is (P_screen - translate) / scale
-      // We want P_screen to remain constant.
-      // P_screen = translate_new + P_local * scale_new
-      // translate_new = P_screen - P_local * scale_new
-      // translate_new = P_screen - ((P_screen - translate_old) / scale_old) * scale_new
-
       const localX =
         (centerPoint.x - state.x) / state.scale;
       const localY =
@@ -324,15 +286,6 @@
       state = { x: 0, y: 0, scale: 1 };
       scheduleUpdate();
     });
-
-    // Window Resize / Scroll handling for toolbar
-    window.addEventListener(
-      "scroll",
-      updateToolbarPos,
-      true,
-    );
-    window.addEventListener("resize", updateToolbarPos);
-    updateToolbarPos();
   }
 
   function initAll() {
