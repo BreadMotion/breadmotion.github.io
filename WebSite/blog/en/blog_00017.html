@@ -182,8 +182,7 @@ By selecting one and pressing Enter, the pre-configured prompt will be expanded.
 <p>What previously required manually typing &quot;Please explain about...&quot; can now be done with just <code>/explain</code>.</p>
 <h3 id="creating-custom-slash-commands">Creating Custom Slash Commands</h3><p>The powerful aspect of Zed is the ability to define your own slash commands.
 You can add them by describing them in the configuration file (<code>settings.json</code>) as follows:</p>
-<p>,,,json
-{
+<figure class="code-block" data-lang="json"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">JSON</span></div><pre><code class="language-json">{
   &quot;assistant&quot;: {
     &quot;slash_commands&quot;: {
       &quot;refactor&quot;: {
@@ -196,9 +195,7 @@ You can add them by describing them in the configuration file (<code>settings.js
       }
     }
   }
-}
-,,,</p>
-<p>With this configuration, typing <code>/refactor</code> instantly invokes a highly refined, pre-written prompt.</p>
+}</code></pre></figure><p>With this configuration, typing <code>/refactor</code> instantly invokes a highly refined, pre-written prompt.</p>
 <h2 id="differentiating--and-">Differentiating <code>@</code> and <code>/</code></h2><ul>
 <li><strong><code>@</code> (Context)</strong>: Specifies <strong>&quot;What&quot;</strong> to talk about (files, symbols, documentation, etc.).</li>
 <li><strong><code>/</code> (Command)</strong>: Specifies <strong>&quot;What to do&quot;</strong> (explain, modify, generate tests, etc.).</li>

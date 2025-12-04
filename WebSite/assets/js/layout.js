@@ -105,6 +105,122 @@ document.addEventListener("DOMContentLoaded", () => {
           });
         });
       }
+
+      // Bread Pet Logic
+      const bread = document.getElementById("bread-pet");
+      if (bread) {
+        let targetX = 0;
+        let targetY = 0;
+        let currentX = 0;
+        let currentY = 0;
+        const speed = 0.5;
+        let isMoving = false;
+        let isVisible = false;
+        let activeElement = null;
+
+        const breadWidth = 40;
+        const breadHeight = 34;
+
+        // Initial spawn from active language option
+        const activeLang = document.querySelector(
+          ".lang-option.active",
+        );
+        if (activeLang) {
+          activeElement = activeLang;
+          const rect = activeLang.getBoundingClientRect();
+          targetX = rect.left;
+          targetY = rect.bottom - breadHeight;
+          currentX = targetX;
+          currentY = targetY;
+          isVisible = true;
+          bread.classList.add("is-visible", "is-spawning");
+          bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+          setTimeout(() => {
+            bread.classList.remove("is-spawning");
+          }, 600);
+        }
+
+        // Track hovers on any interactive element in the document
+        document.addEventListener(
+          "mouseover",
+          (e) => {
+            const target = e.target.closest(
+              "a, button, .lang-option, input, select, textarea, [role='button']",
+            );
+
+            if (target) {
+              activeElement = target;
+              const rect = target.getBoundingClientRect();
+
+              // Calculate target position: Bottom-Left of the UI
+              targetX = rect.left;
+              targetY = rect.bottom - breadHeight;
+
+              // If first appearance (fallback), teleport to start position
+              if (!isVisible) {
+                currentX = targetX;
+                currentY = targetY;
+                isVisible = true;
+                bread.classList.add("is-visible");
+                bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+              }
+            }
+          },
+          { passive: true },
+        );
+
+        // Animation Loop
+        function animate() {
+          if (!isVisible) {
+            requestAnimationFrame(animate);
+            return;
+          }
+
+          // Update target position if we have an active element (handles scrolling)
+          if (activeElement && activeElement.isConnected) {
+            const rect =
+              activeElement.getBoundingClientRect();
+            targetX = rect.left;
+            targetY = rect.bottom - breadHeight;
+          }
+
+          const dx = targetX - currentX;
+          const dy = targetY - currentY;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist > speed) {
+            const angle = Math.atan2(dy, dx);
+            currentX += Math.cos(angle) * speed;
+            currentY += Math.sin(angle) * speed;
+            isMoving = true;
+
+            // Determine direction
+            const direction = dx >= 0 ? 1 : -1;
+            // Only flip if significant X movement
+            const scaleX =
+              Math.abs(dx) > 0.1
+                ? direction
+                : bread.dataset.dir || 1;
+            bread.dataset.dir = scaleX;
+
+            bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scaleX(${scaleX})`;
+            bread.classList.add("is-walking");
+          } else {
+            if (isMoving) {
+              isMoving = false;
+              bread.classList.remove("is-walking");
+              // Snap to target
+              currentX = targetX;
+              currentY = targetY;
+              const scaleX = bread.dataset.dir || 1;
+              bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scaleX(${scaleX})`;
+            }
+          }
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
     })
     .catch((err) => {
       console.error(
