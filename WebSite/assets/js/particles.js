@@ -2,26 +2,18 @@
  * particles.js
  * --------------------------------------------------
  * 背景パーティクルアニメーションを生成するスクリプト。
- * p5.js を使用し、5種類のビジュアルモードをランダムで表示。
+ * p5.js を使用し、3種類のビジュアルモードをランダムで表示。
  *
  * モード一覧:
- *   0: Network, 1: Cosmos, 2: Polygons,
- *   3: Circuit, 4: Grid
+ *   0: Network, 1: Polygons, 2: Circuit
  * --------------------------------------------------
  */
 let canvas;
 let particles = [];
 let mode = 0;
-// 0: Network, 1: Cosmos, 2: Polygons
-// 3: Circuit, 4: Grid
-const NUM_MODES = 5;
-const modeNames = [
-  "Network",
-  "Cosmos",
-  "Polygons",
-  "Circuit",
-  "Grid",
-];
+// 0: Network, 1: Polygons, 2: Circuit
+const NUM_MODES = 3;
+const modeNames = ["Network", "Polygons", "Circuit"];
 
 // サイトのテーマカラー（Indigo, SkyBlue, Whiteish + Alpha variants）
 const themeColors = [
@@ -54,16 +46,10 @@ function draw() {
       drawNetwork();
       break;
     case 1:
-      drawCosmos();
-      break;
-    case 2:
       drawPolygons();
       break;
-    case 3:
+    case 2:
       drawCircuit();
-      break;
-    case 4:
-      drawGrid();
       break;
   }
 }
@@ -86,28 +72,15 @@ function initParticles() {
     for (let i = 0; i < count; i++)
       particles.push(new NetworkParticle());
   } else if (mode === 1) {
-    // Cosmos
-    count = constrain(Math.floor(area / 4000), 80, 250);
-    for (let i = 0; i < count; i++)
-      particles.push(new StarParticle());
-  } else if (mode === 2) {
     // Polygons
     count = constrain(Math.floor(area / 20000), 15, 40);
     for (let i = 0; i < count; i++)
       particles.push(new PolygonParticle());
-  } else if (mode === 3) {
+  } else if (mode === 2) {
     // Circuit
     count = constrain(Math.floor(area / 15000), 15, 40);
     for (let i = 0; i < count; i++)
       particles.push(new CircuitPulse());
-  } else if (mode === 4) {
-    // Grid
-    let step = 50; // グリッド間隔
-    for (let x = step / 2; x < width; x += step) {
-      for (let y = step / 2; y < height; y += step) {
-        particles.push(new GridPoint(x, y));
-      }
-    }
   }
 }
 
@@ -186,74 +159,7 @@ function drawNetwork() {
 }
 
 // ------------------------------------------------------------
-// Mode 1: Cosmos
-// ------------------------------------------------------------
-class StarParticle {
-  constructor() {
-    this.pos = createVector(random(width), random(height));
-    this.vel = createVector(
-      random(-0.1, 0.1),
-      random(-0.1, 0.1),
-    );
-    this.baseSize = random(1, 3);
-    this.color = random(themeColors);
-    this.twinkleSpeed = random(0.02, 0.08);
-    this.twinkleOffset = random(TWO_PI);
-  }
-  update() {
-    this.pos.add(this.vel);
-    if (this.pos.x < 0) this.pos.x = width;
-    if (this.pos.x > width) this.pos.x = 0;
-    if (this.pos.y < 0) this.pos.y = height;
-    if (this.pos.y > height) this.pos.y = 0;
-  }
-  display() {
-    let val = sin(
-      frameCount * this.twinkleSpeed + this.twinkleOffset,
-    );
-    let size = map(
-      val,
-      -1,
-      1,
-      this.baseSize * 0.5,
-      this.baseSize * 1.5,
-    );
-    let alpha = map(val, -1, 1, 100, 255);
-    noStroke();
-    fill(
-      this.color[0],
-      this.color[1],
-      this.color[2],
-      alpha * 0.3,
-    );
-    circle(this.pos.x, this.pos.y, size * 3);
-    fill(255, 255, 255, alpha);
-    circle(this.pos.x, this.pos.y, size * 0.8);
-  }
-}
-function drawCosmos() {
-  let mouse = createVector(mouseX, mouseY);
-  let isMouseActive =
-    mouseX > 0 &&
-    mouseX < width &&
-    mouseY > 0 &&
-    mouseY < height;
-  for (let p of particles) {
-    if (isMouseActive) {
-      let d = p.pos.dist(mouse);
-      if (d < 100) {
-        let force = p5.Vector.sub(p.pos, mouse);
-        force.setMag(0.5);
-        p.pos.add(force);
-      }
-    }
-    p.update();
-    p.display();
-  }
-}
-
-// ------------------------------------------------------------
-// Mode 2: Polygons
+// Mode 1: Polygons
 // ------------------------------------------------------------
 class PolygonParticle {
   constructor() {
@@ -304,7 +210,7 @@ function drawPolygons() {
 }
 
 // ------------------------------------------------------------
-// Mode 3: Circuit (Electronic Circuit Pulse)
+// Mode 2: Circuit (Electronic Circuit Pulse)
 // ------------------------------------------------------------
 class CircuitPulse {
   constructor() {
@@ -389,50 +295,6 @@ class CircuitPulse {
   }
 }
 function drawCircuit() {
-  for (let p of particles) {
-    p.update();
-    p.display();
-  }
-}
-
-// ------------------------------------------------------------
-// Mode 4: Grid
-// ------------------------------------------------------------
-class GridPoint {
-  constructor(x, y) {
-    this.origPos = createVector(x, y);
-    this.pos = this.origPos.copy();
-    this.color = random(themeColors);
-    this.size = 3;
-  }
-  update() {
-    let mouse = createVector(mouseX, mouseY);
-    if (
-      mouseX > 0 &&
-      mouseX < width &&
-      mouseY > 0 &&
-      mouseY < height
-    ) {
-      let d = this.origPos.dist(mouse);
-      if (d < 150) {
-        let force = p5.Vector.sub(this.origPos, mouse);
-        let strength = map(d, 0, 150, 30, 0);
-        force.setMag(strength);
-        this.pos = p5.Vector.add(this.origPos, force);
-      } else {
-        this.pos.lerp(this.origPos, 0.1);
-      }
-    } else {
-      this.pos.lerp(this.origPos, 0.1);
-    }
-  }
-  display() {
-    noStroke();
-    fill(this.color[0], this.color[1], this.color[2], 150);
-    circle(this.pos.x, this.pos.y, this.size);
-  }
-}
-function drawGrid() {
   for (let p of particles) {
     p.update();
     p.display();
