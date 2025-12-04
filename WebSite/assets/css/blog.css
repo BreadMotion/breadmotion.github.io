@@ -508,11 +508,11 @@
 /* Mermaid コンテナラッパー（スクロールとドラッグ対応） */
 .mermaid-wrapper {
     margin: 1.25rem 0;
-    overflow: auto;
+    overflow: hidden;
     background: var(--color-panel);
     cursor: grab;
-    /* 明示的にパン（横/縦）とピンチズームを許可 */
-    touch-action: pan-x pan-y pinch-zoom;
+    /* JS制御のためブラウザ標準の操作を無効化 */
+    touch-action: none;
     -webkit-overflow-scrolling: touch;
     /* ページ全体へのオーバースクロール伝播を抑制（UX向上） */
     overscroll-behavior: contain;
