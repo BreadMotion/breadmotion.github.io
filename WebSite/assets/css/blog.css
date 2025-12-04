@@ -22,6 +22,174 @@
     margin-bottom: 1.5rem;
 }
 
+/* ==========================================================================
+   Link Card (OGP)
+   ========================================================================== */
+.og-card {
+    display: flex;
+    width: 80%;
+    align-items: stretch;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    text-decoration: none !important;
+    transition: background-color 0.2s ease;
+    margin: 1.5rem 0;
+    height: 130px;
+    color: inherit;
+}
+
+.og-card:hover {
+    background-color: rgba(125, 125, 125, 0.05);
+    border-color: var(--color-border);
+    transform: none;
+    box-shadow: none;
+}
+
+/* Thumbnail (Left side of CARD) */
+.og-thumbnail {
+    display: block;
+    flex: 0 0 130px;
+    width: 130px;
+    height: 130px;
+    background: var(--color-surface);
+    position: relative;
+    border-right: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.og-thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    /* Reset markdown styles */
+    max-width: none !important;
+    box-sizing: border-box !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.og-thumbnail.no-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #eee;
+}
+
+/* Content (Right side of CARD) */
+.og-content {
+    flex: 1;
+    padding: 12px 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    min-width: 0;
+    height: 100%;
+    overflow: hidden;
+}
+
+.og-site {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.og-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--color-heading);
+    margin-bottom: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.3;
+}
+
+.og-description {
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    display: -webkit-box;
+    overflow: hidden;
+    line-height: 1.3;
+}
+
+/* Link Card (OGP) - Wide (WILDCARD) */
+.og-card.wide {
+    display: block;
+    height: auto;
+    width: 60%;
+    border: none;
+    background: transparent;
+    border-radius: 0;
+    overflow: visible;
+    margin: 1.5rem 0;
+}
+
+.og-card.wide:hover {
+    background: transparent;
+    opacity: 0.7;
+}
+
+.og-image-wide {
+    width: 100%;
+    aspect-ratio: 1.91 / 1;
+    background: #000;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.og-image-wide img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    /* Reset markdown styles */
+    max-width: none !important;
+    box-sizing: border-box !important;
+    background-color: transparent !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+}
+
+.og-title-overlay {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 700;
+    max-width: calc(100% - 24px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+}
+
+.og-site-footer {
+    margin-top: 2px;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+    padding-left: 4px;
+    display: flex;
+    align-items: center;
+}
+
 .blog-filter {
     display: flex;
     flex-direction: column;
