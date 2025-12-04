@@ -1,16 +1,30 @@
 [
   {
     "id": "blog_00018",
-    "title": "I Tried Controlling Discord from the Terminal with Discordo",
+    "title": "Trying Out Discordo:Using Discord from the Terminal",
     "date": "2025-12-02T00:00:00.000Z",
     "category": "Discord",
-    "description": "This article provides a clear and easy-to-understand guide on how to install and use \"Discordo,\" a terminal-based Discord client, specifically for Windows environments.",
+    "description": "A clear explanation of how to install and use 'Discordo,' a terminal-based Discord client, specifically for the Windows environment.",
     "tags": [
       "discord",
       "terminal"
     ],
     "thumbnail": "assets/img/thumbnails/blog_00018.png",
     "contentPath": "blog/en/blog_00018.html",
+    "recommended": true
+  },
+  {
+    "id": "blog_00017",
+    "title": "Harnessing Zed's AI Features： Deep Dive into Text Thread and Slash Commands",
+    "date": "2025-12-01T00:00:00.000Z",
+    "category": "IDE",
+    "description": "A summary of how to use Zed's AI features.",
+    "tags": [
+      "zed",
+      "ai"
+    ],
+    "thumbnail": "assets/img/zed_icon.png",
+    "contentPath": "blog/en/blog_00017.html",
     "recommended": true
   },
   {
@@ -25,20 +39,6 @@
     ],
     "thumbnail": "assets/img/zed_icon.png",
     "contentPath": "blog/en/blog_00016.html",
-    "recommended": true
-  },
-  {
-    "id": "blog_00017",
-    "title": "## Mastering Zed's AI Features: A Comprehensive Guide to Text Threads and Slash Commands",
-    "date": "2025-11-30T00:00:00.000Z",
-    "category": "IDE",
-    "description": "Here's a summary of how to use Zed's Rules.",
-    "tags": [
-      "zed",
-      "ai"
-    ],
-    "thumbnail": "assets/img/zed_icon.png",
-    "contentPath": "blog/en/blog_00017.html",
     "recommended": true
   },
   {
@@ -116,11 +116,11 @@
     "id": "blog_00010",
     "title": "RClone Operation Flow",
     "date": "2025-11-20T00:00:00.000Z",
-    "category": "CloudStorage",
-    "description": "Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project.",
+    "category": "CloudStrage",
+    "description": "Explaining how to leverage rclone and shell scripts in a project to achieve efficient management of large assets and CI/CD integration.",
     "tags": [
       "tool",
-      "cloudstorage",
+      "cloudstrage",
       "git"
     ],
     "thumbnail": "assets/img/thumbnails/blog_00010.png",
@@ -145,13 +145,13 @@
   },
   {
     "id": "blog_00007",
-    "title": "RClone Introduction Flow",
+    "title": "RClone Installation Flow",
     "date": "2025-11-17T00:00:00.000Z",
-    "category": "CloudStorage",
-    "description": "Summary of procedures for introducing rclone in Windows + Git Bash environment and linking with Google Drive",
+    "category": "CloudStrage",
+    "description": "A summary of the steps to install rclone and link it with Google Drive in a Windows + Git Bash environment.",
     "tags": [
       "tool",
-      "cloudstorage",
+      "cloudstrage",
       "git"
     ],
     "thumbnail": "assets/img/thumbnails/blog_00007.png",

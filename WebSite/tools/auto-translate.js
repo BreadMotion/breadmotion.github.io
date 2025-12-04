@@ -69,6 +69,12 @@ if (provider === "gemini") {
   logger.info(
     `Using Provider: GitHub Models (${GITHUB_MODEL})`,
   );
+  // NOTE: Provide an explicit hint to users so they can verify PAT type/permissions quickly.
+  // GitHub Models require a Fine‑grained Personal Access Token with the `Models` (user_models) permission (read).
+  // If you selected an organization as the resource owner when creating the FG token, ensure the token is approved and not pending.
+  logger.info(
+    "Hint: Ensure your token is a Fine‑grained PAT and has 'Models (user_models): read' permission. If the token targets an organization, check that it is approved (not pending).",
+  );
 } else {
   logger.error("No valid translation provider found.");
   logger.error(
@@ -205,25 +211,80 @@ async function translateWithGitHub(text, systemPrompt) {
     });
 
     if (!response.ok) {
-      const error = await response.json();
-      throw new Error(
-        `GitHub API Error: ${response.status} - ${JSON.stringify(error)}`,
-      );
+      let errorBody = null;
+      try {
+        errorBody = await response.json();
+      } catch (e) {
+        // Non-JSON response body or empty
+        errorBody = {
+          raw: await response.text().catch(() => ""),
+        };
+      }
+
+      // Provide actionable, clearer error messages for common statuses
+      if (response.status === 401) {
+        throw new Error(
+          `GitHub API Error: 401 Unauthorized - The token is invalid or lacks required permissions (e.g. 'Models' permission). Ensure your Fine‑grained PAT has 'Models (user_models): read' and is approved. Full response: ${JSON.stringify(errorBody)}`,
+        );
+      } else if (response.status === 403) {
+        throw new Error(
+          `GitHub API Error: 403 Forbidden - Access denied. Check token scopes, repository access settings and whether the account has access to the requested model. Full response: ${JSON.stringify(errorBody)}`,
+        );
+      } else if (response.status === 404) {
+        throw new Error(
+          `GitHub API Error: 404 Not Found - Endpoint or model not available. Verify the model name (${GITHUB_MODEL}), the API endpoint, and that your account has access to GitHub AI Models. Full response: ${JSON.stringify(errorBody)}`,
+        );
+      } else {
+        throw new Error(
+          `GitHub API Error: ${response.status} - ${JSON.stringify(errorBody)}`,
+        );
+      }
     }
 
     const data = await response.json();
 
+    // Try several common response shapes to extract the generated text
+    let translated = null;
+
+    // 1) choices -> choices[0].message.content (classic chat-like)
     if (
-      !data.choices ||
-      !data.choices[0] ||
-      !data.choices[0].message
+      data.choices &&
+      data.choices[0] &&
+      data.choices[0].message &&
+      data.choices[0].message.content
     ) {
+      translated = data.choices[0].message.content.trim();
+    }
+    // 2) output_text top-level
+    else if (
+      data.output_text &&
+      typeof data.output_text === "string"
+    ) {
+      translated = data.output_text.trim();
+    }
+    // 3) output as string
+    else if (typeof data.output === "string") {
+      translated = data.output.trim();
+    }
+    // 4) nested output array -> output[0].content[0].text (other shapes)
+    else if (
+      Array.isArray(data.output) &&
+      data.output[0] &&
+      data.output[0].content &&
+      Array.isArray(data.output[0].content) &&
+      data.output[0].content[0].text
+    ) {
+      translated = data.output[0].content[0].text.trim();
+    }
+
+    if (!translated) {
       throw new Error(
-        "Failed to parse GitHub response: Invalid format",
+        "Failed to parse GitHub response: Invalid format. Full response: " +
+          JSON.stringify(data),
       );
     }
 
-    return data.choices[0].message.content.trim();
+    return translated;
   } catch (error) {
     logger.error(
       `GitHub Translation failed: ${error.message}`,
