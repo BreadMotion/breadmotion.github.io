@@ -195,26 +195,40 @@ document.addEventListener("DOMContentLoaded", () => {
             currentY += Math.sin(angle) * speed;
             isMoving = true;
 
-            // Determine direction
-            const direction = dx >= 0 ? 1 : -1;
-            // Only flip if significant X movement
-            const scaleX =
-              Math.abs(dx) > 0.1
-                ? direction
-                : bread.dataset.dir || 1;
-            bread.dataset.dir = scaleX;
+            // Determine 4-way diagonal direction (Isometric)
+            let facing = "front-right";
 
-            bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scaleX(${scaleX})`;
+            if (dy >= 0) {
+              // Moving Down (Front)
+              facing =
+                dx >= 0 ? "front-right" : "front-left";
+            } else {
+              // Moving Up (Back)
+              facing = dx >= 0 ? "back-right" : "back-left";
+            }
+
+            bread.setAttribute("data-facing", facing);
+            bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
             bread.classList.add("is-walking");
+
+            // Mouth animation
+            if (Math.floor(Date.now() / 150) % 2 === 0) {
+              bread.classList.add("mouth-open");
+            } else {
+              bread.classList.remove("mouth-open");
+            }
           } else {
             if (isMoving) {
               isMoving = false;
               bread.classList.remove("is-walking");
+              bread.classList.remove("mouth-open");
               // Snap to target
               currentX = targetX;
               currentY = targetY;
-              const scaleX = bread.dataset.dir || 1;
-              bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) scaleX(${scaleX})`;
+
+              // Idle state is Front
+              bread.setAttribute("data-facing", "front");
+              bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
             }
           }
           requestAnimationFrame(animate);

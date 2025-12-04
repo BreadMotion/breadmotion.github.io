@@ -668,6 +668,7 @@ body.no-scroll .site-header {
     display: flex;
     justify-content: center;
     transform-origin: bottom center;
+    transition: transform 0.1s;
 }
 
 /* Inner white part of bread */
@@ -682,6 +683,7 @@ body.no-scroll .site-header {
     border-radius: 8px 8px 2px 2px;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    transition: all 0.1s;
 }
 
 .bread-pet__face {
@@ -691,6 +693,7 @@ body.no-scroll .site-header {
     width: 100%;
     height: 20px;
     z-index: 2;
+    transition: transform 0.1s;
 }
 
 .bread-pet__eye {
@@ -701,6 +704,7 @@ body.no-scroll .site-header {
     background: #3e2723;
     border-radius: 50%;
     animation: blink 4s infinite;
+    transition: all 0.1s;
 }
 
 .bread-pet__eye.left {
@@ -719,6 +723,14 @@ body.no-scroll .site-header {
     height: 3px;
     border-bottom: 2px solid #3e2723;
     border-radius: 0 0 4px 4px;
+    transition: all 0.1s;
+}
+
+.bread-pet.mouth-open .bread-pet__mouth {
+    height: 6px;
+    border-radius: 50%;
+    background: #3e2723;
+    border: none;
 }
 
 .bread-pet__cheek {
@@ -729,6 +741,7 @@ body.no-scroll .site-header {
     background: #ffab91;
     border-radius: 50%;
     opacity: 0.6;
+    transition: all 0.1s;
 }
 .bread-pet__cheek.left {
     left: 6px;
@@ -739,18 +752,92 @@ body.no-scroll .site-header {
 
 .bread-pet__leg {
     position: absolute;
-    bottom: -4px;
+    bottom: -7px;
     width: 6px;
     height: 6px;
     background: #d4ac0d;
     border-radius: 3px;
     z-index: 1;
+    transition: all 0.1s;
 }
 .bread-pet__leg.left {
     left: 8px;
 }
 .bread-pet__leg.right {
     right: 8px;
+}
+
+/* ==========================================================================
+   Bread Pet Directions (Isometric-ish)
+   ========================================================================== */
+/* --- Back --- */
+.bread-pet[data-facing="back"] .bread-pet__face {
+    display: none;
+}
+.bread-pet[data-facing="back"] .bread-pet__body::after {
+    background: #f4d03f; /* Full crust */
+}
+
+/* --- Front-Left --- */
+.bread-pet[data-facing="front-left"] .bread-pet__face {
+    transform: translateX(-3px);
+}
+.bread-pet[data-facing="front-left"] .bread-pet__eye.right {
+    right: 12px;
+    width: 4px;
+}
+.bread-pet[data-facing="front-left"]
+    .bread-pet__cheek.right {
+    right: 8px;
+    width: 3px;
+}
+.bread-pet[data-facing="front-left"] .bread-pet__mouth {
+    right: auto;
+    left: 15px;
+    transform: translateX(0);
+    width: 4px;
+}
+
+/* --- Front-Right --- */
+.bread-pet[data-facing="front-right"] .bread-pet__face {
+    transform: translateX(3px);
+}
+.bread-pet[data-facing="front-right"] .bread-pet__eye.left {
+    left: 12px;
+    width: 4px;
+}
+.bread-pet[data-facing="front-right"]
+    .bread-pet__cheek.left {
+    left: 8px;
+    width: 3px;
+}
+.bread-pet[data-facing="front-right"] .bread-pet__mouth {
+    right: 15px;
+    left: auto;
+    transform: translateX(0);
+    width: 4px;
+}
+
+/* --- Back-Left --- */
+.bread-pet[data-facing="back-left"] .bread-pet__face {
+    display: none;
+}
+.bread-pet[data-facing="back-left"]
+    .bread-pet__body::after {
+    background: #f4d03f;
+    width: 80%; /* Show side crust */
+    left: 10%;
+}
+
+/* --- Back-Right --- */
+.bread-pet[data-facing="back-right"] .bread-pet__face {
+    display: none;
+}
+.bread-pet[data-facing="back-right"]
+    .bread-pet__body::after {
+    background: #f4d03f;
+    width: 80%;
+    left: 10%;
 }
 
 /* Animations */
@@ -774,6 +861,30 @@ body.no-scroll .site-header {
     animation: walk 0.3s infinite alternate ease-in-out;
 }
 .bread-pet.is-walking .bread-pet__leg.right {
+    animation: walk 0.3s infinite alternate-reverse
+        ease-in-out;
+}
+
+.bread-pet[data-facing="front-right"].is-walking
+    .bread-pet__leg.left {
+    left: 12px;
+    animation: walk 0.3s infinite alternate ease-in-out;
+}
+.bread-pet[data-facing="front-right"].is-walking
+    .bread-pet__leg.right {
+    right: 5px;
+    animation: walk 0.3s infinite alternate-reverse
+        ease-in-out;
+}
+
+.bread-pet[data-facing="front-left"].is-walking
+    .bread-pet__leg.left {
+    left: 5px;
+    animation: walk 0.3s infinite alternate ease-in-out;
+}
+.bread-pet[data-facing="front-left"].is-walking
+    .bread-pet__leg.right {
+    right: 12px;
     animation: walk 0.3s infinite alternate-reverse
         ease-in-out;
 }
