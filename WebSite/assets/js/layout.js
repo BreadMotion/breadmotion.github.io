@@ -128,7 +128,8 @@ document.addEventListener("DOMContentLoaded", () => {
         if (activeLang) {
           activeElement = activeLang;
           const rect = activeLang.getBoundingClientRect();
-          targetX = rect.left + window.scrollX;
+          targetX =
+            rect.left + window.scrollX - breadWidth / 2;
           targetY =
             rect.bottom + window.scrollY - breadHeight;
           currentX = targetX;
@@ -155,7 +156,8 @@ document.addEventListener("DOMContentLoaded", () => {
               const rect = target.getBoundingClientRect();
 
               // Calculate target position: Bottom-Left of the UI
-              targetX = rect.left + window.scrollX;
+              targetX =
+                rect.left + window.scrollX - breadWidth / 2;
               targetY =
                 rect.bottom + window.scrollY - breadHeight;
 
@@ -201,7 +203,8 @@ document.addEventListener("DOMContentLoaded", () => {
           if (activeElement && activeElement.isConnected) {
             const rect =
               activeElement.getBoundingClientRect();
-            targetX = rect.left + window.scrollX;
+            targetX =
+              rect.left + window.scrollX - breadWidth / 2;
             targetY =
               rect.bottom + window.scrollY - breadHeight;
           }
