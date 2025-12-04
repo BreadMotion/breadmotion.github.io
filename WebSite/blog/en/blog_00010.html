@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>RClone Operation Flow | PanKUN Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project." />
+    <meta name="description" content="Explaining how to leverage rclone and shell scripts in a project to achieve efficient management of large assets and CI/CD integration." />
     <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00010.html" />
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00010.html" />
     <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00010.html" />
@@ -30,7 +30,7 @@
     "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00010.html"
   },
   "headline": "RClone Operation Flow",
-  "description": "Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project.",
+  "description": "Explaining how to leverage rclone and shell scripts in a project to achieve efficient management of large assets and CI/CD integration.",
   "image": [
     "https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00010.png"
   ],
@@ -86,7 +86,7 @@
   ]
 }</script>
     <meta property="og:title" content="RClone Operation Flow | PanKUN Blog" />
-    <meta property="og:description" content="Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project." />
+    <meta property="og:description" content="Explaining how to leverage rclone and shell scripts in a project to achieve efficient management of large assets and CI/CD integration." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00010.html" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00010.png" />
@@ -118,10 +118,10 @@
                 </ol>
               </nav>
               <header class="post-detail__header">
-                <p class="post-detail__meta">2025/11/20 / CloudStorage</p>
+                <p class="post-detail__meta">2025/11/20 / CloudStrage</p>
                 <h1 class="post-detail__title">RClone Operation Flow</h1>
-                <p class="post-detail__description">Explains how to efficiently manage large-scale assets and achieve CI/CD integration using rclone and shell scripts in a project.</p>
-                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=tool">tool</a> <a class="tag" href="../../blog.html?tag=cloudstorage">cloudstorage</a> <a class="tag" href="../../blog.html?tag=git">git</a></p>
+                <p class="post-detail__description">Explaining how to leverage rclone and shell scripts in a project to achieve efficient management of large assets and CI/CD integration.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=tool">tool</a> <a class="tag" href="../../blog.html?tag=cloudstrage">cloudstrage</a> <a class="tag" href="../../blog.html?tag=git">git</a></p>
                 
     <div class="post-header-actions" aria-hidden="false">
       <div class="post-header-actions__left">
@@ -164,120 +164,164 @@
     </div>
   
               </header>
-              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
-<p>In the previous article, I explained the introduction flow of rclone in a Windows environment and its linkage with Google Drive.
-This time, as a continuation, I will introduce an operational technique combining rclone and shell scripts for the specific issue of <strong>large-scale asset management in projects</strong>.</p>
-<p>I will explore practical approaches to solve capacity limits and performance issues that often occur in Git LFS operations, and to smooth asset management efficiency and CI/CD integration in team development.</p>
-<h2 id="goal-of-this-article">Goal of this article</h2><ul>
-<li>Efficiently manage large-scale assets (models, textures, sounds, etc.) of a project with rclone.</li>
-<li>Automate the coordination between Git and rclone using the following custom shell scripts.<ul>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m Pan-kun.</p>
+<p>In the previous article, I explained the rclone installation flow and Google Drive integration in a Windows environment.
+This time, as a continuation, I will introduce an operational approach that combines <strong>rclone and shell scripting</strong> to address the specific challenge of <strong>managing large-scale assets in a project</strong>.</p>
+<p>We will explore a practical approach to solve common problems faced in Git LFS operation, such as capacity limitations and performance issues, and to <strong>streamline asset management and CI/CD integration</strong> in team development.</p>
+<h2 id="goal-of-this-article">Goal of This Article</h2><ul>
+<li>Efficiently manage large project assets (models, textures, sounds, etc.) using rclone.</li>
+<li>Automate Git and rclone integration using the following custom shell scripts:<ul>
 <li><code>Aup.sh</code>: Asset upload</li>
 <li><code>Adown.sh</code>: Asset download</li>
 <li><code>Alock.sh</code>: Asset lock</li>
 <li><code>Aunlock.sh</code>: Asset unlock</li>
 </ul>
 </li>
-<li>Grasp the image of automatic asset synchronization and build integration in the CI/CD pipeline.</li>
+<li>Grasp the concept of automated asset synchronization and build integration within a CI/CD pipeline.</li>
 </ul>
-<h2 id="challenges-of-large-scale-asset-management-and-advantages-of-rclone">Challenges of Large-Scale Asset Management and Advantages of rclone</h2><p>In game development, large-scale assets such as 3D models, high-resolution textures, and long sound files often appear in units of GB.
-Directly managing these with Git tends to bloat the repository, causing problems such as slow cloning and fetching, or hitting the capacity limit of Git LFS.</p>
-<p>By linking rclone with external storage (such as Google Drive), it becomes possible to separate these large assets from the Git repository and manage them efficiently.
-Git manages only references to assets, and actual data is stored in external storage via rclone, realizing a lightweight and high-speed repository.</p>
-<h2 id="rclone-operation-strategy-in-ue">RClone Operation Strategy in UE</h2><p>Prepare <code>Tool</code> in the root directory of UE and prepare 4 shell scripts. (It should be fine to replace them with batch files and adjust the commands)</p>
+<h2 id="challenges-of-large-asset-management-and-rclone39s-advantages">Challenges of Large Asset Management and rclone&#39;s Advantages</h2><p>In game development, large assets in the GB range—such as 3D models, high-resolution textures, and long sound files—appear frequently.
+Managing these directly with Git often leads to repository bloat, slow clone and fetch times, and hitting Git LFS capacity limits.</p>
+<p>By linking rclone with external storage (like Google Drive), these large-capacity assets can be <strong>separated from the Git repository</strong> and managed efficiently.
+Git manages only references to the assets, while the actual data is stored on external storage via rclone, thus achieving repository <strong>lightweightness and speed</strong>.</p>
+<h2 id="ue에서의-rclone-operation-strategy">UE에서의 RClone Operation Strategy</h2><p>We will prepare a <code>Tool</code> directory in the root directory of the UE project and create four shell scripts (these can be replaced with batch files and adjusted commands if needed):</p>
 <ul>
 <li><code>Aup.sh</code></li>
 <li><code>Adown.sh</code></li>
 <li><code>Alock.sh</code></li>
 <li><code>Aunlock.sh</code></li>
 </ul>
-<p>These scripts wrap rclone commands targeting prefixes that can be large files under the <code>Assets</code> directory and automate asset synchronization and locking.
-(If you want to target extensions other than .uasset, add a judgment)</p>
-<h3 id="1-aupsh-asset-upload">1. <code>Aup.sh</code>: Asset Upload</h3><p><code>Aup.sh</code> is used to upload local project assets to Google Drive (or the configured remote storage).
-This is an image executed when asset editing is complete and ready for sharing.</p>
+<p>These scripts will wrap rclone commands, targeting prefixes of potentially large files under the <code>Assets</code> directory, to automate asset synchronization and locking.
+(If you need to target files other than <code>.uasset</code> extension, you should add logic for that.)</p>
+<h3 id="1-aupsh-asset-upload">1. <code>Aup.sh</code>: Asset Upload</h3><p><code>Aup.sh</code> is used to <strong>upload local project assets to Google Drive</strong> (or the configured remote storage).
+This is typically executed when asset editing is complete and ready for sharing.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the Unity project
-sh ./Tool/Aup.sh</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Run in the root directory of the Unity project
+sh ./Tool/Aup.sh</code></pre></figure><p><strong>Internal Process Overview:</strong></p>
 <ol>
 <li>Scan files under the <code>Content</code> directory.</li>
-<li>Upload each file to remote storage with the rclone command.</li>
-<li>Commit placeholder files (or path information only) of the uploaded assets to the Git repository.</li>
+<li>Upload each file to the remote storage using the rclone command.</li>
+<li>Commit a <strong>placeholder file</strong> (or only path information) for the uploaded asset to the Git repository.</li>
 </ol>
-<h3 id="2-adownsh-asset-download">2. <code>Adown.sh</code>: Asset Download</h3><p><code>Adown.sh</code> is used to download assets on remote storage to the local project.
-Execute this when team members clone the project or want to update to the latest assets.</p>
+<h3 id="2-adownsh-asset-download">2. <code>Adown.sh</code>: Asset Download</h3><p><code>Adown.sh</code> is used to <strong>download assets from remote storage</strong> to the local project.
+It is executed when a team member clones the project or wants to update to the latest assets.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the project
-sh ./Tool/Adown.sh</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Run in the root directory of the project
+sh ./Tool/Adown.sh</code></pre></figure><p><strong>Internal Process Overview:</strong></p>
 <ol>
-<li>Get asset reference information in the Git repository.</li>
-<li>Download corresponding asset files from remote storage to the <code>Content</code> directory using the rclone command.</li>
-<li>Adjust downloaded assets so they are recognized by the editor (if necessary).</li>
+<li>Retrieve asset reference information from the Git repository.</li>
+<li>Download the corresponding asset files from remote storage to the <code>Content</code> directory using the rclone command.</li>
+<li>Adjust downloaded assets to be recognized by the editor (if necessary).</li>
 </ol>
-<h3 id="3-alocksh-asset-lock">3. <code>Alock.sh</code>: Asset Lock</h3><p>The locking mechanism is very important to prevent conflicts due to simultaneous editing of large assets.
-<code>Alock.sh</code> locks specific assets so that other members cannot edit them at the same time.</p>
+<h3 id="3-alocksh-asset-lock">3. <code>Alock.sh</code>: Asset Lock</h3><p>A locking mechanism is crucial to <strong>prevent conflicts from simultaneous editing</strong> of large assets.
+<code>Alock.sh</code> locks a specific asset, preventing other members from editing it concurrently.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the UE project
-sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Run in the root directory of the UE project
+sh ./Tool/Alock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Internal Process Overview:</strong></p>
 <ol>
-<li>Register lock information of the specified asset to remote storage or a dedicated lock management system.</li>
-<li>Reflect the lock state in the Git repository as well.</li>
-<li>Notify that the lock was successful. Display an error message if already locked.</li>
+<li>Register the lock information for the specified asset in remote storage or a dedicated lock management system.</li>
+<li>Reflect the lock status in the Git repository.</li>
+<li>Notify of successful lock. Display an error message if already locked.</li>
 </ol>
-<h3 id="4-aunlocksh-asset-unlock">4. <code>Aunlock.sh</code>: Asset Unlock</h3><p>When asset editing is complete and uploading with <code>Aup.sh</code> is done, use <code>Aunlock.sh</code> to release the lock.</p>
+<h3 id="4-aunlocksh-asset-unlock">4. <code>Aunlock.sh</code>: Asset Unlock</h3><p>Once asset editing is complete and uploaded using <code>Aup.sh</code>, use <code>Aunlock.sh</code> to release the lock.</p>
 <p><strong>Usage Example:</strong></p>
-<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Execute at the root directory of the project
-sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Overview of internal processing:</strong></p>
+<figure class="code-block" data-lang="sh"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Shell</span></div><pre><code class="language-sh"># Run in the root directory of the project
+sh ./Tool/Aunlock.sh Content/Model/SK_ModelX.uasset</code></pre></figure><p><strong>Internal Process Overview:</strong></p>
 <ol>
-<li>Release lock information of the specified asset from remote storage or lock management system.</li>
-<li>Update the lock state of the Git repository.</li>
-<li>Notify that unlock was successful. Display an error message if the file is not locked or locked by another user.</li>
+<li>Release the lock information for the specified asset from remote storage or the lock management system.</li>
+<li>Update the lock status in the Git repository.</li>
+<li>Notify of successful unlock. Display an error message if the file is not locked or if locked by another user.</li>
 </ol>
-<h2 id="integration-with-cicd-pipeline">Integration with CI/CD Pipeline</h2><p>These scripts can be easily incorporated into the CI/CD pipeline.</p>
-<p><strong>Example of automatic synchronization on build server:</strong></p>
+<h2 id="cicd-pipeline-integration">CI/CD Pipeline Integration</h2><p>These scripts can be easily incorporated into the CI/CD pipeline.</p>
+<p><strong>Example of Automatic Synchronization on the Build Server:</strong></p>
 <ol>
 <li>When CI is triggered, first fetch the repository with <code>git clone</code>.</li>
-<li>Next, execute <code>./Tool/Adown.sh</code> to automatically download necessary assets.</li>
-<li>Execute command line build.</li>
+<li>Next, run <code>./Tool/Adown.sh</code> to automatically download the necessary assets.</li>
+<li>Execute the command line build.</li>
 </ol>
-<p>This allows the build server to always execute builds with the latest code and assets, saving the trouble of manual asset synchronization.</p>
-<h2 id="image-referencing-mmd_rclonepng-virtual-diagram">Image referencing <code>MMD_rclone.png</code> (Virtual Diagram)</h2><p>The previous RClone introduction flowchart (<code>MMD_rclone.png</code>) was the setting flow of RClone itself,
-but the flow of assets in this operational technique looks like the following image.</p>
-<p>The final version of the flowchart is <a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">here</a>.
-<img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone2.png" alt="RClone Introduction Flowchart" title="" loading="lazy" decoding="async" /></p>
-<h2 id="importance-of-lockunlock-alocksh--aunlocksh">Importance of Lock/Unlock (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>When multiple people edit at the same time, unintended overwrites and conflicts are problems to avoid.
-Like the file locking function of Git LFS, this locking mechanism becomes very important in asset management using <code>rclone</code>. <code>Alock.sh</code> and <code>Aunlock.sh</code> are custom shell scripts for that purpose.</p>
-<h3 id="alocksh-asset-lock"><code>Alock.sh</code>: Asset Lock</h3><p><code>Alock.sh</code> marks the specified asset file as &quot;locked&quot; on remote storage.
-This prevents other developers from editing the same file at the same time and significantly reduces the risk of conflict occurrence.</p>
-<p><strong>Main functions:</strong></p>
+<p>This ensures the build server always executes the build with the latest code and assets, eliminating the need for manual asset synchronization.</p>
+<h2 id="image-referring-to-mmd_rclonepng-conceptual-diagram">Image Referring to <code>MMD_rclone.png</code> (Conceptual Diagram)</h2><p>The previous RClone installation flowchart (<code>MMD_rclone.png</code>) was for RClone setup itself. The asset flow in this operational approach is visualized below. </p>
+<p>The final version of the flowchart is <a href="https://breadmotion.github.io/WebSite/content/other/Rclone2.html">here</a>.</p>
+<div class="mermaid-wrapper"><div class="mermaid">---
+title: RClone Development Flow
+config:
+    theme: dark
+    themeVariables:
+        fontSize: 10px
+---
+graph TB
+subgraph Adown[When Pulling]
+    direction TB
+    G{Run Adown.sh};
+    G --&gt; H[Download from Google Drive with rclone];
+    H --&gt; I[Synchronize assets to local project];
+end
+
+subgraph Aup[When Pushing]
+    direction TB
+    B{Run Aup.sh} --&gt;|Upload to Google Drive with rclone| D[Commit asset reference to Git repository]
+    D --&gt; E[Git Push];
+end
+subgraph Alock[Lock]
+    direction TB
+    L2{Run Alock.sh};
+    L2 -- Success --&gt; L3[Mark asset as locked];
+    L2 -- Failure (Already locked) --&gt; L4[Error notification];
+    L4
+
+    L3 --&gt; L5[Start asset editing];
+end
+
+subgraph Aunlock[Unlock]
+    direction TB
+    L7{Run Aunlock.sh} --&gt; L8[Unlock the asset];
+end
+
+L1[Start asset editing]
+R1[Perform other tasks]
+
+L1 --&gt; Alock
+Alock --&gt; L1
+Alock --&gt;|When editing is complete in locked state| Aup
+Aup --&gt; Aunlock
+
+Alock --&gt;|On Error| R1
+Aunlock --&gt; L1
+R1 --&gt; Adown
+L1 --&gt; Adown
+Adown --&gt; L1</div></div><h2 id="importance-of-lockunlock-alocksh--aunlocksh">Importance of Lock/Unlock (<code>Alock.sh</code> / <code>Aunlock.sh</code>)</h2><p>When multiple people edit concurrently, avoiding unintended overwrites and conflicts is crucial.
+Similar to Git LFS&#39;s file locking feature, this locking mechanism is extremely important for rclone-based asset management. <code>Alock.sh</code> and <code>Aunlock.sh</code> are the custom shell scripts for this purpose.</p>
+<h3 id="alocksh-asset-lock"><code>Alock.sh</code>: Asset Lock</h3><p><code>Alock.sh</code> marks the specified asset file as &quot;locked&quot; on the remote storage.
+This prevents other developers from concurrently editing the same file, significantly reducing the risk of conflicts.</p>
+<p><strong>Main Features:</strong></p>
 <ul>
-<li>Receive the path of the specified asset.</li>
-<li>Use rclone&#39;s lock function (or external lock management system) to lock the file on remote storage.</li>
-<li>Notify if the lock is successful.</li>
-<li>If it is already locked by another user, display that information and refuse the lock.</li>
+<li>Accepts the path of the specified asset.</li>
+<li>Uses rclone&#39;s locking feature (or an external lock management system) to lock the file on remote storage.</li>
+<li>Notifies if the lock is successful.</li>
+<li>Displays information and denies the lock if already locked by another user.</li>
 </ul>
-<p><strong>Operation Image:</strong>
-Before a developer starts editing a specific asset, execute <code>Alock.sh Content/Model/SK_ModelA.uasset</code>.
-If the lock is successful, you can proceed with the work with peace of mind.</p>
-<h3 id="aunlocksh-asset-unlock"><code>Aunlock.sh</code>: Asset Unlock</h3><p>When asset editing and uploading to remote storage with <code>Aup.sh</code> is done, use <code>Aunlock.sh</code> to release the lock.
-This allows other developers to lock and edit that asset.</p>
-<p><strong>Main functions:</strong></p>
+<p><strong>Operational Concept:</strong>
+A developer runs <code>Alock.sh Content/Model/SK_ModelA.uasset</code> before starting editing a specific asset. If the lock is successful, they can proceed with the work confidently.</p>
+<h3 id="aunlocksh-asset-unlock"><code>Aunlock.sh</code>: Asset Unlock</h3><p>Once asset editing is complete and uploaded to remote storage with <code>Aup.sh</code>, use <code>Aunlock.sh</code> to release the lock.
+This allows other developers to lock and edit the latest version of the asset.</p>
+<p><strong>Main Features:</strong></p>
 <ul>
-<li>Receive the path of the specified asset.</li>
-<li>Release the lock of the file on remote storage.</li>
-<li>Notify if the unlock is successful.</li>
-<li>Notify an error if attempting to unlock a file that is not locked or locked by a user other than yourself.</li>
+<li>Accepts the path of the specified asset.</li>
+<li>Releases the lock on the file in remote storage.</li>
+<li>Notifies if the unlock is successful.</li>
+<li>Notifies of an error if attempting to unlock a file that is not locked or locked by another user.</li>
 </ul>
-<p><strong>Operation Image:</strong>
-When asset editing and uploading are finished, execute <code>Aunlock.sh Content/Model/SK_ModelA.uasset</code> to release the lock.
-This allows other team members to get the latest version of that asset and, if necessary, lock and start editing.</p>
-<h3 id="merits-of-lock-mechanism">Merits of Lock Mechanism</h3><ul>
-<li><strong>Prevention of conflicts</strong>: Can avoid complex merge work of large assets.</li>
-<li><strong>Clear scope of responsibility</strong>: You can see at a glance who is editing which asset, preventing useless work duplication.</li>
-<li><strong>Efficiency of team development</strong>: Smooth asset coordination improves the productivity of the entire development.</li>
+<p><strong>Operational Concept:</strong>
+After editing and uploading the asset, run <code>Aunlock.sh Content/Model/SK_ModelA.uasset</code> to release the lock.
+This allows other team members to get the latest version of the asset and lock it to begin editing if necessary.</p>
+<h3 id="benefits-of-the-locking-mechanism">Benefits of the Locking Mechanism</h3><ul>
+<li><strong>Conflict Prevention</strong>: Avoids complex merge operations for large-capacity assets.</li>
+<li><strong>Clear Ownership</strong>: Clearly shows who is editing which asset, preventing unnecessary duplicate work.</li>
+<li><strong>Team Development Efficiency</strong>: Smoother asset coordination enhances overall development productivity.</li>
 </ul>
-<p>By properly operating these scripts and flows, asset management of projects combining Git and rclone will become more robust and efficient.</p>
-<h2 id="summary">Summary</h2><p>Asset management in projects is an important issue that greatly affects the efficiency of team development.
-By combining rclone with custom shell scripts <code>Aup.sh</code>, <code>Adown.sh</code>, <code>Alock.sh</code>, <code>Aunlock.sh</code>, it becomes possible to keep the Git repository lightweight while efficiently managing large assets in external storage, and further smooth integration with the CI/CD pipeline.</p>
-<p>By introducing this operational technique, developers will be able to concentrate on content creation and development without being bothered by asset capacity or Git LFS limits.</p>
+<p>These scripts and flow will make project asset management, combining Git and rclone, more robust and efficient when properly operated.</p>
+<h2 id="summary">Summary</h2><p>Asset management in a project is a critical challenge that significantly impacts team development efficiency.
+By combining rclone with custom shell scripts—<code>Aup.sh</code>, <code>Adown.sh</code>, <code>Alock.sh</code>, and <code>Aunlock.sh</code>—it becomes possible to keep the Git repository lightweight while efficiently managing large-capacity assets in external storage, and smoothly integrating with the CI/CD pipeline.</p>
+<p>Implementing this operational approach allows developers to focus on content creation</p>
 </section>
               
     <div class="post-header-actions" aria-hidden="false">
@@ -327,7 +371,7 @@ By combining rclone with custom shell scripts <code>Aup.sh</code>, <code>Adown.s
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">Table of Contents</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#goal-of-this-article" data-no-preview>Goal of this article</a></li><li class="toc-item toc-item--level-2"><a href="#challenges-of-large-scale-asset-management-and-advantages-of-rclone" data-no-preview>Challenges of Large-Scale Asset Management and Advantages of rclone</a></li><li class="toc-item toc-item--level-2"><a href="#rclone-operation-strategy-in-ue" data-no-preview>RClone Operation Strategy in UE</a></li><li class="toc-item toc-item--level-3"><a href="#1-aupsh-asset-upload" data-no-preview>1. &lt;code&gt;Aup.sh&lt;/code&gt;: Asset Upload</a></li><li class="toc-item toc-item--level-3"><a href="#2-adownsh-asset-download" data-no-preview>2. &lt;code&gt;Adown.sh&lt;/code&gt;: Asset Download</a></li><li class="toc-item toc-item--level-3"><a href="#3-alocksh-asset-lock" data-no-preview>3. &lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#4-aunlocksh-asset-unlock" data-no-preview>4. &lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-2"><a href="#integration-with-cicd-pipeline" data-no-preview>Integration with CI/CD Pipeline</a></li><li class="toc-item toc-item--level-2"><a href="#image-referencing-mmd_rclonepng-virtual-diagram" data-no-preview>Image referencing &lt;code&gt;MMD_rclone.png&lt;/code&gt; (Virtual Diagram)</a></li><li class="toc-item toc-item--level-2"><a href="#importance-of-lockunlock-alocksh--aunlocksh" data-no-preview>Importance of Lock/Unlock (&lt;code&gt;Alock.sh&lt;/code&gt; / &lt;code&gt;Aunlock.sh&lt;/code&gt;)</a></li><li class="toc-item toc-item--level-3"><a href="#alocksh-asset-lock" data-no-preview>&lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#aunlocksh-asset-unlock" data-no-preview>&lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-3"><a href="#merits-of-lock-mechanism" data-no-preview>Merits of Lock Mechanism</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#goal-of-this-article" data-no-preview>Goal of This Article</a></li><li class="toc-item toc-item--level-2"><a href="#challenges-of-large-asset-management-and-rclone39s-advantages" data-no-preview>Challenges of Large Asset Management and rclone&amp;#39;s Advantages</a></li><li class="toc-item toc-item--level-2"><a href="#ue에서의-rclone-operation-strategy" data-no-preview>UE에서의 RClone Operation Strategy</a></li><li class="toc-item toc-item--level-3"><a href="#1-aupsh-asset-upload" data-no-preview>1. &lt;code&gt;Aup.sh&lt;/code&gt;: Asset Upload</a></li><li class="toc-item toc-item--level-3"><a href="#2-adownsh-asset-download" data-no-preview>2. &lt;code&gt;Adown.sh&lt;/code&gt;: Asset Download</a></li><li class="toc-item toc-item--level-3"><a href="#3-alocksh-asset-lock" data-no-preview>3. &lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#4-aunlocksh-asset-unlock" data-no-preview>4. &lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-2"><a href="#cicd-pipeline-integration" data-no-preview>CI/CD Pipeline Integration</a></li><li class="toc-item toc-item--level-2"><a href="#image-referring-to-mmd_rclonepng-conceptual-diagram" data-no-preview>Image Referring to &lt;code&gt;MMD_rclone.png&lt;/code&gt; (Conceptual Diagram)</a></li><li class="toc-item toc-item--level-2"><a href="#importance-of-lockunlock-alocksh--aunlocksh" data-no-preview>Importance of Lock/Unlock (&lt;code&gt;Alock.sh&lt;/code&gt; / &lt;code&gt;Aunlock.sh&lt;/code&gt;)</a></li><li class="toc-item toc-item--level-3"><a href="#alocksh-asset-lock" data-no-preview>&lt;code&gt;Alock.sh&lt;/code&gt;: Asset Lock</a></li><li class="toc-item toc-item--level-3"><a href="#aunlocksh-asset-unlock" data-no-preview>&lt;code&gt;Aunlock.sh&lt;/code&gt;: Asset Unlock</a></li><li class="toc-item toc-item--level-3"><a href="#benefits-of-the-locking-mechanism" data-no-preview>Benefits of the Locking Mechanism</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
               </nav>
             </div>
           </aside>

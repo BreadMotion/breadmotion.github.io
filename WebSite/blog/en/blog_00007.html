@@ -2,9 +2,9 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>RClone Introduction Flow | PanKUN Blog</title>
+    <title>RClone Installation Flow | PanKUN Blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Summary of procedures for introducing rclone in Windows + Git Bash environment and linking with Google Drive" />
+    <meta name="description" content="A summary of the steps to install rclone and link it with Google Drive in a Windows + Git Bash environment." />
     <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00007.html" />
     <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00007.html" />
     <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00007.html" />
@@ -29,8 +29,8 @@
     "@type": "WebPage",
     "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00007.html"
   },
-  "headline": "RClone Introduction Flow",
-  "description": "Summary of procedures for introducing rclone in Windows + Git Bash environment and linking with Google Drive",
+  "headline": "RClone Installation Flow",
+  "description": "A summary of the steps to install rclone and link it with Google Drive in a Windows + Git Bash environment.",
   "image": [
     "https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00007.png"
   ],
@@ -80,13 +80,13 @@
     {
       "@type": "ListItem",
       "position": 3,
-      "name": "RClone Introduction Flow",
+      "name": "RClone Installation Flow",
       "item": "https://breadmotion.github.io/WebSite/blog/en/blog_00007.html"
     }
   ]
 }</script>
-    <meta property="og:title" content="RClone Introduction Flow | PanKUN Blog" />
-    <meta property="og:description" content="Summary of procedures for introducing rclone in Windows + Git Bash environment and linking with Google Drive" />
+    <meta property="og:title" content="RClone Installation Flow | PanKUN Blog" />
+    <meta property="og:description" content="A summary of the steps to install rclone and link it with Google Drive in a Windows + Git Bash environment." />
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00007.html" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00007.png" />
@@ -114,14 +114,14 @@
                 <ol class="breadcrumb__list">
                   <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
                   <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
-                  <li class="breadcrumb__item" aria-current="page">RClone Introduction Flow</li>
+                  <li class="breadcrumb__item" aria-current="page">RClone Installation Flow</li>
                 </ol>
               </nav>
               <header class="post-detail__header">
-                <p class="post-detail__meta">2025/11/17 / CloudStorage</p>
-                <h1 class="post-detail__title">RClone Introduction Flow</h1>
-                <p class="post-detail__description">Summary of procedures for introducing rclone in Windows + Git Bash environment and linking with Google Drive</p>
-                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=tool">tool</a> <a class="tag" href="../../blog.html?tag=cloudstorage">cloudstorage</a> <a class="tag" href="../../blog.html?tag=git">git</a></p>
+                <p class="post-detail__meta">2025/11/17 / CloudStrage</p>
+                <h1 class="post-detail__title">RClone Installation Flow</h1>
+                <p class="post-detail__description">A summary of the steps to install rclone and link it with Google Drive in a Windows + Git Bash environment.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=tool">tool</a> <a class="tag" href="../../blog.html?tag=cloudstrage">cloudstrage</a> <a class="tag" href="../../blog.html?tag=git">git</a></p>
                 
     <div class="post-header-actions" aria-hidden="false">
       <div class="post-header-actions__left">
@@ -130,7 +130,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00007.html&text=RClone%20Introduction%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00007.html&text=RClone%20Installation%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -164,44 +164,145 @@
     </div>
   
               </header>
-              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m PanKUN.</p>
-<p>Link with Google Drive on Windows and manage large files with rclone.</p>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m Pan-kun.</p>
+<p>I&#39;m going to manage large files using <strong>rclone</strong> linked with Google Drive on Windows.</p>
+<p>I&#39;ve visualized the following steps in a single flowchart:</p>
 <ul>
-<li>Introduction of WinGet</li>
-<li>Installation of rclone</li>
-<li>Google Drive remote settings</li>
-<li>Operation check
-I summarized these steps into a single flowchart and visualized it.</li>
+<li>WinGet Introduction (Installation)</li>
+<li>rclone Installation</li>
+<li>Google Drive Remote Configuration</li>
+<li>Operation Check (Verification)</li>
 </ul>
-<h2 id="rclone-introduction-flow-mermaid-version">RClone Introduction Flow (Mermaid version)</h2><p>The final version of the flowchart is <a href="https://breadmotion.github.io/WebSite/content/other/Rclone.html">here</a>.</p>
-<p><img src="https://breadmotion.github.io/WebSite/assets/img/MMD_rclone.png" alt="RClone Introduction Flowchart" title="" loading="lazy" decoding="async" /></p>
-<hr>
-<h2 id="what-can-this-flow-do">What can this flow do?</h2><p>This flow visualizes the following series of tasks in a Windows environment so that they can be executed without mistakes.</p>
+<h2 id="rclone-installation-flow-mermaid-version">RClone Installation Flow (Mermaid Version)</h2><p>The final version of the flowchart is <a href="https://breadmotion.github.io/WebSite/content/other/Rclone.html">here</a>.</p>
+<div class="mermaid-wrapper"><div class="mermaid">---
+title: RClone Installation Flow
+config:
+  theme: dark
+  themeVariables:
+  fontSize: 10px
+---
+flowchart TD
+    %% --- classDef Definition ---
+    classDef startNode fill:#d5f5e3,stroke:#27ae60,stroke-width:2px,color:black;
+    classDef endNode fill:#fdebd0,stroke:#e67e22,stroke-width:2px,color:black;
+    classDef processNode fill:#e8f8f5,stroke:#148f77,stroke-width:1px,color:black;
+    classDef checkNode fill:#fef9e7,stroke:#b7950b,stroke-width:1px,color:black;
+  
+    %% --- Element Definition ---
+    Start(&quot;Start
+        Open Terminal&quot;)
+  
+    subgraph G1[WinGet Installation]
+        direction LR
+        S1Start(start)
+        S1Check{&quot;Check for WinGet
+`winget version`&quot;}
+        S1Install[Download and Install WinGet]
+        S1Note[&quot;What to do if WinGet is not present
+        
+1. Click the URL below to open a browser
+2. Install
+[https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP](https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP)&quot;]
+        
+        S1End(end)
+    
+        S1Start --&gt; S1Check
+        S1Check --&gt;|No version displayed| S1Install
+        S1Check ---&gt;|Version displayed| S1End
+        S1Install --&gt; S1Check
+        S1Check ~~~ S1Note
+    end
+    
+    subgraph G2[rclone Installation]
+        direction LR
+        S2Start(start)
+        S2Check{&quot;Check for rclone
+`rclone --version`&quot;}
+        S2Install[&quot;Install rclone
+`winget install rclone.rclone`&quot;]
+        S2End(end)
+    
+        S2Start --&gt; S2Check
+        S2Check --&gt;|Version displayed| S2End
+        S2Check -- No version displayed --&gt; S2Install
+        S2Install --&gt; S2Check
+    end
+  
+    subgraph G3[rclone Configuration]
+        direction LR
+        S3Start(start)
+        S3Setting[&quot;Google Drive Remote Setup
+(rclone Configuration)&quot;]
+        S3SettingNote[&quot;What to do
+    
+1. Run `rclone config`
+2. Create a new remote with `n`
+3. Set Name as `gdrive`
+4. Select Storage: `drive`
+5. Select Scope: `drive` (full access)
+6. Set the Drive folder ID for `root_folder_id`&quot;]
+        
+        S3SettingNote1[&quot;How to get the Folder ID
+    
+1. Get the URL of the target shared folder
+  2. Assume it's [https://drive.google.com/drive/u/0/folders/XXXXXXXXXXXXXXXXXXXX](https://drive.google.com/drive/u/0/folders/XXXXXXXXXXXXXXXXXXXX)
+  3. XXXXXXXXXXXXXXXXXXXX is the Folder ID&quot;]
+        S3Check{Operation Check}
+        S3CheckNote[&quot;What to do
+    
+1. Get a list with `rclone lsd gdrive:`
+2. If necessary, check contents with `rclone ls gdrive:unity-assets`
+3. If it shows the actual shared project files, it's OK&quot;]
+    
+        S3End(end)
+    
+        S3Start --&gt; S3Setting --&gt; S3Check
+        S3Start ~~~ S3SettingNote
+        S3Start ~~~ S3SettingNote1
+        S3SettingNote ~~~ S3CheckNote
+        S3Check --&gt;| Not synced| S3Setting
+        S3Check --&gt;|Synced| S3End
+    end
+  
+    Start --&gt; G1 --&gt; G2 --&gt; G3 --&gt; End(Setup Complete)
+  
+    linkStyle 1 stroke:blue,stroke-width:2px;
+    linkStyle 2 stroke:red,stroke-width:2px;
+    linkStyle 6 stroke:red,stroke-width:2px;
+    linkStyle 7 stroke:blue,stroke-width:2px;
+    linkStyle 14 stroke:blue,stroke-width:2px;
+    linkStyle 15 stroke:red,stroke-width:2px;
+    
+    %% --- classDef Application ---
+    class Start startNode
+    class End endNode
+    class S1Check,S2Check,S3Check checkNode
+    class S1Install,S2Install,S3Setting processNode
+    click S1Note href &quot;[https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP](https://apps.microsoft.com/detail/9nblggh4nns1?hl=ja-JP&amp;gl=JP)&quot;</div></div><hr>
+<h2 id="what-can-this-flow-do">What Can This Flow Do?</h2><p>This flow visualizes the series of steps for executing the following tasks error-free in a Windows environment:</p>
 <ul>
-<li>What to do if WinGet is missing</li>
-<li>Installation of rclone</li>
-<li>Google Drive remote settings</li>
-<li>How to get Drive Folder ID</li>
-<li>Operation check procedure</li>
+<li>Dealing with the absence of <strong>WinGet</strong></li>
+<li><strong>rclone</strong> installation</li>
+<li>Google Drive remote configuration</li>
+<li>How to obtain the Drive Folder ID</li>
+<li>Procedure for operation verification</li>
 </ul>
-<p>You can eliminate &quot;stuck points in building a Git LFS substitute environment in Windows&quot; for yourself and your team.</p>
+<p>This can resolve <strong>bottlenecks in setting up a Git LFS alternative environment on Windows</strong> for yourself or your team.</p>
 <hr>
-<h2 id="overview">Overview</h2><p>This is how to share files so that they can be managed outside the limits of Git LFS in a Windows environment.
-The rough flow is as follows.</p>
+<h2 id="overview">Overview</h2><p>This is a method for managing and sharing files in a Windows environment when they exceed the limitations of Git LFS. The general flow is as follows:</p>
 <ul>
-<li>Introduction of WinGet</li>
-<li>Introduction of RClone</li>
-<li>RClone settings</li>
+<li>WinGet Installation</li>
+<li>RClone Installation</li>
+<li>RClone Configuration</li>
 </ul>
-<p>Since what follows becomes a story of operation method,
-and if aiming at people who are not used to CLI, one more ingenuity is necessary, so I plan to describe it in another article.</p>
+<p>The subsequent part is about usage and operations, and since it requires further refinement for people unfamiliar with CLI, it&#39;s planned for a separate article.</p>
 <hr>
-<h2 id="summary">Summary</h2><p>What I did in this article:</p>
+<h2 id="summary">Summary</h2><p>What was done in this article:</p>
 <ul>
-<li>Visualized steps required for RClone introduction</li>
-<li>Flowcharted with Mermaid</li>
-<li>Points to note for Drive integration (root_folder_id etc.)</li>
-<li>Organized content to be usable as a procedure manual for teams</li>
+<li>Visualized the necessary steps for RClone installation</li>
+<li>Created a flowchart using <strong>Mermaid</strong></li>
+<li>Notes on Drive linkage (e.g., <code>root_folder_id</code>)</li>
+<li>Prepared content usable as a manual for the team</li>
 </ul>
 </section>
               
@@ -212,7 +313,7 @@ and if aiming at people who are not used to CLI, one more ingenuity is necessary
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00007.html&text=RClone%20Introduction%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00007.html&text=RClone%20Installation%20Flow" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -252,7 +353,7 @@ and if aiming at people who are not used to CLI, one more ingenuity is necessary
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">Table of Contents</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#rclone-introduction-flow-mermaid-version" data-no-preview>RClone Introduction Flow (Mermaid version)</a></li><li class="toc-item toc-item--level-2"><a href="#what-can-this-flow-do" data-no-preview>What can this flow do?</a></li><li class="toc-item toc-item--level-2"><a href="#overview" data-no-preview>Overview</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#rclone-installation-flow-mermaid-version" data-no-preview>RClone Installation Flow (Mermaid Version)</a></li><li class="toc-item toc-item--level-2"><a href="#what-can-this-flow-do" data-no-preview>What Can This Flow Do?</a></li><li class="toc-item toc-item--level-2"><a href="#overview" data-no-preview>Overview</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
               </nav>
             </div>
           </aside>
