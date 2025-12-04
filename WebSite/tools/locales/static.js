@@ -58,13 +58,12 @@ module.exports = {
 
       // Side
       ".hero-side h2": "Recent Updates",
-      ".home-latest-title:contains('Latest Blog')":
-        "Latest Blog",
-      ".home-latest-title:contains('Latest Portfolio')":
-        "Latest Portfolio",
+      ".home-latest-title:contains('ブログ')": "Blog",
+      ".home-latest-title:contains('プロダクト')":
+        "Product",
 
       // Profile (#about)
-      "#about .section__title": "About / Profile",
+      "#about .section__title": "Profile",
 
       // Card: Experience
       ".card__title:contains('経験')": "Experience",
@@ -82,7 +81,8 @@ module.exports = {
       ".card__title:contains('Tech Stack')": "Tech Stack",
 
       // Card: Focus
-      ".card__title:contains('Focus')": "Focus / Expertise",
+      ".card__title:contains('得意領域')":
+        "Focus / Expertise",
       ".profile-label:contains('ゲームクライアント')":
         "Game Client",
       ".profile-value:contains('ゲームロジック')":
@@ -105,10 +105,10 @@ module.exports = {
       ".card--link:has(h3:contains('Blog')) .card__more":
         "Go to Blog List →",
 
-      ".card--link:has(h3:contains('Portfolio')) p":
+      ".card--link:has(h3:contains('Product')) p":
         "Introduction of created games and tools.",
-      ".card--link:has(h3:contains('Portfolio')) .card__more":
-        "Go to Portfolio List →",
+      ".card--link:has(h3:contains('Product')) .card__more":
+        "Go to Product List →",
 
       ".card--link:has(h3:contains('Contact')) p":
         "Business inquiries, etc.",
@@ -120,8 +120,7 @@ module.exports = {
         "Recommended Articles",
 
       // Features
-      ".section--feature .section__title":
-        "Features / Future Plans",
+      ".section--feature .section__title": "Future Plans",
 
       "article h3:contains('Contactページの開発')":
         "Contact Page Dev",
