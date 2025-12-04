@@ -24,6 +24,14 @@
     const content = wrapper.querySelector(".mermaid");
     if (!content) return null;
 
+    // Ensure SVG scales with the container
+    const svg = content.querySelector("svg");
+    if (svg) {
+      svg.style.width = "100%";
+      svg.style.height = "auto";
+      svg.style.maxWidth = "none";
+    }
+
     // State
     let state = {
       x: 0,
@@ -33,7 +41,12 @@
 
     // Setup initial styles
     content.style.transformOrigin = "0 0";
-    content.style.willChange = "transform";
+
+    // IMPORTANT: Explicitly disable will-change to prevent browser from rasterizing the SVG.
+    // Even if we remove the property setting in JS, the CSS rule in blog.css might still apply it.
+    // Setting it to 'auto' overrides the CSS and forces vector re-rendering on zoom.
+    content.style.willChange = "auto";
+
     content.style.transition = "transform 0.1s ease-out"; // Smooth transition for small updates
 
     // RAF loop
