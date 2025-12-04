@@ -75,39 +75,39 @@
     // Inline minimal accessible structure; CSS will style
     const btnIn = document.createElement("button");
     btnIn.type = "button";
-    btnIn.className = "mermaid-btn mermaid-zoom-in";
+    // match CSS which targets .mermaid-toolbar .btn — keep a semantic "btn" class and preserve unique names
+    btnIn.className = "btn mermaid-zoom-in";
     btnIn.setAttribute("aria-label", "拡大");
     btnIn.textContent = "+";
 
     const badge = document.createElement("div");
-    badge.className = "mermaid-scale-badge";
+    // match CSS which targets .mermaid-toolbar .scale-badge
+    badge.className = "scale-badge";
     badge.setAttribute("aria-hidden", "true");
     badge.textContent = "100%";
 
     const btnOut = document.createElement("button");
     btnOut.type = "button";
-    btnOut.className = "mermaid-btn mermaid-zoom-out";
+    btnOut.className = "btn mermaid-zoom-out";
     btnOut.setAttribute("aria-label", "縮小");
     btnOut.textContent = "−";
 
     const btnReset = document.createElement("button");
     btnReset.type = "button";
-    btnReset.className = "mermaid-btn mermaid-reset";
+    btnReset.className = "btn mermaid-reset";
     btnReset.setAttribute("aria-label", "リセット");
     btnReset.textContent = "⟲";
 
-    // Insert toolbar as last child so it overlays content; keep pointer events enabled
+    // Insert toolbar into body as fixed overlay so it stays visible regardless of wrapper scroll
     toolbar.appendChild(btnIn);
     toolbar.appendChild(badge);
     toolbar.appendChild(btnOut);
     toolbar.appendChild(btnReset);
-    toolbar.style.position = "absolute";
-    toolbar.style.top = "8px";
-    toolbar.style.right = "8px";
+    toolbar.style.position = "fixed";
     toolbar.style.pointerEvents = "auto";
     toolbar.style.zIndex = "9999";
     // minimal inline styles to avoid CSS race; final styles controlled by CSS file
-    wrapper.appendChild(toolbar);
+    document.body.appendChild(toolbar);
 
     function updateScaleBadge(total) {
       if (!badge) return;
@@ -118,6 +118,34 @@
       );
       badge.textContent = pct + "%";
     }
+
+    // Position toolbar fixed over wrapper's top-right in viewport coordinates
+    function updateToolbarPos() {
+      try {
+        const r = wrapper.getBoundingClientRect();
+        // hide toolbar if wrapper completely offscreen
+        if (
+          r.bottom < 0 ||
+          r.top > window.innerHeight ||
+          r.right < 0 ||
+          r.left > window.innerWidth
+        ) {
+          toolbar.style.display = "none";
+          return;
+        }
+        toolbar.style.display = "";
+        const pad = 8;
+        const left = Math.max(
+          0,
+          r.right - toolbar.offsetWidth - pad,
+        );
+        const top = Math.max(0, r.top + pad);
+        toolbar.style.left = Math.round(left) + "px";
+        toolbar.style.top = Math.round(top) + "px";
+      } catch (e) {}
+    }
+
+    const boundUpdateToolbar = updateToolbarPos.bind(null);
 
     // Commit resolution: bake total scale into SVG pixel width/height for crisper result
     function commitIfNeeded(focusClient) {
@@ -186,6 +214,9 @@
         const prevTrans = content.style.transition;
         content.style.transition = "none";
 
+        // Measure before change to compute any visual shift
+        const preRect = svg.getBoundingClientRect();
+
         // Apply explicit pixel sizes to SVG (forces browser to raster/render at that size)
         svg.style.width = `${Math.round(newW)}px`;
         svg.style.height = `${Math.round(newH)}px`;
@@ -196,33 +227,23 @@
         // Apply transform (committedScale * 1)
         content.style.transform = `scale(${committedScale})`;
 
-        // Recalculate scroll to keep the same svgUserX/svgUserY under the focal point:
-        // new scrollLeft = svgUserX * committedScale - (focal.clientX - wrapperRect.left)
-        const newScrollLeft = Math.max(
-          0,
-          svgUserX * committedScale -
-            (focal.clientX - wrapperRect.left),
-        );
-        const newScrollTop = Math.max(
-          0,
-          svgUserY * committedScale -
-            (focal.clientY - wrapperRect.top),
-        );
-
-        // Apply scroll adjustments in next RAF for smoother layout
+        // After layout, compute post rect and adjust scroll so visual position remains consistent
         requestAnimationFrame(() => {
           try {
+            const postRect = svg.getBoundingClientRect();
+            const dx = postRect.left - preRect.left;
+            const dy = postRect.top - preRect.top;
             wrapper.scrollLeft = Math.max(
               0,
               Math.min(
-                newScrollLeft,
+                wrapper.scrollLeft + dx,
                 wrapper.scrollWidth - wrapper.clientWidth,
               ),
             );
             wrapper.scrollTop = Math.max(
               0,
               Math.min(
-                newScrollTop,
+                wrapper.scrollTop + dy,
                 wrapper.scrollHeight - wrapper.clientHeight,
               ),
             );
@@ -231,8 +252,14 @@
             content.style.transition =
               prevTrans || TRANSITION;
             updateScaleBadge(committedScale);
+            // update toolbar position because layout changed
+            try {
+              updateToolbarPos();
+            } catch (e) {}
           }
         });
+
+        // Scroll adjustment handled by post-layout measurement above.
       } catch (e) {
         // don't let commit failures break interaction
         console.warn("mermaid commit failed:", e);
@@ -298,6 +325,10 @@
     // Pointer events: support pinch (two pointers) and pan (one pointer)
     let pointerDown = false;
     let lastPointer = { x: 0, y: 0 };
+    // track active pointers for pinch calculations
+    const pointers = new Map();
+    // pinch state (distance/center/startTransient)
+    let initialPinch = null;
 
     function onPointerDown(ev) {
       if (eventFromToolbar(ev)) return; // toolbar interactions should not start pan/pinch
@@ -538,17 +569,19 @@
     wrapper.addEventListener("dblclick", onDoubleClick);
 
     // Transitionend: commit if thresholds crossed (ensure using total committed*transient)
+    // Use a named handler so it can be removed in cleanup
+    function transitionEndHandler(ev) {
+      if (
+        ev.propertyName &&
+        ev.propertyName.indexOf("transform") !== -1
+      ) {
+        // small delay then commit
+        setTimeout(() => commitIfNeeded(), 40);
+      }
+    }
     content.addEventListener(
       "transitionend",
-      function (ev) {
-        if (
-          ev.propertyName &&
-          ev.propertyName.indexOf("transform") !== -1
-        ) {
-          // small delay then commit
-          setTimeout(() => commitIfNeeded(), 40);
-        }
-      },
+      transitionEndHandler,
     );
 
     // Toolbar button handlers (use pointerdown + click to be robust)
@@ -621,6 +654,20 @@
     content.style.transformOrigin =
       content.style.transformOrigin || "0 0";
     scheduleApplyTransform();
+    // position toolbar and keep it updated on scroll/resize
+    try {
+      updateToolbarPos();
+      window.addEventListener(
+        "scroll",
+        boundUpdateToolbar,
+        true,
+      );
+      window.addEventListener("resize", boundUpdateToolbar);
+      wrapper.addEventListener(
+        "scroll",
+        boundUpdateToolbar,
+      );
+    } catch (e) {}
 
     // return cleanup
     return function cleanup() {
@@ -654,12 +701,26 @@
           "dblclick",
           onDoubleClick,
         );
+        // remove the named transition handler we attached earlier
         content.removeEventListener(
           "transitionend",
-          commitIfNeeded,
+          transitionEndHandler,
         );
         try {
-          wrapper.removeChild(toolbar);
+          window.removeEventListener(
+            "scroll",
+            boundUpdateToolbar,
+            true,
+          );
+          window.removeEventListener(
+            "resize",
+            boundUpdateToolbar,
+          );
+          wrapper.removeEventListener(
+            "scroll",
+            boundUpdateToolbar,
+          );
+          document.body.removeChild(toolbar);
         } catch (e) {}
       } catch (e) {
         // ignore cleanup errors

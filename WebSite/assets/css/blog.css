@@ -620,11 +620,19 @@
     stroke-width: 0.4px;
 }
 
-/* optionally target the first text child (graph title fallback) */
-.mermaid-wrapper .mermaid svg text:first-of-type {
-    fill: var(--color-heading);
-    font-weight: 700;
-    font-size: 1.05em;
+/* mermaid SVG 最大高さの制限（縦長すぎるのを防ぐ） */
+.mermaid-wrapper {
+    max-height: 40vh;
+    overflow: auto;
+}
+
+/* SVG 本体にも制限をかけて縦長表示を防ぐ（アスペクトを維持） */
+.mermaid-wrapper .mermaid svg {
+    max-height: 80vh;
+    height: auto;
+    max-width: 100%;
+    display: block;
+    box-sizing: content-box;
 }
 
 /* small responsive tweaks */
