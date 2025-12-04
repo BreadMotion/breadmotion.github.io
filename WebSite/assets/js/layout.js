@@ -159,12 +159,30 @@ document.addEventListener("DOMContentLoaded", () => {
               targetY =
                 rect.bottom + window.scrollY - breadHeight;
 
-              // If first appearance (fallback), teleport to start position
-              if (!isVisible) {
+              // Check if current position is off-screen
+              const isOffScreen =
+                currentX + breadWidth < window.scrollX ||
+                currentX >
+                  window.scrollX + window.innerWidth ||
+                currentY + breadHeight < window.scrollY ||
+                currentY >
+                  window.scrollY + window.innerHeight;
+
+              // If first appearance or off-screen, teleport and spawn
+              if (!isVisible || isOffScreen) {
                 currentX = targetX;
                 currentY = targetY;
                 isVisible = true;
                 bread.classList.add("is-visible");
+
+                // Trigger pop animation
+                bread.classList.remove("is-spawning");
+                void bread.offsetWidth; // Trigger reflow
+                bread.classList.add("is-spawning");
+                setTimeout(() => {
+                  bread.classList.remove("is-spawning");
+                }, 600);
+
                 bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
               }
             }
