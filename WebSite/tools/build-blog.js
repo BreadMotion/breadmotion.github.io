@@ -85,6 +85,60 @@ const POST_API_URL =
   process.env.POST_API_URL ||
   "https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec";
 
+async function fetchOgp(url) {
+  try {
+    const res = await fetch(url);
+    if (!res.ok) return null;
+    const html = await res.text();
+
+    const getMeta = (prop) => {
+      const regex = new RegExp(
+        `<meta\\s+(?:property|name)="${prop}"\\s+content="([^"]+)"`,
+        "i",
+      );
+      const m = html.match(regex);
+      return m ? m[1] : "";
+    };
+
+    const title =
+      getMeta("og:title") ||
+      html.match(/<title>([^<]+)<\/title>/i)?.[1] ||
+      "";
+    const description =
+      getMeta("og:description") || getMeta("description");
+    const image = getMeta("og:image");
+
+    let domain = "";
+    try {
+      domain = new URL(url).hostname;
+    } catch (e) {}
+
+    return { title, description, image, domain, url };
+  } catch (e) {
+    return null;
+  }
+}
+
+function createLinkCardHtml(ogp, type) {
+  const isWide = type === "WILDCARD";
+
+  if (isWide) {
+    // WILDCARD: 大きな画像、画像内左下にタイトル、下にドメイン
+    const imageHtml = ogp.image
+      ? `<span class="og-image-wide"><img src="${escapeHtmlAttr(ogp.image)}" alt="${escapeHtmlAttr(ogp.title)}" loading="lazy"><span class="og-title-overlay">${escapeHtml(ogp.title)}</span></span>`
+      : `<span class="og-image-wide no-image"><span class="og-title-overlay">${escapeHtml(ogp.title)}</span></span>`;
+
+    return `<a href="${escapeHtmlAttr(ogp.url)}" class="og-card wide" target="_blank" rel="noopener noreferrer">${imageHtml}<span class="og-site-footer">${escapeHtml(ogp.domain)} から</span></a>`;
+  } else {
+    // CARD: 左にサムネイル、右にドメイン・タイトル・説明
+    const imageHtml = ogp.image
+      ? `<span class="og-thumbnail"><img src="${escapeHtmlAttr(ogp.image)}" alt="${escapeHtmlAttr(ogp.title)}" loading="lazy"></span>`
+      : `<span class="og-thumbnail no-image"></span>`;
+
+    return `<a href="${escapeHtmlAttr(ogp.url)}" class="og-card" target="_blank" rel="noopener noreferrer">${imageHtml}<span class="og-content"><span class="og-site">${escapeHtml(ogp.domain)}</span><span class="og-title">${escapeHtml(ogp.title)}</span><span class="og-description">${escapeHtml(ogp.description)}</span></span></a>`;
+  }
+}
+
 // ---------------------------
 // helper: XML/HTML escape
 // ---------------------------
@@ -692,7 +746,50 @@ function createHtml({
       );
 
       const raw = fs.readFileSync(sourcePath, "utf8");
-      const { data, content } = matter(raw);
+      const { data, content: rawContent } = matter(raw);
+      let content = rawContent;
+
+      // Process Link Cards: [!CARD](url) and [!WILDCARD](url)
+      const linkCardRegex =
+        /\[!(CARD|WILDCARD)\]\((.*?)\)/g;
+      const matches = [...content.matchAll(linkCardRegex)];
+
+      // Deduplicate matches to avoid redundant fetches
+      const uniqueMatches = Array.from(
+        new Map(matches.map((m) => [m[0], m])).values(),
+      );
+      const replacements = new Map();
+
+      await Promise.all(
+        uniqueMatches.map(async (match) => {
+          const type = match[1];
+          const url = match[2];
+          const key = match[0];
+
+          try {
+            const ogp = await fetchOgp(url);
+            if (ogp) {
+              const cardHtml = createLinkCardHtml(
+                ogp,
+                type,
+              );
+              replacements.set(key, cardHtml);
+            } else {
+              replacements.set(key, `[${url}](${url})`);
+            }
+          } catch (e) {
+            logger.warn(
+              `Failed to fetch OGP for ${url}: ${e.message}`,
+            );
+            replacements.set(key, `[${url}](${url})`);
+          }
+        }),
+      );
+
+      // Apply replacements globally
+      for (const [key, value] of replacements) {
+        content = content.split(key).join(value);
+      }
 
       const headings = [];
       const slugger = new marked.Slugger();
