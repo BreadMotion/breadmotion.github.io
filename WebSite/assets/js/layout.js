@@ -128,8 +128,9 @@ document.addEventListener("DOMContentLoaded", () => {
         if (activeLang) {
           activeElement = activeLang;
           const rect = activeLang.getBoundingClientRect();
-          targetX = rect.left;
-          targetY = rect.bottom - breadHeight;
+          targetX = rect.left + window.scrollX;
+          targetY =
+            rect.bottom + window.scrollY - breadHeight;
           currentX = targetX;
           currentY = targetY;
           isVisible = true;
@@ -154,8 +155,9 @@ document.addEventListener("DOMContentLoaded", () => {
               const rect = target.getBoundingClientRect();
 
               // Calculate target position: Bottom-Left of the UI
-              targetX = rect.left;
-              targetY = rect.bottom - breadHeight;
+              targetX = rect.left + window.scrollX;
+              targetY =
+                rect.bottom + window.scrollY - breadHeight;
 
               // If first appearance (fallback), teleport to start position
               if (!isVisible) {
@@ -181,8 +183,9 @@ document.addEventListener("DOMContentLoaded", () => {
           if (activeElement && activeElement.isConnected) {
             const rect =
               activeElement.getBoundingClientRect();
-            targetX = rect.left;
-            targetY = rect.bottom - breadHeight;
+            targetX = rect.left + window.scrollX;
+            targetY =
+              rect.bottom + window.scrollY - breadHeight;
           }
 
           const dx = targetX - currentX;

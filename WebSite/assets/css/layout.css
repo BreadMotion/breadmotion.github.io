@@ -637,7 +637,7 @@ body.no-scroll .site-header {
    9. Bread Pet Character
    ========================================================================== */
 .bread-pet {
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
     width: 40px;
