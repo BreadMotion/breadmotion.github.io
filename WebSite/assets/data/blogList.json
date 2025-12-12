@@ -1,5 +1,20 @@
 [
   {
+    "id": "blog_00020",
+    "title": "試行錯誤のGemini 3 Pro体験記",
+    "date": "2025-12-12T00:00:00.000Z",
+    "category": "AI",
+    "description": "Google AI Studio APIでの高額課金、Copilotプレビューでの格闘、そして料金体系の変更。AI時代の従課金モデルとの付き合い方を考える。",
+    "tags": [
+      "Gemini",
+      "Copilot",
+      "API"
+    ],
+    "thumbnail": "assets/img/gemini_icon.png",
+    "contentPath": "blog/blog_00020.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00018",
     "title": "DiscordoでDiscordをターミナルから触ってみた",
     "date": "2025-12-02T00:00:00.000Z",
