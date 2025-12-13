@@ -117,31 +117,42 @@ document.addEventListener("DOMContentLoaded", () => {
         let isMoving = false;
         let isVisible = false;
         let activeElement = null;
+        // Timestamp until which mouseover events should be ignored after spawn (grace period)
+        let spawnGraceUntil = 0;
 
         const breadWidth = 40;
         const breadHeight = 34;
 
-        // Initial spawn from active language option
-        const activeLang = document.querySelector(
-          ".lang-option.active",
-        );
-        if (activeLang) {
-          activeElement = activeLang;
-          const rect = activeLang.getBoundingClientRect();
-          targetX =
-            rect.left + window.scrollX - breadWidth / 2;
-          targetY =
-            rect.bottom + window.scrollY - breadHeight;
-          currentX = targetX;
-          currentY = targetY;
-          isVisible = true;
-          bread.classList.add("is-visible", "is-spawning");
-          bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+        // Initial spawn: appear at screen center and stay there.
+        // 初期生成時はアクティブな言語要素をターゲットにせず、
+        // spawn位置に留まるよう target を current と同値にする。
+        const centerX =
+          window.scrollX +
+          window.innerWidth / 2 -
+          breadWidth / 2;
+        const centerY =
+          window.scrollY +
+          window.innerHeight / 2 -
+          breadHeight / 2;
 
-          setTimeout(() => {
-            bread.classList.remove("is-spawning");
-          }, 600);
-        }
+        currentX = centerX;
+        currentY = centerY;
+
+        // 初期ターゲットを現在位置に合わせる（これによりスポーン後は移動しない）
+        targetX = currentX;
+        targetY = currentY;
+
+        // activeElement は設定しない（null のまま） -> animate では移動しない
+        activeElement = null;
+
+        isVisible = true;
+        bread.classList.add("is-visible", "is-spawning");
+        bread.style.transform = `translate3d(${currentX}px, ${currentY}px, 0)`;
+
+        // remove spawning class after animation duration
+        setTimeout(() => {
+          bread.classList.remove("is-spawning");
+        }, 600);
 
         // Track hovers on any interactive element in the document
         document.addEventListener(
@@ -151,7 +162,28 @@ document.addEventListener("DOMContentLoaded", () => {
               "a, button, .lang-option, input, select, textarea, [role='button']",
             );
 
+            // Ignore mouseover events during the spawn grace period so bread stays at spawn
+            if (
+              typeof spawnGraceUntil === "number" &&
+              Date.now() < spawnGraceUntil
+            ) {
+              return;
+            }
+
+            // Ignore interactions on the language switch control itself so the bread
+            // doesn't move to the language switch button (e.g. elements with .lang-switch)
+            if (
+              target &&
+              target.closest &&
+              target.closest(".lang-switch")
+            ) {
+              return;
+            }
+
             if (target) {
+              // ユーザーが意図的に要素にホバーした場合のみ追従させる挙動を残す。
+              // ただし初期スポーン直後に自動で移動してしまうのを防ぐため、
+              // ここでは通常のホバー時に activeElement を設定して追従を開始する。
               activeElement = target;
               const rect = target.getBoundingClientRect();
 
