@@ -275,6 +275,8 @@
 /* ==========================================================================
    4. フッター
    ========================================================================== */
+/* フッターをヘッダーと同じようにスティッキーにして、
+   メニュー展開等で body に no-scroll クラスが付与された時は固定に切り替える */
 .site-footer {
     border-top: 1px solid var(--color-border);
     background: var(--color-surface);
@@ -282,6 +284,11 @@
     font-size: 0.875rem;
     color: var(--color-text-muted);
     flex-shrink: 0;
+
+    /* sticky で画面下に固定 */
+    position: sticky;
+    bottom: 0;
+    z-index: 100; /* ヘッダーと同等のレイヤーに配置 */
 }
 
 .site-footer__inner {
@@ -475,6 +482,19 @@ body.no-scroll .site-header {
     left: 0;
     width: 100%;
 }
+
+/* メニュー展開時はフッターも固定に切り替える（ヘッダーと同様の挙動） */
+body.no-scroll .site-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+}
+
+/* footer が固定表示になると main の下部が隠れる場合があるため、
+   必要に応じてページのコンテンツ側で padding-bottom を調整してください。
+   このCSSはレイアウトを大きく変更しないよう、既存の構造に合わせて
+   ヘッダーと同等の挙動に揃えるのみを行っています。 */
 
 #menuAnimationCanvas {
     position: fixed; /* absolute から fixed に変更して背景固定 */
