@@ -276,3 +276,66 @@ button {
     opacity: 0 !important;
     transition: none !important;
 }
+
+/* ==============================================================
+   Google AdSense 固定幅はみ出し防止（モバイル対応）
+   - スマホで広告がビューポート幅より大きくなって右スクロールが発生する問題を防止
+   - 既存の UI / UX に収まるように広告要素の最大幅をビューポート幅に制限する
+   - 特定の要素（ins.adsbygoogle, iframe）をターゲットにし、強制的に overflow を抑える
+   ============================================================== */
+
+/* 基本制約（全画面サイズ共通） */
+.adsbygoogle,
+ins.adsbygoogle,
+.adsbygoogle > ins,
+iframe[src*="pagead2.googlesyndication.com"] {
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+    display: block !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+/* 広告を内包するコンテナがある場合に備える */
+.ad-container,
+.adsense-container,
+.ads-wrapper {
+    max-width: 100% !important;
+    width: 100% !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+}
+
+/* 汎用 iframe のはみ出し防止（念のためサイト全体で適用） */
+iframe {
+    max-width: 100% !important;
+}
+
+/* モバイル（小さい画面）向けの強化ルール */
+@media (max-width: 480px) {
+    .adsbygoogle,
+    ins.adsbygoogle,
+    .ad-container,
+    .adsense-container {
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        max-width: 100% !important;
+        word-break: break-word !important;
+    }
+
+    /* 広告内の iframe にも適用 */
+    iframe[src*="pagead2.googlesyndication.com"] {
+        width: 100% !important;
+        min-width: 0 !important;
+        max-width: 100% !important;
+        height: auto !important;
+    }
+}
+
+/* 注意:
+   - AMP 風や自動レスポンシブ広告（data-ad-format="auto" 等）を使っている場合は、
+     AdSense 設定側で「レスポンシブ」設定を有効にするのが最も良い。
+   - ここでは CSS 側で横にはみ出さないように抑える対処を行っています。
+*/
