@@ -1166,7 +1166,7 @@
    10. 目次 (TOC)
    ========================================================================== */
 .toc-sticky-container {
-    position: fixed;
+    position: sticky;
     top: 6rem;
 }
 
