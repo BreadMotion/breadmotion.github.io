@@ -156,10 +156,9 @@ function createHtml({
       2,
     )}</script>
 
-    <link rel="shortcut icon" href="../favicon.ico">
-    <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
-    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
 
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
