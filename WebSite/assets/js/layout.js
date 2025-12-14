@@ -348,8 +348,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
   fetchPartials(pathToPartials, headerFile)
     .then(([headerHtml, footerHtml]) => {
+      // モバイルでは bread-pet のマークアップ自体を挿入しない（CSS/transform 等の影響を排除）
+      if (isMobileViewport()) {
+        try {
+          headerHtml = headerHtml.replace(
+            /<div\s+id=["']bread-pet["'][\s\S]*?<\/div>\s*/i,
+            "",
+          );
+        } catch (e) {
+          // 正規表現での置換に失敗しても後続の安全策があるため続行
+        }
+      }
+
       shell.insertAdjacentHTML("afterbegin", headerHtml);
       shell.insertAdjacentHTML("afterend", footerHtml);
+
+      // モバイル専用: overflow-x を強制的に隠す（レイアウトの横はみ出し対策）
+      if (isMobileViewport()) {
+        try {
+          const style = document.createElement("style");
+          style.setAttribute(
+            "data-generated-by",
+            "layout.js:mobile-overflow",
+          );
+          style.textContent =
+            "@media (max-width: 768px){html,body{overflow-x: hidden !important;}}";
+          document.head.appendChild(style);
+        } catch (e) {
+          // 無視
+        }
+      }
 
       // 初期化
       setupLanguageSwitch(currentPath);
@@ -357,20 +385,13 @@ document.addEventListener("DOMContentLoaded", () => {
       setupNavToggle();
 
       // bread-pet はモバイル時は初期化しない（表示/ロジックともに除外）
-      // 加えて、念のため header がすでに bread 要素を含む場合は非表示化する
       if (isMobileViewport()) {
+        // DOM 上に残っている場合はノード自体を削除して影響を排除
         const breadEl =
           document.getElementById("bread-pet");
-        if (breadEl) {
+        if (breadEl && breadEl.parentNode) {
           try {
-            breadEl.style.display = "none";
-            breadEl.style.visibility = "hidden";
-            breadEl.style.pointerEvents = "none";
-            breadEl.setAttribute("aria-hidden", "true");
-            breadEl.setAttribute(
-              "data-bread-disabled",
-              "true",
-            );
+            breadEl.parentNode.removeChild(breadEl);
           } catch (e) {
             // 無視
           }
