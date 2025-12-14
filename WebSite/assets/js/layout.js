@@ -2,6 +2,11 @@
  * layout.js (refactored)
  * --------------------------------------------------
  * 共通レイアウト要素（ヘッダー/フッター）を動的に読み込むスクリプト。
+ *
+ * 変更点:
+ * - モバイル（幅 <= 768px）の場合、`bread-pet` は完全に初期化対象外にする。
+ *   - DOM に要素が含まれていても、表示を消し、移動/マウス検知などのロジックは一切セットしない。
+ * - デスクトップ時のみ従来の bread-pet の挙動を初期化する。
  * --------------------------------------------------
  */
 
@@ -13,6 +18,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const name = location.pathname.split("/").pop();
     return name && name.length > 0 ? name : "index.html";
   })();
+
+  // ブレークポイント判定: モバイルなら true を返す
+  function isMobileViewport() {
+    // CSS 側のメディアクエリと整合する (layout.css の @media (max-width: 768px) に合わせる)
+    return window.matchMedia("(max-width: 768px)").matches;
+  }
 
   // ヘルパー: layout.js の読み込みパスから partials の相対パスを返す
   function getPartialsPath() {
@@ -134,11 +145,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Bread Pet 初期化: 既存の挙動を保ちながら整理
+  /**
+   * Bread Pet 初期化
+   *
+   * 重要:
+   * - モバイル判定 (isMobileViewport) の場合は何も初期化せず、要素を完全に非表示にして終了する。
+   * - これにより移動ロジック、マウスオーバー監視、アニメーションループ等は一切登録されない。
+   */
   function initBreadPet() {
     const bread = document.getElementById("bread-pet");
     if (!bread) return;
 
+    // モバイルでは完全に非表示かつ初期化対象外とする
+    if (isMobileViewport()) {
+      // DOM 上にある場合でも、表示・相互作用を遮断する（CSS より優先されるように inline style を設定）
+      try {
+        bread.style.display = "none";
+        bread.style.visibility = "hidden";
+        bread.style.pointerEvents = "none";
+        bread.setAttribute("aria-hidden", "true");
+        bread.setAttribute("data-bread-disabled", "true");
+      } catch (e) {
+        // 何か失敗しても初期化は行わない。
+      }
+      return;
+    }
+
+    // 以下はデスクトップ向けの既存ロジック（必要に応じて簡潔化はしていない）
     // 状態
     let targetX = 0;
     let targetY = 0;
@@ -322,7 +355,31 @@ document.addEventListener("DOMContentLoaded", () => {
       setupLanguageSwitch(currentPath);
       setupActiveNav(currentPath);
       setupNavToggle();
-      initBreadPet();
+
+      // bread-pet はモバイル時は初期化しない（表示/ロジックともに除外）
+      // 加えて、念のため header がすでに bread 要素を含む場合は非表示化する
+      if (isMobileViewport()) {
+        const breadEl =
+          document.getElementById("bread-pet");
+        if (breadEl) {
+          try {
+            breadEl.style.display = "none";
+            breadEl.style.visibility = "hidden";
+            breadEl.style.pointerEvents = "none";
+            breadEl.setAttribute("aria-hidden", "true");
+            breadEl.setAttribute(
+              "data-bread-disabled",
+              "true",
+            );
+          } catch (e) {
+            // 無視
+          }
+        }
+        // モバイルなので初期化はスキップ
+      } else {
+        // デスクトップ等の大きいビューでは従来通り初期化
+        initBreadPet();
+      }
     })
     .catch((err) => {
       console.error(
