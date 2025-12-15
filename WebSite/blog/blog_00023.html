@@ -21,6 +21,11 @@
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
     crossorigin="anonymous"
 ></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -93,9 +98,9 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="PanKUN" />
-    <link rel="shortcut icon" href="../../favicon.ico">
-    <link rel="icon" type="image/png" href="../assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="../assets/img/favicon-192.png" sizes="192x192">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
     <link rel="stylesheet" href="../assets/css/base.css" />
     <link rel="stylesheet" href="../assets/css/layout.css" />
@@ -105,6 +110,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00023">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">
@@ -170,7 +178,7 @@
 <h3 id="settingsjsonとは">settings.jsonとは</h3><p>エディタの動作を定義するためのファイルです。<br>テーマ、フォント、IDEレイアウト、IDE UI、拡張機能の設定などなど、様々なカスタマイズや設定が可能です。
 ※また <code>keymaps.json</code> など他にも設定を可能にする物がいくつかあります。</p>
 <h3 id="設定方法">設定方法</h3><p>[Crtl + Shift + P]でコマンドパレットを開き、<code>Zed: setting</code>と入力すると添付画像のようなポップアップが出てきます。  </p>
-<p><img src="../assets/img/blog_00023_0.png" alt="image" title="" loading="lazy" decoding="async" /></p>
+<p><img src="../assets/img/blog_00023_1.png" alt="image" title="" loading="lazy" decoding="async" /></p>
 <h3 id="設定方法の種類">設定方法の種類</h3><p><strong>settings</strong> で終わっているのは　各種の設定画面上で設定ができます。<br><strong>settings file</strong> で終わっているのは 各種の　<code>settings.json</code> スクリプト内で設定ができます。 (プロパティなどはドキュメント参照推奨)</p>
 <h3 id="設定範囲の種類">設定範囲の種類</h3><p>影響の優先順位が低い順に羅列していきます。<br>後の方に設定されている場合は、設定内容がそっちの上書きされます。  </p>
 <p><strong>Default</strong> Zedを利用すると設定される内容<br><strong>account</strong> 多分登録しているZedアカウント、もしくはGithubアカウント依存の設定内容　　
