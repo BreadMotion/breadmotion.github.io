@@ -1,5 +1,18 @@
 [
   {
+    "id": "blog_00019",
+    "title": "Add Syntax Highlighting to Code Blocks in the Blog's CSS",
+    "date": "2025-12-22T00:00:00.000Z",
+    "category": "Technical Note",
+    "description": "A clear guide on how to implement syntax highlighting for code blocks in a blog using CSS and client-side highlighting libraries.",
+    "tags": [
+      "css"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/en/blog_00019.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00022",
     "title": "C#14:New Features Explained",
     "date": "2025-12-19T00:00:00.000Z",
