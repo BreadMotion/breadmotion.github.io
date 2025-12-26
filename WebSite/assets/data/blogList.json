@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00024",
+    "title": "Zed IDE keymap.jsonのすすめ",
+    "date": "2025-12-26T00:00:00.000Z",
+    "category": "IDE",
+    "description": "Zedのkeymap.jsonの筆者の最低限のおすすめ設定を共有します",
+    "tags": [
+      "zed",
+      "ai"
+    ],
+    "thumbnail": "assets/img/zed_icon.png",
+    "contentPath": "blog/blog_00024.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00019",
     "title": "ブログのCSSにコードブロックにシンタックスハイライト付ける",
     "date": "2025-12-22T00:00:00.000Z",
