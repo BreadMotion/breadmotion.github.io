@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "build:blog": "node --env-file-if-exists=.env tools/build-blog.js",
+    "build:assets": "node --env-file-if-exists=.env tools/build-assets.js",
+    "normalize:paths": "node --env-file-if-exists=.env tools/normalize-paths.js",
     "build:static": "node --env-file-if-exists=.env tools/translate-static.js",
     "build:portfolio": "node --env-file-if-exists=.env tools/build-portfolio.js",
     "build:sitemap": "node --env-file-if-exists=.env tools/build-sitemap.js",
     "fetch:popular": "node --env-file-if-exists=.env tools/fetch-gsc-data.js",
     "translate:blog": "node --env-file-if-exists=.env tools/auto-translate.js",
     "build:refactor": "node --env-file-if-exists=.env tools/find-unused-css.js",
-    "build:all": "npm run build:static && npm run build:blog && npm run build:portfolio && npm run build:refactor && npm run build:sitemap && npm run fetch:popular",
+    "build:all": "npm run build:static && npm run build:blog && npm run build:assets && npm run build:portfolio && npm run build:refactor && npm run build:sitemap && npm run fetch:popular",
     "start:server": "npx live-server ."
   },
   "keywords": [],
@@ -30,6 +32,8 @@
     "remark-parse": "^11.0.0",
     "remark-stringify": "^11.0.0",
     "unified": "^11.0.5",
-    "unist-util-visit": "^5.0.0"
+    "unist-util-visit": "^5.0.0",
+    "esbuild": "^0.18.0",
+    "csso": "^5.0.0"
   }
 }
