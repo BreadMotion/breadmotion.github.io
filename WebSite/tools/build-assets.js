@@ -104,7 +104,7 @@ const jsFilesList = [
 ];
 
 // Files that must remain as individual <script src="..."> tags on pages.
-const jsExcludes = ["js/layout.js", "js/particles.js"];
+const jsExcludes = ["js/layout.js", "js/wasm-loader.js"];
 
 const jsFiles = jsFilesList
   .filter((p) => !jsExcludes.includes(p))
