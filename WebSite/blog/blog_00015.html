@@ -1,31 +1,21 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
     <title>p5.jsで背景アニメーションを実装してみた | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。" />
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html" />
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00015.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00015.html">
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script
-    async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
-    crossorigin="anonymous"
-></script>
-<script
-    async
-    custom-element="amp-auto-ads"
-    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
-></script>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -90,28 +80,27 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="p5.jsで背景アニメーションを実装してみた | PanKUN Blog" />
-    <meta property="og:description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00015.html" />
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="PanKUN" />
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <meta property="og:title" content="p5.jsで背景アニメーションを実装してみた | PanKUN Blog">
+    <meta property="og:description" content="静的なポートフォリオサイトに動きを取り入れるため、p5.jsを使って背景アニメーションを実装しました。導入から10パターンの実装まで、初心者の目線で振り返ります。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00015.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/css/base.css" />
-    <link rel="stylesheet" href="../assets/css/layout.css" />
-    <link rel="stylesheet" href="../assets/css/blog.css" />
-    <link rel="stylesheet" href="../assets/css/preview.css" />
-    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
   </head>
   <body data-page="blog" data-post-id="blog_00015">
-    <amp-auto-ads type="adsense"
-      data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -138,7 +127,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&amp;text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -151,7 +140,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -176,9 +165,9 @@
 <p>クリエイティブコーディングの世界で有名な <strong>p5.js</strong> を使ってみることにしました。</p>
 <h2 id="p5js-とは？">p5.js とは？</h2><p>Processing というアート向けプログラミング言語をWeb (JavaScript) で動くようにしたライブラリです。<br>「キャンバスに絵を描く」「動かす」といったことが、驚くほど簡単なコードで書けます。</p>
 <h3 id="導入は超簡単">導入は超簡単</h3><p>npm でインストールする方法もありますが、今回は手軽に CDN で導入しました。<br>HTMLに1行足すだけです。</p>
-<figure class="code-block" data-lang="html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">HTML</span></div><pre><code class="language-html">&lt;script src=&quot;https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js&quot;&gt;&lt;/script&gt;</code></pre></figure><p>これだけで準備完了。</p>
+<figure class="code-block" data-lang="html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">HTML</span></div><pre><code class="language-html">&lt;script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"&gt;&lt;/script&gt;</code></pre></figure><p>これだけで準備完了。</p>
 <h2 id="さっそく書いてみる">さっそく書いてみる</h2><p>まずは「画面全体にキャンバスを作って、円を表示する」ところから始めました。  </p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function setup() {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">function setup() {
   // 画面いっぱいのキャンバスを作る
   createCanvas(windowWidth, windowHeight);
 }
@@ -191,7 +180,7 @@ function draw() {
   circle(100, 100, 50);
 }</code></pre></figure><p>たったこれだけで描画できました。<br><code>setup()</code> が最初に1回だけ呼ばれて、<code>draw()</code> が毎フレーム呼ばれる仕組みです。</p>
 <h2 id="パーティクルを飛ばしてみる">パーティクルを飛ばしてみる</h2><p>円をクラス化して配列に入れ、座標を更新するようにすれば無数のパーティクルが動くアニメーションになります。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">class Particle {
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">class Particle {
   constructor() {
     this.x = random(width);
     this.y = random(height);
@@ -216,7 +205,7 @@ function draw() {
 <p>ページを開くたびにランダムで切り替わるようにしたので、<br>リロードするたびに違う雰囲気が楽しめます。</p>
 <h2 id="スマホ対策の罠">スマホ対策の罠</h2><p>実装中に一つハマったのが、 <strong>スマホでの横スクロール発生</strong> です。<br><code>createCanvas(windowWidth, windowHeight)</code><br>と書くと、PCでは問題ないのですが、スマホだとスクロールバーの幅が含まれたりして、微妙に画面幅を超えてしまうことがありました。</p>
 <p>最終的には、</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">let w = document.documentElement.clientWidth;</code></pre></figure><p>のように、スクロールバーを除いた正確な幅を取得することで解決しました。</p>
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">let w = document.documentElement.clientWidth;</code></pre></figure><p>のように、スクロールバーを除いた正確な幅を取得することで解決しました。</p>
 <h2 id="まとめ">まとめ</h2><p>初めて p5.js を触ってみましたが、 <strong>「コードで絵を描く」</strong> という体験はとても新鮮で楽しかったです。</p>
 <p>みなさんも、自分のサイトに「ちょっとした遊び心」を足してみてはいかがでしょうか。</p>
 </section>
@@ -228,7 +217,7 @@ function draw() {
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html&amp;text=p5.js%E3%81%A7%E8%83%8C%E6%99%AF%E3%82%A2%E3%83%8B%E3%83%A1%E3%83%BC%E3%82%B7%E3%83%A7%E3%83%B3%E3%82%92%E5%AE%9F%E8%A3%85%E3%81%97%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -241,7 +230,7 @@ function draw() {
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00015.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -268,7 +257,7 @@ function draw() {
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#p5js-とは？" data-no-preview>p5.js とは？</a></li><li class="toc-item toc-item--level-3"><a href="#導入は超簡単" data-no-preview>導入は超簡単</a></li><li class="toc-item toc-item--level-2"><a href="#さっそく書いてみる" data-no-preview>さっそく書いてみる</a></li><li class="toc-item toc-item--level-2"><a href="#パーティクルを飛ばしてみる" data-no-preview>パーティクルを飛ばしてみる</a></li><li class="toc-item toc-item--level-2"><a href="#調子に乗って10パターン作った" data-no-preview>調子に乗って10パターン作った</a></li><li class="toc-item toc-item--level-2"><a href="#スマホ対策の罠" data-no-preview>スマホ対策の罠</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#p5js-とは？" data-no-preview="">p5.js とは？</a></li><li class="toc-item toc-item--level-3"><a href="#導入は超簡単" data-no-preview="">導入は超簡単</a></li><li class="toc-item toc-item--level-2"><a href="#さっそく書いてみる" data-no-preview="">さっそく書いてみる</a></li><li class="toc-item toc-item--level-2"><a href="#パーティクルを飛ばしてみる" data-no-preview="">パーティクルを飛ばしてみる</a></li><li class="toc-item toc-item--level-2"><a href="#調子に乗って10パターン作った" data-no-preview="">調子に乗って10パターン作った</a></li><li class="toc-item toc-item--level-2"><a href="#スマホ対策の罠" data-no-preview="">スマホ対策の罠</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -284,7 +273,7 @@ function draw() {
          <section class="section section--comments">
     <h2 class="section__title">コメント</h2>
     <div id="comments" class="post-comments">
-      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
         <p class="giscus-loading">コメントを読み込み中...</p>
       </div>
     </div>
@@ -336,23 +325,23 @@ function draw() {
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00015"};</script>
 
-    <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js" defer></script>
-    <script src="../assets/js/post-interactions.js" defer></script>
-    <script src="../assets/js/preview.js" defer></script>
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
-    <script src="../assets/js/particles.js" defer></script>
-    <script src="../assets/js/toc.js" defer></script>
-    <script src="../assets/js/recommend.js" defer></script>
-    <script src="../assets/js/mermaid-interactions.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -388,5 +377,5 @@ function draw() {
         }
       })();
     </script>
-  </body>
-</html>
+  
+</body></html>

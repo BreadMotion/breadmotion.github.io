@@ -80,7 +80,15 @@ const cssFiles = [
   "css/post-interactions.css",
 ].map((p) => path.join(ASSETS_DIR, p));
 
-const jsFiles = [
+/*
+ * NOTE: The following files are intentionally handled specially:
+ *  - js/layout.js   (depends on being loaded via its own <script src="..."> so it can inspect its script[src])
+ *  - js/particles.js (depends on p5.js being loaded from CDN before it runs)
+ *
+ * We keep those as separate script tags in HTML so runtime order and document.currentScript/layout logic remain intact.
+ * To make the bundling/exclusion explicit and maintainable, we declare a full list and an excludes list.
+ */
+const jsFilesList = [
   "js/layout.js",
   "js/ui.js",
   "js/top.js",
@@ -93,7 +101,14 @@ const jsFiles = [
   "js/toc.js",
   "js/mermaid-interactions.js",
   "js/particles.js",
-].map((p) => path.join(ASSETS_DIR, p));
+];
+
+// Files that must remain as individual <script src="..."> tags on pages.
+const jsExcludes = ["js/layout.js", "js/particles.js"];
+
+const jsFiles = jsFilesList
+  .filter((p) => !jsExcludes.includes(p))
+  .map((p) => path.join(ASSETS_DIR, p));
 
 // Output file names
 const outCss = path.join(DIST_DIR, "styles.min.css");
@@ -251,38 +266,67 @@ function updateHtmlReferences() {
     }
 
     // --- JS scripts handling ---
-    const scriptEls = $("script[src]").filter((i, el) => {
-      const src = $(el).attr("src") || "";
-      return looksLikeLocalJs(src);
-    });
+    // Helper to detect scripts that we intentionally excluded from bundling (keep as individual tags)
+    function isExcludedJsSrc(src) {
+      if (!src) return false;
+      for (const ex of jsExcludes) {
+        // convert 'js/xyz.js' -> 'assets/js/xyz.js' so we can match against various src forms
+        const assetPath = ex.replace(/^js\//, "assets/js/");
+        if (
+          src.indexOf(assetPath) !== -1 ||
+          src.indexOf("/" + assetPath) !== -1
+        ) {
+          return true;
+        }
+      }
+      return false;
+    }
 
-    if (scriptEls.length > 0) {
-      // Keep defer if any had defer
-      const anyDefer = scriptEls
+    // All local <script src="...assets/js/..."> elements on the page
+    const allLocalScriptEls = $("script[src]").filter(
+      (i, el) => {
+        const src = $(el).attr("src") || "";
+        return looksLikeLocalJs(src);
+      },
+    );
+
+    // Subset of local scripts that are safe to replace with the bundled script
+    const includedScriptEls = allLocalScriptEls.filter(
+      (i, el) => {
+        const src = $(el).attr("src") || "";
+        return !isExcludedJsSrc(src);
+      },
+    );
+
+    // Precompute relative path for the bundle so we can reference it later
+    const bundledRelPath = path
+      .relative(path.dirname(filePath), outJs)
+      .replace(/\\/g, "/");
+
+    if (includedScriptEls.length > 0) {
+      // Keep defer if any of the included scripts had defer
+      const anyDefer = includedScriptEls
         .toArray()
         .some((el) => $(el).attr("defer") !== undefined);
-      const newJsSrc = path
-        .relative(path.dirname(filePath), outJs)
-        .replace(/\\/g, "/");
+      const newJsSrc = bundledRelPath;
 
-      // Choose insertion point: replace the first matched script with the bundled script,
-      // then remove all other matched scripts. This avoids inserting relative to a node
-      // that has been removed.
-      const firstScript = scriptEls.first();
+      // Replace the first included script with the bundled script, then remove the other included scripts.
+      const firstScript = includedScriptEls.first();
       firstScript.replaceWith(
         `<script src="${newJsSrc}"${anyDefer ? " defer" : ""}></script>`,
       );
-      // remove other matched script elements
-      scriptEls.not(firstScript).remove();
+      includedScriptEls.not(firstScript).remove();
       log(
         `Replaced JS scripts in ${relPath} -> ${newJsSrc} (defer=${anyDefer})`,
       );
     } else {
-      // if no local script element found, append to body (but avoid duplicates)
-      if ($("body").length) {
-        const newJsSrc = path
-          .relative(path.dirname(filePath), outJs)
-          .replace(/\\/g, "/");
+      // If there were no local JS script tags at all, append the bundled script.
+      // If the page only contains excluded scripts (e.g. layout.js / particles.js), do NOT append to avoid duplicating functionality.
+      if (
+        allLocalScriptEls.length === 0 &&
+        $("body").length
+      ) {
+        const newJsSrc = bundledRelPath;
         if ($(`script[src="${newJsSrc}"]`).length === 0) {
           $("body").append(
             `<script src="${newJsSrc}" defer></script>`,
@@ -291,8 +335,134 @@ function updateHtmlReferences() {
             `Appended JS script to body of ${relPath} -> ${newJsSrc}`,
           );
         }
+      } else {
+        log(
+          `Skipping insertion of bundled JS in ${relPath} because page contains excluded local scripts.`,
+        );
       }
     }
+
+    // Ensure excluded scripts (e.g. layout.js, particles.js) exist on the page.
+    // If missing, insert them in sensible places:
+    //  - layout.js: insert before the bundled script if present, otherwise append to <head>.
+    //  - particles.js: try to insert after a p5.js CDN script if present; otherwise insert after the bundle or append to body.
+    jsExcludes.forEach((ex) => {
+      try {
+        const excludedAssetFull = path.join(ASSETS_DIR, ex);
+        const relExcludedSrc = path
+          .relative(
+            path.dirname(filePath),
+            excludedAssetFull,
+          )
+          .replace(/\\/g, "/");
+
+        // If a script with this src already exists, skip
+        if (
+          $(`script[src="${relExcludedSrc}"]`).length > 0
+        ) {
+          return;
+        }
+
+        // Prefer to insert relative to the bundled script if it exists on the page
+        const bundledEl = $(
+          `script[src="${bundledRelPath}"]`,
+        ).first();
+
+        if (ex.endsWith("layout.js")) {
+          if (bundledEl.length > 0) {
+            bundledEl.before(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script (layout) before bundled in ${relPath} -> ${relExcludedSrc}`,
+            );
+          } else if ($("head").length) {
+            // if no bundled script present, ensure layout is in head so it can run early
+            if (
+              $(`script[src="${relExcludedSrc}"]`)
+                .length === 0
+            ) {
+              $("head").append(
+                `\n<script src="${relExcludedSrc}"></script>\n`,
+              );
+              log(
+                `Inserted excluded script (layout) into head in ${relPath} -> ${relExcludedSrc}`,
+              );
+            }
+          } else if ($("body").length) {
+            $("body").append(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script (layout) into body in ${relPath} -> ${relExcludedSrc}`,
+            );
+          }
+        } else if (ex.endsWith("particles.js")) {
+          // try to find p5 script (CDN). Look for script tags containing 'p5' in src as heuristic.
+          const p5El = $("script[src]")
+            .filter((i, el) => {
+              const s = $(el).attr("src") || "";
+              return (
+                /p5(\\.min)?\\.js/.test(s) ||
+                s.indexOf("p5") !== -1
+              );
+            })
+            .first();
+
+          if (p5El.length > 0) {
+            p5El.after(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script (particles) after p5 in ${relPath} -> ${relExcludedSrc}`,
+            );
+          } else if (bundledEl.length > 0) {
+            bundledEl.after(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script (particles) after bundled in ${relPath} -> ${relExcludedSrc}`,
+            );
+          } else if ($("body").length) {
+            $("body").append(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Appended excluded script (particles) to body in ${relPath} -> ${relExcludedSrc}`,
+            );
+          }
+        } else {
+          // Generic fallback: insert after bundle or append to body/head
+          if (bundledEl.length > 0) {
+            bundledEl.after(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script after bundled in ${relPath} -> ${relExcludedSrc}`,
+            );
+          } else if ($("head").length) {
+            $("head").append(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Inserted excluded script into head in ${relPath} -> ${relExcludedSrc}`,
+            );
+          } else if ($("body").length) {
+            $("body").append(
+              `\n<script src="${relExcludedSrc}"></script>\n`,
+            );
+            log(
+              `Appended excluded script to body in ${relPath} -> ${relExcludedSrc}`,
+            );
+          }
+        }
+      } catch (e) {
+        // continue with other excludes even if one fails
+        log(
+          `Failed to ensure excluded script ${ex} in ${relPath}: ${e}`,
+        );
+      }
+    });
 
     // --- Normalize canonical and OGP/Twitter image URLs to BASE_URL when relative ---
     // canonical
