@@ -1,5 +1,18 @@
 [
   {
+    "id": "blog_00025",
+    "title": "Designing Discord Server Operations",
+    "date": "2026-01-05T00:00:00.000Z",
+    "category": "Discord",
+    "description": "This article presents practical design principles for structuring and operating a Discord server according to the nature of communication (transient messages, static resources, ongoing tasks, and knowledge sharing). It covers appropriate channel types, forum utilization, category layout, policy definition, and operational examples applicable to both community and team contexts.",
+    "tags": [
+      "discord"
+    ],
+    "thumbnail": "assets/img/thumbnails/blog_00025.png",
+    "contentPath": "blog/en/blog_00025.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00024",
     "title": "Recommended Zed `keymap.json` Settings",
     "date": "2025-12-26T00:00:00.000Z",

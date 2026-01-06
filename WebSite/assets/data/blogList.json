@@ -1,5 +1,18 @@
 [
   {
+    "id": "blog_00025",
+    "title": "Discordサーバーの運用設計について",
+    "date": "2026-01-05T00:00:00.000Z",
+    "category": "Discord",
+    "description": "コミュニケーションの性質（流動情報・固定情報・継続タスクなど）ごとに最適なチャンネル種類やフォーラム活用法、カテゴリ設計、ルール策定と運用の考え方を実例とともに丁寧に解説します。コミュニティ／チームどちらの用途にも応用できる実践的な設計指針です。",
+    "tags": [
+      "discord"
+    ],
+    "thumbnail": "assets/img/thumbnails/blog_00025.png",
+    "contentPath": "blog/blog_00025.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00024",
     "title": "Zed IDE keymap.jsonのすすめ",
     "date": "2025-12-26T00:00:00.000Z",
