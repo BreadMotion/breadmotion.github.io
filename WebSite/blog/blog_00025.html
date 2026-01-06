@@ -1,0 +1,467 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <title>Discordサーバーの運用設計について | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="コミュニケーションの性質（流動情報・固定情報・継続タスクなど）ごとに最適なチャンネル種類やフォーラム活用法、カテゴリ設計、ルール策定と運用の考え方を実例とともに丁寧に解説します。コミュニティ／チームどちらの用途にも応用できる実践的な設計指針です。">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00025.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00025.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00025.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00025.html">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00025.html"
+  },
+  "headline": "Discordサーバーの運用設計について",
+  "description": "コミュニケーションの性質（流動情報・固定情報・継続タスクなど）ごとに最適なチャンネル種類やフォーラム活用法、カテゴリ設計、ルール策定と運用の考え方を実例とともに丁寧に解説します。コミュニティ／チームどちらの用途にも応用できる実践的な設計指針です。",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00025.png"
+  ],
+  "datePublished": "2026-01-05T00:00:00.000Z",
+  "dateModified": "2026-01-05T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Discordサーバーの運用設計について",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00025.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="Discordサーバーの運用設計について | PanKUN Blog">
+    <meta property="og:description" content="コミュニケーションの性質（流動情報・固定情報・継続タスクなど）ごとに最適なチャンネル種類やフォーラム活用法、カテゴリ設計、ルール策定と運用の考え方を実例とともに丁寧に解説します。コミュニティ／チームどちらの用途にも応用できる実践的な設計指針です。">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00025.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00025.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  </head>
+  <body data-page="blog" data-post-id="blog_00025">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">Discordサーバーの運用設計について</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/01/05 / Discord</p>
+                <h1 class="post-detail__title">Discordサーバーの運用設計について</h1>
+                <p class="post-detail__description">コミュニケーションの性質（流動情報・固定情報・継続タスクなど）ごとに最適なチャンネル種類やフォーラム活用法、カテゴリ設計、ルール策定と運用の考え方を実例とともに丁寧に解説します。コミュニティ／チームどちらの用途にも応用できる実践的な設計指針です。</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=discord">discord</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html&amp;text=Discord%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E9%81%8B%E7%94%A8%E8%A8%AD%E8%A8%88%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00025" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00025" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。  </p>
+<p>今回は Discord のチャットやカテゴリ分け、トークの性質面等に注目して理想的なサーバー構造を誰でも構築できる考え方について話していきたいと思います。<br>コミュニティーサーバー、フレンドサーバー関係なく使える内容になっていますので是非ご活用ください。  </p>
+<h2 id="前置き">前置き</h2><p>これはあくまでサーバー運営側の推奨する利用方法を明示することによって <strong>チャンネルの清潔さ</strong> や <strong>利用者側の利便性</strong> が向上するという話なので、必ずこうした方がいいという話ではありません。<br>各々の組織やコミュニティ、その中の人や目的によって最適解が変わる話ですので根本を理解して運用するのが吉です。  </p>
+<h2 id="はじめに">はじめに</h2><p>この話をするにあたってチャンネルの種類について先に振り返ります。  </p>
+<table>
+<thead>
+<tr>
+<th align="left">チャンネルの種類</th>
+<th align="left">説明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">テキスト</td>
+<td align="left">メッセージや画像等を送れます</td>
+</tr>
+<tr>
+<td align="left">音声</td>
+<td align="left">ボイスやビデオ、画面共有ができます</td>
+</tr>
+<tr>
+<td align="left">フォーラム</td>
+<td align="left">きちんと整理された会話のスペースを作る</td>
+</tr>
+</tbody></table>
+<p><img src="../assets/img/blog_00025_0.png" alt="image" title="" loading="lazy" decoding="async"></p>
+<p>以上のチャンネルが作成可能です。  </p>
+<p>そして Discord には機能として  </p>
+<ul>
+<li>ロール</li>
+<li>チャンネルのカテゴリ分け</li>
+<li>サーバーブースト</li>
+<li>スレッド(実はフォーラムは内部的にはスレッドと同等な機能だとか)</li>
+<li>通知設定</li>
+<li>Webhook</li>
+<li>Bot</li>
+<li>イベント</li>
+<li>コミュニティー化</li>
+<li>連携アプリケーション</li>
+</ul>
+<p>などなど、実に多くの機能を持っており大変便利ですが一言で Discord がなにかと表すとただの <strong>チャットツール</strong> です。<br>他のコミュニケーションツールと比較する場合 UI/UX や 機能 の差でどれを使うのが一番便利か、情報が視覚的に見やすいかの差でしかありません。<br>(この差が大いに大変で考えられているものではあるので、　「しか」という表現は失礼かも...)  </p>
+<h2 id="コミュニケーションの性質について">コミュニケーションの性質について</h2><p>ここからは少し抽象的な話になってきますので、皆さんが日頃行っている 「仕事」 という括りでフォーカスして話ていこうと思います。<br>人とやり取りをして、連携、教育、連絡、相談などなどを行い様々な <strong>性質</strong> を持った言葉でやり取りを行うと思います。  </p>
+<p>これを単語として区分できるように下記のような見方を行い <strong>性質</strong> にあったチャンネルの構築とルールを定義します。  </p>
+<table>
+<thead>
+<tr>
+<th align="left">性質</th>
+<th align="left">チャンネルの種類</th>
+<th align="left">例</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">流動情報</td>
+<td align="left">テキストチャンネル</td>
+<td align="left">自己紹介、雑談、勤怠、相談</td>
+</tr>
+<tr>
+<td align="left">固定情報</td>
+<td align="left">フォーラム、ピン留め</td>
+<td align="left">フロー、ルール</td>
+</tr>
+<tr>
+<td align="left">継続タスク・案件管理</td>
+<td align="left">フォーラム、イベント機能</td>
+<td align="left">プロジェクト毎にフォーラム(スレッド)を作成 -&gt; 期限はイベントで管理</td>
+</tr>
+<tr>
+<td align="left">知識・議事の共有</td>
+<td align="left">フォーラム</td>
+<td align="left">スレッドをドキュメントのように利用してスレッド毎に項目を分ける</td>
+</tr>
+</tbody></table>
+<p>以上ですが、改めて補足です。<br>各々の組織やコミュニティ、その中の人や目的によって最適解が変わる話ですので根本を理解しましょう。<br>３つめ と ４つめ に関しては 「仕事」 という括りで話しているために出てきているワードですが友達との交流でこれはいらないみたいなケースもあり得ますので<br>最適解は変化します。  </p>
+<p>しかし 「性質毎にどのように管理する必要があるか」 という所について考えるということについてはどの組織においても考えるメリットがあります。  </p>
+<h2 id="例">例</h2><p>自作の開発用Discordサーバーの例です。  </p>
+<figure class="code-block" data-lang="text"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Text</span></div><pre><code class="language-text">- 運営--------------- (カテゴリ)
+  - サーバーガイド (Text ch)
+- Text ch------------ (カテゴリ)
+  - エントランス (Text ch)
+  - コミュニケーション (Text ch)
+  - qa (Text ch)
+  - 連絡 (Text ch)
+  - 開発部屋 (Text ch)
+- 開発用---------- (カテゴリ)
+  - ドキュメント (Forum ch)
+  - 仕様 (Forum ch)
+  - 資料倉庫 (Forum ch)
+  - qa (Forum ch)
+  - 議事録 (Forum ch)
+- 通知 ch---------------- (カテゴリ)
+  - github　(Text ch)
+  - bot (Text ch)</code></pre></figure><p>上記がチャンネルとして用意したものです。<br>他については　githubからの通知チャンネルがある通りです。  </p>
+<h2 id="ルールを定義自由を奪う">ルールを定義=自由を奪う</h2><p>コミュニケーション用のツールに特殊な使用方法を行うのを試みる事は 選択肢を増やすという観点から素晴らしいことです。<br>しかし、従来の使用方法とは違った使い方をするということは 文化からはみ出た特殊な事なので 大なり小なりルールが生まれます。<br>それは作成者側からしたら大差ないことかもしれませんが、利用者側からしたら大きな違和感になることも多いです。  </p>
+<p>つまり見出しの通り <strong>ルールを定義=自由を奪う</strong> 事にもなりえるわけです。  </p>
+<p>この辺りで必要になってくる知見が <strong>discord bot</strong> や 外部ツール の知見、連携アプリケーション、などなどです。<br>うまく構築して誘導、サーバー内の導線が感覚で理解できるような構造であれば、自由を奪われてると思わないようになると思います。  </p>
+<p>なので、Discord標準機能のみで完結することに拘らないようにしましょう。　　</p>
+<h2 id="フォーム機能について">フォーム機能について</h2><p>フォームチャンネルは下記のような画面になってます。  </p>
+<p><img src="../assets/img/blog_00025_1.png" alt="image" title="" loading="lazy" decoding="async"></p>
+<p>そしてよくあるドキュメントツールに必要な最低機能である下記の機能があります。</p>
+<ul>
+<li>検索</li>
+<li>タグフィルター</li>
+<li>ソート</li>
+</ul>
+<p>ついでに下記もあります。</p>
+<ul>
+<li>フォロー</li>
+<li>アーカイブ</li>
+<li>リアクション</li>
+</ul>
+<p>という感じです。</p>
+<p>そしてこれを Discordが実装している大体のマークダウン記法で資料をスレッド単位で作成すると下記のような感じになります。  </p>
+<p><img src="../assets/img/blog_00025_2.png" alt="image" title="" loading="lazy" decoding="async"></p>
+<p>あとは各々の組織の書き方次第です。<br>この中身すらも統一したいのであれば、テンプレートなり規約なりの項目を最適なチャンネルにて記述すればよろしいです。  </p>
+<h2 id="コミュニケーションの性質毎の寿命について">コミュニケーションの性質毎の寿命について</h2><p>寿命について語る前に少し前置きです。  </p>
+<p>性質毎といいつつも、内容、タイミング等によって明確に出せる内容ではありませんが組織的には文化的な傾向はあるはずです。<br>無いのであればそれは無法地帯と違いないので、ルールを試しに定めてみるのもいいかもしれません。<br>そこから良し悪しが判明して、運用方法が見えてきます。  </p>
+<p>しかし、そういったトライアンドエラーが出来ない環境でという話になる場合、その組織はなんかしらの切っ掛け(外部的要因も含め)を原因に破滅すると思われます。<br>ただ、その組織自体の寿命が 短期的で良い などの状態なのであれば、速度重視でルール化を行わない等、対応方法自体に正解はありません。<br>ありませんが、最適解を模索することは良いことですし経験にもなるので、やって損はありません。  要はケースバイケースです。   </p>
+<p>前置きは終了で、寿命についてです。  </p>
+<p>例えば　<code>日報</code> というチャンネルがあったとします。<br>要件は下記のようなカジュアルな物だったとしてそこで発生するメッセージの寿命はどれくらいでしょうか。  </p>
+<blockquote>
+<p>毎日食べたものを連絡してコミュニケーションを図りましょう</p>
+</blockquote>
+<p>これも上述で何度も話している通り、  <strong>各々の組織やコミュニティ、その中の人や目的によって最適解が変わる話</strong>　ですので、もちろん明確な期間の定義はありません。  </p>
+<p>例えば <code>この間バーで〇〇〇を×××君と一緒に飲んでめっちゃ盛り上がりました</code> と日報があったとします。<br>この流れで他の人が何かリプライ的に反応することもあり得ますよね？  </p>
+<p>もしこの日報チャンネルの主要目的が <code>生存確認</code> のみなのであればこれは完全に流動的なものです。<br>コミュニケーションの中身自体はこの先保持され続ける必要はありません。  </p>
+<p>しかし、<code>健康管理等で年間なにをしたのか記録する必要があって行っている</code> 場合<br>これの寿命はその年間記録の節目になります。  </p>
+<p>もしくは、数か月間は利用する可能性や必要がある場合は、平均寿命が数か月単位なのが確定します。<br>しかし、具体的なのは確定していない状況になります。  </p>
+<p>つまり状況によって <code>流動的</code> だったり <code>固定的</code>　だったり　<code>継続タスク</code> だったりするわけです。<br>そしてそれにあったチャンネル構造を取ればいいという話でした。  </p>
+<h2 id="まとめ">まとめ</h2><p>初めてブログで抽象的な話を描いたので見やすい記事になっているか疑問が残りますが<br>コミュニケーションの性質から見る Discord のチャンネル運用の考え方についてでした。  </p>
+<p>こういうのはプロジェクトマネージャーとかが考える内容に近い気がしていて、自分はまだ疎い方だと思う上に<br>コミュニティーサーバーを作る等を行う際とか、チームのビルドアップを行ったりする際に必要になってくるので、<br>積極的に書籍購入や講義、観察等をすると経験となり、行動をして、実績に昇華すると思います。  </p>
+<p>単語でいったら　「アジャイル開発」とか「スクラム」「カンバン」 とかその辺を調べたら方向性が更に掴めてくるかもです。<br>ちなみに僕はまだなんとなしに気にしている程度ですし、一般コミュニケーションでも起こりうるということに気づいたので応用しただけなのでなんともですが、
+調べてみたら 「Discord サーバー　活用術」 とか色んな書籍が既に出ていたので、そういうのを見るのも手ではあるかもです。  </p>
+<p>※Discordのバージョン違いで書いてあることと辻褄が合わない等はあるかもですが</p>
+<p>以上　Discordサーバーの運用設計について　でした！</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html&amp;text=Discord%E3%82%B5%E3%83%BC%E3%83%90%E3%83%BC%E3%81%AE%E9%81%8B%E7%94%A8%E8%A8%AD%E8%A8%88%E3%81%AB%E3%81%A4%E3%81%84%E3%81%A6" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00025.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00025" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00025" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00024.html" class="btn btn--prev">← Zed IDE keyma…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#前置き" data-no-preview="">前置き</a></li><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#コミュニケーションの性質について" data-no-preview="">コミュニケーションの性質について</a></li><li class="toc-item toc-item--level-2"><a href="#例" data-no-preview="">例</a></li><li class="toc-item toc-item--level-2"><a href="#ルールを定義自由を奪う" data-no-preview="">ルールを定義=自由を奪う</a></li><li class="toc-item toc-item--level-2"><a href="#フォーム機能について" data-no-preview="">フォーム機能について</a></li><li class="toc-item toc-item--level-2"><a href="#コミュニケーションの性質毎の寿命について" data-no-preview="">コミュニケーションの性質毎の寿命について</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00025"};</script>
+
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  
+</body></html>

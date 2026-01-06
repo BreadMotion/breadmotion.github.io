@@ -25,19 +25,122 @@ document.addEventListener("DOMContentLoaded", () => {
     return window.matchMedia("(max-width: 768px)").matches;
   }
 
-  // ヘルパー: layout.js の読み込みパスから partials の相対パスを返す
+  // ヘルパー: layout.js の読み込みパスから partials の相対パスを返す（堅牢化）
   function getPartialsPath() {
-    const scripts = document.getElementsByTagName("script");
-    for (let i = 0; i < scripts.length; i++) {
-      const src = scripts[i].getAttribute("src");
-      if (src && src.endsWith("layout.js")) {
-        const prefix = src.replace(
-          "assets/js/layout.js",
-          "",
-        );
+    try {
+      // 1) 最も確実: document.currentScript（外部スクリプト・インライン両対応）
+      if (
+        typeof document !== "undefined" &&
+        document.currentScript &&
+        document.currentScript.src
+      ) {
+        try {
+          const cur = document.currentScript.src || "";
+          if (cur.indexOf("layout.js") !== -1) {
+            // prefix を assets/js/layout.js 部分で切り出す。末尾スラッシュは常に確保する。
+            const prefix = cur.replace(
+              "assets/js/layout.js",
+              "",
+            );
+            return (
+              (prefix.endsWith("/") ? prefix : prefix) +
+              "partials/"
+            );
+          }
+        } catch (e) {
+          // 無視してフォールバックへ
+          if (window && window.__DEBUG_LAYOUT__) {
+            console.debug(
+              "getPartialsPath: currentScript parsing failed",
+              e,
+            );
+          }
+        }
+      }
+
+      // 2) グローバルで明示的に指定されていればそれを使う（ビルドやページで注入可能）
+      if (
+        typeof window !== "undefined" &&
+        window.__PARTIALS_PREFIX
+      ) {
+        const p = window.__PARTIALS_PREFIX;
+        const prefix = String(p).replace(/\/+$/, "") + "/";
         return prefix + "partials/";
       }
+
+      // 3) メタタグでページ単位に指定されていればそれを使う
+      if (typeof document !== "undefined") {
+        const meta = document.querySelector(
+          'meta[name="partials-prefix"]',
+        );
+        if (meta) {
+          const content =
+            meta.getAttribute("content") || "";
+          if (content.length > 0) {
+            const prefix =
+              content.replace(/\/+$/, "") + "/";
+            return prefix + "partials/";
+          }
+        }
+      }
+
+      // 4) 既存のスクリプトタグ探索（互換性保守）
+      if (typeof document !== "undefined") {
+        const scripts =
+          document.getElementsByTagName("script");
+        for (let i = 0; i < scripts.length; i++) {
+          const src = scripts[i].getAttribute("src");
+          if (src && src.indexOf("layout.js") !== -1) {
+            // 元の実装と互換するために assets/js/layout.js 部分を取り除く
+            try {
+              if (
+                src.indexOf("assets/js/layout.js") !== -1
+              ) {
+                const prefix = src.replace(
+                  "assets/js/layout.js",
+                  "",
+                );
+                return (
+                  (prefix.endsWith("/") ? prefix : prefix) +
+                  "partials/"
+                );
+              } else {
+                // layout.js を検出したがパスに assets/js/layout.js が含まれない場合は
+                // src のディレクトリ部分を prefix として扱う
+                const idx = src.lastIndexOf("/");
+                const dir =
+                  idx !== -1 ? src.slice(0, idx + 1) : "";
+                return (
+                  (dir.endsWith("/") ? dir : dir) +
+                  "partials/"
+                );
+              }
+            } catch (e) {
+              // 続行してフォールバック
+              if (window && window.__DEBUG_LAYOUT__) {
+                console.debug(
+                  "getPartialsPath: script scan parsing failed",
+                  e,
+                );
+              }
+            }
+          }
+        }
+      }
+    } catch (e) {
+      // ここまで来ても失敗した場合は下のフォールバックへ
+      if (
+        typeof window !== "undefined" &&
+        window.__DEBUG_LAYOUT__
+      ) {
+        console.debug(
+          "getPartialsPath: unexpected error",
+          e,
+        );
+      }
     }
+
+    // 5) 最終フォールバック（従来の動作を保つ）
     return "partials/";
   }
 
