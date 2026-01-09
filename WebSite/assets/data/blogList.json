@@ -1,5 +1,18 @@
 [
   {
+    "id": "blog_00026",
+    "title": "Zed Collaborationについて",
+    "date": "2026-01-09T00:00:00.000Z",
+    "category": "IDE",
+    "description": "ZedのCollaborationの紹介をします。",
+    "tags": [
+      "zed"
+    ],
+    "thumbnail": "assets/img/zed_icon.png",
+    "contentPath": "blog/blog_00026.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00025",
     "title": "Discordサーバーの運用設計について",
     "date": "2026-01-05T00:00:00.000Z",
