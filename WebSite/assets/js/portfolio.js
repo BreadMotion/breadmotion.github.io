@@ -27,6 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
   let previousBodyOverflow = "";
   let previousHtmlOverflow = "";
 
+  // 追加: モーダル要素参照を明示的に宣言
+  let modalOverlay,
+    modalContainer,
+    modalContent,
+    modalCloseBtn;
+
   // ============================================================
   // モーダル初期化
   // ============================================================
