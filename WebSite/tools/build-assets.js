@@ -548,21 +548,9 @@ function updateHtmlReferences() {
       },
     );
 
-    // --- Write backup and new HTML ---
-    const backupPath = filePath + ".bak";
+    // --- Write new HTML (no .bak backup) ---
     try {
-      // Write backup only if not exists previously, to avoid overwriting older backups
-      if (!fs.existsSync(backupPath)) {
-        fs.writeFileSync(backupPath, html, "utf8");
-        log(
-          `Backup created: ${path.relative(ROOT, backupPath)}`,
-        );
-      } else {
-        log(
-          `Backup already exists: ${path.relative(ROOT, backupPath)}`,
-        );
-      }
-      // Write modified HTML
+      // Write modified HTML directly without creating backup files
       const outHtml = $.html();
       fs.writeFileSync(filePath, outHtml, "utf8");
       log(`Updated HTML: ${path.relative(ROOT, filePath)}`);
