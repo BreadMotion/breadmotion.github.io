@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00027",
+    "title": "GoF Design Patterns",
+    "date": "2026-01-12T00:00:00.000Z",
+    "category": "Coding",
+    "description": "",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/en/blog_00027.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00026",
     "title": "About Zed Collaboration",
     "date": "2026-01-09T00:00:00.000Z",
