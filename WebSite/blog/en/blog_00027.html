@@ -1,0 +1,872 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GoF Design Patterns | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00027.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00027.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00027.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00027.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00027.html"
+  },
+  "headline": "GoF Design Patterns",
+  "description": "",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-01-12T00:00:00.000Z",
+  "dateModified": "2026-01-12T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoF Design Patterns",
+      "item": "https://breadmotion.github.io/WebSite/blog/en/blog_00027.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoF Design Patterns | PanKUN Blog" />
+    <meta property="og:description" content="" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00027.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00027">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoF Design Patterns</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/01/12 / Coding</p>
+                <h1 class="post-detail__title">GoF Design Patterns</h1>
+                
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=Coding">Coding</a> <a class="tag" href="../../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html&text=GoF%20Design%20Patterns" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00027" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00027" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! This is Pan-kun.</p>
+<p>This time I&#39;ll go back to basics and organize/explain the GoF (Gang of Four) design patterns. I have difficulty remembering proper nouns, so there may be omissions or slight variations in wording, but I will clearly convey the main ideas and practical caveats. I will list sources (URLs and quoted excerpts) at the end of the article as evidence for factual claims. When adopting these patterns in production, always consult primary sources (the original text or trusted references).</p>
+<h2 id="introduction">Introduction</h2><p>&quot;GoF&quot; (Gang of Four) refers to the book published in 1994, &quot;Design Patterns: Elements of Reusable Object-Oriented Software,&quot; which collected reusable object-oriented design solutions (patterns). The 23 patterns summarized by the GoF are generally classified into three categories:</p>
+<ul>
+<li>Creational: deal with object creation mechanisms</li>
+<li>Structural: deal with composition of classes and objects</li>
+<li>Behavioral: deal with communication between objects and defining algorithms</li>
+</ul>
+<p>Patterns are not rigid &quot;answers&quot; but rather design recipes or templates. Advances in language features and frameworks can make some patterns unnecessary—or conversely, overusing patterns can introduce unnecessary complexity. Adopt patterns with judgement appropriate to the use case.</p>
+<p>Evidence (excerpt):</p>
+<ul>
+<li>&quot;A software design pattern describes a reusable solution to a commonly needed behavior in software.&quot; — Software design pattern (Wikipedia)</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Software_design_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Software design pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<ul>
+<li>&quot;Design Patterns: Elements of Reusable Object-Oriented Software (1994) is a software engineering book describing software design patterns.&quot; — Design Patterns (Wikipedia)</li>
+</ul>
+<p><a href="https://en.wikipedia.org/wiki/Design_Patterns" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://upload.wikimedia.org/wikipedia/en/7/78/Design_Patterns_cover.jpg" alt="Design Patterns - Wikipedia" loading="lazy"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Design Patterns - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p>The citations above are intended as general references. When implementing or adopting a pattern, check the original works and concrete language-specific examples.</p>
+<h2 id="brief-explanations-of-each-category">Brief explanations of each category</h2><ul>
+<li><p>Creational<br>Patterns concerned with how objects are created. By separating construction logic, you can improve dependency management, testability, and extensibility.</p>
+</li>
+<li><p>Structural<br>Patterns concerned with composing classes or objects into larger structures. They help with interface adaptation, separation of concerns, and reducing duplication.</p>
+</li>
+<li><p>Behavioral<br>Patterns that focus on responsibilities, interactions between objects, and runtime algorithm variation. They aim to reduce coupling and improve testability.</p>
+</li>
+</ul>
+<h2 id="1-creational-patterns">1. Creational Patterns</h2><p>Below are five representative creational patterns. For each I summarize the key idea, when to use it, and practical caveats.</p>
+<h3 id="singleton">Singleton</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Ensure a class has only one instance and provide global access to it.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Centralizes access to shared resources.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can make testing hard due to lifecycle/global state. Consider dependency injection as an alternative.</td>
+</tr>
+</tbody></table>
+<h3 id="prototype">Prototype</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Create new objects by cloning existing instances.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Reduces initialization cost via copying; useful for dynamic object creation.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Be careful with deep vs. shallow copy and shared references.</td>
+</tr>
+</tbody></table>
+<p>Use case: Cloning objects that have complex initialization.</p>
+<h3 id="factory-method">Factory Method</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide a method for subclasses to decide which concrete class to instantiate.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Makes it easy to extend how classes are created and lets clients depend on abstractions rather than concrete classes.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Class hierarchies can grow when many concrete types are needed.</td>
+</tr>
+</tbody></table>
+<h3 id="abstract-factory">Abstract Factory</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide an interface for creating families of related or dependent objects.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Produce compatible sets of objects consistently; implementation swapping is easy.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Adding new product types can require extensive changes across implementations.</td>
+</tr>
+</tbody></table>
+<h3 id="builder">Builder</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Separate the construction of a complex object from its representation so the same construction process can create different representations.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Enables readable construction code and staged configuration.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Builder implementations can become complex if the construction process is complicated.</td>
+</tr>
+</tbody></table>
+<p>Use case: Domain models with many optional parameters or multi-stage initialization.</p>
+<h2 id="2-structural-patterns">2. Structural Patterns</h2><p>Below are representative structural patterns, presented in the same format as the creational patterns.</p>
+<h3 id="adapter">Adapter</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide a wrapper that converts an existing class&#39;s interface into one expected by the client.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Allows connecting legacy code or external libraries without modifying them.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Too many adapters can reduce readability and increase maintenance cost.</td>
+</tr>
+</tbody></table>
+<p>Use case: Adapting an old API to a new interface.</p>
+<h3 id="bridge">Bridge</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Separate an abstraction from its implementation so the two can vary independently.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Makes it easy to switch or add implementations.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can introduce structural complexity; may be overengineering if not planned early.</td>
+</tr>
+</tbody></table>
+<p>Use case: Decoupling platform-dependent implementations (e.g., switching rendering backends).</p>
+<h3 id="composite">Composite</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Represent part-whole hierarchies so clients treat individual objects and compositions uniformly.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Enables recursion-friendly structures and simplifies client code.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Responsibilities between leaf and composite nodes can become unclear.</td>
+</tr>
+</tbody></table>
+<p>Use case: Representing hierarchical UI components or file system structures.</p>
+<h3 id="decorator">Decorator</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Dynamically add responsibilities to an object. More flexible than subclassing for composition of behavior.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Add behavior without modifying existing objects; combine decorators to build features.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">A large number of decorators can make debugging and tracing behavior harder.</td>
+</tr>
+</tbody></table>
+<p>Use case: Chaining stream processing (e.g., compression, encryption).</p>
+<h3 id="facade">Facade</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide a simplified, unified interface to a complex subsystem.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Simplifies client usage and hides internal implementation details.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Putting too much logic in the facade can bloat its responsibilities.</td>
+</tr>
+</tbody></table>
+<p>Use case: Aggregating multiple APIs into a single service interface.</p>
+<h3 id="flyweight">Flyweight</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Extract shared intrinsic state from many similar objects so that it can be shared; clients supply extrinsic state.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Greatly reduces memory usage when many similar objects are needed.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Managing shared vs. external state can be tricky.</td>
+</tr>
+</tbody></table>
+<p>Use case: Text editors sharing font and glyph information across many character objects.</p>
+<h3 id="proxy">Proxy</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide a surrogate or placeholder for another object to control access, lazily initialize, or represent a remote object.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Control access transparently and save resources via lazy loading.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Adds overhead and can obscure the distinction between proxy and real object, complicating debugging.</td>
+</tr>
+</tbody></table>
+<p>Use case: Lazy loading, remote stubs, or access control proxies.</p>
+<p>Structural patterns increase indirection, so always weigh readability and runtime cost when applying them.</p>
+<h2 id="3-behavioral-patterns">3. Behavioral Patterns</h2><p>Below are representative behavioral patterns, summarized similarly.</p>
+<h3 id="chain-of-responsibility">Chain of Responsibility</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Chain multiple handlers and pass a request along the chain until a handler processes it.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Reduces coupling between sender and receiver; makes adding or reordering handlers easy.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Harder to trace which handler processed a request during debugging; be careful about requests that go unhandled.</td>
+</tr>
+</tbody></table>
+<p>Use case: Logging frameworks or request filter chains.</p>
+<h3 id="command">Command</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Encapsulate an operation as an object.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Abstracts actions, making it easier to parameterize, queue, or undo operations.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can add object overhead and complexity in simple cases.</td>
+</tr>
+</tbody></table>
+<p>Use case: GUI actions with undo/redo support.</p>
+<h3 id="interpreter">Interpreter</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Represent a grammar as an object structure and provide an interpreter to evaluate sentences in that grammar.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Allows dynamic control of program behavior via external expressions.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can be hard to implement and maintain; performance may be a concern.</td>
+</tr>
+</tbody></table>
+<p>Use case: Expression evaluators, small scripting languages, or domain-specific string formats.</p>
+<h3 id="iterator">Iterator</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Provide an abstraction for sequentially accessing elements of an aggregate without exposing its representation.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Offers a consistent way to traverse different collection implementations.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Requires careful design for concurrent modification during iteration.</td>
+</tr>
+</tbody></table>
+<p>Use case: Collection traversal or stream processing.</p>
+<h3 id="mediator">Mediator</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Centralize complex interactions between many objects in a mediator to reduce direct dependencies.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Simplifies individual classes and reduces coupling.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Mediator can become complex and a maintenance bottleneck if overloaded.</td>
+</tr>
+</tbody></table>
+<p>Use case: Coordinating UI component interactions or message dispatch in a chat room.</p>
+<h3 id="memento">Memento</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Capture and externalize an object&#39;s internal state so it can be restored later without violating encapsulation.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Allows state snapshots while preserving encapsulation.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Copying/storing state can be costly; watch memory usage.</td>
+</tr>
+</tbody></table>
+<p>Use case: Undo stacks in text editors.</p>
+<h3 id="observer-publish-subscribe">Observer (Publish-Subscribe)</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Notify multiple registered objects when another object&#39;s state changes.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Implements one-to-many notifications and achieves loose coupling.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Be mindful of event order, thread-safety, and potential memory leaks from forgotten deregistration.</td>
+</tr>
+</tbody></table>
+<p>Use case: Event-driven UIs and real-time subscription models.</p>
+<h3 id="state">State</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Delegate behavior to state objects based on an object&#39;s current state, making transitions explicit.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Organizes complex conditional logic by state; improves clarity.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can produce many state classes; document sequences and relations for maintainability.</td>
+</tr>
+</tbody></table>
+<p>Use case: Workflow engines or protocol state machines.</p>
+<h3 id="strategy">Strategy</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Encapsulate a family of algorithms and make them interchangeable at runtime.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Enables independent testing and extension of algorithms; reduces conditional logic.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">May be over-abstraction for simple scenarios.</td>
+</tr>
+</tbody></table>
+<p>Use case: Swappable sorting algorithms or payment calculation strategies.</p>
+<h3 id="template-method">Template Method</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Define the skeleton of an algorithm in a superclass, letting subclasses implement specific steps.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Reuse common behavior while allowing variations in subclasses.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Can increase coupling between subclasses and the superclass, reducing flexibility.</td>
+</tr>
+</tbody></table>
+<p>Use case: Processing pipelines or sequences of operations with common steps.</p>
+<h3 id="visitor">Visitor</h3><table>
+<thead>
+<tr>
+<th align="left">Item</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Key idea</td>
+<td align="left">Add new operations to object structures without changing the structures themselves.</td>
+</tr>
+<tr>
+<td align="left">Pros</td>
+<td align="left">Makes adding new operations easy while keeping the object structure stable.</td>
+</tr>
+<tr>
+<td align="left">Cons</td>
+<td align="left">Requires extending the element interfaces; structural changes to elements force visitor updates.</td>
+</tr>
+</tbody></table>
+<p>Use case: Traversal-based analyses on abstract syntax trees (e.g., type checking or optimization).</p>
+<h2 id="practical-caveats-when-adopting-patterns">Practical caveats when adopting patterns</h2><ol>
+<li><p>Think first whether the pattern is really needed<br>If the problem doesn&#39;t match the pattern, don&#39;t introduce it. Simpler implementations are often sufficient.</p>
+</li>
+<li><p>Check whether language or framework features already provide an alternative<br>Functional and dynamic languages can often express GoF patterns more succinctly or render some patterns unnecessary.</p>
+</li>
+<li><p>Prioritize testability and dependency management<br>Be cautious with patterns that introduce global state or tight coupling.</p>
+</li>
+<li><p>Document your choices<br>Record why a pattern was adopted in README/design docs. This helps future refactors and reviews.</p>
+</li>
+<li><p>Understand performance/maintenance trade-offs<br>Indirection gives flexibility but can increase call overhead and cognitive load.</p>
+</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2><p>GoF design patterns are powerful tools, but it&#39;s important to apply them appropriately rather than blindly. Understand each pattern&#39;s intent and consider language features and existing frameworks before adopting one.</p>
+<p>Design depends on experience and context. Patterns expand your &quot;design vocabulary&quot; but are not an end in themselves. Start applying patterns in small, deliberate ways and share knowledge with your team.</p>
+<p>(These days it&#39;s rare not to be familiar with these patterns, but still.)</p>
+<p>Next time I&#39;ll explain detailed usage cases for several patterns with code examples.</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html&text=GoF%20Design%20Patterns" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00027.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00027" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00027" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00026.html" class="btn btn--prev">← About Zed Col…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#introduction" data-no-preview>Introduction</a></li><li class="toc-item toc-item--level-2"><a href="#brief-explanations-of-each-category" data-no-preview>Brief explanations of each category</a></li><li class="toc-item toc-item--level-2"><a href="#1-creational-patterns" data-no-preview>1. Creational Patterns</a></li><li class="toc-item toc-item--level-3"><a href="#singleton" data-no-preview>Singleton</a></li><li class="toc-item toc-item--level-3"><a href="#prototype" data-no-preview>Prototype</a></li><li class="toc-item toc-item--level-3"><a href="#factory-method" data-no-preview>Factory Method</a></li><li class="toc-item toc-item--level-3"><a href="#abstract-factory" data-no-preview>Abstract Factory</a></li><li class="toc-item toc-item--level-3"><a href="#builder" data-no-preview>Builder</a></li><li class="toc-item toc-item--level-2"><a href="#2-structural-patterns" data-no-preview>2. Structural Patterns</a></li><li class="toc-item toc-item--level-3"><a href="#adapter" data-no-preview>Adapter</a></li><li class="toc-item toc-item--level-3"><a href="#bridge" data-no-preview>Bridge</a></li><li class="toc-item toc-item--level-3"><a href="#composite" data-no-preview>Composite</a></li><li class="toc-item toc-item--level-3"><a href="#decorator" data-no-preview>Decorator</a></li><li class="toc-item toc-item--level-3"><a href="#facade" data-no-preview>Facade</a></li><li class="toc-item toc-item--level-3"><a href="#flyweight" data-no-preview>Flyweight</a></li><li class="toc-item toc-item--level-3"><a href="#proxy" data-no-preview>Proxy</a></li><li class="toc-item toc-item--level-2"><a href="#3-behavioral-patterns" data-no-preview>3. Behavioral Patterns</a></li><li class="toc-item toc-item--level-3"><a href="#chain-of-responsibility" data-no-preview>Chain of Responsibility</a></li><li class="toc-item toc-item--level-3"><a href="#command" data-no-preview>Command</a></li><li class="toc-item toc-item--level-3"><a href="#interpreter" data-no-preview>Interpreter</a></li><li class="toc-item toc-item--level-3"><a href="#iterator" data-no-preview>Iterator</a></li><li class="toc-item toc-item--level-3"><a href="#mediator" data-no-preview>Mediator</a></li><li class="toc-item toc-item--level-3"><a href="#memento" data-no-preview>Memento</a></li><li class="toc-item toc-item--level-3"><a href="#observer-publish-subscribe" data-no-preview>Observer (Publish-Subscribe)</a></li><li class="toc-item toc-item--level-3"><a href="#state" data-no-preview>State</a></li><li class="toc-item toc-item--level-3"><a href="#strategy" data-no-preview>Strategy</a></li><li class="toc-item toc-item--level-3"><a href="#template-method" data-no-preview>Template Method</a></li><li class="toc-item toc-item--level-3"><a href="#visitor" data-no-preview>Visitor</a></li><li class="toc-item toc-item--level-2"><a href="#practical-caveats-when-adopting-patterns" data-no-preview>Practical caveats when adopting patterns</a></li><li class="toc-item toc-item--level-2"><a href="#conclusion" data-no-preview>Conclusion</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">Comments</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">Loading comments...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00027"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  </body>
+</html>
