@@ -1,0 +1,589 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <title>GoFデザインパターン - シングルトン編 | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00028.html"
+  },
+  "headline": "GoFデザインパターン - シングルトン編",
+  "description": "GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-01-16T00:00:00.000Z",
+  "dateModified": "2026-01-16T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoFデザインパターン - シングルトン編",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00028.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoFデザインパターン - シングルトン編 | PanKUN Blog">
+    <meta property="og:description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  </head>
+  <body data-page="blog" data-post-id="blog_00028">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoFデザインパターン - シングルトン編</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/01/16 / Coding</p>
+                <h1 class="post-detail__title">GoFデザインパターン - シングルトン編</h1>
+                <p class="post-detail__description">GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=Coding">Coding</a> <a class="tag" href="../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00028" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00028" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。</p>
+<p>今回は GoF（Gang of Four）のデザインパターンのシングルトン編になります。<br>サンプルコード（C++）、作り方、使うタイミング、注意点、mermaid図による可視化などを含めて実用的に解説します。  </p>
+<h2 id="はじめに">はじめに</h2><p>シングルトンはあるクラスのインスタンスがアプリケーション内でただ1つだけ存在することを保証し<br>その単一インスタンスへのグローバルなアクセス点を提供するためのデザインパターンです。  </p>
+<p>主なシングルトンの要素としては基本的に下記が満たされているものを差します。</p>
+<ul>
+<li><strong>コンストラクタがプライベート</strong> : 外部からの直接的なインスタンス生成を防ぐ</li>
+<li><strong>静的なインスタンス</strong> : クラス内で自身を保持する</li>
+<li><strong>静的な取得メソッド</strong> : 静的インスタンスを外部に提供する</li>
+</ul>
+<p>Wikipedia の定義は下記です</p>
+<blockquote>
+<p>"ソフトウェア工学において、シングルトンパターンとは、クラスのインスタンス化を「単一」のインスタンスに制限するソフトウェア設計パターンである。"<br>（出典: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">https://en.wikipedia.org/wiki/Singleton_pattern</a>）</p>
+</blockquote>
+<p>GoF の観点では オブジェクトの生成とアクセスを制御することで 共有資源（設定、ロガー、接続プールなど）に対して一元的に制御を掛けるためのデザインパターンになっています。</p>
+<p><strong>この記事のゴール</strong>：  </p>
+<ul>
+<li>C++ における代表的な実装パターンとその利点・欠点を示す</li>
+<li>スレッドセーフな初期化、パフォーマンス、テスト性の観点からの設計上の注意点を説明する</li>
+<li>代替手段（依存性注入など）とアンチパターンを整理する</li>
+</ul>
+<p><strong>参考となる一次情報（抜粋）</strong>：</p>
+<p><a href="https://en.wikipedia.org/wiki/Singleton_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Singleton_UML_class_diagram.svg/1280px-Singleton_UML_class_diagram.svg.png" alt="Singleton pattern - Wikipedia" loading="lazy"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Singleton pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p><a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">Storage class specifiers - cppreference.com</span><span class="og-description"></span></span></a></p>
+<p><a href="https://en.cppreference.com/w/cpp/thread/call_once" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">std::call_once - cppreference.com</span><span class="og-description"></span></span></a></p>
+<p>以上を根拠に、以降の実装と設計上の解説を行います。</p>
+<h2 id="代表的なユースケース">代表的なユースケース</h2><ul>
+<li>設定の一元管理</li>
+<li>ロガーインスタンスの共有</li>
+<li>ハードウェアリソース／接続プールなど 唯一のインスタンスで十分なケース</li>
+<li>アプリケーション全域で共有されるキャッシュやファクトリ</li>
+</ul>
+<p>ただし、シングルトンはグローバルインスタンスなのでテストしずらくなるケースがあります。<br>そのため 「 <strong>本当に必要か</strong> 」 「 <strong>グローバルにアクセスを許していい唯一のインスタンスなのか</strong> 」 を常に検討してください。</p>
+<h2 id="c-実装パターン">C++ 実装パターン</h2><p>シングルトンパターンにもいくつかのパターンの分類があります。  </p>
+<ul>
+<li>Eager Initialization Singleton (即時初期化)</li>
+<li>Lazy Initialization Singleton (遅延初期化)</li>
+<li>Double Checked Locking Singleton (DCL Singleton)(２重チェックロッキング)</li>
+<li>Initialization on Demand Holder (ホルダー初期化)</li>
+</ul>
+<p>などなど</p>
+<p>以下にいくつかのC++実装を示します。<br>コードは学習用途に簡潔化しています。  </p>
+<h3 id="eager-singleton実装">Eager Singleton実装</h3><p>Eager Singleton は実装が凄く簡単です。　　
+ただ下記サンプルコードの場合はコメント記載している通り、プログラム起動時に生成されるためそのフェーズの処理コストは発生します。<br>シングルトン実装のケースは基本これで耐えうるともいます。  </p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// EagerSingleton.h
+#pragma once
+#include &lt;iostream&gt;
+
+class EagerSingleton {
+private:
+    static EagerSingleton instance; // プログラム起動時に生成される
+    EagerSingleton() = default;
+public:
+    EagerSingleton(const EagerSingleton&amp;) = delete;
+    EagerSingleton&amp; operator=(const EagerSingleton&amp;) = delete;
+
+    static EagerSingleton&amp; GetInstance() {
+        return instance;
+    }
+
+    void Say() { std::cout &lt;&lt; "EagerSingleton\n"; }
+};
+
+// EagerSingleton.cpp
+EagerSingleton EagerSingleton::instance; // instance の定義が必要</code></pre></figure><h3 id="lazy-singleton実装">Lazy Singleton実装</h3><p>Lazy Singleton は mutex でスレッドセーフなシングルトンパターンです。<br>C++でこれを実現するには 取得の度にロックコストが発生するためパフォーマンスへの懸念があります。<br>下記２点どちらかがあるなら実装方向で進めるべきかもしれません。  </p>
+<ul>
+<li>パフォーマンス削ってもいい</li>
+<li>使用言語によっては懸念にならない</li>
+</ul>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// LazySingleton.h
+#pragma once
+#include &lt;mutex&gt;
+#include &lt;memory&gt;
+
+class LazySingleton {
+private:
+    static std::mutex mtx;
+    static LazySingleton* instance;
+    LazySingleton() = default;
+public:
+    LazySingleton(const LazySingleton&amp;) = delete;
+    LazySingleton&amp; operator=(const LazySingleton&amp;) = delete;
+
+    static LazySingleton* GetInstance() {
+        std::lock_guard&lt;std::mutex&gt; Lock(mtx);
+        if (!instance) instance = new LazySingleton();
+        return instance;
+    }
+
+    void Say();
+};
+
+// LazySingleton.cpp
+std::mutex LazySingleton::mtx;
+LazySingleton* LazySingleton::instance = nullptr;</code></pre></figure><h3 id="meyers39-singleton実装">Meyers' Singleton実装</h3><p>Meyers' Singleton は簡潔で軽く説明するとインスタンスの配置場所が下記の違いがあります  </p>
+<ul>
+<li><strong>Eager Singleton</strong> : クラスメンバーに変数配置  </li>
+<li><strong>Meyers' Singleton</strong> : 静的取得関数にローカルで変数配置</li>
+</ul>
+<p>C++11以降では 静的局所変数の初期化 はスレッドセーフであるため C++では <strong>Eager Singleton</strong> より推奨される実装方法です  </p>
+<p><a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">Storage class specifiers - cppreference.com</span><span class="og-description"></span></span></a></p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MeyersSingleton.h
+#pragma once
+#include &lt;iostream&gt;
+
+class MeyersSingleton {
+private:
+    MeyersSingleton() { }
+public:
+    MeyersSingleton(const MeyersSingleton&amp;) = delete;
+    MeyersSingleton&amp; operator=(const MeyersSingleton&amp;) = delete;
+
+    static MeyersSingleton&amp; GetInstance() {
+        static MeyersSingleton instance; // C++11以降でスレッド安全に初期化される
+        return instance;
+    }
+
+    void Say() { std::cout &lt;&lt; "MeyersSingleton\n"; }
+};</code></pre></figure><h3 id="stdcall_once-を使った-lazy-singleton実装"><code>std::call_once</code> を使った Lazy Singleton実装</h3><p>これは複雑な初期化が必要な場合に明示的で安全な手段です<br>実装工数と可読性的に使用頻度はすくないかもですが  </p>
+<p><a href="https://en.cppreference.com/w/cpp/thread/call_once" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">std::call_once - cppreference.com</span><span class="og-description"></span></span></a></p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// CallOnceSingleton.h
+#pragma once
+#include &lt;mutex&gt;
+#include &lt;memory&gt;
+
+class CallOnceSingleton {
+private:
+    static std::unique_ptr&lt;CallOnceSingleton&gt; instance;
+    static std::once_flag initFlag;
+    CallOnceSingleton() = default;
+
+    static void Init() {
+        instance.reset(new CallOnceSingleton());
+    }
+public:
+    CallOnceSingleton(const CallOnceSingleton&amp;) = delete;
+    CallOnceSingleton&amp; operator=(const CallOnceSingleton&amp;) = delete;
+
+    static CallOnceSingleton&amp; GetInstance() {
+        std::call_once(initFlag, &amp;CallOnceSingleton::Init);
+        return *instance;
+    }
+
+    void Say();
+};
+
+// CallOnceSingleton.cpp
+std::unique_ptr&lt;CallOnceSingleton&gt; CallOnceSingleton::instance;
+std::once_flag CallOnceSingleton::initFlag;</code></pre></figure><h3 id="cのシングルトンパターンの応用">C++のシングルトンパターンの応用</h3><p>パターンの説明とは違いますが、このデザインパターンの基本を理解したうえで使用すると様々な応用が可能です。<br>よくある応用ケースですが雑にいくつか紹介してみます。<br>あくまで例なので最適解でも正解でもなんでもなく、固定概念に捕らわれないようにするためのサンプルです。<br>どうやったらより良くできるか等、思考錯誤できるようがんばってください。  </p>
+<p><strong>Template Eager Singleton</strong><br>これだとシングルトンパターンを毎回実装する必要がなくなります<br>その代わり Foo.h を見た時にシングルトンかどうか判断は出来なくなるので可読性が上がっているようで、下がっているようにも見れます<br>※「じゃあどうよう」に対する改善は是非チャレンジしてみてください！  </p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// TemplateEagerSingleton.h
+#pragma once
+#include &lt;iostream&gt;
+
+template&lt;typename T&gt;
+class TemplateEagerSingleton {
+private:
+    static T instance; // プログラム起動時に生成される
+    TemplateEagerSingleton() = delete;
+public:
+    TemplateEagerSingleton(const TemplateEagerSingleton&amp;) = delete;
+    TemplateEagerSingleton&amp; operator=(const TemplateEagerSingleton&amp;) = delete;
+
+    static T&amp; GetInstance() {
+        return instance;
+    }
+};
+
+// static メンバの定義（テンプレートなのでヘッダ内に置く）
+template&lt;typename T&gt;
+T TemplateEagerSingleton&lt;T&gt;::instance;
+
+// Foo.h
+struct Foo {
+    void Say() { std::cout &lt;&lt; "TemplateEagerSingleton MyService\n"; }
+};
+
+// other.cpp
+auto&amp; foo = TemplateEagerSingleton&lt;Foo&gt;::GetInstance();
+foo.Say();</code></pre></figure><p><strong>Multi Instance Eager Singleton</strong>
+複数のグローバルアクセス可能なインスタンスにアクセスできるようになります<br>マジックナンバーとかその辺のどうとでもなるところは今回無視するとして問題は <strong>ライフサイクルの管理</strong> と <strong>使用用途の疑問</strong> くらいです。  </p>
+<p>ライフサイクルの管理はケースによるのでなんともですが<br>使用用途の幅を増やすならポリモーフィズムになるようにコンパイル時定数で内部データ可変にしたリ等すればやるメリットが生まれてくると思います。<br>この辺もやりようはあると思うのでケースバイケースです。  </p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MultiInstanceEagerSingleton.h
+#pragma once
+#include &lt;array&gt;
+#include &lt;iostream&gt;
+#include &lt;cstddef&gt;
+#include &lt;cassert&gt;
+
+class MultiInstanceEagerSingleton {
+private:
+    static constexpr std::size_t COUNT = 3;
+    static std::array&lt;MultiInstanceEagerSingleton, COUNT&gt; instances; // プログラム起動時に複数生成される
+    int id_;
+    MultiInstanceEagerSingleton(int id = 0) : id_(id) {}
+public:
+    MultiInstanceEagerSingleton(const MultiInstanceEagerSingleton&amp;) = delete;
+    MultiInstanceEagerSingleton&amp; operator=(const MultiInstanceEagerSingleton&amp;) = delete;
+
+    // index を指定して複数インスタンスへアクセスする
+    static MultiInstanceEagerSingleton&amp; GetInstance(std::size_t index) {
+        assert(index &lt; COUNT &amp;&amp; "index out of range");
+        return instances[index];
+    }
+
+    void Say() { std::cout &lt;&lt; "MultiInstanceEagerSingleton id=" &lt;&lt; id_ &lt;&lt; '\n'; }
+};
+
+// MultiInstanceEagerSingleton.cpp
+#include "MultiInstanceEagerSingleton.h"
+
+// 静的メンバの定義（プログラム起動時に COUNT 個のインスタンスが生成される）
+std::array&lt;MultiInstanceEagerSingleton, MultiInstanceEagerSingleton::COUNT&gt; MultiInstanceEagerSingleton::instances = {
+    MultiInstanceEagerSingleton(0),
+    MultiInstanceEagerSingleton(1),
+    MultiInstanceEagerSingleton(2)
+};
+
+// other.cpp
+auto&amp; s0 = MultiInstanceEagerSingleton::GetInstance(0);
+s0.Say();</code></pre></figure><h2 id="使用するタイミングと代替アプローチ">使用するタイミングと代替アプローチ</h2><p>シングルトンを採用する前に次の点を検討してください</p>
+<ul>
+<li>本当に 「<strong>1つだけのインスタンス</strong>」 である必要があるか</li>
+<li>テストでインスタンスを差し替えたいか</li>
+<li>マルチスレッド環境での初期化の安全性は確保されているか</li>
+</ul>
+<p>代替案は下記です</p>
+<ul>
+<li><strong>依存性注入（Dependency Injection）</strong> : 呼び出し側に依存オブジェクトを渡すことで、テスト時にモックやスタブと差し替えやすくなる</li>
+<li><strong>ファクトリ／サービスロケータ</strong> : 柔軟性を高める手段。 ただし、後者はグローバル依存を隠蔽するため注意が必要</li>
+<li><strong>モジュール単位のシングルトン</strong> : C++では オブジェクトをモジュール（名前空間/翻訳単位）で管理する ことで十分な場合がある</li>
+</ul>
+<h2 id="テストのしやすさ">テストのしやすさ</h2><p>シングルトンはグローバル状態を持つため、ユニットテストでは状態のリセットや並列テストへの影響に注意が必要です  </p>
+<p>対処例は下記です。</p>
+<ul>
+<li>テスト専用の初期化/破棄 API を用意する</li>
+<li>可能ならコンストラクションを外部から提供し、テスト時はモックを注入する</li>
+<li>Meyers' Singleton のような関数内静的変数はプロセス終了まで生きるため、走行中に状態を戻すのが難しい</li>
+</ul>
+<h2 id="アンチパターンとよくある落とし穴">アンチパターンとよくある落とし穴</h2><ul>
+<li><strong>過剰な使用</strong> : 単に「使い回したい」という理由で乱用すると、コードの結合度が高くなる</li>
+<li><strong>グローバル状態化</strong> : 隠れた依存関係が増え、テストやリファクタリングが困難になる</li>
+<li><strong>ライフサイクル管理の不明確さ</strong> : プログラム終了時のリソース解放や順序問題、静的オブジェクト同士の依存関係に注意</li>
+</ul>
+<h2 id="まとめ">まとめ</h2><ul>
+<li>シングルトンは「ただ1つのインスタンス」を保証する便利なパターンだが、設計上のトレードオフを必ず考慮する必要があります</li>
+<li>C++ では C++11 以降の関数内静的変数（Meyers'）がお手軽で安全な実装方法の一つである</li>
+<li>明示的な制御が必要な場合は <code>std::call_once</code> を使うと良い</li>
+<li>大規模なシステムやテスト性が重視されるシステムでは、依存性注入やファクトリなどの手法を検討することを推奨する</li>
+</ul>
+<p>参考・出典を記します</p>
+<p><a href="https://en.wikipedia.org/wiki/Singleton_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Singleton_UML_class_diagram.svg/1280px-Singleton_UML_class_diagram.svg.png" alt="Singleton pattern - Wikipedia" loading="lazy"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Singleton pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p><a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">Storage class specifiers - cppreference.com</span><span class="og-description"></span></span></a></p>
+<p><a href="https://en.cppreference.com/w/cpp/thread/call_once" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">std::call_once - cppreference.com</span><span class="og-description"></span></span></a></p>
+<p>それでは、次回は別の GoF パターンについても解説していきます。<br>この記事で紹介した実装は学習目的に簡潔化しています。<br>実プロダクションで採用する際は要件に合わせて十分に検討してください  </p>
+<p>以上、パン君でした！</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00028" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00028" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00027.html" class="btn btn--prev">← GoFデザインパターン</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#代表的なユースケース" data-no-preview="">代表的なユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装パターン" data-no-preview="">C++ 実装パターン</a></li><li class="toc-item toc-item--level-3"><a href="#eager-singleton実装" data-no-preview="">Eager Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#lazy-singleton実装" data-no-preview="">Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#meyers39-singleton実装" data-no-preview="">Meyers&amp;#39; Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#stdcall_once-を使った-lazy-singleton実装" data-no-preview="">&lt;code&gt;std::call_once&lt;/code&gt; を使った Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#cのシングルトンパターンの応用" data-no-preview="">C++のシングルトンパターンの応用</a></li><li class="toc-item toc-item--level-2"><a href="#使用するタイミングと代替アプローチ" data-no-preview="">使用するタイミングと代替アプローチ</a></li><li class="toc-item toc-item--level-2"><a href="#テストのしやすさ" data-no-preview="">テストのしやすさ</a></li><li class="toc-item toc-item--level-2"><a href="#アンチパターンとよくある落とし穴" data-no-preview="">アンチパターンとよくある落とし穴</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00028"};</script>
+
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  
+</body></html>
