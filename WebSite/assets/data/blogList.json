@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00028",
+    "title": "GoFデザインパターン - シングルトン編",
+    "date": "2026-01-16T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00028.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00027",
     "title": "GoFデザインパターン",
     "date": "2026-01-12T00:00:00.000Z",
