@@ -1,10 +1,10 @@
 [
   {
     "id": "blog_00029",
-    "title": "GoFデザインパターン - ファクトリメソッド編",
+    "title": "GoF Design Patterns - Factory Method",
     "date": "2026-01-27T00:00:00.000Z",
     "category": "Coding",
-    "description": "GoFコレクションにおけるファクトリメソッドパターン実践ガイド：概念、使いどころ、C++/Python の実装例、注意点と出典を実用的に解説します",
+    "description": "A practical guide to the Factory Method pattern from the GoF collection： concept, when to use it, C++/Python examples, cautions, and references.",
     "tags": [
       "Coding",
       "DesignPattern"
