@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00029",
+    "title": "GoFデザインパターン - ファクトリメソッド編",
+    "date": "2026-01-27T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるファクトリメソッドパターン実践ガイド：概念、使いどころ、C++/Python の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/en/blog_00029.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00028",
     "title": "GoF Design Patterns - Singleton",
     "date": "2026-01-16T00:00:00.000Z",
