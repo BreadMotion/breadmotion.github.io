@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00031",
+    "title": "GoFデザインパターン - 抽象ファクトリ編",
+    "date": "2026-02-03T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおける抽象ファクトリパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00031.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00029",
     "title": "GoFデザインパターン - ファクトリメソッド編",
     "date": "2026-01-27T00:00:00.000Z",
@@ -11,6 +25,20 @@
     ],
     "thumbnail": "assets/img/ogp.png",
     "contentPath": "blog/blog_00029.html",
+    "recommended": true
+  },
+  {
+    "id": "blog_00030",
+    "title": "GoFデザインパターン - プロトタイプ編",
+    "date": "2026-01-27T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるプロトタイプパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00030.html",
     "recommended": true
   },
   {

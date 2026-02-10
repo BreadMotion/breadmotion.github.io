@@ -172,9 +172,9 @@
 <p>上記はファクトリメソッドの本質を端的に示しています<br>生成の「いつ」「どのクラスを」決めるかを実行時の文脈やサブクラスの実装に委ねる、ということです。</p>
 <h2 id="構造（要素）">構造（要素）</h2><p>典型的な構成は次の通りです。</p>
 <ul>
-<li><code>Product</code>（抽象製品）：クライアントが扱う共通インターフェース</li>
+<li><code>Product</code>：クライアントが扱う共通インターフェース</li>
 <li><code>ConcreteProduct</code>：具体的な製品の実装</li>
-<li><code>Creator</code>（抽象作成者）：<code>FactoryMethod()</code> を宣言（場合によっては一部の共通処理も持つ）。</li>
+<li><code>Creator</code>：<code>FactoryMethod()</code> を宣言（場合によっては一部の共通処理も持つ）。</li>
 <li><code>ConcreteCreator</code>：<code>FactoryMethod()</code> をオーバーライドし、具体的な <code>ConcreteProduct</code> を生成して返す。</li>
 </ul>
 <p><code>Creator</code> は生成された <code>Product</code> を使って何らかの処理を行い、クライアントは <code>Creator</code> の操作だけを利用します。</p>
@@ -385,7 +385,7 @@ if __name__ == "__main__":
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00028.html" class="btn btn--prev">← GoFデザインパターン -…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a></div>
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00030.html" class="btn btn--prev">← GoFデザインパターン -…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00031.html" class="btn btn--next">GoFデザインパターン -… →</a></div>
             </article>
           </div>
           <aside class="post-sidebar">
@@ -405,50 +405,7 @@ if __name__ == "__main__":
           <h2 class="section__title">おすすめ記事</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
-         <section class="section section--comments">
-    <h2 class="section__title">コメント</h2>
-    <div id="comments" class="post-comments">
-      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
-        <p class="giscus-loading">コメントを読み込み中...</p>
-      </div>
-    </div>
-  </section>
-  <script>
-  (function() {
-    var placeholder = document.querySelector('.giscus-placeholder');
-    if (!placeholder) return;
-    var observer = new IntersectionObserver(function(entries) {
-      entries.forEach(function(entry) {
-        if (entry.isIntersecting) {
-          observer.disconnect();
-          try {
-            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
-            var script = document.createElement('script');
-            script.src = 'https://giscus.app/client.js';
-            script.setAttribute('data-repo', config.repo);
-            script.setAttribute('data-repo-id', config.repoId);
-            script.setAttribute('data-category', config.category);
-            script.setAttribute('data-category-id', config.categoryId);
-            script.setAttribute('data-mapping', config.mapping);
-            script.setAttribute('data-strict', '0');
-            script.setAttribute('data-reactions-enabled', '1');
-            script.setAttribute('data-emit-metadata', '0');
-            script.setAttribute('data-input-position', 'bottom');
-            script.setAttribute('data-theme', config.theme);
-            script.setAttribute('crossorigin', 'anonymous');
-            script.async = true;
-            placeholder.innerHTML = '';
-            placeholder.appendChild(script);
-          } catch (e) {
-            console.error('Failed to load Giscus comments:', e);
-            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
-          }
-        }
-      });
-    }, { rootMargin: '200px' });
-    observer.observe(placeholder);
-  })();
-  </script>
+         
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="目次を開く">

@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GoF Design Patterns - Prototype | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A practical guide to the Prototype pattern from the GoF collection： concept, when to use it, C++ and Python examples, implementation notes and references." />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00030.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00030.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00030.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00030.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00030.html"
+  },
+  "headline": "GoF Design Patterns - Prototype",
+  "description": "A practical guide to the Prototype pattern from the GoF collection： concept, when to use it, C++ and Python examples, implementation notes and references.",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-01-27T00:00:00.000Z",
+  "dateModified": "2026-01-27T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoF Design Patterns - Prototype",
+      "item": "https://breadmotion.github.io/WebSite/blog/en/blog_00030.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoF Design Patterns - Prototype | PanKUN Blog" />
+    <meta property="og:description" content="A practical guide to the Prototype pattern from the GoF collection： concept, when to use it, C++ and Python examples, implementation notes and references." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00030.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00030">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoF Design Patterns - Prototype</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/01/27 / Coding</p>
+                <h1 class="post-detail__title">GoF Design Patterns - Prototype</h1>
+                <p class="post-detail__description">A practical guide to the Prototype pattern from the GoF collection： concept, when to use it, C++ and Python examples, implementation notes and references.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=Coding">Coding</a> <a class="tag" href="../../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html&text=GoF%20Design%20Patterns%20-%20Prototype" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00030" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00030" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m Pan-kun.</p>
+<p>This article covers the Prototype pattern from the GoF (Gang of Four) collection.<br>It provides practical guidance: conceptual overview, C++/Python sample code, when to use the pattern, and implementation cautions.</p>
+<h2 id="introduction">Introduction</h2><p>The Prototype pattern is a creational design pattern that creates new objects by copying an existing instance (a prototype). It can be useful when object construction is costly or when it&#39;s inconvenient to determine the concrete class at creation time.</p>
+<p>Here is the definition from Wikipedia:</p>
+<blockquote>
+<p>&quot;In software engineering, the prototype pattern is a creational design pattern in which new objects are created by copying a prototypical instance.&quot;<br>(Source: <a href="https://en.wikipedia.org/wiki/Prototype_pattern">https://en.wikipedia.org/wiki/Prototype_pattern</a>)</p>
+</blockquote>
+<p>The core idea is to use cloning to produce new objects. This is especially effective for objects with expensive initialization or when the concrete type is unknown or variable at runtime.</p>
+<p><a href="https://en.wikipedia.org/wiki/Prototype_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Prototype pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<h2 id="structure-participants">Structure (Participants)</h2><p>A typical composition includes:</p>
+<ul>
+<li><code>Prototype</code>: Provides the interface for cloning (e.g., <code>Clone()</code>).</li>
+<li><code>ConcretePrototype</code>: Concrete classes that implement cloning and adjust copy semantics (deep vs. shallow).</li>
+<li><code>Client</code>: Obtains new instances by calling <code>Prototype::Clone()</code> (or <code>clone()</code>).</li>
+<li><code>PrototypeRegistry</code> (optional): Manages prototypes by name/key so clients can request clones at runtime.</li>
+</ul>
+<p>A simple class diagram (conceptual):</p>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Prototype {
+        &lt;&lt;interface&gt;&gt;
+        +Clone() Prototype*
+    }
+
+    class ConcretePrototypeA
+    class ConcretePrototypeB
+    Prototype &lt;|-- ConcretePrototypeA
+    Prototype &lt;|-- ConcretePrototypeB
+
+    class Client {
+        +CreateFromPrototype(Prototype*) Prototype*
+    }
+
+    Client ..&gt; Prototype : uses
+    Client ..&gt; ConcretePrototypeA : clones
+    Client ..&gt; ConcretePrototypeB : clones</div></div><h2 id="pros--cons">Pros / Cons</h2><p>Pros</p>
+<ul>
+<li>Avoids costly initialization by cloning an existing instance.</li>
+<li>Allows creating objects without knowing their concrete classes at runtime (polymorphic cloning).</li>
+<li>Can be dynamically reconfigured by swapping prototypes (runtime flexibility).</li>
+</ul>
+<p>Cons</p>
+<ul>
+<li>Implementing correct cloning semantics (deep vs. shallow) can be tricky, especially with shared resources.</li>
+<li>Managing object identity (IDs, handles) after cloning requires clear rules.</li>
+<li>If cloning can be easily achieved via serialization/deserialization or simple copy constructors, the pattern may be unnecessary.</li>
+</ul>
+<h2 id="example-c-recommended-approach">Example: C++ (recommended approach)</h2><p>In C++ a common practice is to have <code>virtual std::unique_ptr&lt;Prototype&gt; Clone() const</code> so that cloning returns clear ownership. Below is a compact learning example.</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;string&gt;
+#include &lt;unordered_map&gt;
+
+// Prototype base
+class Prototype {
+public:
+    virtual ~Prototype() = default;
+    // Return a new ownership-bearing clone
+    virtual std::unique_ptr&lt;Prototype&gt; Clone() const = 0;
+    virtual void Show() const = 0;
+};
+
+// Concrete prototype (example with deep-copy semantics)
+class ConcretePrototype : public Prototype {
+public:
+    ConcretePrototype(const std::string&amp; name, int data)
+        : name_(name), data_(new int(data)) {}
+
+    // Copy constructor: deep copy
+    ConcretePrototype(const ConcretePrototype&amp; other)
+        : name_(other.name_), data_(new int(*other.data_)) {}
+
+    // Clone uses the copy constructor to produce a deep copy
+    std::unique_ptr&lt;Prototype&gt; Clone() const override {
+        return std::make_unique&lt;ConcretePrototype&gt;(*this);
+    }
+
+    void Show() const override {
+        std::cout &lt;&lt; &quot;ConcretePrototype name=&quot; &lt;&lt; name_ &lt;&lt; &quot; data=&quot; &lt;&lt; *data_ &lt;&lt; &quot;\n&quot;;
+    }
+
+    ~ConcretePrototype() { delete data_; }
+
+private:
+    std::string name_;
+    int* data_; // Simplified: prefer smart pointers in production
+};
+
+// Optional: a registry to hold prototype instances
+class PrototypeRegistry {
+public:
+    void Register(const std::string&amp; key, std::unique_ptr&lt;Prototype&gt; prototype) {
+        registry_[key] = std::move(prototype);
+    }
+
+    std::unique_ptr&lt;Prototype&gt; Create(const std::string&amp; key) const {
+        auto it = registry_.find(key);
+        if (it != registry_.end()) {
+            return it-&gt;second-&gt;Clone();
+        }
+        return nullptr;
+    }
+
+private:
+    std::unordered_map&lt;std::string, std::unique_ptr&lt;Prototype&gt;&gt; registry_;
+};
+
+int main() {
+    PrototypeRegistry registry;
+    registry.Register(&quot;protoA&quot;, std::make_unique&lt;ConcretePrototype&gt;(&quot;A&quot;, 100));
+
+    auto p1 = registry.Create(&quot;protoA&quot;);
+    auto p2 = registry.Create(&quot;protoA&quot;);
+
+    if (p1) p1-&gt;Show(); // ConcretePrototype name=A data=100
+    if (p2) p2-&gt;Show(); // ConcretePrototype name=A data=100
+
+    // p1 and p2 are independent objects if deep copy is implemented correctly
+    return 0;
+}</code></pre></figure><p>Key points</p>
+<ul>
+<li><code>Clone()</code> should always return a newly owned object (here via <code>std::unique_ptr</code>) so the caller controls lifetime.</li>
+<li>Implement deep copy for members that must not be shared (dynamic arrays, raw pointers, external handles).</li>
+<li>Prefer <code>std::unique_ptr</code> / <code>std::shared_ptr</code> over raw pointers in production code.</li>
+</ul>
+<h2 id="example-python-lightweight">Example: Python (lightweight)</h2><p>In Python you can use the <code>copy</code> module or implement a <code>clone()</code> method. This example demonstrates deep copy.</p>
+<figure class="code-block" data-lang="python"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Python</span></div><pre><code class="language-python">import copy
+from abc import ABC, abstractmethod
+
+class Prototype(ABC):
+    @abstractmethod
+    def clone(self):
+        pass
+
+class ConcretePrototype(Prototype):
+    def __init__(self, name, data):
+        self.name = name
+        self.data = data  # mutable object assumed
+
+    def clone(self):
+        # choose between shallow and deep copy as needed
+        # return copy.copy(self)    # shallow copy
+        return copy.deepcopy(self)  # deep copy
+
+    def show(self):
+        print(f&quot;ConcretePrototype name={self.name} data={self.data}&quot;)
+
+if __name__ == &quot;__main__&quot;:
+    proto = ConcretePrototype(&quot;pyA&quot;, {&quot;k&quot;: [1,2,3]})
+    c1 = proto.clone()
+    c2 = proto.clone()
+    c1.show()
+    c2.show()</code></pre></figure><p>You can customize cloning behavior by implementing <code>__copy__</code> / <code>__deepcopy__</code>.</p>
+<h2 id="implementation-notes-must-check-items">Implementation Notes (must-check items)</h2><ul>
+<li>Clarify deep vs. shallow copying boundaries. Define which resources should be shared (reference-counted) and which must be duplicated.</li>
+<li>External resources (files, sockets, DB connections) often cannot be trivially copied; provide reinitialization or reconnection logic in clones.</li>
+<li>Object identity: if IDs or handles must be unique, assign new IDs after cloning.</li>
+<li>Thread safety: if prototypes are shared and cloned concurrently, protect registry/state with appropriate synchronization.</li>
+<li>Consider serialization/deserialization as an alternative cloning mechanism when appropriate.</li>
+</ul>
+<h2 id="when-to-use--alternatives">When to Use / Alternatives</h2><p>When to use (guidelines)</p>
+<ul>
+<li>When initialization is expensive and you can prepare a prototype once and clone it many times.</li>
+<li>When you need many similar variations derived from a base instance.</li>
+<li>When concrete types are dynamic at runtime and you want to avoid enumerating types in factories.</li>
+</ul>
+<p>Alternatives</p>
+<ul>
+<li>If a simple copy constructor suffices, you may not need the full pattern.</li>
+<li>Use <code>Factory Method</code> / <code>Abstract Factory</code> when you want centralized, controlled object creation rather than cloning.</li>
+<li>Serialization / deserialization can sometimes be used to create independent copies.</li>
+</ul>
+<h2 id="impact-assessment-required">Impact Assessment (required)</h2><p>Before adopting Prototype, confirm:</p>
+<ul>
+<li>How copies handle state that crosses API boundaries—ensure compatibility for serialization and external contracts.</li>
+<li>Whether cloned objects need new identity semantics (IDs, handles).</li>
+<li>Thread-safety of prototype registration and clone operations.</li>
+</ul>
+<p>Document these decisions in design docs, tests, and API contracts.</p>
+<h2 id="conclusion">Conclusion</h2><ul>
+<li>The Prototype pattern uses cloning to produce new objects and can reduce initialization cost and increase runtime flexibility.</li>
+<li>Pay careful attention to copy semantics, external resources, identity, and concurrency.</li>
+<li>In C++, returning <code>std::unique_ptr</code> from <code>Clone()</code> is a practical design; in dynamic languages like Python, the <code>copy</code> module or custom <code>clone()</code> implementations are convenient.</li>
+</ul>
+<p>References (primary)</p>
+<p><a href="https://en.wikipedia.org/wiki/Prototype_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Prototype pattern - Wikipedia</span><span class="og-description"></span></span></a><br>&quot;In software engineering, the prototype pattern is a creational design pattern in which new objects are created by copying a prototypical instance.&quot;<br>(Source: <a href="https://en.wikipedia.org/wiki/Prototype_pattern">https://en.wikipedia.org/wiki/Prototype_pattern</a>)</p>
+<p>(Secondary) For C++ copy/move semantics and smart pointers, consult the official reference:<br><a href="https://en.cppreference.com/" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">cppreference.com</span><span class="og-description"></span></span></a></p>
+<p>That&#39;s it — I&#39;ll cover another GoF pattern next time. The sample code here is simplified for learning; evaluate and adapt thoroughly before using in production.</p>
+<p>— Pan-kun!</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html&text=GoF%20Design%20Patterns%20-%20Prototype" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00030.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00030" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00030" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00028.html" class="btn btn--prev">← GoF Design Pa…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a><a href="blog_00029.html" class="btn btn--next">GoF Design Pa… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#introduction" data-no-preview>Introduction</a></li><li class="toc-item toc-item--level-2"><a href="#structure-participants" data-no-preview>Structure (Participants)</a></li><li class="toc-item toc-item--level-2"><a href="#pros--cons" data-no-preview>Pros / Cons</a></li><li class="toc-item toc-item--level-2"><a href="#example-c-recommended-approach" data-no-preview>Example: C++ (recommended approach)</a></li><li class="toc-item toc-item--level-2"><a href="#example-python-lightweight" data-no-preview>Example: Python (lightweight)</a></li><li class="toc-item toc-item--level-2"><a href="#implementation-notes-must-check-items" data-no-preview>Implementation Notes (must-check items)</a></li><li class="toc-item toc-item--level-2"><a href="#when-to-use--alternatives" data-no-preview>When to Use / Alternatives</a></li><li class="toc-item toc-item--level-2"><a href="#impact-assessment-required" data-no-preview>Impact Assessment (required)</a></li><li class="toc-item toc-item--level-2"><a href="#conclusion" data-no-preview>Conclusion</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00030"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  </body>
+</html>
