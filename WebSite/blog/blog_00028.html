@@ -404,12 +404,10 @@ s0.Say();</code></pre></figure><h2 id="使用するタイミングと代替ア�
 <li><strong>グローバル状態化</strong> : 隠れた依存関係が増え、テストやリファクタリングが困難になる</li>
 <li><strong>ライフサイクル管理の不明確さ</strong> : プログラム終了時のリソース解放や順序問題、静的オブジェクト同士の依存関係に注意</li>
 </ul>
-<h2 id="まとめ">まとめ</h2><ul>
-<li>シングルトンは「ただ1つのインスタンス」を保証する便利なパターンだが、設計上のトレードオフを必ず考慮する必要があります</li>
-<li>C++ では C++11 以降の関数内静的変数（Meyers'）がお手軽で安全な実装方法の一つである</li>
-<li>明示的な制御が必要な場合は <code>std::call_once</code> を使うと良い</li>
-<li>大規模なシステムやテスト性が重視されるシステムでは、依存性注入やファクトリなどの手法を検討することを推奨する</li>
-</ul>
+<h2 id="まとめ">まとめ</h2><p>シングルトンは「ただ1つのインスタンス」を保証する便利なパターンだが、設計上のトレードオフを必ず考慮する必要があります。
+C++ では C++11 以降の関数内静的変数（Meyers'）がお手軽で安全な実装方法の一つです。
+明示的な制御が必要な場合は <code>std::call_once</code> を使うと良いでしょう。
+大規模なシステムやテスト性が重視されるシステムでは、依存性注入やファクトリなどの手法を検討することを推奨します。</p>
 <p>参考・出典を記します</p>
 <p><a href="https://en.wikipedia.org/wiki/Singleton_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Singleton_UML_class_diagram.svg/1280px-Singleton_UML_class_diagram.svg.png" alt="Singleton pattern - Wikipedia" loading="lazy"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Singleton pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
 <p><a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">Storage class specifiers - cppreference.com</span><span class="og-description"></span></span></a></p>
@@ -478,7 +476,50 @@ s0.Say();</code></pre></figure><h2 id="使用するタイミングと代替ア�
           <h2 class="section__title">おすすめ記事</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
-         
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="目次を開く">
