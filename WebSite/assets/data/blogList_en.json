@@ -1,10 +1,10 @@
 [
   {
     "id": "blog_00031",
-    "title": "GoFデザインパターン - 抽象ファクトリ編",
+    "title": "GoF Design Patterns - Abstract Factory",
     "date": "2026-02-03T00:00:00.000Z",
     "category": "Coding",
-    "description": "GoFコレクションにおける抽象ファクトリパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "description": "A practical guide to the Abstract Factory pattern from the GoF collection： concept, when to use it, a C++ implementation example, caveats, and references.",
     "tags": [
       "Coding",
       "DesignPattern"
