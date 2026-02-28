@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00032",
+    "title": "GoF Design Patterns - Builder",
+    "date": "2026-02-04T00:00:00.000Z",
+    "category": "Coding",
+    "description": "A practical guide to the Builder pattern from the GoF collection：concepts, when to use it, a C++ implementation example, caveats, and sources.",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/en/blog_00032.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00031",
     "title": "GoF Design Patterns - Abstract Factory",
     "date": "2026-02-03T00:00:00.000Z",
