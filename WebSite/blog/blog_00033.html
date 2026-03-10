@@ -1,0 +1,382 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <title>GoFデザインパターン - アダプタ編 | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GoFコレクションにおけるアダプタパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00033.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00033.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00033.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00033.html">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00033.html"
+  },
+  "headline": "GoFデザインパターン - アダプタ編",
+  "description": "GoFコレクションにおけるアダプタパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-02-04T00:00:00.000Z",
+  "dateModified": "2026-02-04T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoFデザインパターン - アダプタ編",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00033.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoFデザインパターン - アダプタ編 | PanKUN Blog">
+    <meta property="og:description" content="GoFコレクションにおけるアダプタパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00033.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  </head>
+  <body data-page="blog" data-post-id="blog_00033">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoFデザインパターン - アダプタ編</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/02/04 / Coding</p>
+                <h1 class="post-detail__title">GoFデザインパターン - アダプタ編</h1>
+                <p class="post-detail__description">GoFコレクションにおけるアダプタパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=Coding">Coding</a> <a class="tag" href="../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%A2%E3%83%80%E3%83%97%E3%82%BF%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00033" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00033" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは、パン君です。</p>
+<p>今回は GoF（Gang of Four）のデザインパターンのアダプタ編になります。<br>サンプルコード（C++）、作り方、使うタイミング、注意点、mermaid図による可視化などを含めて実用的に解説します。  </p>
+<h2 id="はじめに">はじめに</h2><p>アダプタは互換性のないインターフェース同士をつなぐ ラッパー を提供し、クライアントが期待するインターフェースに既存のクラスを適合させるためのデザインパターンです。</p>
+<p>利点としては<br>既存コードや外部ライブラリを変更せずに新しいインターフェースへ適合できることです。</p>
+<p>欠点は<br>ラッパーが増えると設計が分散し可読性や保守性の低下を招くことです。<br>また、間接化によるランタイムのコスト増も発生します。</p>
+<h2 id="ユースケース">ユースケース</h2><p>代表的に下記のようなケースで作成されるパターンです。　　</p>
+<ul>
+<li>古い API / ライブラリを新しいアプリケーションインターフェースに統合したいとき。  </li>
+<li>異なるモジュール間でインターフェースの不一致があるが、既存実装を変更できないとき。  </li>
+<li>テスト時に実装を差し替えるための薄い境界を作りたいとき（ただし Mock を使える場合はそちらの方が簡潔な場合もある）。</li>
+</ul>
+<h2 id="構造">構造</h2><p>Adapter は Target のインターフェースを実装し、内部で Adaptee の操作を呼び出して必要な変換を行います。</p>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Target {
+        &lt;&lt;interface&gt;&gt;
+        +request()
+    }
+    class Adaptee {
+        +specificRequest(params)
+    }
+    class Adapter {
+        +Adapter(adaptee)
+        +request()
+    }
+    Target &lt;|.. Adapter
+    Adapter o-- Adaptee : adapts</div></div><h2 id="c-実装パターン">C++ 実装パターン</h2><p>以下は簡潔な C++ の例です。</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// 例: クライアントは Target::request() を使うことを期待している
+struct Target {
+    virtual ~Target() = default;
+    virtual void request() = 0; // クライアントが期待するメソッド
+};
+
+// 既存の（変更できない）クラス
+class Adaptee {
+public:
+    void specificRequest(const std::string&amp; params) {
+        // 既存 API の複雑な呼び出し
+        std::cout &lt;&lt; "Adaptee::specificRequest with " &lt;&lt; params &lt;&lt; std::endl;
+    }
+};
+
+// Adapter: Target を実装しつつ Adaptee を適合させる
+class Adapter : public Target {
+public:
+    explicit Adapter(std::shared_ptr&lt;Adaptee&gt; adaptee)
+        : adaptee_(std::move(adaptee)) {}
+
+    void request() override {
+        // 必要な変換を行ってから adaptee を呼ぶ
+        std::string translated = translate();
+        adaptee_-&gt;specificRequest(translated);
+    }
+
+private:
+    std::string translate() {
+        // 実際の変換ロジック。ここでは単純化。
+        return "translated-params";
+    }
+
+    std::shared_ptr&lt;Adaptee&gt; adaptee_;
+};
+
+// main.cpp
+auto adaptee = std::make_shared&lt;Adaptee&gt;();
+std::unique_ptr&lt;Target&gt; target = std::make_unique&lt;Adapter&gt;(adaptee);
+target-&gt;request(); // クライアントは Target のみを意識する</code></pre></figure><p>ポイントとして<br>必要に応じてデータ形式の変換、エラーハンドリング、複数メソッドのマッピングを行うようにしましょう。<br>また、継承ベースと委譲ベースがありますが、ユースケースに寄って使い分けしてください。<br>端的に説明すると、継承ベースはクラスの継承を活用し、委譲ベースはインターフェースの実装です。  </p>
+<h2 id="実装上の注意点">実装上の注意点</h2><ol>
+<li>単純な変換に留める<br>Adapter に過度のロジックやビジネスルールを詰め込みすぎると責務が肥大化します。<br>可能なら変換ロジックは別モジュールに切り出しましょう。  </li>
+<li>所有権とライフサイクルを明確にする<br>C++ ではポインタの種類により Adapter と Adaptee の関係が変わります。<br>リーク・二重解放を避けるために明示的に管理しましょう。    </li>
+<li>パフォーマンスの考慮<br>頻繁に呼ばれるパスで重い変換を行うと性能ボトルネックになります。<br>必要なら変換済みキャッシュを検討しましょう。    </li>
+<li>テストしやすさを保つ<br>Adapter を薄く保つことで単体テストが簡単になります。<br>Adaptee をモック可能にしておくと良いです。    </li>
+<li>ログ・エラーハンドリングを整備する</li>
+</ol>
+<h2 id="よくあるアンチパターン">よくあるアンチパターン</h2><p>下記はこのデザインパターンを利用する際に起きる悪い例です。</p>
+<ul>
+<li>Adapter に大量のドメインロジックを入れる。  </li>
+<li>プロジェクト全体で無差別に Adapter 層を追加してしまい、呼び出しチェーンが深くなる。  </li>
+<li>変換で失われる意味や例外ケースを無視する。</li>
+</ul>
+<h2 id="実務での採用判断チェックリスト">実務での採用判断チェックリスト</h2><ul>
+<li>既存コードを直接変更できないか？（変更不可なら Adapter が妥当）  </li>
+<li>変換ロジックは単純か？ 複雑なら中間サービスやファサードでの整理が必要か？  </li>
+<li>頻度・性能要件は許容できるか？（変換コストが高ければ別設計を検討）  </li>
+<li>テスト戦略は確立できるか？（Mock や Integration テストの整備）</li>
+</ul>
+<h2 id="まとめ">まとめ</h2><p>アダプタは「互換性のないインターフェースを橋渡しする」ための実用的かつよく使われるパターンです。<br>ただし、Adapter を安易に量産すると設計が複雑化するため、責務を明確にし変換ロジックを局所化して使うことが重要です。<br>実装では所有権、例外・エラー、性能、テストのしやすさを特に注意してください。  </p>
+<p>参考・出典を記します</p>
+<p><a href="https://sourcemaking.com/design_patterns/adapter" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://sourcemaking.com/files/v2/content/home-tb1.png?id=944b161223408e06c3c65387c36a96ea" alt="Design Patterns and Refactoring" loading="lazy"></span><span class="og-content"><span class="og-site">sourcemaking.com</span><span class="og-title">Design Patterns and Refactoring</span><span class="og-description">Design Patterns and Refactoring articles and guides. Design Patterns video tutorials for newbies. Simple descriptions and full source code examples in Java, C++, C#, PHP and Delphi.</span></span></a></p>
+<p><a href="https://en.wikipedia.org/wiki/Adapter_pattern " class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Adapter pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p>それでは、次回は別の GoF パターンについても解説していきます。<br>この記事で紹介した実装は学習目的に簡素化しています。<br>実プロダクションで採用する際は要件に合わせて十分に検討してください。  </p>
+<p>以上、パン君でした！</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%A2%E3%83%80%E3%83%97%E3%82%BF%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00033.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00033" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00033" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00029.html" class="btn btn--prev">← GoFデザインパターン -…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00032.html" class="btn btn--next">GoFデザインパターン -… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#ユースケース" data-no-preview="">ユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#構造" data-no-preview="">構造</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装パターン" data-no-preview="">C++ 実装パターン</a></li><li class="toc-item toc-item--level-2"><a href="#実装上の注意点" data-no-preview="">実装上の注意点</a></li><li class="toc-item toc-item--level-2"><a href="#よくあるアンチパターン" data-no-preview="">よくあるアンチパターン</a></li><li class="toc-item toc-item--level-2"><a href="#実務での採用判断チェックリスト" data-no-preview="">実務での採用判断チェックリスト</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00033"};</script>
+
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  
+</body></html>

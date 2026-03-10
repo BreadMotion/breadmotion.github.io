@@ -14,6 +14,20 @@
     "recommended": true
   },
   {
+    "id": "blog_00033",
+    "title": "GoFデザインパターン - アダプタ編",
+    "date": "2026-02-04T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるアダプタパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00033.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00029",
     "title": "GoFデザインパターン - ファクトリメソッド編",
     "date": "2026-01-27T00:00:00.000Z",
