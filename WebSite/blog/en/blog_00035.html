@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GoF Design Patterns - Composite Pattern | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A practical guide to the Composite Pattern from the GoF collection, covering concepts, use cases, C++ implementation examples, caveats, and references." />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00035.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00035.html"
+  },
+  "headline": "GoF Design Patterns - Composite Pattern",
+  "description": "A practical guide to the Composite Pattern from the GoF collection, covering concepts, use cases, C++ implementation examples, caveats, and references.",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-02-18T00:00:00.000Z",
+  "dateModified": "2026-02-18T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoF Design Patterns - Composite Pattern",
+      "item": "https://breadmotion.github.io/WebSite/blog/en/blog_00035.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoF Design Patterns - Composite Pattern | PanKUN Blog" />
+    <meta property="og:description" content="A practical guide to the Composite Pattern from the GoF collection, covering concepts, use cases, C++ implementation examples, caveats, and references." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00035">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoF Design Patterns - Composite Pattern</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/02/18 / Coding</p>
+                <h1 class="post-detail__title">GoF Design Patterns - Composite Pattern</h1>
+                <p class="post-detail__description">A practical guide to the Composite Pattern from the GoF collection, covering concepts, use cases, C++ implementation examples, caveats, and references.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=Coding">Coding</a> <a class="tag" href="../../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html&text=GoF%20Design%20Patterns%20-%20Composite%20Pattern" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00035" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00035" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! I&#39;m Pan-kun.</p>
+<p>In this article, we will discuss the Composite Pattern from the GoF (Gang of Four) design patterns.
+I will provide a practical explanation, including sample code in C++, when to use it, how to implement it, and important caveats.</p>
+<h2 id="introduction">Introduction</h2><p>The Composite Pattern is a structural design pattern that allows you to <strong>treat individual objects and compositions of objects uniformly</strong>.
+When dealing with recursive structures, such as a file system (folders and files), it enables clients to manipulate individual elements and composed elements without distinguishing between them.</p>
+<blockquote>
+<p>The Composite pattern is a design pattern used in software engineering, defined by the GoF (Gang of Four).
+It describes a group of objects that are treated the same way as a single instance of the same type of object, particularly for elements of a tree structure.</p>
+<p>Source: <a href="https://en.wikipedia.org/wiki/Composite_pattern">Composite pattern - Wikipedia</a></p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Composite_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Composite pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<h2 id="use-cases">Use Cases</h2><p>Here are a few examples of situations where you should consider adopting this pattern:</p>
+<ul>
+<li><strong>When you need to handle tree-structured data</strong>
+It is well-suited for representing data with hierarchical structures, such as file systems, GUI widgets, or organizational charts.</li>
+<li><strong>When client code needs to treat &quot;parts&quot; and &quot;wholes&quot; uniformly</strong>
+This is useful when you want to execute operations on a single object and operations on a collection of objects using the exact same interface.</li>
+<li><strong>When you want to write recursive processing concisely</strong>
+It makes it easier to implement processes that uniformly propagate operations recursively across complex tree structures.</li>
+</ul>
+<h2 id="structure">Structure</h2><p>To implement the Composite pattern, you need classes that fulfill the following three roles:</p>
+<ol>
+<li><strong>Component</strong><ul>
+<li>Defines the common interface for all elements (both Leaves and Composites).</li>
+<li>The client manipulates the elements through this interface.</li>
+</ul>
+</li>
+<li><strong>Leaf</strong><ul>
+<li>An element at the end of the tree that has no child elements.</li>
+<li>Implements the actual behavior of the Component interface.</li>
+</ul>
+</li>
+<li><strong>Composite</strong><ul>
+<li>An element that contains child elements (Leaves or other Composites).</li>
+<li>It has methods for managing child elements (such as adding and removing) and delegates Component interface operations to its children.</li>
+</ul>
+</li>
+</ol>
+<p>The following UML diagram illustrates these relationships.
+Because both <strong>Leaf</strong> and <strong>Composite</strong> implement the same <strong>Component</strong> interface, a recursive structure is formed.</p>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Component {
+        &lt;&lt;interface&gt;&gt;
+        +operation()
+        +add(Component)
+        +remove(Component)
+        +getChild(int)
+    }
+
+    class Leaf {
+        +operation()
+    }
+
+    class Composite {
+        -children : List&lt;Component&gt;
+        +operation()
+        +add(Component)
+        +remove(Component)
+        +getChild(int)
+    }
+
+    Component &lt;|-- Leaf
+    Component &lt;|-- Composite
+    Composite o-- Component</div></div><h2 id="c-implementation-example">C++ Implementation Example</h2><p>Let us use a file system (directories and files) as an example.
+We will treat <strong>files</strong> (Leaf) and <strong>directories</strong> (Composite) uniformly to perform operations such as calculating sizes.</p>
+<p>This allows us to recursively calculate the size, regardless of whether a directory contains files or even further nested directories.</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;memory&gt;
+
+// Component: Common interface for files and directories
+class FileSystemUnit {
+protected:
+    std::string name;
+
+public:
+    FileSystemUnit(const std::string&amp; name) : name(name) {}
+    virtual ~FileSystemUnit() = default;
+
+    // Common operations
+    virtual int getSize() const = 0;
+    virtual void printList(const std::string&amp; prefix = &quot;&quot;) const = 0;
+
+    // Child element management (does nothing or throws an error by default)
+    virtual void add(std::shared_ptr&lt;FileSystemUnit&gt; unit) {
+        // Not supported by Leaf, so the default implementation can be empty or throw an exception
+    }
+};
+
+// Leaf: Individual file
+class File : public FileSystemUnit {
+private:
+    int size;
+
+public:
+    File(const std::string&amp; name, int size) : FileSystemUnit(name), size(size) {}
+
+    int getSize() const override {
+        return size;
+    }
+
+    void printList(const std::string&amp; prefix = &quot;&quot;) const override {
+        std::cout &lt;&lt; prefix &lt;&lt; &quot;/&quot; &lt;&lt; name &lt;&lt; &quot; (&quot; &lt;&lt; size &lt;&lt; &quot;KB)&quot; &lt;&lt; std::endl;
+    }
+};
+
+// Composite: Directory
+class Directory : public FileSystemUnit {
+private:
+    std::vector&lt;std::shared_ptr&lt;FileSystemUnit&gt;&gt; children;
+
+public:
+    Directory(const std::string&amp; name) : FileSystemUnit(name) {}
+
+    int getSize() const override {
+        int totalSize = 0;
+        for (const auto&amp; child : children) {
+            totalSize += child-&gt;getSize();
+        }
+        return totalSize;
+    }
+
+    void printList(const std::string&amp; prefix = &quot;&quot;) const override {
+        std::cout &lt;&lt; prefix &lt;&lt; &quot;/&quot; &lt;&lt; name &lt;&lt; &quot; (Total: &quot; &lt;&lt; getSize() &lt;&lt; &quot;KB)&quot; &lt;&lt; std::endl;
+        for (const auto&amp; child : children) {
+            child-&gt;printList(prefix + &quot;/&quot; + name);
+        }
+    }
+
+    void add(std::shared_ptr&lt;FileSystemUnit&gt; unit) override {
+        children.push_back(unit);
+    }
+};
+
+int main() {
+    // Create directory structure
+    auto root = std::make_shared&lt;Directory&gt;(&quot;root&quot;);
+    auto bin = std::make_shared&lt;Directory&gt;(&quot;bin&quot;);
+    auto tmp = std::make_shared&lt;Directory&gt;(&quot;tmp&quot;);
+    auto usr = std::make_shared&lt;Directory&gt;(&quot;usr&quot;);
+
+    auto vi = std::make_shared&lt;File&gt;(&quot;vi&quot;, 100);
+    auto latex = std::make_shared&lt;File&gt;(&quot;latex&quot;, 200);
+
+    root-&gt;add(bin);
+    root-&gt;add(tmp);
+    root-&gt;add(usr);
+
+    bin-&gt;add(vi);
+    bin-&gt;add(latex);
+    
+    // Deeper hierarchy
+    auto local = std::make_shared&lt;Directory&gt;(&quot;local&quot;);
+    usr-&gt;add(local);
+    local-&gt;add(std::make_shared&lt;File&gt;(&quot;myscript.sh&quot;, 10));
+
+    // Display the entire structure and calculate the size
+    // The client can manipulate 'root' without worrying whether it is a Composite or a Leaf
+    std::cout &lt;&lt; &quot;--- File System List ---&quot; &lt;&lt; std::endl;
+    root-&gt;printList();
+    
+    return 0;
+}
+
+// Execution result
+// --- File System List ---
+// /root (Total: 310KB)
+// /root/bin (Total: 300KB)
+// /root/bin/vi (100KB)
+// /root/bin/latex (200KB)
+// /root/tmp (Total: 0KB)
+// /root/usr (Total: 10KB)
+// /root/usr/local (Total: 10KB)
+// /root/usr/local/myscript.sh (10KB)</code></pre></figure><p>In this example, <code>FileSystemUnit</code> acts as the Component, while <code>File</code> and <code>Directory</code> act as the Leaf and Composite, respectively.
+<code>Directory::getSize()</code> calls the <code>getSize()</code> method of its child elements, and this process occurs recursively to calculate the total size.</p>
+<h2 id="advantages-and-disadvantages">Advantages and Disadvantages</h2><h3 id="advantages">Advantages</h3><ul>
+<li><strong>Simplification of Client Code</strong>
+The client does not need to distinguish between individual objects and composite objects. You can reduce conditional branching (such as if-else or switch statements) and write code that leverages polymorphism.</li>
+<li><strong>Ease of Adding New Element Types</strong>
+Even if you add new Leaf or Composite classes, there is almost no need to modify existing code (adhering to the Open/Closed Principle).</li>
+<li><strong>Expressiveness for Recursive Structures</strong>
+Complex tree structures can be represented intuitively, and operations on the entire structure can be implemented effortlessly.</li>
+</ul>
+<h3 id="disadvantages">Disadvantages</h3><ul>
+<li><strong>Overgeneralization of Design</strong>
+The Component interface may include methods (such as <code>add</code> or <code>remove</code>) that are meaningless for a Leaf. This can potentially compromise some degree of type safety (requiring careful consideration of the Liskov Substitution Principle).</li>
+<li><strong>Difficulty in Enforcing Constraints</strong>
+If you want to restrict a Composite to only hold certain types of child elements, static type checking alone is often insufficient, and runtime checks may become necessary.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2><p>The Composite pattern is an extremely powerful design pattern when dealing with <strong>recursive tree structures</strong>.
+By treating &quot;parts&quot; and &quot;wholes&quot; uniformly, you can consistently perform operations on complex structures while keeping the client code simple.</p>
+<p>However, how to handle child management methods for a Leaf (e.g., whether to throw an exception or do nothing) is a design trade-off, so it is necessary to make appropriate decisions based on your specific requirements.</p>
+<p>References and sources are listed below:</p>
+<p><a href="https://refactoring.guru/design-patterns/composite" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://refactoring.guru/images/refactoring/social/facebook-share-preview.png?id=dbf9e98269595be86eb668f365be6868" alt="Composite" loading="lazy"></span><span class="og-content"><span class="og-site">refactoring.guru</span><span class="og-title">Composite</span><span class="og-description">Composite is a structural design pattern that lets you compose objects into tree structures and then work with these structures as if they were individual objects.</span></span></a></p>
+<p>I will explain another GoF pattern in the next article.
+Please note that the implementation introduced in this article has been simplified for educational purposes.
+When adopting it in a production environment, please thoroughly consider your requirements.</p>
+<p>Thanks for reading — Pan-kun!</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html&text=GoF%20Design%20Patterns%20-%20Composite%20Pattern" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00035.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00035" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00035" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00034.html" class="btn btn--prev">← GoF Design Pa…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#introduction" data-no-preview>Introduction</a></li><li class="toc-item toc-item--level-2"><a href="#use-cases" data-no-preview>Use Cases</a></li><li class="toc-item toc-item--level-2"><a href="#structure" data-no-preview>Structure</a></li><li class="toc-item toc-item--level-2"><a href="#c-implementation-example" data-no-preview>C++ Implementation Example</a></li><li class="toc-item toc-item--level-2"><a href="#advantages-and-disadvantages" data-no-preview>Advantages and Disadvantages</a></li><li class="toc-item toc-item--level-3"><a href="#advantages" data-no-preview>Advantages</a></li><li class="toc-item toc-item--level-3"><a href="#disadvantages" data-no-preview>Disadvantages</a></li><li class="toc-item toc-item--level-2"><a href="#conclusion" data-no-preview>Conclusion</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00035"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  </body>
+</html>

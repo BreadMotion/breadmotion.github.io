@@ -1,0 +1,479 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <title>GoFデザインパターン - コンポジット編 | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GoFコレクションにおけるコンポジットパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00035.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00035.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00035.html">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00035.html"
+  },
+  "headline": "GoFデザインパターン - コンポジット編",
+  "description": "GoFコレクションにおけるコンポジットパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-02-18T00:00:00.000Z",
+  "dateModified": "2026-02-18T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoFデザインパターン - コンポジット編",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00035.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoFデザインパターン - コンポジット編 | PanKUN Blog">
+    <meta property="og:description" content="GoFコレクションにおけるコンポジットパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00035.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  </head>
+  <body data-page="blog" data-post-id="blog_00035">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoFデザインパターン - コンポジット編</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/02/18 / Coding</p>
+                <h1 class="post-detail__title">GoFデザインパターン - コンポジット編</h1>
+                <p class="post-detail__description">GoFコレクションにおけるコンポジットパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=Coding">Coding</a> <a class="tag" href="../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B3%E3%83%B3%E3%83%9D%E3%82%B8%E3%83%83%E3%83%88%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00035" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00035" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。  </p>
+<p>今回は GoF（Gang of Four）のデザインパターンのコンポジット編になります。<br>サンプルコード（C++）、作り方、使うタイミング、注意点などを含めて実用的に解説します。   </p>
+<h2 id="はじめに">はじめに</h2><p>コンポジットパターンとは <strong>全体と部分を同一視する</strong> 構造を持たせるためのパターンです。<br>ファイルシステム（フォルダとファイル）のように、再帰的な構造を扱う際、クライアントが個々のオブジェクトと合成されたオブジェクトを区別なく扱えるようにします。</p>
+<blockquote>
+<p>Composite パターン（コンポジット・パターン）とは、GoF（Gang of Four; 4人のギャングたち）によって定義された。ソフトウェア開発に使われるデザインパターンの1つである。<br>木構造の要素を、個々のオブジェクトおよび合成されたオブジェクトで同じように扱えるようにする。</p>
+<p>出典: <a href="https://ja.wikipedia.org/wiki/Composite_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Composite パターン - Wikipedia</a></p>
+</blockquote>
+<p><a href="https://ja.wikipedia.org/wiki/Composite_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">ja.wikipedia.org</span><span class="og-title">Composite パターン - Wikipedia</span><span class="og-description"></span></span></a>  </p>
+<h2 id="ユースケース">ユースケース</h2><p>採用を検討する状況の例としていくつかあげます。  </p>
+<ul>
+<li><strong>木構造のデータを扱う必要がある場合</strong><br>ファイルシステム、GUIのウィジェット、組織図など、階層構造を持つデータを表現するのに適しています。</li>
+<li><strong>クライアントコードが「部分」と「全体」を区別せずに扱いたい場合</strong><br>単一のオブジェクトに対する操作と、複数のオブジェクトの集合に対する操作を同じインターフェースで実行したい場合に便利です。</li>
+<li><strong>再帰的な処理を簡潔に書きたい場合</strong><br>複雑なツリー構造に対して、一律の操作を再帰的に伝播させる処理を実装しやすくなります。</li>
+</ul>
+<h2 id="構造">構造</h2><p>Compositeパターンを実装するには、以下の3つの役割を持つクラスが必要です。</p>
+<ol>
+<li><strong>Component（構成要素）</strong><ul>
+<li>すべての要素（LeafとComposite）に共通のインターフェースを定義します。</li>
+<li>クライアントはこのインターフェースを通じて要素を操作します。</li>
+</ul>
+</li>
+<li><strong>Leaf（葉）</strong><ul>
+<li>子要素を持たない、木の末端にある要素です。</li>
+<li>Componentインターフェースの実際の振る舞いを実装します。</li>
+</ul>
+</li>
+<li><strong>Composite（複合体）</strong><ul>
+<li>子要素（Leafや他のComposite）を持つ要素です。</li>
+<li>子要素を管理するメソッド（追加、削除など）を持ち、Componentインターフェースの操作を子要素に委譲します。</li>
+</ul>
+</li>
+</ol>
+<p>下記はこれらをUMLで表しました。<br><strong>Leaf</strong>と<strong>Composite</strong>が同じ<strong>Component</strong>インターフェースを実装しているため、再帰的な構造が作られます。</p>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Component {
+        &lt;&lt;interface&gt;&gt;
+        +operation()
+        +add(Component)
+        +remove(Component)
+        +getChild(int)
+    }
+
+    class Leaf {
+        +operation()
+    }
+
+    class Composite {
+        -children : List&lt;Component&gt;
+        +operation()
+        +add(Component)
+        +remove(Component)
+        +getChild(int)
+    }
+
+    Component &lt;|-- Leaf
+    Component &lt;|-- Composite
+    Composite o-- Component</div></div><h2 id="c-実装例">C++ 実装例</h2><p>ここではファイルシステム（ディレクトリとファイル）を例に挙げます。<br><strong>ファイル</strong>（Leaf）と<strong>ディレクトリ</strong>（Composite）を同一視して、サイズ計算などの操作を行います。  </p>
+<p>これにより、ディレクトリの中にファイルがあっても、さらにディレクトリがあっても、再帰的にサイズを計算することができます。</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+#include &lt;algorithm&gt;
+#include &lt;memory&gt;
+
+// Component: ファイルとディレクトリの共通インターフェース
+class FileSystemUnit {
+protected:
+    std::string name;
+
+public:
+    FileSystemUnit(const std::string&amp; name) : name(name) {}
+    virtual ~FileSystemUnit() = default;
+
+    // 共通の操作
+    virtual int getSize() const = 0;
+    virtual void printList(const std::string&amp; prefix = "") const = 0;
+
+    // 子要素管理（デフォルトでは何もしないかエラー）
+    virtual void add(std::shared_ptr&lt;FileSystemUnit&gt; unit) {
+        // Leafではサポートしないため、デフォルト実装は空または例外でも良い
+    }
+};
+
+// Leaf: 個別のファイル
+class File : public FileSystemUnit {
+private:
+    int size;
+
+public:
+    File(const std::string&amp; name, int size) : FileSystemUnit(name), size(size) {}
+
+    int getSize() const override {
+        return size;
+    }
+
+    void printList(const std::string&amp; prefix = "") const override {
+        std::cout &lt;&lt; prefix &lt;&lt; "/" &lt;&lt; name &lt;&lt; " (" &lt;&lt; size &lt;&lt; "KB)" &lt;&lt; std::endl;
+    }
+};
+
+// Composite: ディレクトリ
+class Directory : public FileSystemUnit {
+private:
+    std::vector&lt;std::shared_ptr&lt;FileSystemUnit&gt;&gt; children;
+
+public:
+    Directory(const std::string&amp; name) : FileSystemUnit(name) {}
+
+    int getSize() const override {
+        int totalSize = 0;
+        for (const auto&amp; child : children) {
+            totalSize += child-&gt;getSize();
+        }
+        return totalSize;
+    }
+
+    void printList(const std::string&amp; prefix = "") const override {
+        std::cout &lt;&lt; prefix &lt;&lt; "/" &lt;&lt; name &lt;&lt; " (Total: " &lt;&lt; getSize() &lt;&lt; "KB)" &lt;&lt; std::endl;
+        for (const auto&amp; child : children) {
+            child-&gt;printList(prefix + "/" + name);
+        }
+    }
+
+    void add(std::shared_ptr&lt;FileSystemUnit&gt; unit) override {
+        children.push_back(unit);
+    }
+};
+
+int main() {
+    // ディレクトリ構造の作成
+    auto root = std::make_shared&lt;Directory&gt;("root");
+    auto bin = std::make_shared&lt;Directory&gt;("bin");
+    auto tmp = std::make_shared&lt;Directory&gt;("tmp");
+    auto usr = std::make_shared&lt;Directory&gt;("usr");
+
+    auto vi = std::make_shared&lt;File&gt;("vi", 100);
+    auto latex = std::make_shared&lt;File&gt;("latex", 200);
+
+    root-&gt;add(bin);
+    root-&gt;add(tmp);
+    root-&gt;add(usr);
+
+    bin-&gt;add(vi);
+    bin-&gt;add(latex);
+    
+    // さらに深い階層
+    auto local = std::make_shared&lt;Directory&gt;("local");
+    usr-&gt;add(local);
+    local-&gt;add(std::make_shared&lt;File&gt;("myscript.sh", 10));
+
+    // 全体の表示とサイズ計算
+    // クライアントは root が Composite か Leaf かを気にせず操作できる
+    std::cout &lt;&lt; "--- File System List ---" &lt;&lt; std::endl;
+    root-&gt;printList();
+    
+    return 0;
+}
+
+// 実行結果
+// --- File System List ---
+// /root (Total: 310KB)
+// /root/bin (Total: 300KB)
+// /root/bin/vi (100KB)
+// /root/bin/latex (200KB)
+// /root/tmp (Total: 0KB)
+// /root/usr (Total: 10KB)
+// /root/usr/local (Total: 10KB)
+// /root/usr/local/myscript.sh (10KB)</code></pre></figure><p>この例では <code>FileSystemUnit</code> が Component の役割を果たし、<code>File</code> と <code>Directory</code> がそれぞれ Leaf と Composite になります。<br><code>Directory::getSize()</code> は自身の子要素の <code>getSize()</code> を呼び出し、それが再帰的に行われることで全体のサイズが計算されます。</p>
+<h2 id="メリット--デメリット">メリット / デメリット</h2><h3 id="メリット">メリット</h3><ul>
+<li><strong>クライアントコードの単純化</strong>
+クライアントは個々のオブジェクトと合成オブジェクトを区別する必要がありません。条件分岐（if-else や switch）を減らし、ポリモーフィズムを活用したコードが書けます。</li>
+<li><strong>新しい種類の要素の追加が容易</strong>
+新しい Leaf や Composite クラスを追加しても、既存のコードを変更する必要がほとんどありません（Open/Closed Principle）。</li>
+<li><strong>再帰構造の表現力</strong>
+複雑なツリー構造を直感的に表現でき、全体に対する操作を簡単に実装できます。</li>
+</ul>
+<h3 id="デメリット">デメリット</h3><ul>
+<li><strong>設計の一般化</strong>
+Component インターフェースに、Leaf にとっては無意味なメソッド（<code>add</code> や <code>remove</code> など）が含まれる場合があります。これにより、型安全性の一部が損なわれる可能性があります（Liskov Substitution Principle への配慮が必要）。</li>
+<li><strong>制約の難しさ</strong>
+Composite が特定の種類の子要素しか持てないように制限したい場合、静的な型チェックだけでは難しく、実行時のチェックが必要になることがあります。</li>
+</ul>
+<h2 id="まとめ">まとめ</h2><p>コンポジットパターンは<strong>再帰的な木構造</strong>を扱う際に非常に強力なパターンです。<br>「部分」と「全体」を同一視することで、クライアントコードをシンプルに保ちながら、複雑な構造に対する操作を一貫して行うことができます。  </p>
+<p>ただし、Leaf に対して子要素管理メソッドをどう扱うか（例外を投げるか、何もしないか）は設計上のトレードオフになるため、要件に応じて適切に判断する必要があります。</p>
+<p>参考・出典を記します  </p>
+<p><a href="https://refactoring.guru/design-patterns/composite" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://refactoring.guru/images/refactoring/social/facebook-share-preview.png?id=dbf9e98269595be86eb668f365be6868" alt="Composite" loading="lazy"></span><span class="og-content"><span class="og-site">refactoring.guru</span><span class="og-title">Composite</span><span class="og-description">Composite is a structural design pattern that lets you compose objects into tree structures and then work with these structures as if they were individual objects.</span></span></a>  </p>
+<p>それでは、次回は別の GoF パターンについても解説していきます。<br>この記事で紹介した実装は学習目的に簡素化しています。<br>実プロダクションで採用する際は要件に合わせて十分に検討してください。  </p>
+<p>以上、パン君でした！</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B3%E3%83%B3%E3%83%9D%E3%82%B8%E3%83%83%E3%83%88%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00035.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00035" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00035" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00034.html" class="btn btn--prev">← GoFデザインパターン -…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#ユースケース" data-no-preview="">ユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#構造" data-no-preview="">構造</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装例" data-no-preview="">C++ 実装例</a></li><li class="toc-item toc-item--level-2"><a href="#メリット--デメリット" data-no-preview="">メリット / デメリット</a></li><li class="toc-item toc-item--level-3"><a href="#メリット" data-no-preview="">メリット</a></li><li class="toc-item toc-item--level-3"><a href="#デメリット" data-no-preview="">デメリット</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00035"};</script>
+
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  
+</body></html>

@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00035",
+    "title": "GoFデザインパターン - コンポジット編",
+    "date": "2026-02-18T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるコンポジットパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00035.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00034",
     "title": "GoFデザインパターン - ブリッジ編",
     "date": "2026-02-11T00:00:00.000Z",
