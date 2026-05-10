@@ -1,0 +1,462 @@
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
+    <title>GoFデザインパターン - デコレータ編 | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GoFコレクションにおけるデコレータパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00036.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00036.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00036.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00036.html">
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/blog_00036.html"
+  },
+  "headline": "GoFデザインパターン - デコレータ編",
+  "description": "GoFコレクションにおけるデコレータパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-02-25T00:00:00.000Z",
+  "dateModified": "2026-02-25T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoFデザインパターン - デコレータ編",
+      "item": "https://breadmotion.github.io/WebSite/blog/blog_00036.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoFデザインパターン - デコレータ編 | PanKUN Blog">
+    <meta property="og:description" content="GoFコレクションにおけるデコレータパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00036.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+  </head>
+  <body data-page="blog" data-post-id="blog_00036">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../index.html">ホーム</a></li>
+                  <li class="breadcrumb__item"><a href="../blog.html">ブログ</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoFデザインパターン - デコレータ編</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/02/25 / Coding</p>
+                <h1 class="post-detail__title">GoFデザインパターン - デコレータ編</h1>
+                <p class="post-detail__description">GoFコレクションにおけるデコレータパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します</p>
+                <p class="post-detail__tags"><a class="tag" href="../blog.html?tag=Coding">Coding</a> <a class="tag" href="../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%83%87%E3%82%B3%E3%83%AC%E3%83%BC%E3%82%BF%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00036" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00036" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>こんにちは！パン君です。  </p>
+<p>今回は GoF（Gang of Four）のデザインパターンのデコレータ編になります。<br>サンプルコード（C++）、作り方、使うタイミング、注意点などを含めて実用的に解説します。   </p>
+<h2 id="はじめに">はじめに</h2><p>デコレータ（Decorator）パターンとは、<strong>オブジェクトに対して動的に新しい機能や振る舞いを追加する</strong>ためのパターンです。<br>サブクラス化（継承）による機能拡張の代替として、柔軟な機能の組み合わせを可能にします。</p>
+<blockquote>
+<p>Decorator パターン（デコレータ・パターン）とは、GoF（Gang of Four; 4人のギャングたち）によって定義された。ソフトウェア開発に使われるデザインパターンの1つである。<br>既存のオブジェクトに新しい機能や振る舞いを動的に追加することを可能にする。</p>
+<p>出典: <a href="https://ja.wikipedia.org/wiki/Decorator_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3">Decorator パターン - Wikipedia</a></p>
+</blockquote>
+<p><a href="https://ja.wikipedia.org/wiki/Decorator_%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">ja.wikipedia.org</span><span class="og-title">Decorator パターン - Wikipedia</span><span class="og-description"></span></span></a>  </p>
+<h2 id="ユースケース">ユースケース</h2><p>採用を検討する状況の例としていくつかあげます。  </p>
+<ul>
+<li><strong>動的に機能を追加・削除したい場合</strong><br>実行時にオブジェクトに対して責任（機能）を動的かつ透過的に追加したい場合に適しています。</li>
+<li><strong>サブクラスの爆発を防ぎたい場合</strong><br>様々な機能の組み合わせをすべて継承で実装しようとすると、クラスの数が爆発的に増えてしまいます。デコレータを使えば、複数の小さなデコレータを組み合わせることで柔軟に対応できます。</li>
+<li><strong>クラスの定義を変更せずに拡張したい場合</strong><br>既存のコード（特にライブラリなど変更できないクラス）の振る舞いを拡張したい場合に便利です。</li>
+</ul>
+<h2 id="構造">構造</h2><p>Decoratorパターンを実装するには、以下の役割を持つクラスが必要です。</p>
+<ol>
+<li><strong>Component（構成要素）</strong><ul>
+<li>機能を追加されるオブジェクトの共通インターフェースを定義します。</li>
+</ul>
+</li>
+<li><strong>ConcreteComponent（具体的な構成要素）</strong><ul>
+<li><code>Component</code>インターフェースを実装した基本となるクラスです。これに対して機能が追加されます。</li>
+</ul>
+</li>
+<li><strong>Decorator（装飾者）</strong><ul>
+<li><code>Component</code>インターフェースを実装し、さらに内部に<code>Component</code>の参照を保持します。</li>
+<li>操作を保持している<code>Component</code>に委譲します。</li>
+</ul>
+</li>
+<li><strong>ConcreteDecorator（具体的な装飾者）</strong><ul>
+<li><code>Decorator</code>のサブクラスで、実際の新しい機能や状態を追加します。</li>
+</ul>
+</li>
+</ol>
+<p>下記はこれらをUMLで表しました。  </p>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Component {
+        &lt;&lt;interface&gt;&gt;
+        +operation()
+    }
+
+    class ConcreteComponent {
+        +operation()
+    }
+
+    class Decorator {
+        -component : Component
+        +operation()
+    }
+
+    class ConcreteDecoratorA {
+        +operation()
+        +addedBehavior()
+    }
+
+    class ConcreteDecoratorB {
+        +operation()
+        +addedBehavior()
+    }
+
+    Component &lt;|-- ConcreteComponent
+    Component &lt;|-- Decorator
+    Decorator o-- Component
+    Decorator &lt;|-- ConcreteDecoratorA
+    Decorator &lt;|-- ConcreteDecoratorB</div></div><h2 id="c-実装例">C++ 実装例</h2><p>ここでは、カフェの飲み物（Beverage）の注文システムを例に挙げます。<br>ベースとなる<strong>エスプレッソ</strong>（ConcreteComponent）に対して、<strong>モカ</strong>や<strong>ホイップクリーム</strong>（ConcreteDecorator）を動的に追加して、説明文と価格を更新します。</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;memory&gt;
+
+// Component: 飲み物の共通インターフェース
+class Beverage {
+public:
+    virtual ~Beverage() = default;
+    virtual std::string getDescription() const = 0;
+    virtual double cost() const = 0;
+};
+
+// ConcreteComponent: ベースとなる飲み物（エスプレッソ）
+class Espresso : public Beverage {
+public:
+    std::string getDescription() const override {
+        return "Espresso";
+    }
+    double cost() const override {
+        return 1.99;
+    }
+};
+
+// Decorator: 装飾者の基底クラス
+class CondimentDecorator : public Beverage {
+protected:
+    std::shared_ptr&lt;Beverage&gt; beverage; // ラップするComponentを保持
+public:
+    CondimentDecorator(std::shared_ptr&lt;Beverage&gt; beverage) : beverage(beverage) {}
+    
+    std::string getDescription() const override {
+        return beverage-&gt;getDescription();
+    }
+    double cost() const override {
+        return beverage-&gt;cost();
+    }
+};
+
+// ConcreteDecorator: 具体的なトッピング（モカ）
+class Mocha : public CondimentDecorator {
+public:
+    Mocha(std::shared_ptr&lt;Beverage&gt; beverage) : CondimentDecorator(beverage) {}
+    
+    std::string getDescription() const override {
+        return beverage-&gt;getDescription() + ", Mocha";
+    }
+    double cost() const override {
+        return beverage-&gt;cost() + 0.20;
+    }
+};
+
+// ConcreteDecorator: 具体的なトッピング（ホイップ）
+class Whip : public CondimentDecorator {
+public:
+    Whip(std::shared_ptr&lt;Beverage&gt; beverage) : CondimentDecorator(beverage) {}
+    
+    std::string getDescription() const override {
+        return beverage-&gt;getDescription() + ", Whip";
+    }
+    double cost() const override {
+        return beverage-&gt;cost() + 0.10;
+    }
+};
+
+int main() {
+    // 1. ベースのエスプレッソを注文
+    std::shared_ptr&lt;Beverage&gt; myDrink = std::make_shared&lt;Espresso&gt;();
+    std::cout &lt;&lt; myDrink-&gt;getDescription() &lt;&lt; " $" &lt;&lt; myDrink-&gt;cost() &lt;&lt; std::endl;
+
+    // 2. モカを追加 (エスプレッソをラップ)
+    myDrink = std::make_shared&lt;Mocha&gt;(myDrink);
+    std::cout &lt;&lt; myDrink-&gt;getDescription() &lt;&lt; " $" &lt;&lt; myDrink-&gt;cost() &lt;&lt; std::endl;
+
+    // 3. さらにホイップを追加 (モカでラップされたエスプレッソをさらにラップ)
+    myDrink = std::make_shared&lt;Whip&gt;(myDrink);
+    std::cout &lt;&lt; myDrink-&gt;getDescription() &lt;&lt; " $" &lt;&lt; myDrink-&gt;cost() &lt;&lt; std::endl;
+
+    return 0;
+}
+
+// 実行結果
+// Espresso $1.99
+// Espresso, Mocha $2.19
+// Espresso, Mocha, Whip $2.29</code></pre></figure><p>この例では、<code>Beverage</code>インターフェースを実装したデコレータが、別の<code>Beverage</code>オブジェクトをラップしています。これにより、既存のクラスを変更せずにトッピングを何層にも重ねることが可能です。</p>
+<h2 id="メリット--デメリット">メリット / デメリット</h2><h3 id="メリット">メリット</h3><ul>
+<li><strong>サブクラス化より柔軟な拡張</strong>
+継承を使わずに、実行時に機能を追加・削除できます。</li>
+<li><strong>クラスの爆発を防止</strong>
+様々な機能の組み合わせが必要な場合でも、クラス数を少なく保つことができます（複数のデコレータを組み合わせるだけ）。</li>
+<li><strong>単一責任の原則（SRP）の遵守</strong>
+1つのクラスにすべての機能を持たせるのではなく、各デコレータが1つの機能に集中できます。</li>
+</ul>
+<h3 id="デメリット">デメリット</h3><ul>
+<li><strong>細かいオブジェクトが多数生成される</strong>
+多数の小さなデコレータクラスが導入されるため、全体を把握しにくくなる場合があります。</li>
+<li><strong>デコレータの順序に依存する設計になりがち</strong>
+装飾の順番が結果に影響を与える場合、バグの温床になり得ます。</li>
+<li><strong>特定のオブジェクトの型に依存したコードが書きにくくなる</strong>
+デコレータでラップされると型が隠蔽されるため、特定の <code>ConcreteComponent</code> のメソッドに直接アクセスすることが難しくなります。</li>
+</ul>
+<h2 id="まとめ">まとめ</h2><p>デコレータパターンは、オブジェクトの機能を<strong>継承ではなく委譲（コンポジション）</strong>を使って柔軟に拡張するための強力なパターンです。<br>GUIツールキット（スクロールバー付きのウィンドウなど）やI/Oストリーム（Javaの <code>java.io</code> など）で広く採用されています。</p>
+<p>ただし、過剰に使用するとシステムの理解を妨げる小さなオブジェクト群を生み出すため、本当に動的な拡張が必要かを考慮して採用してください。</p>
+<p>参考・出典を記します  </p>
+<p><a href="https://refactoring.guru/ja/design-patterns/decorator" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://refactoring.guru/ja/images/refactoring/social/facebook-share-preview.png?id=dbf9e98269595be86eb668f365be6868" alt="Decorator" loading="lazy"></span><span class="og-content"><span class="og-site">refactoring.guru</span><span class="og-title">Decorator</span><span class="og-description">Decorator（デコレーター、装飾器）は、構造に関するデザインパターンの一つで、ある振る舞いを含む特別なラッパー・オブジェクトの中にオブジェクトを配置することで、それらのオブジェクトに新しい振る舞いを付け加えます。</span></span></a>  </p>
+<p>それでは、次回は別の GoF パターンについても解説していきます。<br>この記事で紹介した実装は学習目的に簡素化しています。<br>実プロダクションで採用する際は要件に合わせて十分に検討してください。  </p>
+<p>以上、パン君でした！</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%83%87%E3%82%B3%E3%83%AC%E3%83%BC%E3%82%BF%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebookでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00036.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00036" aria-pressed="false" aria-label="いいね">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00036" aria-pressed="false" aria-label="ブックマーク">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00032.html" class="btn btn--prev">← GoFデザインパターン -…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00035.html" class="btn btn--next">GoFデザインパターン -… →</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">目次</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#ユースケース" data-no-preview="">ユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#構造" data-no-preview="">構造</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装例" data-no-preview="">C++ 実装例</a></li><li class="toc-item toc-item--level-2"><a href="#メリット--デメリット" data-no-preview="">メリット / デメリット</a></li><li class="toc-item toc-item--level-3"><a href="#メリット" data-no-preview="">メリット</a></li><li class="toc-item toc-item--level-3"><a href="#デメリット" data-no-preview="">デメリット</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">関連記事</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">おすすめ記事</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="目次を開く">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>目次</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00036"};</script>
+
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  
+</body></html>
