@@ -1,21 +1,31 @@
-<!DOCTYPE html><html lang="ja"><head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
     <title>Odin でコンテキストエディター作ってみた | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Odin でプランナー向けのコンテキストエディターを作った話">
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00003.html">
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00003.html">
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00003.html">
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00003.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Odin でプランナー向けのコンテキストエディターを作った話" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00003.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00003.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00003.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00003.html" />
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
-<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -80,27 +90,28 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="Odin でコンテキストエディター作ってみた | PanKUN Blog">
-    <meta property="og:description" content="Odin でプランナー向けのコンテキストエディターを作った話">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00003.html">
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00003.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="PanKUN">
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <meta property="og:title" content="Odin でコンテキストエディター作ってみた | PanKUN Blog" />
+    <meta property="og:description" content="Odin でプランナー向けのコンテキストエディターを作った話" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00003.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00003.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/dist/styles.min.css">
-    
-    
-    
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00003">
-    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -127,7 +138,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&amp;text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -140,7 +151,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -243,29 +254,29 @@
 <li><code>OdinEditorWindow</code> を継承した <code>ContextEditorWindow</code> を用意</li>
 <li><code>MenuItem</code> 属性でメニューから開けるようにする</li>
 </ul>
-<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">using Sirenix.OdinInspector;
+<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">using Sirenix.OdinInspector;
 using Sirenix.OdinInspector.Editor;
 using UnityEditor;
 using UnityEngine;
 
 public class ContextEditorWindow : OdinEditorWindow
 {
-    [MenuItem("Tools/Context Editor")]
+    [MenuItem(&quot;Tools/Context Editor&quot;)]
     private static void Open()
     {
-        GetWindow&lt;ContextEditorWindow&gt;("Context Editor");
+        GetWindow&lt;ContextEditorWindow&gt;(&quot;Context Editor&quot;);
     }
 
     // プランナーが触る対象をここに並べる
-    [Title("イベント基本設定")]
+    [Title(&quot;イベント基本設定&quot;)]
     [InlineEditor(Expanded = true)]
     public EventConfig eventConfig;
 
-    [Title("ステージ設定")]
+    [Title(&quot;ステージ設定&quot;)]
     [TableList]
     public StageConfig[] stages;
 
-    [Title("報酬設定")]
+    [Title(&quot;報酬設定&quot;)]
     [TableList]
     public RewardConfig[] rewards;
 
@@ -283,19 +294,19 @@ public class ContextEditorWindow : OdinEditorWindow
 </ul>
 <p>という二重の使い方ができます。</p>
 <p>例えば :</p>
-<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">[CreateAssetMenu(menuName = "Game/Event")]
+<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">[CreateAssetMenu(menuName = &quot;Game/Event&quot;)]
 public class EventConfig : ScriptableObject
 {
-    [LabelText("イベント名")]
+    [LabelText(&quot;イベント名&quot;)]
     public string eventName;
     
-    [LabelText("開催期間")]
+    [LabelText(&quot;開催期間&quot;)]
     public string durationText;
     
-    [LabelText("説明文")]
+    [LabelText(&quot;説明文&quot;)]
     public string description;
     
-    [LabelText("有効フラグ")]
+    [LabelText(&quot;有効フラグ&quot;)]
     public bool isEnabled;
 }</code></pre></figure><p>これを先ほどのContextEditorWindowのフィールドとして参照しておけば、<br>ウィンドウ側でInlineEditorしたときに、 <strong>Odinのデコレーション込みで表示されます</strong> 。</p>
 <h3 id="3-ちょっとしたux改善">3. ちょっとしたUX改善</h3><p>例：</p>
@@ -343,7 +354,7 @@ public class EventConfig : ScriptableObject
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&amp;text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html&text=Odin%20%E3%81%A7%E3%82%B3%E3%83%B3%E3%83%86%E3%82%AD%E3%82%B9%E3%83%88%E3%82%A8%E3%83%87%E3%82%A3%E3%82%BF%E3%83%BC%E4%BD%9C%E3%81%A3%E3%81%A6%E3%81%BF%E3%81%9F" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -356,7 +367,7 @@ public class EventConfig : ScriptableObject
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00003.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -376,14 +387,16 @@ public class EventConfig : ScriptableObject
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00002.html" class="btn btn--prev">← Odin を導入してみた</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00008.html" class="btn btn--next">Discord Bot の… →</a></div>
+              <div class="post-detail__nav post-detail__nav--bottom">
+                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
+              </div>
             </article>
           </div>
           <aside class="post-sidebar">
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#概要" data-no-preview="">概要</a></li><li class="toc-item toc-item--level-2"><a href="#やりたかったこと" data-no-preview="">やりたかったこと</a></li><li class="toc-item toc-item--level-3"><a href="#1-「どこを触ればいいか」が一目で分かる" data-no-preview="">1. 「どこを触ればいいか」が一目で分かる</a></li><li class="toc-item toc-item--level-3"><a href="#2-関連データを横断して編集できる" data-no-preview="">2. 関連データを横断して編集できる</a></li><li class="toc-item toc-item--level-3"><a href="#3-安全な範囲だけ触れるようにする" data-no-preview="">3. 安全な範囲だけ触れるようにする</a></li><li class="toc-item toc-item--level-2"><a href="#実装構成" data-no-preview="">実装構成</a></li><li class="toc-item toc-item--level-3"><a href="#1-ベースとなる-window-クラス" data-no-preview="">1. ベースとなる Window クラス</a></li><li class="toc-item toc-item--level-3"><a href="#2-scriptableobject側の設計" data-no-preview="">2. ScriptableObject側の設計</a></li><li class="toc-item toc-item--level-3"><a href="#3-ちょっとしたux改善" data-no-preview="">3. ちょっとしたUX改善</a></li><li class="toc-item toc-item--level-2"><a href="#実際に運用してみて" data-no-preview="">実際に運用してみて</a></li><li class="toc-item toc-item--level-2"><a href="#最後に" data-no-preview="">最後に</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#概要" data-no-preview>概要</a></li><li class="toc-item toc-item--level-2"><a href="#やりたかったこと" data-no-preview>やりたかったこと</a></li><li class="toc-item toc-item--level-3"><a href="#1-「どこを触ればいいか」が一目で分かる" data-no-preview>1. 「どこを触ればいいか」が一目で分かる</a></li><li class="toc-item toc-item--level-3"><a href="#2-関連データを横断して編集できる" data-no-preview>2. 関連データを横断して編集できる</a></li><li class="toc-item toc-item--level-3"><a href="#3-安全な範囲だけ触れるようにする" data-no-preview>3. 安全な範囲だけ触れるようにする</a></li><li class="toc-item toc-item--level-2"><a href="#実装構成" data-no-preview>実装構成</a></li><li class="toc-item toc-item--level-3"><a href="#1-ベースとなる-window-クラス" data-no-preview>1. ベースとなる Window クラス</a></li><li class="toc-item toc-item--level-3"><a href="#2-scriptableobject側の設計" data-no-preview>2. ScriptableObject側の設計</a></li><li class="toc-item toc-item--level-3"><a href="#3-ちょっとしたux改善" data-no-preview>3. ちょっとしたUX改善</a></li><li class="toc-item toc-item--level-2"><a href="#実際に運用してみて" data-no-preview>実際に運用してみて</a></li><li class="toc-item toc-item--level-2"><a href="#最後に" data-no-preview>最後に</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -408,23 +421,23 @@ public class EventConfig : ScriptableObject
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00003"};</script>
 
-    <script src="../assets/js/layout.js" defer=""></script>
-    <script src="../assets/dist/scripts.min.js" defer=""></script>
-    
-    
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
-    <script src="../assets/js/particles.js" defer=""></script>
-    
-    
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -460,5 +473,5 @@ public class EventConfig : ScriptableObject
         }
       })();
     </script>
-  
-</body></html>
+  </body>
+</html>

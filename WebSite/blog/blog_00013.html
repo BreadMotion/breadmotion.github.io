@@ -1,21 +1,31 @@
-<!DOCTYPE html><html lang="ja"><head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
     <title>ポートフォリオの詳細表示をモーダル化してUXを改善する | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ポートフォリオサイトの作品詳細を、ページ遷移なしで閲覧できるようにモーダルウィンドウ化しました。DOMParserを使ったHTML取得や、実装時のハマりポイントについて。">
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00013.html">
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00013.html">
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html">
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ポートフォリオサイトの作品詳細を、ページ遷移なしで閲覧できるようにモーダルウィンドウ化しました。DOMParserを使ったHTML取得や、実装時のハマりポイントについて。" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00013.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00013.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00013.html" />
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
-<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -80,27 +90,28 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="ポートフォリオの詳細表示をモーダル化してUXを改善する | PanKUN Blog">
-    <meta property="og:description" content="ポートフォリオサイトの作品詳細を、ページ遷移なしで閲覧できるようにモーダルウィンドウ化しました。DOMParserを使ったHTML取得や、実装時のハマりポイントについて。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00013.html">
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="PanKUN">
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <meta property="og:title" content="ポートフォリオの詳細表示をモーダル化してUXを改善する | PanKUN Blog" />
+    <meta property="og:description" content="ポートフォリオサイトの作品詳細を、ページ遷移なしで閲覧できるようにモーダルウィンドウ化しました。DOMParserを使ったHTML取得や、実装時のハマりポイントについて。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00013.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/dist/styles.min.css">
-    
-    
-    
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00013">
-    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -127,7 +138,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html&amp;text=%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%81%AE%E8%A9%B3%E7%B4%B0%E8%A1%A8%E7%A4%BA%E3%82%92%E3%83%A2%E3%83%BC%E3%83%80%E3%83%AB%E5%8C%96%E3%81%97%E3%81%A6UX%E3%82%92%E6%94%B9%E5%96%84%E3%81%99%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html&text=%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%81%AE%E8%A9%B3%E7%B4%B0%E8%A1%A8%E7%A4%BA%E3%82%92%E3%83%A2%E3%83%BC%E3%83%80%E3%83%AB%E5%8C%96%E3%81%97%E3%81%A6UX%E3%82%92%E6%94%B9%E5%96%84%E3%81%99%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -140,7 +151,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -176,40 +187,40 @@
 </ol>
 <hr>
 <h2 id="技術的なポイント">技術的なポイント</h2><h3 id="1-htmlをfetchしてパースする">1. HTMLをfetchしてパースする</h3><p><code>fetch</code> で取得できるのは単なる「文字列」です。これをDOM要素として扱うために <code>DOMParser</code> を使います。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// HTMLを取得
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// HTMLを取得
 const res = await fetch(contentPath);
 const text = await res.text();
 
 // 文字列をHTMLドキュメントとしてパース
 const parser = new DOMParser();
-const doc = parser.parseFromString(text, "text/html");
+const doc = parser.parseFromString(text, &quot;text/html&quot;);
 
 // 必要な部分（.work-detail）だけを抜き出す
-const detail = doc.querySelector(".work-detail");
+const detail = doc.querySelector(&quot;.work-detail&quot;);
 
 // モーダルに挿入
 modalContent.appendChild(detail);</code></pre></figure><p>これで、<code>iframe</code> を使わずにシームレスにコンテンツを埋め込むことができます。</p>
 <h3 id="2-相対パスの罠">2. 相対パスの罠</h3><p>詳細ページは <code>portfolio/</code> ディレクトリ配下にある前提でビルドされているため、画像などのパスが <code>../assets/img/...</code> のようになっています。<br>これをトップページ（ルート階層）のモーダルでそのまま表示すると、リンク切れになってしまいます。</p>
 <p>そこで、取り出したDOMに対してパスの書き換え処理を行いました。  </p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// "../" で始まるパスを修正する
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">// &quot;../&quot; で始まるパスを修正する
 function fixPaths(element) {
   const nodes = element.querySelectorAll('[src], [href]');
   nodes.forEach((node) =&gt; {
-    // 属性値を取得して "../" を削除するなど置換処理
+    // 属性値を取得して &quot;../&quot; を削除するなど置換処理
     // ...
   });
 }</code></pre></figure><hr>
 <h2 id="ハマったポイント：中身が表示されない？">ハマったポイント：中身が表示されない？</h2><p>実装していざ動かしてみるとモーダルは開くのに <strong>中身が真っ白</strong> という現象が発生しました。<br>開発者ツールで見ると要素は存在しているのに、画面には映っていません。</p>
 <h3 id="原因：スクロールアニメーション">原因：スクロールアニメーション</h3><p>原因は、詳細ページ側で使っていた「スクロールしたらふわっと表示する」ためのクラス <code>reveal-on-scroll</code> でした。</p>
-<figure class="code-block" data-lang="css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">CSS</span></div><pre><code class="language-css">.reveal-on-scroll {
+<figure class="code-block" data-lang="css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">CSS</span></div><pre><code class="language-css">.reveal-on-scroll {
     opacity: 0; /* 初期状態は透明 */
     transform: translateY(20px);
     /* スクロールして画面内に入ったら .is-visible が付いて不透明になる */
 }</code></pre></figure><p>詳細ページとして表示するときはスクロール検知スクリプトが動くので問題ないのですが、<br>モーダル内に挿入されたときはそのスクリプトが動かず、 <strong>永遠に <code>opacity: 0</code> のまま待機</strong> してしまっていたのです。</p>
 <h3 id="解決策">解決策</h3><p>モーダルに挿入する前にこのクラスを削除するようにしました。</p>
-<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const detail = doc.querySelector(".work-detail");
+<figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const detail = doc.querySelector(&quot;.work-detail&quot;);
 // アニメーション用クラスを削除して強制表示
-detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで無事に表示されるようになりました。</p>
+detail.classList.remove(&quot;reveal-on-scroll&quot;);</code></pre></figure><p>これで無事に表示されるようになりました。</p>
 <hr>
 <h2 id="まとめ">まとめ</h2><p>今回の改修で作品の閲覧体験（UX）はかなり向上したと思います。</p>
 <ul>
@@ -227,7 +238,7 @@ detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで�
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html&amp;text=%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%81%AE%E8%A9%B3%E7%B4%B0%E8%A1%A8%E7%A4%BA%E3%82%92%E3%83%A2%E3%83%BC%E3%83%80%E3%83%AB%E5%8C%96%E3%81%97%E3%81%A6UX%E3%82%92%E6%94%B9%E5%96%84%E3%81%99%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html&text=%E3%83%9D%E3%83%BC%E3%83%88%E3%83%95%E3%82%A9%E3%83%AA%E3%82%AA%E3%81%AE%E8%A9%B3%E7%B4%B0%E8%A1%A8%E7%A4%BA%E3%82%92%E3%83%A2%E3%83%BC%E3%83%80%E3%83%AB%E5%8C%96%E3%81%97%E3%81%A6UX%E3%82%92%E6%94%B9%E5%96%84%E3%81%99%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -240,7 +251,7 @@ detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで�
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00013.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -260,14 +271,16 @@ detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで�
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00011.html" class="btn btn--prev">← 自作Discord Bot…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00012.html" class="btn btn--next">静的サイトにお問い合わせフ… →</a></div>
+              <div class="post-detail__nav post-detail__nav--bottom">
+                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
+              </div>
             </article>
           </div>
           <aside class="post-sidebar">
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#実装の方針" data-no-preview="">実装の方針</a></li><li class="toc-item toc-item--level-3"><a href="#処理の流れ" data-no-preview="">処理の流れ</a></li><li class="toc-item toc-item--level-2"><a href="#技術的なポイント" data-no-preview="">技術的なポイント</a></li><li class="toc-item toc-item--level-3"><a href="#1-htmlをfetchしてパースする" data-no-preview="">1. HTMLをfetchしてパースする</a></li><li class="toc-item toc-item--level-3"><a href="#2-相対パスの罠" data-no-preview="">2. 相対パスの罠</a></li><li class="toc-item toc-item--level-2"><a href="#ハマったポイント：中身が表示されない？" data-no-preview="">ハマったポイント：中身が表示されない？</a></li><li class="toc-item toc-item--level-3"><a href="#原因：スクロールアニメーション" data-no-preview="">原因：スクロールアニメーション</a></li><li class="toc-item toc-item--level-3"><a href="#解決策" data-no-preview="">解決策</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#実装の方針" data-no-preview>実装の方針</a></li><li class="toc-item toc-item--level-3"><a href="#処理の流れ" data-no-preview>処理の流れ</a></li><li class="toc-item toc-item--level-2"><a href="#技術的なポイント" data-no-preview>技術的なポイント</a></li><li class="toc-item toc-item--level-3"><a href="#1-htmlをfetchしてパースする" data-no-preview>1. HTMLをfetchしてパースする</a></li><li class="toc-item toc-item--level-3"><a href="#2-相対パスの罠" data-no-preview>2. 相対パスの罠</a></li><li class="toc-item toc-item--level-2"><a href="#ハマったポイント：中身が表示されない？" data-no-preview>ハマったポイント：中身が表示されない？</a></li><li class="toc-item toc-item--level-3"><a href="#原因：スクロールアニメーション" data-no-preview>原因：スクロールアニメーション</a></li><li class="toc-item toc-item--level-3"><a href="#解決策" data-no-preview>解決策</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -292,23 +305,23 @@ detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで�
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00013"};</script>
 
-    <script src="../assets/js/layout.js" defer=""></script>
-    <script src="../assets/dist/scripts.min.js" defer=""></script>
-    
-    
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
-    <script src="../assets/js/particles.js" defer=""></script>
-    
-    
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -344,5 +357,5 @@ detail.classList.remove("reveal-on-scroll");</code></pre></figure><p>これで�
         }
       })();
     </script>
-  
-</body></html>
+  </body>
+</html>

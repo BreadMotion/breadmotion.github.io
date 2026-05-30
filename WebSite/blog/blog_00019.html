@@ -1,21 +1,31 @@
-<!DOCTYPE html><html lang="ja"><head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
     <title>ブログのCSSにコードブロックにシンタックスハイライト付ける | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="ブログのCSSにコードブロックに各言語、拡張子に対応したシンタックスハイライトを行うようにする方法をわかりやすく解説します。">
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00019.html">
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00019.html">
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00019.html">
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00019.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="ブログのCSSにコードブロックに各言語、拡張子に対応したシンタックスハイライトを行うようにする方法をわかりやすく解説します。" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00019.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00019.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00019.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00019.html" />
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
-<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -80,27 +90,28 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="ブログのCSSにコードブロックにシンタックスハイライト付ける | PanKUN Blog">
-    <meta property="og:description" content="ブログのCSSにコードブロックに各言語、拡張子に対応したシンタックスハイライトを行うようにする方法をわかりやすく解説します。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00019.html">
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="PanKUN">
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <meta property="og:title" content="ブログのCSSにコードブロックにシンタックスハイライト付ける | PanKUN Blog" />
+    <meta property="og:description" content="ブログのCSSにコードブロックに各言語、拡張子に対応したシンタックスハイライトを行うようにする方法をわかりやすく解説します。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00019.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/dist/styles.min.css">
-    
-    
-    
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00019">
-    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -127,7 +138,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html&amp;text=%E3%83%96%E3%83%AD%E3%82%B0%E3%81%AECSS%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AB%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E4%BB%98%E3%81%91%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html&text=%E3%83%96%E3%83%AD%E3%82%B0%E3%81%AECSS%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AB%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E4%BB%98%E3%81%91%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -140,7 +151,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -166,12 +177,12 @@
 <p>ビルドはコードブロックの構造を整形して出力しているだけであり<br>見た目はクライアント側の CSS / ハイライトライブラリで行うという設計にしています。<br>以下、実際に確認した実装と私が追加・調整した CSS／導入手順を具体例付きで説明します。</p>
 <h2 id="ビルドの要点">ビルドの要点</h2><p>ビルドスクリプトのカスタムレンダラで Markdown のコードブロックを次のような HTML 構造で出力するようになっています  </p>
 <ul>
-<li><code>&lt;figure class="code-block" data-lang="xx"&gt;</code>: コードブロック全体をラップ</li>
+<li><code>&lt;figure class=&quot;code-block&quot; data-lang=&quot;xx&quot;&gt;</code>: コードブロック全体をラップ</li>
 <li><code>div.code-header</code>: 上部に言語ラベルを出す</li>
-<li>ビルド結果の想定は <code>&lt;pre&gt;&lt;code class="language-xx"&gt;...&lt;/code&gt;&lt;/pre&gt;</code> という形になるように実装</li>
+<li>ビルド結果の想定は <code>&lt;pre&gt;&lt;code class=&quot;language-xx&quot;&gt;...&lt;/code&gt;&lt;/pre&gt;</code> という形になるように実装</li>
 </ul>
 <p>以上です。  </p>
-<p>チャート出力のためにMermaidに対応する場合は<br><code>&lt;div class="mermaid-wrapper"&gt;&lt;div class="mermaid"&gt;...&lt;/div&gt;&lt;/div&gt;</code><br>として置いて、クライアント側で mermaid を初期化して描画する想定で吐き出しましょう。  </p>
+<p>チャート出力のためにMermaidに対応する場合は<br><code>&lt;div class=&quot;mermaid-wrapper&quot;&gt;&lt;div class=&quot;mermaid&quot;&gt;...&lt;/div&gt;&lt;/div&gt;</code><br>として置いて、クライアント側で mermaid を初期化して描画する想定で吐き出しましょう。  </p>
 <p>端的に話すとビルド側は「どの言語か」「見た目のためのフック」を付与する役割にとどめ色付けはクライアント側のライブラリに任せる設計です。  </p>
 <p>この設計は以下の利点があります。</p>
 <ul>
@@ -181,13 +192,13 @@
 </ul>
 <h2 id="実際に行った手順（概要）">実際に行った手順（概要）</h2><ol>
 <li>出力される HTML 構造に合わせて CSS を作成（<code>.code-block</code> 系）  </li>
-<li>Prism.js（または highlight.js）を導入して <code>&lt;code class="language-..."&gt;</code> に対してハイライト処理を行う  </li>
+<li>Prism.js（または highlight.js）を導入して <code>&lt;code class=&quot;language-...&quot;&gt;</code> に対してハイライト処理を行う  </li>
 <li>Mermaid を利用するブロックがある場合は <code>mermaid.initialize()</code> を呼んで描画  </li>
 <li>追加で行番号表示や行ハイライト、ダークモード対応を CSS で実装（必要なら JS で補助）</li>
 </ol>
 <p>以下に、私が実際に記事内で示したサンプル CSS と Prism 導入例を掲載します。<br>プロジェクト方針に合わせて調整してください。</p>
 <h3 id="サンプル-css">サンプル CSS</h3><p>実際に使った例を示します。色やフォントは好みに合わせて変えてください。</p>
-<figure class="code-block" data-lang="/dev/null/example.css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">/dev/null/example.css</span></div><pre><code class="language-/dev/null/example.css">/* ブログ用: コードブロック基本スタイル */
+<figure class="code-block" data-lang="/dev/null/example.css"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">/dev/null/example.css</span></div><pre><code class="language-/dev/null/example.css">/* ブログ用: コードブロック基本スタイル */
 figure.code-block {
   margin: 1.2em 0;
   border-radius: 8px;
@@ -214,7 +225,7 @@ figure.code-block pre {
   margin: 0;
   padding: 12px;
   overflow: auto;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", "Courier New", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, &quot;Roboto Mono&quot;, &quot;Courier New&quot;, monospace;
   line-height: 1.6;
   background: transparent;
   color: inherit;
@@ -229,22 +240,22 @@ pre[data-line] {
 .token.comment { color: #6a737d; }
 .token.keyword { color: #ff7b72; font-weight: 600; }
 .token.function { color: #79b8ff; }</code></pre></figure><h3 id="prismjs-を-cdn-で読み込む例">Prism.js を CDN で読み込む例</h3><p>軽く試すときは CDN で読み込みます。実運用では本番ビルドに組み込むかローカル配備を推奨します。</p>
-<figure class="code-block" data-lang="/dev/null/example.html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">/dev/null/example.html</span></div><pre><code class="language-/dev/null/example.html">&lt;!-- Prism の CSS と JS（例: CDN）--&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css" /&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js"&gt;&lt;/script&gt;
+<figure class="code-block" data-lang="/dev/null/example.html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">/dev/null/example.html</span></div><pre><code class="language-/dev/null/example.html">&lt;!-- Prism の CSS と JS（例: CDN）--&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/themes/prism-tomorrow.css&quot; /&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/prism.min.js&quot;&gt;&lt;/script&gt;
 &lt;!-- 必要な言語コンポーネントは個別に読み込む --&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-javascript.min.js"&gt;&lt;/script&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-python.min.js"&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-javascript.min.js&quot;&gt;&lt;/script&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/components/prism-python.min.js&quot;&gt;&lt;/script&gt;
 
 &lt;!-- Prism プラグイン（行番号など） --&gt;
-&lt;link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/line-numbers/prism-line-numbers.css" /&gt;
-&lt;script src="https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/line-numbers/prism-line-numbers.min.js"&gt;&lt;/script&gt;
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/line-numbers/prism-line-numbers.css&quot; /&gt;
+&lt;script src=&quot;https://cdn.jsdelivr.net/npm/prismjs@latest/plugins/line-numbers/prism-line-numbers.min.js&quot;&gt;&lt;/script&gt;
 
 &lt;!-- 初期化は不要（Prism は DOMContentLoaded 時に自動で実行されることが多い） --&gt;</code></pre></figure><blockquote>
-<p><code>tools/build-blog.js</code> が <code>&lt;code class="language-xxx"&gt;</code> を生成しているので、Prism 側で対応する言語コンポーネントを読み込めば普通に色が付くはずです。</p>
+<p><code>tools/build-blog.js</code> が <code>&lt;code class=&quot;language-xxx&quot;&gt;</code> を生成しているので、Prism 側で対応する言語コンポーネントを読み込めば普通に色が付くはずです。</p>
 </blockquote>
 <h3 id="mermaid-の扱い">mermaid の扱い</h3><p><code>mermaid</code> ブロックはビルド側で専用ラッパーを出力しているため、クライアントで初期化します。</p>
-<figure class="code-block" data-lang="/dev/null/example.html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">/dev/null/example.html</span></div><pre><code class="language-/dev/null/example.html">&lt;script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"&gt;&lt;/script&gt;
+<figure class="code-block" data-lang="/dev/null/example.html"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">/dev/null/example.html</span></div><pre><code class="language-/dev/null/example.html">&lt;script src=&quot;https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
   mermaid.initialize({ startOnLoad: false, theme: 'base' });
   // build-blog.js が .mermaid 要素を出力しているので、
@@ -283,7 +294,7 @@ pre[data-line] {
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html&amp;text=%E3%83%96%E3%83%AD%E3%82%B0%E3%81%AECSS%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AB%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E4%BB%98%E3%81%91%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html&text=%E3%83%96%E3%83%AD%E3%82%B0%E3%81%AECSS%E3%81%AB%E3%82%B3%E3%83%BC%E3%83%89%E3%83%96%E3%83%AD%E3%83%83%E3%82%AF%E3%81%AB%E3%82%B7%E3%83%B3%E3%82%BF%E3%83%83%E3%82%AF%E3%82%B9%E3%83%8F%E3%82%A4%E3%83%A9%E3%82%A4%E3%83%88%E4%BB%98%E3%81%91%E3%82%8B" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -296,7 +307,7 @@ pre[data-line] {
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00019.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -316,14 +327,16 @@ pre[data-line] {
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00022.html" class="btn btn--prev">← C#14の新機能の解説</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00024.html" class="btn btn--next">Zed IDE keyma… →</a></div>
+              <div class="post-detail__nav post-detail__nav--bottom">
+                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
+              </div>
             </article>
           </div>
           <aside class="post-sidebar">
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#ビルドの要点" data-no-preview="">ビルドの要点</a></li><li class="toc-item toc-item--level-2"><a href="#実際に行った手順（概要）" data-no-preview="">実際に行った手順（概要）</a></li><li class="toc-item toc-item--level-3"><a href="#サンプル-css" data-no-preview="">サンプル CSS</a></li><li class="toc-item toc-item--level-3"><a href="#prismjs-を-cdn-で読み込む例" data-no-preview="">Prism.js を CDN で読み込む例</a></li><li class="toc-item toc-item--level-3"><a href="#mermaid-の扱い" data-no-preview="">mermaid の扱い</a></li><li class="toc-item toc-item--level-2"><a href="#追加で入れると便利な改善点" data-no-preview="">追加で入れると便利な改善点</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#ビルドの要点" data-no-preview>ビルドの要点</a></li><li class="toc-item toc-item--level-2"><a href="#実際に行った手順（概要）" data-no-preview>実際に行った手順（概要）</a></li><li class="toc-item toc-item--level-3"><a href="#サンプル-css" data-no-preview>サンプル CSS</a></li><li class="toc-item toc-item--level-3"><a href="#prismjs-を-cdn-で読み込む例" data-no-preview>Prism.js を CDN で読み込む例</a></li><li class="toc-item toc-item--level-3"><a href="#mermaid-の扱い" data-no-preview>mermaid の扱い</a></li><li class="toc-item toc-item--level-2"><a href="#追加で入れると便利な改善点" data-no-preview>追加で入れると便利な改善点</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -348,23 +361,23 @@ pre[data-line] {
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00019"};</script>
 
-    <script src="../assets/js/layout.js" defer=""></script>
-    <script src="../assets/dist/scripts.min.js" defer=""></script>
-    
-    
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
-    <script src="../assets/js/particles.js" defer=""></script>
-    
-    
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -400,5 +413,5 @@ pre[data-line] {
         }
       })();
     </script>
-  
-</body></html>
+  </body>
+</html>

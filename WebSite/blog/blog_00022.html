@@ -1,21 +1,31 @@
-<!DOCTYPE html><html lang="ja"><head>
-    <meta charset="UTF-8">
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
     <title>C#14の新機能の解説 | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="C#14で導入された注目の機能を実例を交えてわかりやすく解説します。">
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00022.html">
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00022.html">
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00022.html">
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00022.html">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="C#14で導入された注目の機能を実例を交えてわかりやすく解説します。" />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00022.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00022.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00022.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00022.html" />
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
-<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -80,27 +90,28 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="C#14の新機能の解説 | PanKUN Blog">
-    <meta property="og:description" content="C#14で導入された注目の機能を実例を交えてわかりやすく解説します。">
-    <meta property="og:type" content="article">
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00022.html">
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/csharp_icon.png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:site_name" content="PanKUN">
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
+    <meta property="og:title" content="C#14の新機能の解説 | PanKUN Blog" />
+    <meta property="og:description" content="C#14で導入された注目の機能を実例を交えてわかりやすく解説します。" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00022.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/csharp_icon.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/dist/styles.min.css">
-    
-    
-    
-    
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
+    <link rel="stylesheet" href="../assets/css/base.css" />
+    <link rel="stylesheet" href="../assets/css/layout.css" />
+    <link rel="stylesheet" href="../assets/css/blog.css" />
+    <link rel="stylesheet" href="../assets/css/preview.css" />
+    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="blog_00022">
-    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -127,7 +138,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html&amp;text=C%2314%E3%81%AE%E6%96%B0%E6%A9%9F%E8%83%BD%E3%81%AE%E8%A7%A3%E8%AA%AC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html&text=C%2314%E3%81%AE%E6%96%B0%E6%A9%9F%E8%83%BD%E3%81%AE%E8%A7%A3%E8%AA%AC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -140,7 +151,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -165,7 +176,7 @@
 <p>今回は先月末に公開された C#14 のドキュメントからいくつか機能をピックアップして紹介しようと思います。<br>公式はこちら<br><a href="https://learn.microsoft.com/ja-jp/dotnet/csharp/whats-new/csharp-14" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://learn.microsoft.com/dotnet/media/logo_csharp.png" alt="C# 14 の新機能" loading="lazy"></span><span class="og-content"><span class="og-site">learn.microsoft.com</span><span class="og-title">C# 14 の新機能</span><span class="og-description">C# 14 の新機能の概要について説明します。 C# 14 には .NET 10 が付属しています。</span></span></a></p>
 <h2 id="c14新機能">C#14新機能</h2><h3 id="field-キーワード">field キーワード</h3><p>よくフィールドとプロパティを利用して下記のような記述を多様する方がいるかと思います。
 これの目的はご存知の通り カプセル化が主な目的です。<br>これが今回の新機能で下記のように記述が可能になりました。  </p>
-<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">// before
+<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">// before
 private string m_foo;
 public string Foo
 {
@@ -188,7 +199,7 @@ public string Foo
 </blockquote>
 <p><a href="https://learn.microsoft.com/ja-jp/dotnet/csharp/whats-new/csharp-14#the-field-keyword" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://learn.microsoft.com/dotnet/media/logo_csharp.png" alt="C# 14 の新機能" loading="lazy"></span><span class="og-content"><span class="og-site">learn.microsoft.com</span><span class="og-title">C# 14 の新機能</span><span class="og-description">C# 14 の新機能の概要について説明します。 C# 14 には .NET 10 が付属しています。</span></span></a></p>
 <h3 id="拡張メンバー">拡張メンバー</h3><p>よく引き数に <code>this ClassName valueName</code> と記述するあれですね  </p>
-<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public class Foo 
+<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public class Foo 
 {
     public int hoge = 1;
 }
@@ -214,12 +225,12 @@ public static class FooExtensions
 <li>拡張オペレーターの宣言も可能</li>
 </ul>
 <p>他詳細は下記の公式参照<br><a href="https://learn.microsoft.com/ja-jp/dotnet/csharp/whats-new/csharp-14#extension-members" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://learn.microsoft.com/dotnet/media/logo_csharp.png" alt="C# 14 の新機能" loading="lazy"></span><span class="og-content"><span class="og-site">learn.microsoft.com</span><span class="og-title">C# 14 の新機能</span><span class="og-description">C# 14 の新機能の概要について説明します。 C# 14 には .NET 10 が付属しています。</span></span></a></p>
-<h3 id="null-条件付き割り当て">Null　条件付き割り当て</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public Class Hoge
+<h3 id="null-条件付き割り当て">Null　条件付き割り当て</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public Class Hoge
 {
     public string? Name = { get; set; } = null;
 }
 
-void string GetName() =&gt; "Pankun";
+void string GetName() =&gt; &quot;Pankun&quot;;
 
 void Foo(Hoge? hoge)
 {
@@ -234,7 +245,7 @@ void Foo(Hoge? hoge)
 <li>ネスト節約</li>
 <li>上に続いて可読性向上</li>
 </ul>
-<h3 id="partialメンバー">Partialメンバー</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">// Foo.cs
+<h3 id="partialメンバー">Partialメンバー</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">// Foo.cs
 public partial class Foo
 {
     // コンストラクター実装
@@ -244,7 +255,7 @@ public partial class Foo
     }
     
     // メンバ関数追加
-    private partial void Hoge() =&gt; Console.WriteLine("Partial Hoge");
+    private partial void Hoge() =&gt; Console.WriteLine(&quot;Partial Hoge&quot;);
 }
 
 // Foo.members.cs
@@ -256,7 +267,7 @@ public partial class Foo
     public partial Foo(); // Success
     private partial void Hoge(); // Success
 }</code></pre></figure><p>これで 「これ定義無いけどなんで呼べているんだ？」　とならなくて済みます。</p>
-<h3 id="nameofが未バインドジェネリック型に対応">nameofが未バインドジェネリック型に対応</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public static void ShowExample()
+<h3 id="nameofが未バインドジェネリック型に対応">nameofが未バインドジェネリック型に対応</h3><figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">public static void ShowExample()
 {
     // Before
     Console.WriteLine(nameof(List&lt;int&gt;)); // List&lt;int&gt;
@@ -271,8 +282,8 @@ public partial class Foo
 <h2 id="net-10">.NET 10</h2><p>他にもC#14で追加された機能はあるのですが、<br>.NET側にもいくつか昨日が追加されているのでそちらについても少しふれておきます。</p>
 <p>詳しくは下記参照<br><a href="https://learn.microsoft.com/ja-jp/dotnet/core/whats-new/dotnet-10/overview" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://learn.microsoft.com/dotnet/media/dotnet-logo.png" alt=".NET 10 の新機能" loading="lazy"></span><span class="og-content"><span class="og-site">learn.microsoft.com</span><span class="og-title">.NET 10 の新機能</span><span class="og-description">ランタイム、ライブラリ、SDK 用に .NET 10 で導入された新機能について説明します。 ASP.NET Core など、他の領域の新機能へのリンクも参照してください。</span></span></a>  </p>
 <h3 id="shebang">shebang</h3><p>下記のように記載することでファイルベースでスクリプトを実行できるようになりました。<br>これによりプロジェクトを作成したり、Mainメソッドを作成したりなどなどする必要がなくなります。</p>
-<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">#!/usr/bin/env -S dotnet run
-Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善があったらしいのです。</p>
+<figure class="code-block" data-lang="csharp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Csharp</span></div><pre><code class="language-csharp">#!/usr/bin/env -S dotnet run
+Console.WriteLine(&quot;Hoge&quot;);</code></pre></figure><p>他にもBlazorでで改善があったらしいのです。</p>
 <h2 id="まとめ">まとめ</h2><p>まだプレビュー版ですがプライベートのコーディングではかなり使用頻度に期待できる機能が追加された印象です。<br>是非使っていきたいですね。</p>
 </section>
               
@@ -283,7 +294,7 @@ Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善�
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html&amp;text=C%2314%E3%81%AE%E6%96%B0%E6%A9%9F%E8%83%BD%E3%81%AE%E8%A7%A3%E8%AA%AC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html&text=C%2314%E3%81%AE%E6%96%B0%E6%A9%9F%E8%83%BD%E3%81%AE%E8%A7%A3%E8%AA%AC" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -296,7 +307,7 @@ Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善�
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00022.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
           </a>
         </li>
       
@@ -316,14 +327,16 @@ Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善�
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00023.html" class="btn btn--prev">← Zed IDE setti…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00019.html" class="btn btn--next">ブログのCSSにコードブロ… →</a></div>
+              <div class="post-detail__nav post-detail__nav--bottom">
+                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
+              </div>
             </article>
           </div>
           <aside class="post-sidebar">
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#c14新機能" data-no-preview="">C#14新機能</a></li><li class="toc-item toc-item--level-3"><a href="#field-キーワード" data-no-preview="">field キーワード</a></li><li class="toc-item toc-item--level-3"><a href="#拡張メンバー" data-no-preview="">拡張メンバー</a></li><li class="toc-item toc-item--level-3"><a href="#null-条件付き割り当て" data-no-preview="">Null　条件付き割り当て</a></li><li class="toc-item toc-item--level-3"><a href="#partialメンバー" data-no-preview="">Partialメンバー</a></li><li class="toc-item toc-item--level-3"><a href="#nameofが未バインドジェネリック型に対応" data-no-preview="">nameofが未バインドジェネリック型に対応</a></li><li class="toc-item toc-item--level-2"><a href="#net-10" data-no-preview="">.NET 10</a></li><li class="toc-item toc-item--level-3"><a href="#shebang" data-no-preview="">shebang</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#c14新機能" data-no-preview>C#14新機能</a></li><li class="toc-item toc-item--level-3"><a href="#field-キーワード" data-no-preview>field キーワード</a></li><li class="toc-item toc-item--level-3"><a href="#拡張メンバー" data-no-preview>拡張メンバー</a></li><li class="toc-item toc-item--level-3"><a href="#null-条件付き割り当て" data-no-preview>Null　条件付き割り当て</a></li><li class="toc-item toc-item--level-3"><a href="#partialメンバー" data-no-preview>Partialメンバー</a></li><li class="toc-item toc-item--level-3"><a href="#nameofが未バインドジェネリック型に対応" data-no-preview>nameofが未バインドジェネリック型に対応</a></li><li class="toc-item toc-item--level-2"><a href="#net-10" data-no-preview>.NET 10</a></li><li class="toc-item toc-item--level-3"><a href="#shebang" data-no-preview>shebang</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -348,23 +361,23 @@ Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善�
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00022"};</script>
 
-    <script src="../assets/js/layout.js" defer=""></script>
-    <script src="../assets/dist/scripts.min.js" defer=""></script>
-    
-    
+    <script src="../assets/js/layout.js" defer></script>
+    <script src="../assets/js/ui.js" defer></script>
+    <script src="../assets/js/post-interactions.js" defer></script>
+    <script src="../assets/js/preview.js" defer></script>
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
-    <script src="../assets/js/particles.js" defer=""></script>
-    
-    
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../assets/js/particles.js" defer></script>
+    <script src="../assets/js/toc.js" defer></script>
+    <script src="../assets/js/recommend.js" defer></script>
+    <script src="../assets/js/mermaid-interactions.js" defer></script>
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -400,5 +413,5 @@ Console.WriteLine("Hoge");</code></pre></figure><p>他にもBlazorでで改善�
         }
       })();
     </script>
-  
-</body></html>
+  </body>
+</html>
