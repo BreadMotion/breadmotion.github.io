@@ -1,31 +1,21 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
     <title>Discord Bot のアーキテクチャを見直した話 | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Discord Bot の構成メモ コマンド／イベントをプラグイン的に追加" />
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00008.html" />
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00008.html" />
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00008.html" />
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00008.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Discord Bot の構成メモ コマンド／イベントをプラグイン的に追加">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00008.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00008.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00008.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00008.html">
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script
-    async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
-    crossorigin="anonymous"
-></script>
-<script
-    async
-    custom-element="amp-auto-ads"
-    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
-></script>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
+<script async="" custom-element="amp-auto-ads" src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -90,28 +80,27 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="Discord Bot のアーキテクチャを見直した話 | PanKUN Blog" />
-    <meta property="og:description" content="Discord Bot の構成メモ コマンド／イベントをプラグイン的に追加" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00008.html" />
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00008.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="PanKUN" />
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <meta property="og:title" content="Discord Bot のアーキテクチャを見直した話 | PanKUN Blog">
+    <meta property="og:description" content="Discord Bot の構成メモ コマンド／イベントをプラグイン的に追加">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00008.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/thumbnails/blog_00008.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/css/base.css" />
-    <link rel="stylesheet" href="../assets/css/layout.css" />
-    <link rel="stylesheet" href="../assets/css/blog.css" />
-    <link rel="stylesheet" href="../assets/css/preview.css" />
-    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
   </head>
   <body data-page="blog" data-post-id="blog_00008">
-    <amp-auto-ads type="adsense"
-      data-ad-client="ca-pub-5284984614496391">
+    <amp-auto-ads type="adsense" data-ad-client="ca-pub-5284984614496391">
     </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
@@ -138,7 +127,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html&text=Discord%20Bot%20%E3%81%AE%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%82%92%E8%A6%8B%E7%9B%B4%E3%81%97%E3%81%9F%E8%A9%B1" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html&amp;text=Discord%20Bot%20%E3%81%AE%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%82%92%E8%A6%8B%E7%9B%B4%E3%81%97%E3%81%9F%E8%A9%B1" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -151,7 +140,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -205,7 +194,7 @@
 </ul>
 <hr>
 <h2 id="ディレクトリ構成">ディレクトリ構成</h2><p>最終的に落ち着いた構成はこんな感じです。</p>
-<figure class="code-block" data-lang="text"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Text</span></div><pre><code class="language-text">bot-root/
+<figure class="code-block" data-lang="text"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Text</span></div><pre><code class="language-text">bot-root/
 ├── Command/        # コマンドモジュール
 ├── Event/          # イベントハンドラ
 ├── Data/           # JSON 等の設定・永続データ
@@ -222,15 +211,15 @@
 という形にすることで、 <strong>Bot本体を触らずに機能追加</strong> ができるようになりました。</li>
 </ul>
 <h2 id="コマンドのプラグイン構造">コマンドのプラグイン構造</h2><h3 id="コマンドモジュールの形">コマンドモジュールの形</h3><p>各コマンドは大体こんな形のJSファイルを１ファイルで持ちます。</p>
-<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Command/ping.js
+<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"></path><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"></path></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Command/ping.js
 /** @type {import('../types').BotCommand} */
 module.exports = {
-  name: &quot;ping&quot;,
-  description: &quot;疎通確認用コマンド&quot;,
+  name: "ping",
+  description: "疎通確認用コマンド",
   options: [],
   async execute(interaction, context) {
     const start = Date.now();
-    await interaction.reply(&quot;Pong!&quot;);
+    await interaction.reply("Pong!");
     const ms = Date.now() - start;
     console.log(`[ping] latency: ${ms}ms`);
   },
@@ -241,7 +230,7 @@ module.exports = {
 <h3 id="動的読み込み">動的読み込み</h3><p>コア側では、起動時に Command/ ディレクトリを走査して全部読み込みます。</p>
 <p>やっていることはシンプルで、</p>
 <ol>
-<li>fs.readdirSync(&quot;Command&quot;) で .js ファイル一覧を取得</li>
+<li>fs.readdirSync("Command") で .js ファイル一覧を取得</li>
 <li>require して name をキーに Map に登録</li>
 <li>slash command の登録用に JSON を組み立てる
 という流れです。</li>
@@ -254,18 +243,18 @@ module.exports = {
 だけで済むようになりました。</li>
 </ol>
 <h3 id="イベントハンドラの構造">イベントハンドラの構造</h3><p>イベントもコマンドと同じノリでファイルベースにしています。</p>
-<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/ready.js
+<figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"></path><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"></path></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/ready.js
 /** @type {import('../types').BotEvent} */
 module.exports = {
-  name: &quot;ready&quot;,
+  name: "ready",
   once: true,
   execute(client, context) {
     console.log(`[ready] Logged in as ${client.user.tag}`);
   },
 };
-</code></pre></figure><figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"/><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"/></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/interactionCreate.js
+</code></pre></figure><figure class="code-block" data-lang="js"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M2 3h20v18H2z" fill="none"></path><path d="M8.5 7.3l1.8 11.2H8l-0.9-5.8L6.2 18H4.7L6.8 6.7h1.7zM15.7 7.1c1.8 0 3.1.8 3.1 2.6 0 1.2-.6 2-1.7 2.5l1.1 2.2c1-.4 1.6-1.4 1.8-2.9.2-2-1.2-3.6-4.4-3.6-2.6 0-4.1 1.2-4.1 3.1 0 1.9 1.1 2.6 2.7 3.4l1.1.5c1.5.7 2 1.3 2 2.2 0 .9-.7 1.6-1.9 1.6-1.3 0-2.1-.6-2.5-1.4l-1.5.9c.7 1.6 2.6 2.6 4.7 2.6 2.9 0 4.9-1.5 4.9-4.1 0-1.8-.9-2.9-2.6-3.7l-1.1-.5c-1.4-.6-2.1-1.2-2.1-2.1 0-.8.7-1.4 1.8-1.4z"></path></svg></span><span class="lang-label">JavaScript</span></div><pre><code class="language-js">// Event/interactionCreate.js
 module.exports = {
-  name: &quot;interactionCreate&quot;,
+  name: "interactionCreate",
   once: false,
   async execute(interaction, context) {
     if (!interaction.isChatInputCommand()) return;
@@ -279,7 +268,7 @@ module.exports = {
       console.error(err);
       if (!interaction.replied) {
         await interaction.reply({
-          content: &quot;エラーが発生しました。&quot;,
+          content: "エラーが発生しました。",
           ephemeral: true,
         });
       }
@@ -288,7 +277,7 @@ module.exports = {
 };</code></pre></figure><p>コア側では、Event/ を走査して<br><code>client.on(event.name, handler) or client.once(...)</code><br>を自動で登録するだけにしています。</p>
 <hr>
 <h2 id="pm2とデプロイフロー">pm2とデプロイフロー</h2><h3 id="pm2での常駐">pm2での常駐</h3><p>Ubuntu Server 上では pm2 を使って常駐させています。</p>
-<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">pm2 start index.js --name bread-bot
+<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">pm2 start index.js --name bread-bot
 pm2 save
 pm2 startup</code></pre></figure><ul>
 <li>SSH を切っても Bot は動き続ける</li>
@@ -297,18 +286,18 @@ pm2 startup</code></pre></figure><ul>
 </ul>
 <p>という基本の運用です。</p>
 <h3 id="デプロイ用スクリプト">デプロイ用スクリプト</h3><p>デプロイはシンプルに Shell/ に 1 本スクリプトを置きました。</p>
-<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">#!/usr/bin/env bash
+<figure class="code-block" data-lang="bash"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"></path></svg></span><span class="lang-label">Bash</span></div><pre><code class="language-bash">#!/usr/bin/env bash
 set -eu
 
 cd /opt/bread-bot
 
-echo &quot;[deploy] git pull&quot;
+echo "[deploy] git pull"
 git pull origin main
 
-echo &quot;[deploy] npm install&quot;
+echo "[deploy] npm install"
 npm install --production
 
-echo &quot;[deploy] restart pm2&quot;
+echo "[deploy] restart pm2"
 pm2 restart bread-bot
 </code></pre></figure><ul>
 <li>リポジトリを更新 → サーバー側でこのスクリプト実行</li>
@@ -354,7 +343,7 @@ pm2 restart bread-bot
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html&text=Discord%20Bot%20%E3%81%AE%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%82%92%E8%A6%8B%E7%9B%B4%E3%81%97%E3%81%9F%E8%A9%B1" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html&amp;text=Discord%20Bot%20%E3%81%AE%E3%82%A2%E3%83%BC%E3%82%AD%E3%83%86%E3%82%AF%E3%83%81%E3%83%A3%E3%82%92%E8%A6%8B%E7%9B%B4%E3%81%97%E3%81%9F%E8%A9%B1" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -367,7 +356,7 @@ pm2 restart bread-bot
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00008.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -387,16 +376,14 @@ pm2 restart bread-bot
       </div>
     </div>
   
-              <div class="post-detail__nav post-detail__nav--bottom">
-                <a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a>
-              </div>
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00003.html" class="btn btn--prev">← Odin でコンテキストエ…</a><a href="../blog.html" class="btn btn--back">← ブログ一覧へ戻る</a><a href="blog_00004.html" class="btn btn--next">Modoium Remot… →</a></div>
             </article>
           </div>
           <aside class="post-sidebar">
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#目標と前提" data-no-preview>目標と前提</a></li><li class="toc-item toc-item--level-3"><a href="#目標" data-no-preview>目標</a></li><li class="toc-item toc-item--level-3"><a href="#前提" data-no-preview>前提</a></li><li class="toc-item toc-item--level-2"><a href="#ディレクトリ構成" data-no-preview>ディレクトリ構成</a></li><li class="toc-item toc-item--level-2"><a href="#コマンドのプラグイン構造" data-no-preview>コマンドのプラグイン構造</a></li><li class="toc-item toc-item--level-3"><a href="#コマンドモジュールの形" data-no-preview>コマンドモジュールの形</a></li><li class="toc-item toc-item--level-3"><a href="#動的読み込み" data-no-preview>動的読み込み</a></li><li class="toc-item toc-item--level-3"><a href="#イベントハンドラの構造" data-no-preview>イベントハンドラの構造</a></li><li class="toc-item toc-item--level-2"><a href="#pm2とデプロイフロー" data-no-preview>pm2とデプロイフロー</a></li><li class="toc-item toc-item--level-3"><a href="#pm2での常駐" data-no-preview>pm2での常駐</a></li><li class="toc-item toc-item--level-3"><a href="#デプロイ用スクリプト" data-no-preview>デプロイ用スクリプト</a></li><li class="toc-item toc-item--level-2"><a href="#これからやりたい拡張" data-no-preview>これからやりたい拡張</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#目標と前提" data-no-preview="">目標と前提</a></li><li class="toc-item toc-item--level-3"><a href="#目標" data-no-preview="">目標</a></li><li class="toc-item toc-item--level-3"><a href="#前提" data-no-preview="">前提</a></li><li class="toc-item toc-item--level-2"><a href="#ディレクトリ構成" data-no-preview="">ディレクトリ構成</a></li><li class="toc-item toc-item--level-2"><a href="#コマンドのプラグイン構造" data-no-preview="">コマンドのプラグイン構造</a></li><li class="toc-item toc-item--level-3"><a href="#コマンドモジュールの形" data-no-preview="">コマンドモジュールの形</a></li><li class="toc-item toc-item--level-3"><a href="#動的読み込み" data-no-preview="">動的読み込み</a></li><li class="toc-item toc-item--level-3"><a href="#イベントハンドラの構造" data-no-preview="">イベントハンドラの構造</a></li><li class="toc-item toc-item--level-2"><a href="#pm2とデプロイフロー" data-no-preview="">pm2とデプロイフロー</a></li><li class="toc-item toc-item--level-3"><a href="#pm2での常駐" data-no-preview="">pm2での常駐</a></li><li class="toc-item toc-item--level-3"><a href="#デプロイ用スクリプト" data-no-preview="">デプロイ用スクリプト</a></li><li class="toc-item toc-item--level-2"><a href="#これからやりたい拡張" data-no-preview="">これからやりたい拡張</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -409,7 +396,50 @@ pm2 restart bread-bot
           <h2 class="section__title">おすすめ記事</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
-         
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="目次を開く">
@@ -421,23 +451,23 @@ pm2 restart bread-bot
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00008"};</script>
 
-    <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js" defer></script>
-    <script src="../assets/js/post-interactions.js" defer></script>
-    <script src="../assets/js/preview.js" defer></script>
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
-    <script src="../assets/js/particles.js" defer></script>
-    <script src="../assets/js/toc.js" defer></script>
-    <script src="../assets/js/recommend.js" defer></script>
-    <script src="../assets/js/mermaid-interactions.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -473,5 +503,5 @@ pm2 restart bread-bot
         }
       })();
     </script>
-  </body>
-</html>
+  
+</body></html>

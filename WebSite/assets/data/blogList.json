@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00037",
+    "title": "GoFデザインパターン - ファサード編",
+    "date": "2026-05-31T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるファサードパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00037.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00036",
     "title": "GoFデザインパターン - デコレータ編",
     "date": "2026-05-10T00:00:00.000Z",
