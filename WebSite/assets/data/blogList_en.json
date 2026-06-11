@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00038",
+    "title": "GoF Design Patterns - Flyweight",
+    "date": "2026-06-12T00:00:00.000Z",
+    "category": "Coding",
+    "description": "A practical guide to the Flyweight pattern in the GoF collection： concept, use cases, C++ implementation, practical cautions, and references.",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/en/blog_00038.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00037",
     "title": "GoF Design Patterns - Facade",
     "date": "2026-05-31T00:00:00.000Z",
