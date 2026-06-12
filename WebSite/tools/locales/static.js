@@ -68,11 +68,10 @@ module.exports = {
       // Card: Experience
       ".card__title:contains('経験')": "Experience",
       ".profile-label:contains('学生開発')": "Student Dev",
-      ".profile-value:contains('約 4 年')":
-        "Approx. 4 years",
+      ".profile-value:contains('4 年')": "Approx. 4 years",
       ".profile-label:contains('業務')":
         "Professional / Personal",
-      ".profile-value:contains('約 2.5 年')":
+      ".profile-value:contains('約 3 年')":
         "Approx. 2.5 years",
       ".profile-note:contains('学生時代から')":
         "Aiming for a position with high commitment and wide coverage, involving not only game development but also tools and infrastructure since student days.",
