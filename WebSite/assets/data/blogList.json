@@ -1,5 +1,19 @@
 [
   {
+    "id": "blog_00039",
+    "title": "GoFデザインパターン - プロキシ編",
+    "date": "2026-06-25T00:00:00.000Z",
+    "category": "Coding",
+    "description": "GoFコレクションにおけるプロキシパターン実践ガイド：概念、使いどころ、C++の実装例、注意点と出典を実用的に解説します",
+    "tags": [
+      "Coding",
+      "DesignPattern"
+    ],
+    "thumbnail": "assets/img/ogp.png",
+    "contentPath": "blog/blog_00039.html",
+    "recommended": true
+  },
+  {
     "id": "blog_00038",
     "title": "GoFデザインパターン - フライウェイト編",
     "date": "2026-06-12T00:00:00.000Z",

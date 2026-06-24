@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>GoF Design Patterns - Proxy | PanKUN Blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A practical guide to the Proxy pattern in the GoF collection：concept, use cases, C++ implementation, practical cautions, and references." />
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/en/blog_00039.html" />
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00039.html" />
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00039.html" />
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00039.html" />
+
+    <!-- Performance hints -->
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+
+    <!-- Google AdSense -->
+<script
+    async
+    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
+    crossorigin="anonymous"
+></script>
+<script
+    async
+    custom-element="amp-auto-ads"
+    src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+></script>
+
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://breadmotion.github.io/WebSite/blog/en/blog_00039.html"
+  },
+  "headline": "GoF Design Patterns - Proxy",
+  "description": "A practical guide to the Proxy pattern in the GoF collection：concept, use cases, C++ implementation, practical cautions, and references.",
+  "image": [
+    "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
+  ],
+  "datePublished": "2026-06-25T00:00:00.000Z",
+  "dateModified": "2026-06-25T00:00:00.000Z",
+  "author": {
+    "@type": "Person",
+    "name": "PanKUN",
+    "url": "https://breadmotion.github.io/WebSite"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "PanKUN",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://breadmotion.github.io/WebSite/assets/img/favicon-192.png"
+    }
+  }
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "PanKUN",
+  "url": "https://breadmotion.github.io/WebSite",
+  "sameAs": [
+    "https://github.com/breadmotion",
+    "https://x.com/pankun2000_",
+    "https://twitter.com/pankun2000_"
+  ]
+}</script>
+    <script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://breadmotion.github.io/WebSite/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Blog",
+      "item": "https://breadmotion.github.io/WebSite/blog.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "GoF Design Patterns - Proxy",
+      "item": "https://breadmotion.github.io/WebSite/blog/en/blog_00039.html"
+    }
+  ]
+}</script>
+    <meta property="og:title" content="GoF Design Patterns - Proxy | PanKUN Blog" />
+    <meta property="og:description" content="A practical guide to the Proxy pattern in the GoF collection：concept, use cases, C++ implementation, practical cautions, and references." />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/en/blog_00039.html" />
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="PanKUN" />
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <link rel="apple-touch-icon" href="../../assets/img/favicon-192.png">
+    <link rel="stylesheet" href="../../assets/css/base.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/blog.css" />
+    <link rel="stylesheet" href="../../assets/css/preview.css" />
+    <link rel="stylesheet" href="../../assets/css/post-interactions.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+  </head>
+  <body data-page="blog" data-post-id="blog_00039">
+    <amp-auto-ads type="adsense"
+      data-ad-client="ca-pub-5284984614496391">
+    </amp-auto-ads>
+    <div class="page-shell">
+      <main class="main-container">
+        <div class="post-layout">
+          <div class="post-content reveal-on-scroll">
+            <article class="post-detail">
+              <nav aria-label="breadcrumb" class="breadcrumb">
+                <ol class="breadcrumb__list">
+                  <li class="breadcrumb__item"><a href="../../index.html">Home</a></li>
+                  <li class="breadcrumb__item"><a href="../../blog.html">Blog</a></li>
+                  <li class="breadcrumb__item" aria-current="page">GoF Design Patterns - Proxy</li>
+                </ol>
+              </nav>
+              <header class="post-detail__header">
+                <p class="post-detail__meta">2026/06/25 / Coding</p>
+                <h1 class="post-detail__title">GoF Design Patterns - Proxy</h1>
+                <p class="post-detail__description">A practical guide to the Proxy pattern in the GoF collection：concept, use cases, C++ implementation, practical cautions, and references.</p>
+                <p class="post-detail__tags"><a class="tag" href="../../blog.html?tag=Coding">Coding</a> <a class="tag" href="../../blog.html?tag=DesignPattern">DesignPattern</a></p>
+                
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html&text=GoF%20Design%20Patterns%20-%20Proxy" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00039" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00039" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              </header>
+              <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! This is Pan-kun.  </p>
+<p>This time, we will cover the <strong>Proxy</strong> pattern from the GoF (Gang of Four) design patterns.<br>I’ll explain it practically with a C++ sample, when to use it, and what to watch out for.  </p>
+<h2 id="introduction">Introduction</h2><p>The Proxy pattern is a structural design pattern that <strong>controls access to a real object (<code>RealSubject</code>) through a surrogate object (<code>Proxy</code>)</strong>.<br>Clients don’t need to access the real object directly; they use the proxy through the same interface.</p>
+<p>As a primary source, Wikipedia describes it as follows:</p>
+<blockquote>
+<p>&quot;The proxy pattern is a software design pattern ... a wrapper or agent object that is being called by the client to access the real serving object behind the scenes.&quot;<br>(Source: <a href="https://en.wikipedia.org/wiki/Proxy_pattern">https://en.wikipedia.org/wiki/Proxy_pattern</a>)</p>
+</blockquote>
+<p>Refactoring.Guru states its intent like this:</p>
+<blockquote>
+<p>&quot;Proxy is a structural design pattern that lets you provide a substitute or placeholder for another object. A proxy controls access to the original object...&quot;<br>(Source: <a href="https://refactoring.guru/design-patterns/proxy">https://refactoring.guru/design-patterns/proxy</a>)</p>
+</blockquote>
+<p><a href="https://en.wikipedia.org/wiki/Proxy_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Proxy pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p><a href="https://refactoring.guru/design-patterns/proxy" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://refactoring.guru/images/refactoring/social/facebook-share-preview.png?id=dbf9e98269595be86eb668f365be6868" alt="Proxy" loading="lazy"></span><span class="og-content"><span class="og-site">refactoring.guru</span><span class="og-title">Proxy</span><span class="og-description">Proxy is a structural design pattern that lets you provide a substitute or placeholder for another object. A proxy controls access to the original object, allowing you to perform something either before or after the request gets through to the original object.</span></span></a></p>
+<h2 id="use-cases">Use Cases</h2><p>Typical use cases:</p>
+<ul>
+<li><strong>Virtual Proxy (lazy initialization)</strong><br>Avoid creating heavyweight objects until they are actually needed.</li>
+<li><strong>Protection Proxy (access control)</strong><br>Forward requests only when the client satisfies authorization rules.</li>
+<li><strong>Remote Proxy</strong><br>Hide network-level details for remote service calls.</li>
+<li><strong>Caching / Logging Proxy</strong><br>Handle cross-cutting concerns such as caching, logging, and metrics outside the real service.</li>
+</ul>
+<h2 id="structure">Structure</h2><p>Core roles in the Proxy pattern:</p>
+<ol>
+<li><strong>Subject</strong><br>Common interface used by clients.</li>
+<li><strong>RealSubject</strong><br>The actual implementation with business logic.</li>
+<li><strong>Proxy</strong><br>Implements <code>Subject</code>, adds pre/post processing (control, monitoring, caching, etc.), and delegates to <code>RealSubject</code>.</li>
+<li><strong>Client</strong><br>Depends only on <code>Subject</code> and remains unaware of whether it talks to real object or proxy.</li>
+</ol>
+<div class="mermaid-wrapper"><div class="mermaid">classDiagram
+    class Subject {
+        &lt;&lt;interface&gt;&gt;
+        +FetchImage(path, token) string
+    }
+
+    class RealImageService {
+        +FetchImage(path, token) string
+        -LoadFromDisk(path) string
+    }
+
+    class ImageServiceProxy {
+        +FetchImage(path, token) string
+        -real: RealImageService
+        -cache: map&lt;string, string&gt;
+        -IsAllowed(token) bool
+    }
+
+    class Client {
+        +ShowThumbnail(path)
+    }
+
+    Subject &lt;|.. RealImageService
+    Subject &lt;|.. ImageServiceProxy
+    ImageServiceProxy --&gt; RealImageService : delegates
+    Client --&gt; Subject : uses</div></div><h2 id="c-implementation-example">C++ Implementation Example</h2><p>Let’s use an <strong>image loading service</strong> example.<br><code>ImageServiceProxy</code> handles <strong>authorization checks</strong> and <strong>caching</strong>, and delegates to <code>RealImageService</code> when needed.</p>
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;memory&gt;
+#include &lt;string&gt;
+#include &lt;unordered_map&gt;
+
+// Subject
+class IImageService {
+public:
+    virtual ~IImageService() = default;
+    virtual std::string FetchImage(const std::string&amp; path, const std::string&amp; token) = 0;
+};
+
+// RealSubject
+class RealImageService : public IImageService {
+public:
+    std::string FetchImage(const std::string&amp; path, const std::string&amp; token) override {
+        (void)token; // in production this may be used for audit
+        return LoadFromDisk(path);
+    }
+
+private:
+    std::string LoadFromDisk(const std::string&amp; path) {
+        std::cout &lt;&lt; &quot;[Real] loading from disk: &quot; &lt;&lt; path &lt;&lt; &quot;\n&quot;;
+        return &quot;IMAGE_BYTES(&quot; + path + &quot;)&quot;;
+    }
+};
+
+// Proxy
+class ImageServiceProxy : public IImageService {
+public:
+    std::string FetchImage(const std::string&amp; path, const std::string&amp; token) override {
+        if (!IsAllowed(token)) {
+            std::cout &lt;&lt; &quot;[Proxy] access denied\n&quot;;
+            return &quot;&quot;;
+        }
+
+        auto it = cache_.find(path);
+        if (it != cache_.end()) {
+            std::cout &lt;&lt; &quot;[Proxy] cache hit: &quot; &lt;&lt; path &lt;&lt; &quot;\n&quot;;
+            return it-&gt;second;
+        }
+
+        EnsureReal();
+        auto bytes = real_-&gt;FetchImage(path, token);
+        cache_[path] = bytes;
+        std::cout &lt;&lt; &quot;[Proxy] cache store: &quot; &lt;&lt; path &lt;&lt; &quot;\n&quot;;
+        return bytes;
+    }
+
+private:
+    bool IsAllowed(const std::string&amp; token) const {
+        return token == &quot;valid-token&quot;;
+    }
+
+    void EnsureReal() {
+        if (!real_) {
+            std::cout &lt;&lt; &quot;[Proxy] lazy initialize RealImageService\n&quot;;
+            real_ = std::make_unique&lt;RealImageService&gt;();
+        }
+    }
+
+private:
+    std::unique_ptr&lt;RealImageService&gt; real_;
+    std::unordered_map&lt;std::string, std::string&gt; cache_;
+};
+
+int main() {
+    std::unique_ptr&lt;IImageService&gt; service = std::make_unique&lt;ImageServiceProxy&gt;();
+
+    // authorization failure
+    auto denied = service-&gt;FetchImage(&quot;/img/banner.png&quot;, &quot;invalid&quot;);
+    std::cout &lt;&lt; &quot;denied size=&quot; &lt;&lt; denied.size() &lt;&lt; &quot;\n\n&quot;;
+
+    // first call: lazy init + real load + cache store
+    auto first = service-&gt;FetchImage(&quot;/img/banner.png&quot;, &quot;valid-token&quot;);
+    std::cout &lt;&lt; &quot;first size=&quot; &lt;&lt; first.size() &lt;&lt; &quot;\n\n&quot;;
+
+    // second call: cache hit (no real load)
+    auto second = service-&gt;FetchImage(&quot;/img/banner.png&quot;, &quot;valid-token&quot;);
+    std::cout &lt;&lt; &quot;second size=&quot; &lt;&lt; second.size() &lt;&lt; &quot;\n&quot;;
+
+    return 0;
+}
+
+// Example output
+// [Proxy] access denied
+// denied size=0
+//
+// [Proxy] lazy initialize RealImageService
+// [Real] loading from disk: /img/banner.png
+// [Proxy] cache store: /img/banner.png
+// first size=28
+//
+// [Proxy] cache hit: /img/banner.png
+// second size=28</code></pre></figure><p>In this design, the client depends only on <code>IImageService</code>, so swapping implementation (real/proxy) remains transparent.</p>
+<h2 id="pros--cons">Pros / Cons</h2><h3 id="pros">Pros</h3><ul>
+<li><strong>Transparent access control</strong><br>You can add authorization and auditing without changing clients.</li>
+<li><strong>Lifecycle management</strong><br>Lazy initialization and resource management can be centralized in proxy.</li>
+<li><strong>Separation of cross-cutting concerns</strong><br>Caching, logging, and metrics stay out of core service logic.</li>
+</ul>
+<h3 id="cons">Cons</h3><ul>
+<li><strong>More classes</strong><br>It may become over-engineering for small applications.</li>
+<li><strong>Potential latency overhead</strong><br>Extra proxy logic can increase response time.</li>
+<li><strong>Risk of responsibility bloat</strong><br>A single proxy can become hard to maintain if too many concerns are added.</li>
+</ul>
+<h2 id="difference-from-similar-patterns">Difference from Similar Patterns</h2><ul>
+<li><strong>Adapter</strong>: converts interfaces (goal: compatibility).  </li>
+<li><strong>Decorator</strong>: adds behavior dynamically on the same interface (goal: extension).  </li>
+<li><strong>Facade</strong>: simplifies access to a subsystem (goal: simplification).  </li>
+<li><strong>Proxy</strong>: provides controlled/managed access with the same interface (goal: control).</li>
+</ul>
+<h2 id="practical-notes">Practical Notes</h2><ul>
+<li>Keep real object and proxy on the <strong>same interface</strong> to preserve substitutability.</li>
+<li>Design cache <strong>TTL and invalidation strategy</strong> first; stale cache can break correctness.</li>
+<li>For remote proxies, explicitly handle <strong>timeouts, retries, and circuit breakers</strong>.</li>
+<li>For protection proxies, always keep failure logs and audit trails.</li>
+</ul>
+<h2 id="summary">Summary</h2><p>The Proxy pattern is a practical structural pattern that <strong>controls access to real objects via interchangeable surrogate objects implementing the same interface</strong>.<br>It is very effective for lazy initialization, access control, caching, and observability without modifying client code.</p>
+<p>On the other hand, avoid putting too many responsibilities into one proxy.<br>Splitting proxies by concern keeps maintenance manageable.<br>In design reviews, first define exactly <strong>what is being controlled</strong> and <strong>where responsibility ends</strong>.</p>
+<p>References:</p>
+<p><a href="https://en.wikipedia.org/wiki/Proxy_pattern" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.wikipedia.org</span><span class="og-title">Proxy pattern - Wikipedia</span><span class="og-description"></span></span></a></p>
+<p><a href="https://refactoring.guru/design-patterns/proxy" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://refactoring.guru/images/refactoring/social/facebook-share-preview.png?id=dbf9e98269595be86eb668f365be6868" alt="Proxy" loading="lazy"></span><span class="og-content"><span class="og-site">refactoring.guru</span><span class="og-title">Proxy</span><span class="og-description">Proxy is a structural design pattern that lets you provide a substitute or placeholder for another object. A proxy controls access to the original object, allowing you to perform something either before or after the request gets through to the original object.</span></span></a></p>
+<p>That’s it for this article. I’ll cover another GoF pattern next time.<br>The implementation shown here is simplified for learning purposes.<br>Please evaluate thoroughly before adopting it in production.</p>
+<p>Thanks for reading — Pan-kun!</p>
+</section>
+              
+    <div class="post-header-actions" aria-hidden="false">
+      <div class="post-header-actions__left">
+        <div class="share-buttons">
+    <p class="share-buttons__title">SHARE</p>
+    <ul class="share-buttons__list">
+      
+        <li class="share-buttons__item">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html&text=GoF%20Design%20Patterns%20-%20Proxy" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitter Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html" class="share-buttons__link share-buttons__link--facebook" target="_blank" rel="noopener noreferrer" aria-label="Facebook Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.557-.14-2.857-.14C11.928 2 10 3.657 10 6.7v2.8H7v4h3V22h4z"></path></svg>
+          </a>
+        </li>
+      
+        <li class="share-buttons__item">
+          <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fen%2Fblog_00039.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINE Share">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+          </a>
+        </li>
+      
+    </ul>
+  </div>
+      </div>
+      <div class="post-header-actions__right">
+        <div class="post-actions">
+          <button type="button" class="btn btn--icon btn-like" data-post-id="blog_00039" aria-pressed="false" aria-label="Like">
+            <span class="icon-like" aria-hidden="true">❤</span>
+            <span class="like-count">0</span>
+          </button>
+          <button type="button" class="btn btn--icon btn-bookmark" data-post-id="blog_00039" aria-pressed="false" aria-label="Bookmark">
+            <span class="icon-bookmark" aria-hidden="true">🔖</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  
+              <div class="post-detail__nav post-detail__nav--bottom"><a href="blog_00038.html" class="btn btn--prev">← GoF Design Pa…</a><a href="../blog.html" class="btn btn--back">← Back to Blog</a></div>
+            </article>
+          </div>
+          <aside class="post-sidebar">
+            <div class="toc-sticky-container">
+              <nav class="toc">
+                <h2 class="toc__title">Table of Contents</h2>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#introduction" data-no-preview>Introduction</a></li><li class="toc-item toc-item--level-2"><a href="#use-cases" data-no-preview>Use Cases</a></li><li class="toc-item toc-item--level-2"><a href="#structure" data-no-preview>Structure</a></li><li class="toc-item toc-item--level-2"><a href="#c-implementation-example" data-no-preview>C++ Implementation Example</a></li><li class="toc-item toc-item--level-2"><a href="#pros--cons" data-no-preview>Pros / Cons</a></li><li class="toc-item toc-item--level-3"><a href="#pros" data-no-preview>Pros</a></li><li class="toc-item toc-item--level-3"><a href="#cons" data-no-preview>Cons</a></li><li class="toc-item toc-item--level-2"><a href="#difference-from-similar-patterns" data-no-preview>Difference from Similar Patterns</a></li><li class="toc-item toc-item--level-2"><a href="#practical-notes" data-no-preview>Practical Notes</a></li><li class="toc-item toc-item--level-2"><a href="#summary" data-no-preview>Summary</a></li></ul>
+              </nav>
+            </div>
+          </aside>
+        </div>
+        <section class="section section--related">
+          <h2 class="section__title">Related Posts</h2>
+          <div id="relatedList" class="recommend-grid"></div>
+        </section>
+        <section class="section section--recommend">
+          <h2 class="section__title">Recommended</h2>
+          <div id="recommendList" class="recommend-grid"></div>
+        </section>
+         
+      </main>
+      <div class="toc-overlay"></div>
+      <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20" aria-hidden="true"><path d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"></path></svg>
+        <span>TOC</span>
+      </button>
+    </div>
+
+    <!-- 生成時に埋め込むクライアント設定 -->
+    <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00039"};</script>
+
+    <script src="../../assets/js/layout.js" defer></script>
+    <script src="../../assets/js/ui.js" defer></script>
+    <script src="../../assets/js/post-interactions.js" defer></script>
+    <script src="../../assets/js/preview.js" defer></script>
+    <canvas id="menuAnimationCanvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
+    <script src="../../assets/js/particles.js" defer></script>
+    <script src="../../assets/js/toc.js" defer></script>
+    <script src="../../assets/js/recommend.js" defer></script>
+    <script src="../../assets/js/mermaid-interactions.js" defer></script>
+
+    <!-- Highlight.js: syntax highlighting for code blocks -->
+    <!-- Highlight.js (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+
+    <!-- Mermaid (CDN) -->
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+
+    <script>
+      // Ensure Highlight.js runs after it has loaded and DOM is ready
+      document.addEventListener('DOMContentLoaded', function() {
+        if (window.hljs && typeof hljs.highlightAll === 'function') {
+          try {
+            hljs.highlightAll();
+          } catch (e) {
+            console.error('Highlight.js failed:', e);
+          }
+        }
+      });
+
+      // Initialize mermaid when available; retry briefly if script not loaded yet
+      (function initMermaid() {
+        function tryInit() {
+          if (window.mermaid && typeof mermaid.initialize === 'function') {
+            try {
+              mermaid.initialize({ startOnLoad: false });
+              mermaid.init(undefined, document.querySelectorAll('.mermaid'));
+            } catch (e) {
+              console.error('Mermaid init failed:', e);
+            }
+          } else {
+            // retry a few times
+            setTimeout(tryInit, 200);
+          }
+        }
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', tryInit);
+        } else {
+          tryInit();
+        }
+      })();
+    </script>
+  </body>
+</html>
