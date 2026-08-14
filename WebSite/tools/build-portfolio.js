@@ -238,7 +238,7 @@ ${bodyHtml}
     const category = data.category || "";
     const role = data.role || "";
     const tech = data.tech || "";
-    let thumbnail = data.thumbnail || "";
+    let thumbnail = typeof data.thumbnail === 'string' ? data.thumbnail.trim() : "";
 
     if (thumbnail) {
       try {
