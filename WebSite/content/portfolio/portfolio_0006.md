@@ -1,10 +1,10 @@
 ---
 title: DynastyOfJaws
 role: Client Engineer
-tech: UE5 / C++= / Discord
+tech: UE5 / C++ / Discord
 platform: steam
 description: 古代海洋生物MO サバイバルゲーム
-category: MOサバイバルゲーム
+category: Game
 tags: game, steam, discord
 X: https://x.com/pankun2000_
 thumbnail: assets/img/ogp.png

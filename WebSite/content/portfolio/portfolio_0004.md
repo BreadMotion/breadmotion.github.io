@@ -4,7 +4,7 @@ role: Client Engineer
 tech: Unity / C# / slack
 platform: android, ios
 description: オンライン 3vs3vs3 Moba アクションゲーム
-category: 携帯ソーシャルアクションゲーム
+category: Game
 tags: game, ios, android, slack
 X: https://x.com/pankun2000_
 thumbnail: assets/img/ogp.png

@@ -4,7 +4,7 @@ role: Client Engineer
 tech: Unity / C# / Discord
 platform: steam
 description: ゴミ大量破壊 インクリメントゲーム
-category: インクリメントゲーム
+category: Game
 tags: game, steam, discord
 X: https://x.com/pankun2000_
 thumbnail: assets/img/ogp.png
