@@ -7,7 +7,7 @@ description: RPG
 category: Game
 tags: game, steam, DLSite, discord
 X: https://x.com/pankun2000_
-thumbnail: assets/img/thumbnails/portfolio_0006.png
+thumbnail: assets/img/ogp.png
 ---
 
 ## 開発元 : 自創作ゲーム化計画
