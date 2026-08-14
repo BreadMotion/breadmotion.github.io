@@ -256,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const clientId =
       window.__ADSENSE_CLIENT_ID ||
       "ca-pub-5284984614496391";
-    const slotId = window.__SECTION_AD_SLOT_ID || "";
+    const slotId = window.__SECTION_AD_SLOT_ID || "2824724407";
 
     if (!slotId) {
       return `
