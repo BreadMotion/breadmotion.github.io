@@ -1,26 +1,20 @@
-<!doctype html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8" />
+<!DOCTYPE html><html lang="ja"><head>
+    <meta charset="UTF-8">
     <title>GoFデザインパターン - シングルトン編 | PanKUN Blog</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン" />
-    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html" />
-    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html" />
-    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html" />
-    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン">
+    <link rel="canonical" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <link rel="alternate" hreflang="ja" href="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <link rel="alternate" hreflang="en" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html">
+    <link rel="alternate" hreflang="x-default" href="https://breadmotion.github.io/WebSite/blog/en/blog_00028.html">
 
     <!-- Performance hints -->
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin="">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin="">
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
     <!-- Google AdSense -->
-<script
-    async
-    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391"
-    crossorigin="anonymous"
-></script>
+<script async="" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5284984614496391" crossorigin="anonymous"></script>
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
@@ -85,24 +79,24 @@
     }
   ]
 }</script>
-    <meta property="og:title" content="GoFデザインパターン - シングルトン編 | PanKUN Blog" />
-    <meta property="og:description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン" />
-    <meta property="og:type" content="article" />
-    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00028.html" />
-    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="PanKUN" />
-    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192" />
+    <meta property="og:title" content="GoFデザインパターン - シングルトン編 | PanKUN Blog">
+    <meta property="og:description" content="GoFコレクションにおけるシングルトンパターン実践ガイド：C++サンプル、スレッドセーフに関する注記、使用例、アンチパターン">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://breadmotion.github.io/WebSite/blog/blog_00028.html">
+    <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="PanKUN">
+    <link rel="icon" type="image/x-icon" href="https://breadmotion.github.io/favicon.ico">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="https://breadmotion.github.io/assets/img/favicon-192.png" sizes="192x192">
     <link rel="apple-touch-icon" href="../assets/img/favicon-192.png">
-    <link rel="stylesheet" href="../assets/css/base.css" />
-    <link rel="stylesheet" href="../assets/css/layout.css" />
-    <link rel="stylesheet" href="../assets/css/blog.css" />
-    <link rel="stylesheet" href="../assets/css/preview.css" />
-    <link rel="stylesheet" href="../assets/css/post-interactions.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
+    <link rel="stylesheet" href="../assets/dist/styles.min.css">
+    
+    
+    
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css">
   </head>
   <body data-page="blog" data-post-id="blog_00028">
     <div class="page-shell">
@@ -130,7 +124,7 @@
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -143,7 +137,7 @@
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -175,7 +169,7 @@
 </ul>
 <p>Wikipedia の定義は下記です</p>
 <blockquote>
-<p>&quot;ソフトウェア工学において、シングルトンパターンとは、クラスのインスタンス化を「単一」のインスタンスに制限するソフトウェア設計パターンである。&quot;<br>（出典: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">https://en.wikipedia.org/wiki/Singleton_pattern</a>）</p>
+<p>"ソフトウェア工学において、シングルトンパターンとは、クラスのインスタンス化を「単一」のインスタンスに制限するソフトウェア設計パターンである。"<br>（出典: <a href="https://en.wikipedia.org/wiki/Singleton_pattern">https://en.wikipedia.org/wiki/Singleton_pattern</a>）</p>
 </blockquote>
 <p>GoF の観点では オブジェクトの生成とアクセスを制御することで 共有資源（設定、ロガー、接続プールなど）に対して一元的に制御を掛けるためのデザインパターンになっています。</p>
 <p><strong>この記事のゴール</strong>：  </p>
@@ -207,7 +201,7 @@
 <p>以下にいくつかのC++実装を示します。<br>コードは学習用途に簡潔化しています。  </p>
 <h3 id="eager-singleton実装">Eager Singleton実装</h3><p>Eager Singleton は実装が凄く簡単です。　　
 ただ下記サンプルコードの場合はコメント記載している通り、プログラム起動時に生成されるためそのフェーズの処理コストは発生します。<br>シングルトン実装のケースは基本これで耐えうるともいます。  </p>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// EagerSingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// EagerSingleton.h
 #pragma once
 #include &lt;iostream&gt;
 
@@ -223,7 +217,7 @@ public:
         return instance;
     }
 
-    void Say() { std::cout &lt;&lt; &quot;EagerSingleton\n&quot;; }
+    void Say() { std::cout &lt;&lt; "EagerSingleton\n"; }
 };
 
 // EagerSingleton.cpp
@@ -232,7 +226,7 @@ EagerSingleton EagerSingleton::instance; // instance の定義が必要</code></
 <li>パフォーマンス削ってもいい</li>
 <li>使用言語によっては懸念にならない</li>
 </ul>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// LazySingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// LazySingleton.h
 #pragma once
 #include &lt;mutex&gt;
 #include &lt;memory&gt;
@@ -257,14 +251,14 @@ public:
 
 // LazySingleton.cpp
 std::mutex LazySingleton::mtx;
-LazySingleton* LazySingleton::instance = nullptr;</code></pre></figure><h3 id="meyers39-singleton実装">Meyers&#39; Singleton実装</h3><p>Meyers&#39; Singleton は簡潔で軽く説明するとインスタンスの配置場所が下記の違いがあります  </p>
+LazySingleton* LazySingleton::instance = nullptr;</code></pre></figure><h3 id="meyers39-singleton実装">Meyers' Singleton実装</h3><p>Meyers' Singleton は簡潔で軽く説明するとインスタンスの配置場所が下記の違いがあります  </p>
 <ul>
 <li><strong>Eager Singleton</strong> : クラスメンバーに変数配置  </li>
-<li><strong>Meyers&#39; Singleton</strong> : 静的取得関数にローカルで変数配置</li>
+<li><strong>Meyers' Singleton</strong> : 静的取得関数にローカルで変数配置</li>
 </ul>
 <p>C++11以降では 静的局所変数の初期化 はスレッドセーフであるため C++では <strong>Eager Singleton</strong> より推奨される実装方法です  </p>
 <p><a href="https://en.cppreference.com/w/cpp/language/storage_duration#Static_local_variables" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">Storage class specifiers - cppreference.com</span><span class="og-description"></span></span></a></p>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MeyersSingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MeyersSingleton.h
 #pragma once
 #include &lt;iostream&gt;
 
@@ -280,10 +274,10 @@ public:
         return instance;
     }
 
-    void Say() { std::cout &lt;&lt; &quot;MeyersSingleton\n&quot;; }
+    void Say() { std::cout &lt;&lt; "MeyersSingleton\n"; }
 };</code></pre></figure><h3 id="stdcall_once-を使った-lazy-singleton実装"><code>std::call_once</code> を使った Lazy Singleton実装</h3><p>これは複雑な初期化が必要な場合に明示的で安全な手段です<br>実装工数と可読性的に使用頻度はすくないかもですが  </p>
 <p><a href="https://en.cppreference.com/w/cpp/thread/call_once" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail no-image"></span><span class="og-content"><span class="og-site">en.cppreference.com</span><span class="og-title">std::call_once - cppreference.com</span><span class="og-description"></span></span></a></p>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// CallOnceSingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// CallOnceSingleton.h
 #pragma once
 #include &lt;mutex&gt;
 #include &lt;memory&gt;
@@ -313,7 +307,7 @@ public:
 std::unique_ptr&lt;CallOnceSingleton&gt; CallOnceSingleton::instance;
 std::once_flag CallOnceSingleton::initFlag;</code></pre></figure><h3 id="cのシングルトンパターンの応用">C++のシングルトンパターンの応用</h3><p>パターンの説明とは違いますが、このデザインパターンの基本を理解したうえで使用すると様々な応用が可能です。<br>よくある応用ケースですが雑にいくつか紹介してみます。<br>あくまで例なので最適解でも正解でもなんでもなく、固定概念に捕らわれないようにするためのサンプルです。<br>どうやったらより良くできるか等、思考錯誤できるようがんばってください。  </p>
 <p><strong>Template Eager Singleton</strong><br>これだとシングルトンパターンを毎回実装する必要がなくなります<br>その代わり Foo.h を見た時にシングルトンかどうか判断は出来なくなるので可読性が上がっているようで、下がっているようにも見れます<br>※「じゃあどうよう」に対する改善は是非チャレンジしてみてください！  </p>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// TemplateEagerSingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// TemplateEagerSingleton.h
 #pragma once
 #include &lt;iostream&gt;
 
@@ -337,7 +331,7 @@ T TemplateEagerSingleton&lt;T&gt;::instance;
 
 // Foo.h
 struct Foo {
-    void Say() { std::cout &lt;&lt; &quot;TemplateEagerSingleton MyService\n&quot;; }
+    void Say() { std::cout &lt;&lt; "TemplateEagerSingleton MyService\n"; }
 };
 
 // other.cpp
@@ -345,7 +339,7 @@ auto&amp; foo = TemplateEagerSingleton&lt;Foo&gt;::GetInstance();
 foo.Say();</code></pre></figure><p><strong>Multi Instance Eager Singleton</strong>
 複数のグローバルアクセス可能なインスタンスにアクセスできるようになります<br>マジックナンバーとかその辺のどうとでもなるところは今回無視するとして問題は <strong>ライフサイクルの管理</strong> と <strong>使用用途の疑問</strong> くらいです。  </p>
 <p>ライフサイクルの管理はケースによるのでなんともですが<br>使用用途の幅を増やすならポリモーフィズムになるようにコンパイル時定数で内部データ可変にしたリ等すればやるメリットが生まれてくると思います。<br>この辺もやりようはあると思うのでケースバイケースです。  </p>
-<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"/></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MultiInstanceEagerSingleton.h
+<figure class="code-block" data-lang="cpp"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor"><path d="M3 12h18M12 3v18"></path></svg></span><span class="lang-label">C++</span></div><pre><code class="language-cpp">// MultiInstanceEagerSingleton.h
 #pragma once
 #include &lt;array&gt;
 #include &lt;iostream&gt;
@@ -364,15 +358,15 @@ public:
 
     // index を指定して複数インスタンスへアクセスする
     static MultiInstanceEagerSingleton&amp; GetInstance(std::size_t index) {
-        assert(index &lt; COUNT &amp;&amp; &quot;index out of range&quot;);
+        assert(index &lt; COUNT &amp;&amp; "index out of range");
         return instances[index];
     }
 
-    void Say() { std::cout &lt;&lt; &quot;MultiInstanceEagerSingleton id=&quot; &lt;&lt; id_ &lt;&lt; '\n'; }
+    void Say() { std::cout &lt;&lt; "MultiInstanceEagerSingleton id=" &lt;&lt; id_ &lt;&lt; '\n'; }
 };
 
 // MultiInstanceEagerSingleton.cpp
-#include &quot;MultiInstanceEagerSingleton.h&quot;
+#include "MultiInstanceEagerSingleton.h"
 
 // 静的メンバの定義（プログラム起動時に COUNT 個のインスタンスが生成される）
 std::array&lt;MultiInstanceEagerSingleton, MultiInstanceEagerSingleton::COUNT&gt; MultiInstanceEagerSingleton::instances = {
@@ -400,7 +394,7 @@ s0.Say();</code></pre></figure><h2 id="使用するタイミングと代替ア�
 <ul>
 <li>テスト専用の初期化/破棄 API を用意する</li>
 <li>可能ならコンストラクションを外部から提供し、テスト時はモックを注入する</li>
-<li>Meyers&#39; Singleton のような関数内静的変数はプロセス終了まで生きるため、走行中に状態を戻すのが難しい</li>
+<li>Meyers' Singleton のような関数内静的変数はプロセス終了まで生きるため、走行中に状態を戻すのが難しい</li>
 </ul>
 <h2 id="アンチパターンとよくある落とし穴">アンチパターンとよくある落とし穴</h2><ul>
 <li><strong>過剰な使用</strong> : 単に「使い回したい」という理由で乱用すると、コードの結合度が高くなる</li>
@@ -408,7 +402,7 @@ s0.Say();</code></pre></figure><h2 id="使用するタイミングと代替ア�
 <li><strong>ライフサイクル管理の不明確さ</strong> : プログラム終了時のリソース解放や順序問題、静的オブジェクト同士の依存関係に注意</li>
 </ul>
 <h2 id="まとめ">まとめ</h2><p>シングルトンは「ただ1つのインスタンス」を保証する便利なパターンだが、設計上のトレードオフを必ず考慮する必要があります。
-C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で安全な実装方法の一つです。
+C++ では C++11 以降の関数内静的変数（Meyers'）がお手軽で安全な実装方法の一つです。
 明示的な制御が必要な場合は <code>std::call_once</code> を使うと良いでしょう。
 大規模なシステムやテスト性が重視されるシステムでは、依存性注入やファクトリなどの手法を検討することを推奨します。</p>
 <p>参考・出典を記します</p>
@@ -426,7 +420,7 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
     <ul class="share-buttons__list">
       
         <li class="share-buttons__item">
-          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
+          <a href="https://twitter.com/intent/tweet?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html&amp;text=GoF%E3%83%87%E3%82%B6%E3%82%A4%E3%83%B3%E3%83%91%E3%82%BF%E3%83%BC%E3%83%B3%20-%20%E3%82%B7%E3%83%B3%E3%82%B0%E3%83%AB%E3%83%88%E3%83%B3%E7%B7%A8" class="share-buttons__link share-buttons__link--twitter" target="_blank" rel="noopener noreferrer" aria-label="Twitterでシェア">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"></path></svg>
           </a>
         </li>
@@ -439,7 +433,7 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
       
         <li class="share-buttons__item">
           <a href="https://social-plugins.line.me/lineit/share?url=https%3A%2F%2Fbreadmotion.github.io%2FWebSite%2Fblog%2Fblog_00028.html" class="share-buttons__link share-buttons__link--line" target="_blank" rel="noopener noreferrer" aria-label="LINEでシェア">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-2 -2.5 24 24" width="24" height="24" fill="currentColor"><path d="M19.914 9.003a6.741 6.741 0 0 1-.764 2.2c-.179.324-1.056 1.558-1.325 1.884-1.478 1.788-3.953 3.851-8.092 5.857a.545.545 0 0 1-.78-.552l.21-1.885a.545.545 0 0 0-.483-.604C3.781 15.388 0 12.04 0 7.986 0 3.576 4.476 0 9.997 0c5.366 0 9.744 3.377 9.987 7.615.007.123.026.516.01.78-.011.16-.034.365-.08.608zm-15.414.6V6.24a.512.512 0 1 0-1.023 0v3.877c0 .284.23.514.512.514h2.045a.512.512 0 0 0 0-1.027H4.5zm3.154 1.028a.4.4 0 0 0 .4-.401V6.128a.4.4 0 0 0-.4-.402h-.223a.4.4 0 0 0-.4.402v4.102a.4.4 0 0 0 .4.4h.223zm4.133-4.391v2.369s-2.042-2.676-2.074-2.71a.508.508 0 0 0-.4-.172.527.527 0 0 0-.492.534v3.856a.512.512 0 1 0 1.023 0V7.763s2.073 2.698 2.104 2.727c.09.086.211.14.346.14.284.003.516-.249.516-.534V6.24a.512.512 0 1 0-1.023 0zm4.858 0a.512.512 0 0 0-.512-.514h-2.045a.512.512 0 0 0-.511.514v3.877c0 .284.229.514.511.514h2.045a.512.512 0 0 0 0-1.027H14.6v-.912h1.534a.512.512 0 0 0 0-1.027H14.6v-.912h1.534c.283 0 .512-.23.512-.513z"></path></svg>
           </a>
         </li>
       
@@ -466,7 +460,7 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
             <div class="toc-sticky-container">
               <nav class="toc">
                 <h2 class="toc__title">目次</h2>
-                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview>はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#代表的なユースケース" data-no-preview>代表的なユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装パターン" data-no-preview>C++ 実装パターン</a></li><li class="toc-item toc-item--level-3"><a href="#eager-singleton実装" data-no-preview>Eager Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#lazy-singleton実装" data-no-preview>Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#meyers39-singleton実装" data-no-preview>Meyers&amp;#39; Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#stdcall_once-を使った-lazy-singleton実装" data-no-preview>&lt;code&gt;std::call_once&lt;/code&gt; を使った Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#cのシングルトンパターンの応用" data-no-preview>C++のシングルトンパターンの応用</a></li><li class="toc-item toc-item--level-2"><a href="#使用するタイミングと代替アプローチ" data-no-preview>使用するタイミングと代替アプローチ</a></li><li class="toc-item toc-item--level-2"><a href="#テストのしやすさ" data-no-preview>テストのしやすさ</a></li><li class="toc-item toc-item--level-2"><a href="#アンチパターンとよくある落とし穴" data-no-preview>アンチパターンとよくある落とし穴</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview>まとめ</a></li></ul>
+                <ul class="toc-list"><li class="toc-item toc-item--level-2"><a href="#はじめに" data-no-preview="">はじめに</a></li><li class="toc-item toc-item--level-2"><a href="#代表的なユースケース" data-no-preview="">代表的なユースケース</a></li><li class="toc-item toc-item--level-2"><a href="#c-実装パターン" data-no-preview="">C++ 実装パターン</a></li><li class="toc-item toc-item--level-3"><a href="#eager-singleton実装" data-no-preview="">Eager Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#lazy-singleton実装" data-no-preview="">Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#meyers39-singleton実装" data-no-preview="">Meyers&amp;#39; Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#stdcall_once-を使った-lazy-singleton実装" data-no-preview="">&lt;code&gt;std::call_once&lt;/code&gt; を使った Lazy Singleton実装</a></li><li class="toc-item toc-item--level-3"><a href="#cのシングルトンパターンの応用" data-no-preview="">C++のシングルトンパターンの応用</a></li><li class="toc-item toc-item--level-2"><a href="#使用するタイミングと代替アプローチ" data-no-preview="">使用するタイミングと代替アプローチ</a></li><li class="toc-item toc-item--level-2"><a href="#テストのしやすさ" data-no-preview="">テストのしやすさ</a></li><li class="toc-item toc-item--level-2"><a href="#アンチパターンとよくある落とし穴" data-no-preview="">アンチパターンとよくある落とし穴</a></li><li class="toc-item toc-item--level-2"><a href="#まとめ" data-no-preview="">まとめ</a></li></ul>
               </nav>
             </div>
           </aside>
@@ -479,7 +473,50 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
           <h2 class="section__title">おすすめ記事</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
-         
+         <section class="section section--comments">
+    <h2 class="section__title">コメント</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config="{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}">
+        <p class="giscus-loading">コメントを読み込み中...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="目次を開く">
@@ -491,23 +528,23 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00028"};</script>
 
-    <script src="../assets/js/layout.js" defer></script>
-    <script src="../assets/js/ui.js" defer></script>
-    <script src="../assets/js/post-interactions.js" defer></script>
-    <script src="../assets/js/preview.js" defer></script>
+    <script src="../assets/js/layout.js" defer=""></script>
+    <script src="../assets/dist/scripts.min.js" defer=""></script>
+    
+    
     <canvas id="menuAnimationCanvas"></canvas>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer></script>
-    <script src="../assets/js/particles.js" defer></script>
-    <script src="../assets/js/toc.js" defer></script>
-    <script src="../assets/js/recommend.js" defer></script>
-    <script src="../assets/js/mermaid-interactions.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js" defer=""></script>
+    <script src="../assets/js/particles.js" defer=""></script>
+    
+    
+    
 
     <!-- Highlight.js: syntax highlighting for code blocks -->
     <!-- Highlight.js (CDN) -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js" defer=""></script>
 
     <!-- Mermaid (CDN) -->
-    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" defer=""></script>
 
     <script>
       // Ensure Highlight.js runs after it has loaded and DOM is ready
@@ -543,5 +580,5 @@ C++ では C++11 以降の関数内静的変数（Meyers&#39;）がお手軽で�
         }
       })();
     </script>
-  </body>
-</html>
+  
+</body></html>

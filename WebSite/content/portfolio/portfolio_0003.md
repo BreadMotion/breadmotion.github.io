@@ -14,15 +14,11 @@ thumbnail: assets/img/ogp.png
 
 リリース日 : 2025/11/20
 
----
+### 概要
 
-### ツールの概要
-
-自作コマンド、イベントをDiscordチャンネルから追加、実行できるようになるボットです。
-セキュリティの都合上公開は控えさせてもらいました。
-詳細は[こちら](https://breadmotion.github.io/WebSite/blog/blog_00008.html) のブログから
-
----
+自作コマンド、イベントをDiscordチャンネルから追加、実行できるようになるボットです  
+セキュリティの都合上公開は控えさせてもらいました  
+詳細は[こちら](https://breadmotion.github.io/WebSite/blog/blog_00008.html) のブログから  
 
 ### URL
 

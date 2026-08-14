@@ -165,7 +165,7 @@
   
               </header>
               <section class="post-detail__body markdown-body reveal-on-scroll"><p>Hello! Pan here.</p>
-<p>In this post I describe my recommended <code>keymap.json</code> settings for the Zed editor — the key mappings I find convenient to set up.<br>I also previously wrote about recommended IDE settings in <code>settings.json</code>, so you might want to read that as well:<br><a href="https://breadmotion.github.io/WebSite/blog/en/blog_00023.html">https://breadmotion.github.io/WebSite/blog/en/blog_00023.html</a></p>
+<p>In this post I describe my recommended <code>keymap.json</code> settings for the Zed editor — the key mappings I find convenient to set up.<br>I also previously wrote about recommended IDE settings in <code>settings.json</code>, so you might want to read that as well:<br><a href="https://breadmotion.github.io/WebSite/blog/en/blog_00023.html" class="og-card" target="_blank" rel="noopener noreferrer"><span class="og-thumbnail"><img src="https://breadmotion.github.io/WebSite/assets/img/zed_icon.png" alt="Recommended Zed setting.json | PanKUN Blog" loading="lazy"></span><span class="og-content"><span class="og-site">breadmotion.github.io</span><span class="og-title">Recommended Zed setting.json | PanKUN Blog</span><span class="og-description">I share my minimal recommended settings for Zed&#39;s setting.json</span></span></a></p>
 <h2 id="introduction">Introduction</h2><p>Zed provides a customizable keybinding system that is easy to configure. While some IDEs let you change bindings via <code>settings.json</code>, Zed primarily uses <code>keymap.json</code> for most custom key mappings (writing them in <code>settings.json</code> may also work in some cases).</p>
 <p>Examples of other editors/IDEs with configurable bindings:</p>
 <ul>
@@ -309,7 +309,50 @@
           <h2 class="section__title">Recommended</h2>
           <div id="recommendList" class="recommend-grid"></div>
         </section>
-         
+         <section class="section section--comments">
+    <h2 class="section__title">Comments</h2>
+    <div id="comments" class="post-comments">
+      <div class="giscus-placeholder" data-giscus-config='{&quot;repo&quot;:&quot;BreadMotion/breadmotion.github.io&quot;,&quot;repoId&quot;:&quot;R_kgDOM8I6Fg&quot;,&quot;category&quot;:&quot;Comment&quot;,&quot;categoryId&quot;:&quot;DIC_kwDOM8I6Fs4CzPPY&quot;,&quot;mapping&quot;:&quot;og:title&quot;,&quot;theme&quot;:&quot;preferred_color_scheme&quot;}'>
+        <p class="giscus-loading">Loading comments...</p>
+      </div>
+    </div>
+  </section>
+  <script>
+  (function() {
+    var placeholder = document.querySelector('.giscus-placeholder');
+    if (!placeholder) return;
+    var observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          observer.disconnect();
+          try {
+            var config = JSON.parse(placeholder.getAttribute('data-giscus-config'));
+            var script = document.createElement('script');
+            script.src = 'https://giscus.app/client.js';
+            script.setAttribute('data-repo', config.repo);
+            script.setAttribute('data-repo-id', config.repoId);
+            script.setAttribute('data-category', config.category);
+            script.setAttribute('data-category-id', config.categoryId);
+            script.setAttribute('data-mapping', config.mapping);
+            script.setAttribute('data-strict', '0');
+            script.setAttribute('data-reactions-enabled', '1');
+            script.setAttribute('data-emit-metadata', '0');
+            script.setAttribute('data-input-position', 'bottom');
+            script.setAttribute('data-theme', config.theme);
+            script.setAttribute('crossorigin', 'anonymous');
+            script.async = true;
+            placeholder.innerHTML = '';
+            placeholder.appendChild(script);
+          } catch (e) {
+            console.error('Failed to load Giscus comments:', e);
+            placeholder.innerHTML = '<p style="color: var(--color-text-muted); text-align: center;">Failed to load comments.</p>';
+          }
+        }
+      });
+    }, { rootMargin: '200px' });
+    observer.observe(placeholder);
+  })();
+  </script>
       </main>
       <div class="toc-overlay"></div>
       <button type="button" class="toc-toggle" aria-label="Open Table of Contents">
