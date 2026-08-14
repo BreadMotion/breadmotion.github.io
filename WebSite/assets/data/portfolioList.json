@@ -1,5 +1,23 @@
 [
   {
+    "id": "portfolio_0007",
+    "title": "タイトル未定",
+    "date": "",
+    "category": "Game",
+    "role": "Client Engineer",
+    "description": "RPG",
+    "tech": "Unity / C# / Discord",
+    "tags": [
+      "game",
+      "steam",
+      "DLSite",
+      "discord"
+    ],
+    "thumbnail": "assets/img/thumbnails/portfolio_0006.png",
+    "links": [],
+    "contentPath": "portfolio/portfolio_0007.html"
+  },
+  {
     "id": "portfolio_0006",
     "title": "DynastyOfJaws",
     "date": "",
@@ -12,7 +30,7 @@
       "steam",
       "discord"
     ],
-    "thumbnail": "assets/img/ogp.png",
+    "thumbnail": "assets/img/thumbnails/portfolio_0006.png",
     "links": [],
     "contentPath": "portfolio/portfolio_0006.html"
   },
@@ -35,7 +53,7 @@
   },
   {
     "id": "portfolio_0004",
-    "title": "非公開(リリース経験済み)",
+    "title": "非公開(リリース済み)",
     "date": "",
     "category": "Game",
     "role": "Client Engineer",

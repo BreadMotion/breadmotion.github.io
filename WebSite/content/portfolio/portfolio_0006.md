@@ -7,7 +7,7 @@ description: 古代海洋生物MO サバイバルゲーム
 category: Game
 tags: game, steam, discord
 X: https://x.com/pankun2000_
-thumbnail: assets/img/ogp.png
+thumbnail: assets/img/thumbnails/portfolio_0006.png
 ---
 
 ## 開発元 : Dynasty of Jaws Project

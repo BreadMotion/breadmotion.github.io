@@ -1,5 +1,5 @@
 ---
-title: 非公開(リリース経験済み)
+title: 非公開(リリース済み)
 role: Client Engineer
 tech: Unity / C# / slack
 platform: android, ios
