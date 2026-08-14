@@ -575,9 +575,6 @@ function createHtml({
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/atom-one-dark.min.css" />
   </head>
   <body data-page="blog" data-post-id="${escapeHtmlAttr(id)}">
-    <amp-auto-ads type="adsense"
-      data-ad-client="ca-pub-5284984614496391">
-    </amp-auto-ads>
     <div class="page-shell">
       <main class="main-container">
         <div class="post-layout">

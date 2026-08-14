@@ -248,6 +248,97 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function buildSectionAdMarkup() {
+    const clientId =
+      window.__ADSENSE_CLIENT_ID ||
+      "ca-pub-5284984614496391";
+    const slotId = window.__SECTION_AD_SLOT_ID || "";
+
+    if (!slotId) {
+      return `
+        <div class="section-ad-slot__placeholder">
+          <span class="section-ad-slot__label">スポンサー広告</span>
+          <span class="section-ad-slot__copy">セクション間に広告を配置します</span>
+        </div>
+      `;
+    }
+
+    return `
+      <div class="section-ad-slot__placeholder">
+        <span class="section-ad-slot__label">スポンサー広告</span>
+      </div>
+      <ins
+        class="adsbygoogle"
+        style="display:block"
+        data-ad-client="${clientId}"
+        data-ad-slot="${slotId}"
+        data-ad-format="auto"
+        data-full-width-responsive="true"
+      ></ins>
+    `;
+  }
+
+  function setupSectionAds() {
+    if (document.querySelector(".section-ad-slot")) {
+      return;
+    }
+
+    const main = document.querySelector(".main-container");
+    if (!main) return;
+
+    const contentBlocks = Array.from(main.children).filter(
+      (child) => {
+        if (
+          child.classList.contains("section-ad-slot")
+        ) {
+          return false;
+        }
+
+        return (
+          child.matches("section") ||
+          child.matches(".post-layout")
+        );
+      },
+    );
+
+    if (contentBlocks.length < 2) return;
+
+    const targetIndices = [0];
+    if (contentBlocks.length >= 4) {
+      targetIndices.push(2);
+    }
+
+    targetIndices.forEach((index) => {
+      const target = contentBlocks[index];
+      if (!target) return;
+      if (target.querySelector(".section-ad-slot")) return;
+
+      const adBlock = document.createElement("div");
+      adBlock.className = "section-ad-slot";
+      adBlock.setAttribute("aria-label", "Sponsored content");
+      adBlock.innerHTML = buildSectionAdMarkup();
+
+      target.insertAdjacentElement("afterend", adBlock);
+    });
+
+    if (
+      window.__SECTION_AD_SLOT_ID &&
+      window.adsbygoogle &&
+      Array.isArray(window.adsbygoogle)
+    ) {
+      try {
+        window.adsbygoogle.push({});
+      } catch (e) {
+        if (window.__DEBUG_LAYOUT__) {
+          console.debug(
+            "setupSectionAds: failed to render Adsense unit",
+            e,
+          );
+        }
+      }
+    }
+  }
+
   /**
    * Bread Pet 初期化
    *
@@ -486,6 +577,8 @@ document.addEventListener("DOMContentLoaded", () => {
       setupLanguageSwitch(currentPath);
       setupActiveNav(currentPath);
       setupNavToggle();
+      setupSectionAds();
+      window.addEventListener("load", setupSectionAds);
 
       // bread-pet はモバイル時は初期化しない（表示/ロジックともに除外）
       if (isMobileViewport()) {
