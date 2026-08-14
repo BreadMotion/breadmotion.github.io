@@ -979,14 +979,36 @@ body.no-scroll .site-footer {
     );
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
     max-width: 760px;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.section-ad-slot.is-loading {
+    min-height: 90px;
+}
+
+.section-ad-slot.is-empty {
+    display: none;
+}
+
+.section-ad-slot .adsbygoogle {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .section-ad-slot__placeholder {
-    display: flex;
+    display: none;
     flex-direction: column;
     gap: 0.35rem;
     color: var(--color-text-muted);
     font-size: 0.9rem;
+}
+
+.section-ad-slot.is-loading .section-ad-slot__placeholder {
+    display: flex;
 }
 
 .section-ad-slot__label {

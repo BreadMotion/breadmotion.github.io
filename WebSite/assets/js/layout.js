@@ -258,28 +258,102 @@ document.addEventListener("DOMContentLoaded", () => {
       "ca-pub-5284984614496391";
     const slotId = window.__SECTION_AD_SLOT_ID || "2824724407";
 
-    if (!slotId) {
-      return `
-        <div class="section-ad-slot__placeholder">
-          <span class="section-ad-slot__label">スポンサー広告</span>
-          <span class="section-ad-slot__copy">セクション間に広告を配置します</span>
-        </div>
-      `;
-    }
-
     return `
-      <div class="section-ad-slot__placeholder">
+      <div class="section-ad-slot__placeholder" data-section-ad-placeholder>
         <span class="section-ad-slot__label">スポンサー広告</span>
+        <span class="section-ad-slot__copy">セクション間に広告を配置します</span>
       </div>
       <ins
         class="adsbygoogle"
-        style="display:block"
+        style="display:block; width:100%; max-width:100%; overflow:hidden;"
         data-ad-client="${clientId}"
         data-ad-slot="${slotId}"
         data-ad-format="auto"
         data-full-width-responsive="true"
       ></ins>
     `;
+  }
+
+  function setupSectionAdRenderState(adBlock) {
+    const placeholder = adBlock.querySelector(
+      ".section-ad-slot__placeholder",
+    );
+    const adElement = adBlock.querySelector("ins.adsbygoogle");
+    if (!adBlock || !adElement) {
+      return;
+    }
+
+    adBlock.classList.add("is-loading");
+
+    let settled = false;
+    let attempt = 0;
+
+    function markRendered() {
+      if (settled) return;
+      settled = true;
+      adBlock.classList.remove("is-loading");
+      adBlock.classList.add("is-rendered");
+      if (placeholder) {
+        placeholder.setAttribute("aria-hidden", "true");
+        placeholder.style.display = "none";
+      }
+    }
+
+    function markUnavailable() {
+      if (settled) return;
+      settled = true;
+      adBlock.classList.remove("is-loading");
+      adBlock.classList.add("is-empty");
+      if (placeholder) {
+        placeholder.remove();
+      }
+    }
+
+    function checkRenderStatus() {
+      if (settled) return;
+
+      const status = adElement.getAttribute(
+        "data-adsbygoogle-status",
+      );
+      const hasRenderedFrame = !!adElement.querySelector(
+        "iframe",
+      );
+
+      if (status === "done" || hasRenderedFrame) {
+        markRendered();
+        return;
+      }
+
+      if (
+        status === "error" ||
+        status === "failed" ||
+        status === "0"
+      ) {
+        markUnavailable();
+        return;
+      }
+
+      attempt += 1;
+      if (attempt >= 12) {
+        markUnavailable();
+        return;
+      }
+
+      window.setTimeout(checkRenderStatus, 250);
+    }
+
+    if (typeof MutationObserver !== "undefined") {
+      const observer = new MutationObserver(() => {
+        checkRenderStatus();
+      });
+      observer.observe(adElement, {
+        attributes: true,
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    checkRenderStatus();
   }
 
   function setupSectionAds() {
@@ -323,6 +397,7 @@ document.addEventListener("DOMContentLoaded", () => {
       adBlock.innerHTML = buildSectionAdMarkup();
 
       target.insertAdjacentElement("afterend", adBlock);
+      setupSectionAdRenderState(adBlock);
     });
 
     if (
