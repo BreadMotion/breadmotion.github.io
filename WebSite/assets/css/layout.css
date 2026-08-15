@@ -14,36 +14,41 @@
  */
 
 :root {
-    --color-accent-soft: rgba(108, 99, 255, 0.15);
-    --color-accent: #6c63ff;
-    --color-accent-dark: #4f47cc;
+    --color-bone-white: #fffdf9;
+    --color-obsidian: #101010;
+    --color-graphite-veil: #495764;
+    --color-ash-border: #403f3f;
+    --color-fog-blue: #6f879c;
 
-    --color-accent-rgb: 108, 99, 255;
-    --color-accent-dark-rgb: 79, 71, 204;
+    /* 後方互換 */
+    --color-accent: var(--color-bone-white);
+    --color-accent-dark: var(--color-fog-blue);
+    --color-accent-soft: rgba(255, 253, 249, 0.05);
+    --color-accent-rgb: 255, 253, 249;
+    --color-accent-dark-rgb: 111, 135, 156;
+    --color-border: var(--color-ash-border);
+    --color-border-soft: rgba(64, 63, 63, 0.5);
+    --color-text: var(--color-bone-white);
+    --color-text-muted: var(--color-fog-blue);
+    --color-text-rgb: 255, 253, 249;
+    --color-background: var(--color-obsidian);
+    --color-surface: #161616;
+    --color-panel: #1a1a1a;
+    --color-heading: var(--color-bone-white);
 
-    --color-border: rgba(var(--color-text-rgb), 0.1);
-    --color-border-soft: rgba(var(--color-text-rgb), 0.05);
+    /* シャドウは全部none (フラットデザイン) */
+    --shadow-sm: none;
+    --shadow-md: none;
+    --shadow-lg: none;
+    --shadow-glow: none;
 
-    --color-text: #e0e0e0;
-    --color-text-muted: #a0a0a0;
-    --color-text-rgb: 224, 224, 224;
+    /* border-radius */
+    --radius-sm: 0px;
+    --radius-md: 5px;
+    --radius-lg: 15px;
+    --radius-full: 9999px;
 
-    --color-background: #101217;
-    --color-surface: #1e2027;
-    --color-panel: #16181d;
-    --color-heading: #ffffff;
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
-    --shadow-glow: 0 0 15px
-        rgba(var(--color-accent-rgb), 0.3);
-
-    --radius-sm: 0.25rem;
-    --radius-md: 0.5rem;
-    --radius-lg: 0.75rem;
-
-    --transition-smooth: all 0.2s ease-in-out;
+    --transition-smooth: all 0.5s cubic-bezier(0.52, 0.01, 0, 1);
 }
 
 /* ==========================================================================
@@ -52,18 +57,11 @@
 .site-header {
     position: sticky;
     top: 0;
-    z-index: 100; /* メニューより上に */
-    background: rgba(22, 27, 34, 0.85);
-    border-bottom: 1px solid;
-    border-image-source: linear-gradient(
-        to right,
-        transparent,
-        var(--color-border),
-        transparent
-    );
-    border-image-slice: 1;
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    background: rgba(16, 16, 16, 0.95);
+    border-bottom: 1px solid var(--color-ash-border);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     flex-shrink: 0;
 }
 
@@ -82,9 +80,9 @@
     align-items: center;
     gap: 0.5rem;
     text-decoration: none;
-    color: var(--color-heading);
+    color: var(--color-bone-white);
     font-size: 1.125rem;
-    font-weight: 700;
+    font-weight: 400;
     letter-spacing: 0.025em;
     transition: var(--transition-smooth);
 }
@@ -95,35 +93,15 @@
 .site-logo__mark {
     width: 2.25rem;
     height: 2.25rem;
-    border-radius: var(--radius-md);
-    background: linear-gradient(
-        135deg,
-        var(--color-accent-dark) 0%,
-        var(--color-accent) 100%
-    );
+    border-radius: 5px;
+    background: #403f3f;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-weight: 700;
+    font-weight: 400;
     font-size: 1rem;
-    color: #fff;
-    box-shadow: var(--shadow-md);
-    animation: logo-pulse 2.8s infinite ease-in-out;
-}
-
-@keyframes logo-pulse {
-    0% {
-        transform: scale(1);
-        box-shadow: var(--shadow-md);
-    }
-    50% {
-        transform: scale(1.05);
-        box-shadow: var(--shadow-lg);
-    }
-    100% {
-        transform: scale(1);
-        box-shadow: var(--shadow-md);
-    }
+    color: #fffdf9;
+    border: 1px solid #403f3f;
 }
 
 /* ==========================================================================
@@ -137,29 +115,45 @@
 }
 
 .site-nav a {
-    position: relative;
-    color: var(--color-text-muted);
+    color: #fffdf9;
+    font-size: 14px;
+    text-transform: uppercase;
+    font-weight: 400;
+    letter-spacing: 0.02em;
     text-decoration: none;
-    font-size: 0.95rem;
-    padding: 0.35rem 0.9rem;
-    border-radius: var(--radius-md);
-    border: 1px solid transparent;
-    transition: var(--transition-smooth);
+    padding: 0;
+    background: transparent;
+    border-radius: 0;
+    border: none;
+    transition: color 0.5s cubic-bezier(0.52, 0.01, 0, 1);
 }
 
 .site-nav a:hover {
-    background: var(--color-accent-soft);
-    border-color: transparent;
-    color: var(--color-text);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-glow);
+    color: #6f879c;
+    text-shadow: none;
+    background: transparent;
 }
 
 .site-nav a.active {
-    background: var(--color-accent);
-    border-color: var(--color-accent);
-    color: #fff;
-    box-shadow: var(--shadow-glow);
+    color: #6f879c;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+}
+
+.site-nav a[data-nav="contact.html"] {
+    border: 1px solid #fffdf9;
+    border-radius: 5px;
+    padding: 9px 15px;
+    color: #fffdf9;
+    text-transform: uppercase;
+    font-size: 14px;
+}
+
+.site-nav a[data-nav="contact.html"]:hover,
+.site-nav a[data-nav="contact.html"].active {
+    background: rgba(255, 253, 249, 0.05);
+    color: #fffdf9;
 }
 
 /* ==========================================================================
@@ -178,9 +172,10 @@
     margin-top: 0;
     margin-bottom: 1.5rem;
     font-size: 1.8rem;
-    font-weight: 700;
+    font-weight: 400;
     line-height: 1.5;
-    color: var(--color-heading);
+    color: #fffdf9;
+    letter-spacing: -0.01em;
     display: flex;
     align-items: center;
     gap: 0.75rem;
@@ -215,48 +210,19 @@
 .card {
     position: relative;
     z-index: 1;
-    background: var(--color-surface);
-    border-radius: var(--radius-md);
-    padding: 1.25rem;
-    border: 1px solid var(--color-border-soft);
-    box-shadow: var(--shadow-md);
+    background: #161616;
+    border-radius: 15px;
+    padding: 20px;
+    border: 1px solid #403f3f;
+    box-shadow: none;
     transition: var(--transition-smooth);
     overflow: hidden;
 }
 
-.card::before {
-    content: "";
-    position: absolute;
-    z-index: -1;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: inherit;
-    border: 1px solid transparent;
-    background: linear-gradient(
-            to right,
-            var(--color-accent),
-            var(--color-accent-dark)
-        )
-        border-box;
-    mask:
-        linear-gradient(#fff 0 0) padding-box,
-        linear-gradient(#fff 0 0);
-    -webkit-mask-composite: destination-out;
-    mask-composite: exclude;
-    opacity: 0;
-    transition: var(--transition-smooth);
-}
-
 .card:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg), var(--shadow-glow);
-    background: var(--color-panel);
-}
-
-.card:hover::before {
-    opacity: 1;
+    border-color: #6f879c;
+    box-shadow: none;
+    transform: none;
 }
 
 /* ==========================================================================
@@ -277,12 +243,16 @@
    ========================================================================== */
 /* フッターをヘッダーと同じようにスティッキーにして、
    メニュー展開等で body に no-scroll クラスが付与された時は固定に切り替える */
+footer,
 .site-footer {
-    border-top: 1px solid var(--color-border);
-    background: var(--color-surface);
+    border-top: 1px solid #403f3f;
+    background: #101010;
+    color: #fffdf9;
+}
+
+.site-footer {
     padding: 1rem 1.25rem 1.5rem;
     font-size: 0.875rem;
-    color: var(--color-text-muted);
     flex-shrink: 0;
 
     /* sticky で画面下に固定 */
@@ -310,7 +280,7 @@
 }
 
 .site-footer__right a {
-    color: var(--color-text-muted);
+    color: var(--color-bone-white);
     text-decoration: none;
     font-size: 0.875rem;
     padding: 0.2rem 0.6rem;
@@ -321,7 +291,7 @@
 
 .site-footer__right a:hover {
     background: var(--color-accent-soft);
-    color: var(--color-text);
+    color: var(--color-bone-white);
 }
 
 .site-footer__sep {
@@ -345,7 +315,7 @@
     display: block;
     width: 2rem;
     height: 2px;
-    background: var(--color-heading);
+    background: #fffdf9;
     position: relative;
     transition: background 0.3s ease-in-out;
 }
@@ -356,7 +326,7 @@
     display: block;
     width: 2rem;
     height: 2px;
-    background: var(--color-heading);
+    background: #fffdf9;
     position: absolute;
     left: 0;
     transition:
@@ -415,7 +385,7 @@
         max-width: 320px; /* PCなど幅広画面での事故防止（スマホではほぼ全幅） */
         height: 100vh;
         height: 100dvh; /* Dynamic Viewport Height for mobile */
-        background: rgba(22, 27, 34, 0.95); /* 少し濃く */
+        background: rgba(16, 16, 16, 0.95);
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px);
         flex-direction: column;
@@ -432,7 +402,8 @@
         padding-right: 2rem;
         flex-wrap: nowrap;
         overflow-y: auto;
-        box-shadow: -10px 0 30px rgba(0, 0, 0, 0.5);
+        box-shadow: none;
+        border-left: 1px solid var(--color-ash-border);
         visibility: hidden;
     }
 
@@ -445,8 +416,8 @@
     /* メニュー背景のオーバーレイ（擬似要素で実装）
        JSでbodyにクラスがついたときに表示するなど必要だが、
        現状のJS実装に合わせてCSSのみで完結させるならメニュー自体を広げるか、
-       box-shadowで代用する手もある。
-       ここではメニュー自体のシャドウを強化して対応。
+       境界線で代用する手もある。
+       ここではフラットデザインに合わせて境界線で対応。
     */
 
     .site-nav a {
@@ -464,9 +435,15 @@
     .site-nav a:hover,
     .site-nav a.active {
         background: transparent;
-        color: var(--color-accent);
-        transform: translateX(10px); /* 横にスライド */
+        color: var(--color-fog-blue);
+        transform: none;
         box-shadow: none;
+        text-shadow: none;
+    }
+
+    .site-nav a[data-nav="contact.html"] {
+        text-align: center;
+        margin-top: 0.5rem;
     }
 }
 
