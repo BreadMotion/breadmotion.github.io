@@ -209,14 +209,34 @@ document.addEventListener("DOMContentLoaded", () => {
   function setupActiveNav(currentPath) {
     const navLinks =
       document.querySelectorAll(".site-nav a");
+
+    navLinks.forEach((link) => {
+      link.classList.remove("active");
+    });
+
     navLinks.forEach((link) => {
       const target =
         link.getAttribute("data-nav") ||
         link.getAttribute("href") ||
         "";
       const cleanTarget = target.split(/[?#]/)[0];
-      if (cleanTarget === currentPath) {
-        link.classList.add("active");
+      const normalizedCurrent = String(currentPath || "")
+        .replace(/^\/+/, "")
+        .replace(/\/index\.html$/, "index.html")
+        .split("/")
+        .pop() || "index.html";
+      const normalizedTarget = cleanTarget
+        .replace(/^https?:\/\/[^/]+/, "")
+        .replace(/^\/+/, "")
+        .split("/")
+        .pop() || "index.html";
+
+      const isActive = normalizedTarget === normalizedCurrent;
+      link.classList.toggle("active", isActive);
+      if (isActive) {
+        link.setAttribute("aria-current", "page");
+      } else {
+        link.removeAttribute("aria-current");
       }
     });
   }
