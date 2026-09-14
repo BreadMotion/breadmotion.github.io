@@ -1,0 +1,59 @@
+name: Fetch X media feed
+
+on:
+  workflow_dispatch:
+    inputs:
+      username:
+        description: 'X username (without @). Defaults to pankun2000_'
+        required: false
+        default: 'pankun2000_'
+  schedule:
+    - cron: '0 0 * * *'
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Fetch recent tweets with media and generate JSON
+        env:
+          X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+        run: |
+          set -euo pipefail
+          if [ -z "${X_BEARER_TOKEN:-}" ]; then
+            echo "X_BEARER_TOKEN secret is not set. Exiting (no-op)."
+            exit 0
+          fi
+          USERNAME="${{ github.event.inputs.username }}"
+          if [ -z "$USERNAME" ]; then USERNAME="pankun2000_"; fi
+          echo "Using username: $USERNAME"
+          USER_JSON=$(curl -s -H "Authorization: Bearer $X_BEARER_TOKEN" "https://api.twitter.com/2/users/by/username/$USERNAME")
+          USER_ID=$(echo "$USER_JSON" | jq -r '.data.id // empty')
+          if [ -z "$USER_ID" ]; then echo "Could not resolve user id: $USER_JSON"; exit 1; fi
+          TWEETS_JSON=$(curl -s -H "Authorization: Bearer $X_BEARER_TOKEN" "https://api.twitter.com/2/users/$USER_ID/tweets?max_results=100&expansions=attachments.media_keys&tweet.fields=created_at,text")
+          IDS=$(echo "$TWEETS_JSON" | jq -r '.data[]? | select(.attachments != null) | .id' || true)
+          if [ -z "$IDS" ]; then
+            IDS=$(echo "$TWEETS_JSON" | jq -r '.data[]? | select(.text | test("pic\\.twitter\\.com")) | .id' || true)
+          fi
+          OUTPUT='[]'
+          for id in $IDS; do
+            URL="https://x.com/$USERNAME/status/$id"
+            OEMBED_JSON=$(curl -s "https://publish.twitter.com/oembed?url=$URL&dnt=true")
+            OEMBED_HTML=$(echo "$OEMBED_JSON" | jq -r '.html // empty')
+            OUTPUT=$(echo "$OUTPUT" | jq --arg url "$URL" --arg html "$OEMBED_HTML" '. + [ { url: $url, oembed_html: $html } ]')
+          done
+          OUTPUT=$(echo "$OUTPUT" | jq '.[0:3]') || OUTPUT='[]'
+          mkdir -p WebSite/assets
+          echo "$OUTPUT" > WebSite/assets/x-feed.json
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add WebSite/assets/x-feed.json
+          git commit -m "Update x-feed.json (fetched media tweets)" || echo "No changes to commit"
+          git push
