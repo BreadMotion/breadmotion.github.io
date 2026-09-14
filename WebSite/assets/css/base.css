@@ -232,6 +232,68 @@ button {
 }
 
 /* ==========================================================================
+   X 投稿フィード（サイドバー内）
+   - 「最近の更新」配下に重なって見えるのを防ぎ、常に独立したブロックとして描画する
+   ========================================================================== */
+.home-xfeed-block {
+    width: 100%;
+    margin-top: 1.25rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--color-border-soft);
+    clear: both;
+}
+
+.home-xfeed-block .home-latest-title {
+    margin-bottom: 0.75rem;
+}
+
+#xMediaFeed,
+.x-embed,
+[data-x-url] {
+    display: grid;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+#xMediaFeed > div,
+#xMediaFeed > a,
+#xMediaFeed > blockquote,
+.x-embed > div,
+.x-embed > a,
+.x-embed > blockquote,
+[data-x-url] > div,
+[data-x-url] > a,
+[data-x-url] > blockquote {
+    width: 100%;
+    max-width: 100%;
+}
+
+#xMediaFeed .twitter-tweet,
+#xMediaFeed blockquote.twitter-tweet,
+.x-embed .twitter-tweet,
+.x-embed blockquote.twitter-tweet,
+[data-x-url] .twitter-tweet,
+[data-x-url] blockquote.twitter-tweet {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+#xMediaFeed iframe,
+.x-embed iframe,
+[data-x-url] iframe {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .home-xfeed-block {
+        margin-top: 1rem;
+        padding-top: 0.75rem;
+    }
+}
+
+/* ==========================================================================
    4. スクロールアニメーション
    ========================================================================== */
 .reveal-on-scroll {
