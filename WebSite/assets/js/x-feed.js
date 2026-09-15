@@ -46,6 +46,7 @@
 
     function renderPosts(posts, container) {
         if (!Array.isArray(posts) || !container) return;
+        container.innerHTML = '';
         var list = posts.slice(0, 3);
         if (embedStyle === 'thumbnail_link') {
             list.forEach(function (p) {

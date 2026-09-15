@@ -94,6 +94,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (blogListEl) {
+    blogListEl.innerHTML = "";
     try {
       const jsonPath = isEn
         ? `${relativePrefix}assets/data/blogList_en.json`
@@ -157,6 +158,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   if (portListEl) {
+    portListEl.innerHTML = "";
     try {
       const res = await fetch(
         `${relativePrefix}assets/data/portfolioList.json`,
