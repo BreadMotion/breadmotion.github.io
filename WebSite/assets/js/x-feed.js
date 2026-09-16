@@ -44,10 +44,21 @@
         document.head.appendChild(s);
     }
 
+    function renderEmptyState(container, message) {
+        if (!container) return;
+        container.innerHTML = '<p class="x-feed-empty">' + (message || '最新のX投稿を読み込めませんでした。') + '</p>';
+    }
+
     function renderPosts(posts, container) {
         if (!Array.isArray(posts) || !container) return;
         container.innerHTML = '';
         var list = posts.slice(0, 3);
+
+        if (!list.length) {
+            renderEmptyState(container, 'Xの最新投稿はまだありません。');
+            return;
+        }
+
         if (embedStyle === 'thumbnail_link') {
             list.forEach(function (p) {
                 var a = document.createElement('a');
@@ -94,6 +105,8 @@
 
     function fetchAndRenderFeed() {
         var feedUrl = computeFeedUrl();
+        var container = document.getElementById('xMediaFeed');
+
         fetch(feedUrl, { cache: 'no-cache' }).then(function (resp) {
             if (!resp.ok) throw new Error('feed not found');
             return resp.json();
@@ -104,11 +117,14 @@
             else if (Array.isArray(json.items)) posts = json.items;
             else if (Array.isArray(json.tweets)) posts = json.tweets;
 
-            if (!posts.length) return;
-            var container = document.getElementById('xMediaFeed');
+            if (!posts.length) {
+                renderEmptyState(container, 'Xの最新投稿はまだありません。');
+                return;
+            }
             if (container) renderPosts(posts, container);
         }).catch(function (err) {
             console.warn('x-feed: fetch failed', err);
+            renderEmptyState(container, 'Xの投稿を読み込めませんでした。');
         });
     }
 

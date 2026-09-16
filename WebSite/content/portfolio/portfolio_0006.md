@@ -30,7 +30,12 @@ thumbnail: https://github.com/user-attachments/assets/085acac9-8319-4abf-94ed-7f
 デザインも並列して実装が進んでいきます  
 
 詳しい進捗は  [こちら](https://x.com/dynastyofjaws) をご確認ください  
-[Patreon](https://t.co/gIB2aMQ51L) にて支援金のご助力を頂けたら精一杯頑張ります  
+[Patreon](https://t.co/gIB2aMQ51L) を開設してます  
+支援金は今後の制作活動に大切に使わせていただきます  
+
+[!X](https://x.com/pankun2000_/status/2072821857447989534?s=20)
+[!X](https://x.com/pankun2000_/status/2071102839582302301?s=20)
+[!X](https://x.com/pankun2000_/status/2071103508787740906?s=20)
 
 ## URL
 

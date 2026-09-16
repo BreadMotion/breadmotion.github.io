@@ -1,5 +1,5 @@
 ---
-title: 開発中
+title: 開発中(タイトル未定)
 role: Client Engineer
 tech: Unity / C# / Discord
 platform: steam
@@ -31,6 +31,12 @@ thumbnail: assets/img/ogp.png
 デザイン素材と演出の作りこみを現在は行っております  
 
 詳しい進捗は  [こちら](https://x.com/pankun2000_) をご確認ください
+
+一部進捗は下記
+
+[!X](https://x.com/pankun2000_/status/2085574143513342190?s=20)  
+[!X](https://x.com/pankun2000_/status/2079889623678144776?s=20)  
+
 
 ## URL
 

@@ -1,36 +1,35 @@
 ---
-title: タイトル未定
+title: ホラーゲーム ステージ
 role: Client Engineer
-tech: Unity / C# / Discord
-platform: steam, DLSite
-description: RPG
-category: Game
-tags: game, steam, DLSite, discord
+tech: Unity / C# / ShaderLab
+platform: None
+description: ナビメッシュ Decal VFX
+category: Other
+tags: develop, tool, stage
 X: https://x.com/pankun2000_
-thumbnail: assets/img/ogp.png
+thumbnail: https://github.com/user-attachments/assets/085acac9-8319-4abf-94ed-7f1332c7f906
 ---
 
-## 開発元 : 自創作ゲーム化計画
+## 開発元 : PanKUN.dev
 
-リリース日 : 未定
+リリースの予定などはありません。  
+他プロジェクトに一時的に協力して作成しました。  
 
-プラットフォーム : steam, DLSite
+## 概要
 
-ジャンル : RPG
+ナビメッシュを利用する１人称３Dホラーゲームの3Dステージ構築を手伝いました。  
+使用するプロジェクトの要件にステージ自動生成があったため、主に下記の実装を行いました。  
 
-## ゲーム概要
-
-未定
-
-## 開発状況
-
-コアモジュールの実装を進めながら会話シーンとバトルシーンの実装だけ進めている状況です
-世界観や素材の作成については今後進捗が出てくる予定です
-
-## URL
-
-作品ストアページ -まだ設立していません
+- ステージ自動生成のアルゴリズムの作成
+- ナビメッシュビルド拡張ツール
+- Decal
+- VFX
+- オブジェクトの配置
 
 ## その他 SNS
 
-関係者のSNSのURLをここえ添付させていただく予定です
+[!X](https://x.com/pankun2000_/status/2072821857447989534?s=20)
+
+[!X](https://x.com/pankun2000_/status/2071102839582302301?s=20)
+
+[!X](https://x.com/pankun2000_/status/2071103508787740906?s=20)

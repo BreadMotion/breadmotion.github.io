@@ -20,6 +20,8 @@ thumbnail: https://github.com/user-attachments/assets/f0314371-190f-43a0-981b-a9
 
 ジャンル: カジュアル
 
+[!X](https://x.com/komatsu26325292/status/1915265267976020125?s=20)
+
 ---
 
 ### URL

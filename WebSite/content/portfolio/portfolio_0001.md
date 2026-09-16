@@ -23,7 +23,8 @@ thumbnail: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/28
 ## ゲーム概要
 
 ストアページ引用
-> あなたは人気旅館「黎明の湯」の新人アルバイト。 毎朝、各客室を見回って「霊現象」が発生していないかを確認しよう    
+> あなたは人気旅館「黎明の湯」の新人アルバイト。 
+> 毎朝、各客室を見回って「霊現象」が発生していないかを確認しよう。   
 > 1つも見逃さずに無事にバイトを乗り切ろう  
 
 ８番出口の３D空間の間違い探しゲーム(８番ライク)のゲームです  
@@ -42,3 +43,5 @@ thumbnail: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/28
 ### その他 SNS
 
 [しろゴリラ X](https://x.com/shi_ro_Gorilla/ "Xアカウントページ")
+
+[!X](https://x.com/pankun2000_/status/1766123815808205185?s=20)
