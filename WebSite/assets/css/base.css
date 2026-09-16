@@ -413,3 +413,65 @@ iframe {
      AdSense 設定側で「レスポンシブ」設定を有効にするのが最も良い。
    - ここでは CSS 側で横にはみ出さないように抑える対処を行っています。
 */
+
+/* --------------------------------------------------------------------------
+   Defensive layout rules for the "最近の更新" sidebar and X feed
+   - Ensure the blog/product lists and the X feed never visually overlap
+   - Enforce a 3-item display limit and constrain the X feed to the sidebar
+   -------------------------------------------------------------------------- */
+
+/* Hide items after the 3rd in the recent lists and in X feed placeholders */
+.home-latest-list > li:nth-child(n+4),
+#xMediaFeed > *:nth-child(n+4),
+.x-embed > *:nth-child(n+4),
+[data-x-url] > *:nth-child(n+4) {
+    display: none !important;
+}
+
+/* Constrain the X feed block so it doesn't overflow the sidebar */
+.home-xfeed-block {
+    position: relative;
+    z-index: 1; /* keep above decorative backgrounds */
+    max-height: calc(3 * 360px + 2rem); /* reasonable cap for 3 stacked embeds */
+    overflow: auto; /* internal scroll if content is taller than allowed */
+    -webkit-overflow-scrolling: touch;
+}
+
+#xMediaFeed {
+    display: grid;
+    gap: 0.75rem;
+    width: 100%;
+    box-sizing: border-box;
+    max-height: calc(3 * 320px + 1rem);
+    overflow-y: auto;
+}
+
+#xMediaFeed > * {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Reduce embedded tweet margins that can cause visual overlap */
+#xMediaFeed .twitter-tweet,
+#xMediaFeed blockquote.twitter-tweet,
+.x-embed .twitter-tweet,
+.x-embed blockquote.twitter-tweet,
+[data-x-url] .twitter-tweet,
+[data-x-url] blockquote.twitter-tweet {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Small screens: allow the X feed to expand but keep internal scrolling */
+@media (max-width: 768px) {
+    .home-xfeed-block {
+        max-height: none;
+        overflow: visible;
+    }
+    #xMediaFeed {
+        max-height: none;
+        overflow: visible;
+    }
+}
