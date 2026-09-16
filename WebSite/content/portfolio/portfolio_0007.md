@@ -7,7 +7,7 @@ description: ナビメッシュ Decal VFX
 category: Other
 tags: develop, tool, stage
 X: https://x.com/pankun2000_
-thumbnail: https://github.com/user-attachments/assets/085acac9-8319-4abf-94ed-7f1332c7f906
+thumbnail: assets/img/ogp.png
 ---
 
 ## 開発元 : PanKUN.dev

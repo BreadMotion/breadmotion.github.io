@@ -11,7 +11,7 @@
       "develop",
       "tool"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0010.png",
+    "thumbnail": "assets/img/ogp.png",
     "links": [],
     "contentPath": "portfolio/portfolio_0010.html"
   },
@@ -27,7 +27,7 @@
       "develop",
       "tool"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0009.png",
+    "thumbnail": "assets/img/ogp.png",
     "links": [],
     "contentPath": "portfolio/portfolio_0009.html"
   },
@@ -60,7 +60,7 @@
       "tool",
       "stage"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0007.png",
+    "thumbnail": "assets/img/ogp.png",
     "links": [],
     "contentPath": "portfolio/portfolio_0007.html"
   },
