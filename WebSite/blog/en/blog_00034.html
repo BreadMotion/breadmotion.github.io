@@ -397,6 +397,17 @@ int main() {
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script>
+          (function checkTwttr() {
+            if (window.twttr && window.twttr.widgets) {
+              // widgets.js の読み込み完了後に、DOM上の blockquote を全スキャンしてカード化
+              window.twttr.widgets.load();
+            } else {
+              // まだ読み込まれていない場合は 100ms 後に再試行
+              setTimeout(checkTwttr, 100);
+            }
+          })();
+        </script>
+    <script>
           // DOMレンダリング後に X の埋め込みウィジェットをレンダリング強制実行
           window.addEventListener('DOMContentLoaded', function() {
             if (window.twttr && window.twttr.widgets) {
