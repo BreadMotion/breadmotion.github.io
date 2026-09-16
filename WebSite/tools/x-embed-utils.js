@@ -31,25 +31,16 @@ function safeFetch(url) {
   });
 }
 
-function sanitizeHtml(html) {
-  if (!html) return '';
-  // Remove script tags
-  html = html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
-  // Remove inline event handlers like onclick, onload
-  html = html.replace(/\son[a-zA-Z]+=("[^"]*"|'[^']*')/gi, '');
-  // Neutralize javascript: URIs in href/src
-  html = html.replace(/(href|src)\s*=\s*"javascript:[^"]*"/gi, '$1="#"');
-  html = html.replace(/(href|src)\s*=\s*'javascript:[^']*'/gi, "$1='#'");
-  return html;
-}
-
 async function fetchPublishXEmbed(origUrl, options = {}) {
   const ttlDays = typeof options.ttlDays === 'number' ? options.ttlDays : 7;
-  const pubUrl = 'https://publish.x.com/?query=' + encodeURIComponent(origUrl) + '&widget=Tweet';
+
+  // X (Twitter) の公式 oEmbed API エンドポイントを利用
+  const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(origUrl) + '&theme=dark';
   const key = hashUrl(origUrl);
   const cacheFile = path.join(CACHE_DIR, `${key}.html`);
 
   try {
+    // キャッシュ確認
     if (fs.existsSync(cacheFile)) {
       const stat = fs.statSync(cacheFile);
       const ageMs = Date.now() - stat.mtimeMs;
@@ -58,25 +49,25 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     }
 
-    const res = await safeFetch(pubUrl);
+    const res = await safeFetch(oembedUrl);
     if (!res || !res.ok) return null;
+
     const text = await res.text();
+    const data = JSON.parse(text);
 
-    // Try to extract a sensible embed: prefer blockquote.twitter-tweet, then any blockquote, then a div/article
-    let match = text.match(/<blockquote[^>]*class=["'][^"']*twitter-tweet[^"']*["'][\s\S]*?<\/blockquote>/i);
-    if (!match) match = text.match(/<blockquote[\s\S]*?<\/blockquote>/i);
-    if (!match) match = text.match(/<div[^>]*class=["'][^"']*(tweet|twitter)[^"']*["'][\s\S]*?<\/div>/i);
-    if (!match) match = text.match(/<article[\s\S]*?<\/article>/i);
+    // APIから返される html プロパティ（<blockquote ...>...</blockquote><script ...></script>）を取得
+    if (data && data.html) {
+      // 必要に応じて <script> タグを除外する場合はここで除去（HTML側で widgets.js を読み込んでいる場合）
+      const embedHtml = data.html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
 
-    const extracted = match ? match[0] : text;
-    const sanitized = sanitizeHtml(extracted);
+      try {
+        fs.writeFileSync(cacheFile, embedHtml, 'utf8');
+      } catch (e) {}
 
-    try {
-      fs.writeFileSync(cacheFile, sanitized, 'utf8');
-    } catch (e) {
-      // ignore cache write failures
+      return embedHtml;
     }
-    return sanitized;
+
+    return null;
   } catch (e) {
     return null;
   }
