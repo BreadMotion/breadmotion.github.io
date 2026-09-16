@@ -77,7 +77,7 @@
       "steam",
       "discord"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0006.png",
+    "thumbnail": "https://github.com/user-attachments/assets/085acac9-8319-4abf-94ed-7f1332c7f906",
     "links": [],
     "contentPath": "portfolio/portfolio_0006.html"
   },
@@ -145,7 +145,7 @@
       "ios",
       "android"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0002.png",
+    "thumbnail": "https://github.com/user-attachments/assets/f0314371-190f-43a0-981b-a94f501a2adc",
     "links": [],
     "contentPath": "portfolio/portfolio_0002.html"
   },
@@ -162,7 +162,7 @@
       "steam",
       "pc"
     ],
-    "thumbnail": "assets/img/thumbnails/portfolio_0001.jpg",
+    "thumbnail": "https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/2806350/header_japanese.jpg?t=1710480483",
     "links": [],
     "contentPath": "portfolio/portfolio_0001.html"
   }

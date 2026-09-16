@@ -35,7 +35,7 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
   const ttlDays = typeof options.ttlDays === 'number' ? options.ttlDays : 7;
 
   // X (Twitter) の公式 oEmbed API エンドポイントを利用
-  const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(origUrl) + '&theme=dark';
+  const oembedUrl = 'https://publish.twitter.com/oembed?url=' + encodeURIComponent(origUrl) + '&theme=dark&dnt=true';
   const key = hashUrl(origUrl);
   const cacheFile = path.join(CACHE_DIR, `${key}.html`);
 
