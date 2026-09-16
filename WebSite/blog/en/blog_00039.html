@@ -416,6 +416,14 @@ int main() {
     <script>window.__POST_INTERACTIONS_CONFIG = {"apiUrl":"https://script.google.com/macros/s/AKfycbyuVrlM-7-Jps0GuZxLJtGw_y5R2bouUVYapYBhk5-CFL-xUiS8bIYUlw2crFnkcrWg/exec","postId":"blog_00039"};</script>
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+          // DOMレンダリング後に X の埋め込みウィジェットをレンダリング強制実行
+          window.addEventListener('DOMContentLoaded', function() {
+            if (window.twttr && window.twttr.widgets) {
+              window.twttr.widgets.load();
+            }
+          });
+        </script>
     <script src="../../assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="../../assets/js/layout.js" defer></script>
     <script src="../../assets/js/ui.js" defer></script>
