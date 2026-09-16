@@ -129,19 +129,36 @@
     }
 
     function processInlineEmbeds() {
-        var nodes = Array.prototype.slice.call(document.querySelectorAll('[data-x-url], .x-embed'));
+        var nodes = Array.prototype.slice.call(document.querySelectorAll('[data-x-url], .x-embed, blockquote.twitter-tweet'));
         if (!nodes.length) return;
         nodes.forEach(function (node) {
+            if (node.tagName === 'BLOCKQUOTE' && node.classList && node.classList.contains('twitter-tweet')) {
+                var existingUrl = node.getAttribute('data-x-url') || node.dataset.xUrl || node.getAttribute('data-url') || '';
+                var existingLink = node.querySelector('a[href]');
+                if (!existingUrl && existingLink) {
+                    existingUrl = existingLink.href;
+                    node.setAttribute('data-x-url', existingUrl);
+                }
+                if (existingUrl) {
+                    node.setAttribute('data-x-url', existingUrl);
+                }
+                return;
+            }
+
             var url = node.getAttribute('data-x-url') || node.dataset.xUrl || node.getAttribute('data-url') || '';
             if (!url) return;
             var wrapper = document.createElement('div');
             var blockquote = document.createElement('blockquote');
             blockquote.className = 'twitter-tweet';
+            blockquote.setAttribute('data-dnt', 'true');
+            blockquote.setAttribute('data-theme', 'dark');
             var a = document.createElement('a');
             a.href = url;
             blockquote.appendChild(a);
             wrapper.appendChild(blockquote);
-            node.parentNode.replaceChild(wrapper, node);
+            if (node.parentNode) {
+                node.parentNode.replaceChild(wrapper, node);
+            }
         });
         loadWidgets(function () {
             try {

@@ -170,6 +170,11 @@ function escapeHtmlAttr(str = "") {
   });
 }
 
+function createXEmbedMarkup(url) {
+  const safeUrl = escapeHtmlAttr(url || "");
+  return `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}">View on X</a></blockquote>`;
+}
+
 function formatDate(date) {
   if (!date) return "";
   const d = new Date(date);
@@ -769,7 +774,7 @@ function createHtml({
           try {
             if (type === 'X') {
               // For X embeds, use the official tweet embed markup directly from the URL.
-              replacements.set(key, `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><a href="${escapeHtmlAttr(url)}">View on X</a></blockquote>`);
+              replacements.set(key, createXEmbedMarkup(url));
               return;
             }
 

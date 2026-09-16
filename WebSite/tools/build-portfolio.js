@@ -66,6 +66,11 @@ function escapeHtmlAttr(str = "") {
   });
 }
 
+function createXEmbedMarkup(url) {
+  const safeUrl = escapeHtmlAttr(url || "");
+  return `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}">View on X</a></blockquote>`;
+}
+
 // 作品ページ HTML テンプレート
 function createHtml({
   id,
@@ -246,7 +251,7 @@ ${bodyHtml}
 
     // Support X embed shorthand [!X](url) -> official X tweet embed HTML (no paid API required)
     let content = rawContent.replace(/\[!X\]\((.*?)\)/g, function (_, url) {
-      return `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><a href="${escapeHtmlAttr(url)}">View on X</a></blockquote>`;
+      return createXEmbedMarkup(url);
     });
 
     const htmlBody = marked.parse(content);
