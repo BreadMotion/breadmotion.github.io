@@ -108,8 +108,7 @@
             var container = document.getElementById('xMediaFeed');
             if (container) renderPosts(posts, container);
         }).catch(function (err) {
-            // silently fail -- feed may not be generated yet
-            // console.info('x-feed: fetch failed', err);
+            console.warn('x-feed: fetch failed', err);
         });
     }
 
