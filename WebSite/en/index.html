@@ -156,7 +156,17 @@
 
                         <div class="home-xfeed-block">
                             <h3 class="home-latest-title">X</h3>
-                            <div id="xMediaFeed" class="home-x-feed"></div>
+                            <div id="xMediaFeed" class="home-x-feed">
+                                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+                                    <a href="https://x.com/pankun2000_/status/2085574143513342190?s=20">View on X</a>
+                                </blockquote>
+                                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+                                    <a href="https://x.com/pankun2000_/status/2079889623678144776?s=20">View on X</a>
+                                </blockquote>
+                                <blockquote class="twitter-tweet" data-dnt="true" data-theme="dark">
+                                    <a href="https://x.com/pankun2000_/status/2072821857447989534?s=20">View on X</a>
+                                </blockquote>
+                            </div>
                         </div>
                     </aside>
                 </section>
@@ -317,9 +327,15 @@
 <script src="../assets/dist/scripts.min.js" defer=""></script>
 <script src="../assets/js/x-feed.js"></script>
 
+<script async="" src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script>
+  window.addEventListener('load', function () {
+    if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
+      window.twttr.widgets.load(document.getElementById('xMediaFeed'));
+    }
+  });
+</script>
 <script src="../assets/js/layout.js"></script>
-<script src="../assets/dist/scripts.min.js" defer=""></script>
-<script src="../assets/dist/scripts.min.js" defer=""></script>
 
 
 

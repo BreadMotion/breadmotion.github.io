@@ -768,8 +768,8 @@ function createHtml({
 
           try {
             if (type === 'X') {
-              // For X embeds, inject a placeholder div that the client-side x-feed.js will convert
-              replacements.set(key, `<div class="x-embed" data-x-url="${escapeHtmlAttr(url)}"></div>`);
+              // For X embeds, use the official tweet embed markup directly from the URL.
+              replacements.set(key, `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><a href="${escapeHtmlAttr(url)}">View on X</a></blockquote>`);
               return;
             }
 

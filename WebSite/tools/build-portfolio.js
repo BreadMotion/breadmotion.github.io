@@ -244,9 +244,9 @@ ${bodyHtml}
 
     const { data, content: rawContent } = matter(raw);
 
-    // Support X embed shorthand [!X](url) -> <div class="x-embed" data-x-url="..."></div>
+    // Support X embed shorthand [!X](url) -> official X tweet embed HTML (no paid API required)
     let content = rawContent.replace(/\[!X\]\((.*?)\)/g, function (_, url) {
-      return `<div class="x-embed" data-x-url="${escapeHtmlAttr(url)}"></div>`;
+      return `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><a href="${escapeHtmlAttr(url)}">View on X</a></blockquote>`;
     });
 
     const htmlBody = marked.parse(content);
