@@ -636,6 +636,7 @@ function createHtml({
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
+    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="${pathPrefix}/assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
     <script src="${pathPrefix}/assets/js/ui.js" defer></script>
