@@ -17,76 +17,96 @@ jobs:
   fetch:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
       - name: Install jq
         run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Fetch recent tweets with media and generate JSON
+        shell: bash
         env:
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          USERNAME_INPUT: ${{ github.event.inputs.username }}
         run: |
-          set -u
+          set -euo pipefail
 
           write_empty_feed() {
             mkdir -p WebSite/assets
             echo '[]' > WebSite/assets/x-feed.json
             git config user.name "github-actions[bot]"
             git config user.email "github-actions[bot]@users.noreply.github.com"
-            git add WebSite/assets/x-feed.json
-            git commit -m "Update x-feed.json (empty due to API error)" || echo "No changes to commit"
-            git push || echo "git push failed (push may be restricted)"
+            if git status --porcelain -- WebSite/assets/x-feed.json | grep -q .; then
+              git add WebSite/assets/x-feed.json || true
+              git commit -m "chore: update x media feed (empty fallback)" || true
+            fi
+            return 0
           }
 
-          if [ -z "${X_BEARER_TOKEN:-}" ]; then
-            echo "X_BEARER_TOKEN secret is not set. Exiting (no-op)."
-            write_empty_feed
-            exit 0
-          fi
-
-          USERNAME="${{ github.event.inputs.username }}"
-          if [ -z "$USERNAME" ]; then USERNAME="pankun2000_"; fi
+          USERNAME="${USERNAME_INPUT:-pankun2000_}"
           echo "Using username: $USERNAME"
-          AUTH_HEADER="Authorization: Bearer ${X_BEARER_TOKEN}"
 
-          USER_JSON=$(curl --silent --show-error --fail-with-body -H "$AUTH_HEADER" "https://api.twitter.com/2/users/by/username/$USERNAME" || true)
-          USER_ID=$(echo "$USER_JSON" | jq -r '.data.id // empty' 2>/dev/null || true)
-          if [ -z "$USER_ID" ]; then
-            echo "Could not resolve user id for ${USERNAME}. API response:"
-            echo "$USER_JSON"
-            echo "Writing empty feed and exiting successfully."
+          if [ -z "${X_BEARER_TOKEN:-}" ]; then
+            echo "X_BEARER_TOKEN is not configured. Writing an empty feed."
             write_empty_feed
             exit 0
           fi
 
-          TWEETS_JSON=$(curl --silent --show-error --fail-with-body -H "$AUTH_HEADER" "https://api.twitter.com/2/users/$USER_ID/tweets?max_results=100&expansions=attachments.media_keys&tweet.fields=created_at,text" || true)
+          # Resolve user id
+          USER_INFO=$(curl --silent --show-error --fail --location \
+            -H "Authorization: Bearer $X_BEARER_TOKEN" \
+            "https://api.twitter.com/2/users/by/username/$USERNAME" || true)
+
+          USER_ID=$(echo "$USER_INFO" | jq -r '.data.id // empty' 2>/dev/null || true)
+          if [ -z "$USER_ID" ]; then
+            echo "Unable to resolve X user ID for '$USERNAME'. API response:"
+            echo "$USER_INFO"
+            write_empty_feed
+            exit 0
+          fi
+
+          # Fetch tweets with media expansions
+          TWEETS_JSON=$(curl --silent --show-error --fail --location \
+            -H "Authorization: Bearer $X_BEARER_TOKEN" \
+            "https://api.twitter.com/2/users/$USER_ID/tweets?max_results=100&expansions=attachments.media_keys&tweet.fields=created_at,attachments&media.fields=preview_image_url,url,type" || true)
+
           if ! echo "$TWEETS_JSON" | jq -e '.data != null' >/dev/null 2>&1; then
-            echo "Unable to fetch tweet list for ${USERNAME}; writing empty feed."
+            echo "Unable to fetch tweet list for '$USERNAME'. API response:"
             echo "$TWEETS_JSON"
             write_empty_feed
             exit 0
           fi
 
-          IDS=$(echo "$TWEETS_JSON" | jq -r '.data[]? | select(.attachments != null) | .id' || true)
-          if [ -z "$IDS" ]; then
-            IDS=$(echo "$TWEETS_JSON" | jq -r '.data[]? | select(.text | test("pic\\.twitter\\.com")) | .id' || true)
+          MEDIA_IDS=$(echo "$TWEETS_JSON" | jq -r '
+            .data[]
+            | select(.attachments != null and (.attachments.media_keys | length > 0))
+            | [.created_at, .id]
+            | @tsv
+          ' 2>/dev/null | sort -r | head -n 3 | cut -f2 || true)
+
+          if [ -z "$MEDIA_IDS" ]; then
+            echo "No media tweets found for '$USERNAME'. Writing an empty feed."
+            write_empty_feed
+            exit 0
           fi
 
-          OUTPUT='[]'
-          for id in $IDS; do
-            URL="https://x.com/$USERNAME/status/$id"
-            OEMBED_JSON=$(curl --silent --show-error --max-time 20 "https://publish.twitter.com/oembed?url=$URL&dnt=true" || true)
-            OEMBED_HTML=$(echo "$OEMBED_JSON" | jq -r '.html // empty' 2>/dev/null || true)
-            if [ -n "$OEMBED_HTML" ]; then
-              OUTPUT=$(echo "$OUTPUT" | jq --arg url "$URL" --arg html "$OEMBED_HTML" '. + [ { url: $url, oembed_html: $html } ]')
+          FEED_JSON='[]'
+          for tweet_id in $MEDIA_IDS; do
+            tweet_url="https://x.com/$USERNAME/status/$tweet_id"
+            oembed_json=$(curl --silent --show-error --fail --location --max-time 30 \
+              "https://publish.twitter.com/oembed?url=$tweet_url&dnt=true" || true)
+            oembed_html=$(echo "$oembed_json" | jq -r '.html // empty' 2>/dev/null || true)
+
+            if [ -n "$oembed_html" ]; then
+              FEED_JSON=$(echo "$FEED_JSON" | jq --arg url "$tweet_url" --arg html "$oembed_html" '. + [{url:$url, oembed_html:$html}]')
             fi
           done
 
-          OUTPUT=$(echo "$OUTPUT" | jq '.[0:3]' 2>/dev/null || echo '[]')
-          mkdir -p WebSite/assets
-          echo "$OUTPUT" > WebSite/assets/x-feed.json
+          echo "$FEED_JSON" | jq '.[0:3]' > WebSite/assets/x-feed.json
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add WebSite/assets/x-feed.json
-          git commit -m "Update x-feed.json (fetched media tweets)" || echo "No changes to commit"
-          git push || echo "git push failed (push may be restricted)"
+          if git status --porcelain -- WebSite/assets/x-feed.json | grep -q .; then
+            git add WebSite/assets/x-feed.json || true
+            git commit -m "chore: update x media feed" || true
+          fi
