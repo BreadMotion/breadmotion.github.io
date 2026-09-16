@@ -13,6 +13,7 @@
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
+const { fetchPublishXEmbed } = require("./x-embed-utils");
 
 // ───────────────────────────────────────────────────────────────
 // 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
@@ -249,10 +250,31 @@ ${bodyHtml}
 
     const { data, content: rawContent } = matter(raw);
 
-    // Support X embed shorthand [!X](url) -> official X tweet embed HTML (no paid API required)
-    let content = rawContent.replace(/\[!X\]\((.*?)\)/g, function (_, url) {
-      return createXEmbedMarkup(url);
-    });
+    // Support X embed shorthand [!X](url) -> try publish.x embed first, fallback to official blockquote
+    let content = rawContent;
+    const xMatches = [...content.matchAll(/\[!X\]\((.*?)\)/g)];
+    if (xMatches.length) {
+      const unique = Array.from(new Map(xMatches.map((m) => [m[0], m])).values());
+      const repls = new Map();
+      await Promise.all(unique.map(async (m) => {
+        const key = m[0];
+        const url = m[1];
+        try {
+          const embed = await fetchPublishXEmbed(url);
+          if (embed) {
+            repls.set(key, embed);
+          } else {
+            repls.set(key, createXEmbedMarkup(url));
+          }
+        } catch (e) {
+          logger.warn(`Failed to fetch publish.x embed for ${url}: ${e.message}`);
+          repls.set(key, createXEmbedMarkup(url));
+        }
+      }));
+      for (const [k, v] of repls) {
+        content = content.split(k).join(v);
+      }
+    }
 
     const htmlBody = marked.parse(content);
 

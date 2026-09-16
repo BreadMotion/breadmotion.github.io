@@ -14,6 +14,7 @@ const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
 const locales = require("./locales");
+const { fetchPublishXEmbed } = require("./x-embed-utils");
 
 // ───────────────────────────────────────────────────────────────
 // 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
@@ -773,7 +774,17 @@ function createHtml({
 
           try {
             if (type === 'X') {
-              // For X embeds, use the official tweet embed markup directly from the URL.
+              // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
+              try {
+                const embedHtml = await fetchPublishXEmbed(url);
+                if (embedHtml) {
+                  replacements.set(key, embedHtml);
+                  return;
+                }
+              } catch (e) {
+                logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+              }
+              // Fallback to existing markup
               replacements.set(key, createXEmbedMarkup(url));
               return;
             }
