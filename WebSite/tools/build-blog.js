@@ -630,6 +630,7 @@ function createHtml({
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
+    <script src="${pathPrefix}/assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
     <script src="${pathPrefix}/assets/js/ui.js" defer></script>
     <script src="${pathPrefix}/assets/js/post-interactions.js" defer></script>
@@ -749,9 +750,8 @@ function createHtml({
       const { data, content: rawContent } = matter(raw);
       let content = rawContent;
 
-      // Process Link Cards: [!CARD](url) and [!WILDCARD](url)
-      const linkCardRegex =
-        /\[!(CARD|WILDCARD)\]\((.*?)\)/g;
+      // Process Link Cards and X embeds: [!CARD](url), [!WILDCARD](url), [!X](url)
+      const linkCardRegex = /\[!(CARD|WILDCARD|X)\]\((.*?)\)/g;
       const matches = [...content.matchAll(linkCardRegex)];
 
       // Deduplicate matches to avoid redundant fetches
@@ -767,6 +767,12 @@ function createHtml({
           const key = match[0];
 
           try {
+            if (type === 'X') {
+              // For X embeds, inject a placeholder div that the client-side x-feed.js will convert
+              replacements.set(key, `<div class="x-embed" data-x-url="${escapeHtmlAttr(url)}"></div>`);
+              return;
+            }
+
             const ogp = await fetchOgp(url);
             if (ogp) {
               const cardHtml = createLinkCardHtml(

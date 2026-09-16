@@ -54,6 +54,18 @@ function escapeHtml(str = "") {
   });
 }
 
+function escapeHtmlAttr(str = "") {
+  return String(str).replace(/[&<>"']/g, (c) => {
+    return {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#39;'
+    }[c];
+  });
+}
+
 // 作品ページ HTML テンプレート
 function createHtml({
   id,
@@ -192,6 +204,7 @@ ${bodyHtml}
       </main>
     </div>
 
+    <script src="../assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="../assets/js/layout.js" defer></script>
     <script src="../assets/js/ui.js" defer></script>
     <script src="../assets/js/preview.js" defer></script>
@@ -229,7 +242,13 @@ ${bodyHtml}
     const fullPath = path.join(CONTENT_DIR, file);
     const raw = fs.readFileSync(fullPath, "utf8");
 
-    const { data, content } = matter(raw);
+    const { data, content: rawContent } = matter(raw);
+
+    // Support X embed shorthand [!X](url) -> <div class="x-embed" data-x-url="..."></div>
+    let content = rawContent.replace(/\[!X\]\((.*?)\)/g, function (_, url) {
+      return `<div class="x-embed" data-x-url="${escapeHtmlAttr(url)}"></div>`;
+    });
+
     const htmlBody = marked.parse(content);
 
     const title = data.title || id;
