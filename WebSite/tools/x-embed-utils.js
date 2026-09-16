@@ -59,7 +59,7 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
     if (data && data.html) {
       // 必要に応じて <script> タグを除外する場合はここで除去（HTML側で widgets.js を読み込んでいる場合）
       const embedHtml = data.html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
-
+      embedHtml = `<div class="x-embed-wrapper">${embedHtml}</div>`;
       try {
         fs.writeFileSync(cacheFile, embedHtml, 'utf8');
       } catch (e) {}

@@ -637,6 +637,14 @@ function createHtml({
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script>
+          // DOMレンダリング後に X の埋め込みウィジェットをレンダリング強制実行
+          window.addEventListener('DOMContentLoaded', function() {
+            if (window.twttr && window.twttr.widgets) {
+              window.twttr.widgets.load();
+            }
+          });
+        </script>
     <script src="${pathPrefix}/assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="${pathPrefix}/assets/js/layout.js" defer></script>
     <script src="${pathPrefix}/assets/js/ui.js" defer></script>
