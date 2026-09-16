@@ -22,4 +22,4 @@ thumbnail: assets/img/ogp.png
 
 ### URL
 
-[Discordサーバーへ追加依頼](https://breadmotion.github.io/WebSite/contact.html, "Contact　Page")
+[!WILDCARD](https://breadmotion.github.io/WebSite/contact.html, "Contact　Page")

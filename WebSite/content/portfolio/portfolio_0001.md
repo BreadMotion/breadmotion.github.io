@@ -36,12 +36,12 @@ thumbnail: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/28
 
 ### URL
 
-[作品ストアページ - steam](https://store.steampowered.com/app/2806350/_/ "Steam Store page")
+[!CARD](https://store.steampowered.com/app/2806350/_/ "Steam Store page")
 
-[作品ページ - Game Creators Camp](https://game-creators.camp/games/37683783/Reimei_no_Yu "作品 page")
+[!CARD](https://game-creators.camp/games/37683783/Reimei_no_Yu "作品 page")
 
 ### その他 SNS
 
-[しろゴリラ X](https://x.com/shi_ro_Gorilla/ "Xアカウントページ")
+[!CARD](https://x.com/shi_ro_Gorilla/ "Xアカウントページ")
 
 [!X](https://x.com/pankun2000_/status/1766123815808205185?s=20)
