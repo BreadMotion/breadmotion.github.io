@@ -139,6 +139,8 @@ function createHtml({
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
+    <script>(function(){if(window.__TWITTER_WIDGETS_LOADER)return;window.__TWITTER_WIDGETS_LOADER=true;function injectWidgets(){if(document.querySelector('script[src*="platform.twitter.com/widgets.js"]'))return;var s=document.createElement('script');s.src='https://platform.twitter.com/widgets.js';s.async=true;s.crossOrigin='anonymous';s.onload=function(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){window.twttr.widgets.load();}}catch(e){}};s.onerror=function(){console.warn('x: widgets.js failed to load');};document.head.appendChild(s);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',injectWidgets);}else{injectWidgets();}})();</script>
+
     <meta property="og:title" content="${safeTitle} | PanKUN Portfolio" />
     <meta property="og:description" content="${safeDesc}" />
     <meta property="og:type" content="article" />
