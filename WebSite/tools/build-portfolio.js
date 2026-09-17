@@ -69,7 +69,7 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  return `<blockquote class="twitter-tweet" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}">View on X</a></blockquote>`;
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
 }
 
 // 作品ページ HTML テンプレート

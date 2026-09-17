@@ -11,30 +11,51 @@ function hashUrl(url) {
   return crypto.createHash('sha256').update(url).digest('hex');
 }
 
-function safeFetch(url) {
+function safeFetch(url, maxRedirects = 5) {
   return new Promise((resolve, reject) => {
-    const urlObj = new URL(url);
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname + urlObj.search,
-      headers: {
-        // X (Twitter) API から拒否されないよう User-Agent を明示的に追加
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-      }
-    };
+    try {
+      const urlObj = new URL(url);
+      const options = {
+        hostname: urlObj.hostname,
+        path: urlObj.pathname + urlObj.search,
+        headers: {
+          // X (Twitter) API から拒否されないよう User-Agent を明示的に追加
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      };
 
-    https.get(options, (res) => {
-      let data = '';
-      res.on('data', (c) => (data += c));
-      res.on('end', () => {
-        resolve({
-          ok: res.statusCode >= 200 && res.statusCode < 300,
-          text: async () => data,
-          status: res.statusCode,
-          statusText: res.statusMessage,
+      const req = https.get(options, (res) => {
+        // フォローが必要なリダイレクト応答を受け取った場合
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers && res.headers.location) {
+          if (maxRedirects > 0) {
+            const loc = res.headers.location.startsWith('http')
+              ? res.headers.location
+              : `${urlObj.protocol}//${urlObj.hostname}${res.headers.location}`;
+            // 再帰的にフォロー（maxRedirects をデクリメント）
+            resolve(safeFetch(loc, maxRedirects - 1));
+            return;
+          }
+          // リダイレクト上限に達した
+          resolve({ ok: false, status: res.statusCode, statusText: 'Too many redirects', text: async () => '' });
+          return;
+        }
+
+        let data = '';
+        res.on('data', (c) => (data += c));
+        res.on('end', () => {
+          resolve({
+            ok: res.statusCode >= 200 && res.statusCode < 300,
+            text: async () => data,
+            status: res.statusCode,
+            statusText: res.statusMessage,
+          });
         });
       });
-    }).on('error', reject);
+
+      req.on('error', (err) => reject(err));
+    } catch (e) {
+      reject(e);
+    }
   });
 }
 
