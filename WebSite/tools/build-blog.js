@@ -176,6 +176,10 @@ function createXEmbedMarkup(url) {
   return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
 }
 
+function createEmbedInitScript() {
+  return `<script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var m=url.match(/status\/(\\d+)/);if(m&&m[1]){var id=m[1];var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script>`;
+}
+
 function formatDate(date) {
   if (!date) return "";
   const d = new Date(date);
@@ -798,7 +802,7 @@ function createHtml({
               try {
                 const embedHtml = await fetchPublishXEmbed(url);
                 if (embedHtml) {
-                  replacements.set(key, embedHtml);
+                  replacements.set(key, embedHtml + createEmbedInitScript());
                   return;
                 }
               } catch (e) {
