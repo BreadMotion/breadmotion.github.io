@@ -108,8 +108,22 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
         return ''; // otherwise remove
       });
 
-      // Normalize: wrap in x-embed-wrapper
-      let embedHtml = `<div class="x-embed-wrapper">${html.trim()}</div>`;
+      // If the returned HTML is a plain blockquote (no iframe), provide a server-side iframe fallback
+      let iframeFallback = '';
+      try {
+        const m = origUrl.match(/status\/(\d+)/);
+        if (m && m[1]) {
+          const id = m[1];
+          // Construct a conservative iframe fallback pointing to platform.twitter.com/embed/Tweet.html
+          const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${id}&theme=dark&dnt=true`;
+          iframeFallback = `<div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" height="400" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
+        }
+      } catch (e) {
+        // ignore
+      }
+
+      // Normalize: wrap in x-embed-wrapper and append iframe fallback when appropriate
+      let embedHtml = `<div class="x-embed-wrapper">${html.trim()}${iframeFallback}</div>`;
 
       try {
         fs.writeFileSync(cacheFile, embedHtml, 'utf8');

@@ -297,6 +297,24 @@ button {
     max-width: 100% !important;
 }
 
+/* Ensure X (Twitter) embeds are visible and not hidden by other rules */
+.x-embed-wrapper iframe,
+.x-embed iframe,
+.twitter-tweet,
+blockquote.twitter-tweet {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    background: transparent !important;
+    min-height: 80px !important;
+}
+
+/* If iframe height collapses due to CSS reset, allow auto height */
+.x-embed-wrapper iframe[style],
+.x-embed iframe[style] {
+    height: auto !important;
+}
+
 @media (max-width: 768px) {
     .home-xfeed-block {
         margin-top: 1rem;
