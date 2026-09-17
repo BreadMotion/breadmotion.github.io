@@ -79,19 +79,37 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
 
     const res = await safeFetch(oembedUrl);
     if (!res || !res.ok) {
-      console.warn(`[WARN] oEmbed fetch failed for ${origUrl}`);
+      console.warn(`[WARN] oEmbed fetch failed for ${origUrl} (status: ${res ? res.status : 'no response'})`);
+      // ネットワーク失敗時はキャッシュがあれば返す（ビルドを失敗させない）
+      if (fs.existsSync(cacheFile)) {
+        try { return fs.readFileSync(cacheFile, 'utf8'); } catch (e) {}
+      }
       return null;
     }
 
     const text = await res.text();
-    const data = JSON.parse(text);
+    let data;
+    try {
+      data = JSON.parse(text);
+    } catch (e) {
+      console.warn(`[WARN] fetchPublishXEmbed: invalid JSON for ${origUrl}: ${e.message}`);
+      return null;
+    }
 
     if (data && data.html) {
-      // 1. レスポンスから script タグを除去
-      let embedHtml = data.html.replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '').trim();
+      // 1. レスポンスから不要な script タグを除去するが、
+      //    platform.twitter.com の widgets.js は保持する（ユーザー許可あり）
+      let html = data.html;
+      html = html.replace(/<script([\s\S]*?)>([\s\S]*?)<\/script>/gi, function (match, attrs) {
+        var srcMatch = match.match(/src\s*=\s*"([^"]+)"/i) || match.match(/src\s*=\s*'([^']+)'/i);
+        if (srcMatch && srcMatch[1] && srcMatch[1].indexOf('platform.twitter.com') !== -1) {
+          return match; // KEEP widgets.js
+        }
+        return ''; // otherwise remove
+      });
 
-      // 2. ラッパー要素で包む
-      embedHtml = `<div class="x-embed-wrapper">${embedHtml}</div>`;
+      // Normalize: wrap in x-embed-wrapper
+      let embedHtml = `<div class="x-embed-wrapper">${html.trim()}</div>`;
 
       try {
         fs.writeFileSync(cacheFile, embedHtml, 'utf8');
@@ -102,7 +120,11 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
 
     return null;
   } catch (e) {
-    console.error(`[ERROR] fetchPublishXEmbed error: ${e.message}`);
+    // ネットワーク/DNS エラーなどは警告にし、可能なら cache を返す
+    console.warn(`[WARN] fetchPublishXEmbed error: ${e.message}`);
+    if (fs.existsSync(cacheFile)) {
+      try { return fs.readFileSync(cacheFile, 'utf8'); } catch (e) {}
+    }
     return null;
   }
 }

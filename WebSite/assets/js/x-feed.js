@@ -162,6 +162,15 @@
                     // ignore fallback failures
                 }
             }, 600);
+
+            // Extra attempt: schedule a later full-scan load to catch late-arriving scripts (adblock / slow network)
+            setTimeout(function () {
+                try {
+                    if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
+                        window.twttr.widgets.load(container);
+                    }
+                } catch (e) {}
+            }, 2000);
         }, { maxAttempts: 15, interval: 200 });
     }
 
