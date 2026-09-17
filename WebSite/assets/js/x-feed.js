@@ -25,23 +25,56 @@
         return scriptSrc.replace(/\/js\/x-feed\.js(\?.*)?$/, '/x-feed.json');
     }
 
-    function loadWidgets(callback) {
+    function ensureWidgets(callback, options) {
+        options = options || {};
+        var maxAttempts = typeof options.maxAttempts === 'number' ? options.maxAttempts : 10;
+        var interval = typeof options.interval === 'number' ? options.interval : 200;
+
+        function done() {
+            try {
+                if (typeof callback === 'function') callback();
+            } catch (e) {
+                console.warn('x-feed: widgets callback error', e);
+            }
+        }
+
         if (window.twttr && window.twttr.widgets) {
-            callback && callback();
+            done();
             return;
         }
+
         var existing = document.querySelector('script[src*="platform.twitter.com/widgets.js"]');
-        if (existing) {
-            if (existing.addEventListener) existing.addEventListener('load', callback || function () {});
-            else if (existing.attachEvent) existing.attachEvent('onload', callback || function () {});
-            return;
+        if (!existing) {
+            var s = document.createElement('script');
+            s.src = 'https://platform.twitter.com/widgets.js';
+            s.async = true;
+            s.onerror = function () {
+                // ignore; we'll poll for twttr availability
+            };
+            document.head.appendChild(s);
+        } else {
+            try {
+                if (existing.addEventListener) existing.addEventListener('load', done);
+                else if (existing.attachEvent) existing.attachEvent('onload', done);
+            } catch (e) {
+                // ignore
+            }
         }
-        var s = document.createElement('script');
-        s.src = 'https://platform.twitter.com/widgets.js';
-        s.async = true;
-        s.onload = function () { callback && callback(); };
-        s.onerror = function () { callback && callback(); };
-        document.head.appendChild(s);
+
+        var attempts = 0;
+        var poll = setInterval(function () {
+            attempts++;
+            if (window.twttr && window.twttr.widgets) {
+                clearInterval(poll);
+                done();
+                return;
+            }
+            if (attempts >= maxAttempts) {
+                clearInterval(poll);
+                // give one final attempt to call done (graceful degradation)
+                done();
+            }
+        }, interval);
     }
 
     function renderEmptyState(container, message) {
@@ -92,7 +125,7 @@
             container.appendChild(blockquote);
         });
 
-        loadWidgets(function () {
+        ensureWidgets(function () {
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load(container);
@@ -100,7 +133,36 @@
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
             }
-        });
+
+            // After a short delay, if the blockquote hasn't been converted to an iframe,
+            // try to create embeds programmatically via twttr.widgets.createTweet as a fallback.
+            setTimeout(function () {
+                try {
+                    if (!container.querySelector('iframe') && window.twttr && window.twttr.widgets && typeof window.twttr.widgets.createTweet === 'function') {
+                        var blockquotes = container.querySelectorAll('blockquote.twitter-tweet');
+                        blockquotes.forEach(function (bq) {
+                            // Try to find a tweet URL inside the blockquote
+                            var link = bq.querySelector('a[href]');
+                            var url = (link && link.href) || bq.getAttribute('data-x-url') || '';
+                            var m = url.match(/status\/(\d+)/);
+                            if (m && m[1]) {
+                                var id = m[1];
+                                try {
+                                    // Replace blockquote with a wrapper and create the tweet
+                                    var target = document.createElement('div');
+                                    bq.parentNode.replaceChild(target, bq);
+                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
+                                } catch (err) {
+                                    // ignore per-tweet errors
+                                }
+                            }
+                        });
+                    }
+                } catch (err) {
+                    // ignore fallback failures
+                }
+            }, 600);
+        }, { maxAttempts: 15, interval: 200 });
     }
 
     function fetchAndRenderFeed() {
@@ -160,7 +222,7 @@
                 node.parentNode.replaceChild(wrapper, node);
             }
         });
-        loadWidgets(function () {
+        ensureWidgets(function () {
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load();
@@ -168,7 +230,29 @@
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
             }
-        });
+
+            // Fallback: try programmatic creation of embeds for inline blockquotes
+            setTimeout(function () {
+                try {
+                    if (!document.querySelector('iframe') && window.twttr && window.twttr.widgets && typeof window.twttr.widgets.createTweet === 'function') {
+                        var blockquotes = document.querySelectorAll('blockquote.twitter-tweet');
+                        blockquotes.forEach(function (bq) {
+                            var link = bq.querySelector('a[href]');
+                            var url = (link && link.href) || bq.getAttribute('data-x-url') || '';
+                            var m = url.match(/status\/(\d+)/);
+                            if (m && m[1]) {
+                                var id = m[1];
+                                try {
+                                    var target = document.createElement('div');
+                                    bq.parentNode.replaceChild(target, bq);
+                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
+                                } catch (err) {}
+                            }
+                        });
+                    }
+                } catch (err) {}
+            }, 600);
+        }, { maxAttempts: 15, interval: 200 });
     }
 
     // Run on DOM ready
