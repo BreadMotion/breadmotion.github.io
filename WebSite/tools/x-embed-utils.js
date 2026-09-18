@@ -81,7 +81,7 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       const m = origUrl.match(/status\/(\d+)/);
       if (m && m[1]) {
         const id = m[1];
-        // TODO: fallback やめろ
+        // TODO: fallbackという命名やめろ
         const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${id}&theme=dark&dnt=true`;
         html = `<div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" height="400" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
       }
