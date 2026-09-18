@@ -144,9 +144,11 @@
                             // Try to find a tweet URL inside the blockquote
                             var link = bq.querySelector('a[href]');
                             var url = (link && link.href) || bq.getAttribute('data-x-url') || '';
-                            var m = url.match(/status\/(\d+)/);
-                            if (m && m[1]) {
-                                var id = m[1];
+                            var parts = (url || '').split('?')[0].split('/').filter(Boolean);
+                            var last = parts[parts.length-1] || '';
+                            var idMatch = last.match(/\d+/);
+                            if (idMatch && idMatch[0]) {
+                                var id = idMatch[0];
                                 try {
                                     // Replace blockquote with a wrapper and create the tweet
                                     var target = document.createElement('div');
@@ -248,9 +250,11 @@
                         blockquotes.forEach(function (bq) {
                             var link = bq.querySelector('a[href]');
                             var url = (link && link.href) || bq.getAttribute('data-x-url') || '';
-                            var m = url.match(/status\/(\d+)/);
-                            if (m && m[1]) {
-                                var id = m[1];
+                            var parts = (url || '').split('?')[0].split('/').filter(Boolean);
+                            var last = parts[parts.length-1] || '';
+                            var idMatch = last.match(/\d+/);
+                            if (idMatch && idMatch[0]) {
+                                var id = idMatch[0];
                                 try {
                                     var target = document.createElement('div');
                                     bq.parentNode.replaceChild(target, bq);
