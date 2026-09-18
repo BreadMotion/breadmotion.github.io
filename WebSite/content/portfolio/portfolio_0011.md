@@ -31,4 +31,4 @@ thumbnail: assets/img/ogp.png
 
 ## その他 SNS
 
-[!X](https://x.com/pankun2000_/status/2071579498185912505?s=20)
+[!X](https://x.com/pankun2000_/status/2093394096668987783)
