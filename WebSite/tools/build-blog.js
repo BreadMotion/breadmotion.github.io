@@ -801,20 +801,12 @@ function createHtml({
 
           try {
             if (type === 'X') {
-              // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
-              try {
-                const embedHtml = await fetchPublishXEmbed(url);
-                if (embedHtml) {
-                  replacements.set(key, embedHtml + createEmbedInitScript());
-                  return;
-                }
-              } catch (e) {
-                logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
-              }
-              // Fallback to existing markup
-              replacements.set(key, createXEmbedMarkup(url));
-              return;
-            }
+                          // Force client-side embedding: always output a blockquote + init script so platform widgets.js
+                          // or twttr.widgets.createTweet handles sizing and rendering at runtime. This avoids stale server-side embeds
+                          // and ensures consistent behavior across environments.
+                          replacements.set(key, createXEmbedMarkup(url) + createEmbedInitScript());
+                          return;
+                        }
 
             const ogp = await fetchOgp(url);
             if (ogp) {

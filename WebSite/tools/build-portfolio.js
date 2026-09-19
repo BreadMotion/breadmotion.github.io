@@ -333,15 +333,10 @@ ${bodyHtml}
 
         try {
           if (type === 'X') {
-            try {
-              const embedHtml = await fetchPublishXEmbed(url);
-              if (embedHtml) { replacements.set(key, embedHtml + createEmbedInitScript()); return; }
-            } catch (e) {
-              logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
-            }
-            replacements.set(key, createXEmbedMarkup(url));
-            return;
-          }
+                      // Force client-side blockquote + init script for consistent client rendering and sizing.
+                      replacements.set(key, createXEmbedMarkup(url) + createEmbedInitScript());
+                      return;
+                    }
 
           const ogp = await fetchOgp(url);
           if (ogp) {
