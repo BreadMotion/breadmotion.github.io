@@ -77,69 +77,6 @@
         }, interval);
     }
 
-    // Ensure embed iframes get a reasonable height when widgets.js loads them.
-    // Prefer measuring the created embed and setting iframe height; fall back to conservative min-height.
-    function ensureEmbedSizing(container) {
-        container = container || document;
-        var desktopMin = 320;
-        var mobileMin = 220;
-        function applySizingToIframe(iframe) {
-            try {
-                var minH = window.innerWidth <= 768 ? mobileMin : desktopMin;
-                iframe.style.minHeight = minH + 'px';
-                iframe.style.maxHeight = 'none';
-
-                var inlineH = parseInt(iframe.style.height, 10);
-                var measured = iframe.offsetHeight || 0;
-                if (isNaN(inlineH) || inlineH < measured || inlineH < minH) {
-                    var newH = Math.max(minH, measured || minH);
-                    iframe.style.height = newH + 'px';
-                }
-
-                iframe.style.visibility = 'visible';
-                iframe.style.opacity = '1';
-            } catch (e) {
-                // ignore
-            }
-        }
-
-        // Apply sizing to existing iframes immediately
-        try {
-            var existingIframes = Array.prototype.slice.call(container.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]'));
-            existingIframes.forEach(applySizingToIframe);
-        } catch (e) {}
-
-        // Observe new iframes inserted by widgets.js and adjust their height
-        try {
-            var observer = new MutationObserver(function (mutations) {
-                mutations.forEach(function (m) {
-                    if (m.addedNodes && m.addedNodes.length) {
-                        Array.prototype.slice.call(m.addedNodes).forEach(function (n) {
-                            if (n && n.nodeType === 1) {
-                                if (n.tagName === 'IFRAME' && /platform\.twitter\.com|twimg\.com|twitter\.com/.test(n.src || '')) {
-                                    applySizingToIframe(n);
-                                } else {
-                                    var nested = n.querySelectorAll && n.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]');
-                                    if (nested && nested.length) {
-                                        Array.prototype.slice.call(nested).forEach(applySizingToIframe);
-                                    }
-                                }
-                            }
-                        });
-                    }
-                    if (m.type === 'attributes' && m.target && m.target.tagName === 'IFRAME') {
-                        applySizingToIframe(m.target);
-                    }
-                });
-            });
-            observer.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'height'] });
-            // stop observing after 10s to avoid long-lived observers
-            setTimeout(function () { try { observer.disconnect(); } catch (e) { } }, 10000);
-        } catch (e) {
-            // ignore observer failures
-        }
-    }
-
     function renderEmptyState(container, message) {
         if (!container) return;
         container.innerHTML = '<p class="x-feed-empty">' + (message || '最新のX投稿を読み込めませんでした。') + '</p>';
@@ -192,8 +129,6 @@
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load(container);
-                    // attempt to fix sizing immediately after load
-                    try { ensureEmbedSizing(container); } catch (e) {}
                 }
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
@@ -218,32 +153,12 @@
                                     // Replace blockquote with a wrapper and create the tweet
                                     var target = document.createElement('div');
                                     bq.parentNode.replaceChild(target, bq);
-                                    try {
-                                        var p = window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
-                                        if (p && typeof p.then === 'function') {
-                                            p.then(function (embed) {
-                                                try {
-                                                    var el = embed && embed.nodeType ? embed : target;
-                                                    var iframe = el.querySelector && el.querySelector('iframe');
-                                                    var measured = el.offsetHeight || (iframe && iframe.offsetHeight) || 0;
-                                                    var minH = window.innerWidth <= 768 ? 220 : 320;
-                                                    if (iframe && measured) {
-                                                        iframe.style.height = Math.max(minH, measured) + 'px';
-                                                        iframe.style.minHeight = minH + 'px';
-                                                    }
-                                                } catch (e) {}
-                                            }).catch(function(){});
-                                        }
-                                    } catch (err) {
-                                        // ignore per-tweet errors
-                                    }
+                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
                                 } catch (err) {
-                                    // ignore wrapper errors
+                                    // ignore per-tweet errors
                                 }
                             }
                         });
-                        // After creating tweets, attempt sizing adjustments
-                        try { ensureEmbedSizing(container); } catch (e) {}
                     }
                 } catch (err) {
                     // ignore fallback failures
@@ -255,7 +170,6 @@
                 try {
                     if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                         window.twttr.widgets.load(container);
-                        try { ensureEmbedSizing(container); } catch (e) {}
                     }
                 } catch (e) {}
             }, 2000);
@@ -323,7 +237,6 @@
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load();
-                    try { ensureEmbedSizing(document); } catch (e) {}
                 }
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
@@ -345,29 +258,10 @@
                                 try {
                                     var target = document.createElement('div');
                                     bq.parentNode.replaceChild(target, bq);
-                                    try {
-                                        var p = window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
-                                        if (p && typeof p.then === 'function') {
-                                            p.then(function (embed) {
-                                                try {
-                                                    var el = embed && embed.nodeType ? embed : target;
-                                                    var iframe = el.querySelector && el.querySelector('iframe');
-                                                    var measured = el.offsetHeight || (iframe && iframe.offsetHeight) || 0;
-                                                    var minH = window.innerWidth <= 768 ? 220 : 320;
-                                                    if (iframe && measured) {
-                                                        iframe.style.height = Math.max(minH, measured) + 'px';
-                                                        iframe.style.minHeight = minH + 'px';
-                                                    }
-                                                } catch (e) {}
-                                            }).catch(function(){});
-                                        }
-                                    } catch (err) {}
-                                } catch (err) {
-                                    // ignore wrapper errors
-                                }
+                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
+                                } catch (err) {}
                             }
                         });
-                        try { ensureEmbedSizing(document); } catch (e) {}
                     }
                 } catch (err) {}
             }, 600);

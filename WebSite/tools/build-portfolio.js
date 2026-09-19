@@ -69,9 +69,7 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  // Emit a blockquote with an empty anchor; this matches Twitter's expected markup
-  // and avoids inserting visible fallback link text that appears when widgets don't run.
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}"></a></blockquote>`;
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
 }
 
 function createEmbedInitScript() {
@@ -335,10 +333,15 @@ ${bodyHtml}
 
         try {
           if (type === 'X') {
-                      // Force client-side blockquote + init script for consistent client rendering and sizing.
-                      replacements.set(key, createXEmbedMarkup(url) + createEmbedInitScript());
-                      return;
-                    }
+            try {
+              const embedHtml = await fetchPublishXEmbed(url);
+              if (embedHtml) { replacements.set(key, embedHtml + createEmbedInitScript()); return; }
+            } catch (e) {
+              logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+            }
+            replacements.set(key, createXEmbedMarkup(url));
+            return;
+          }
 
           const ogp = await fetchOgp(url);
           if (ogp) {

@@ -315,20 +315,6 @@ blockquote.twitter-tweet {
     height: auto;
 }
 
-/* Reduce truncation: ensure embeds have a reasonable min-height so media/dates are not clipped. */
-.x-embed-iframe-fallback iframe,
-.x-embed-wrapper iframe {
-    /* Conservative fallback min-height; prefer dynamic sizing from JS */
-    min-height: 320px !important; /* desktop fallback */
-}
-
-@media (max-width: 768px) {
-    .x-embed-iframe-fallback iframe,
-    .x-embed-wrapper iframe {
-        min-height: 220px !important; /* mobile fallback */
-    }
-}
-
 @media (max-width: 768px) {
     .home-xfeed-block {
         margin-top: 1rem;

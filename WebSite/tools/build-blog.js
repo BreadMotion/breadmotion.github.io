@@ -173,8 +173,7 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  // Use an empty anchor so widgets.js can convert the blockquote to an embed reliably.
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}"></a></blockquote>`;
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
 }
 
 function createEmbedInitScript() {
@@ -802,12 +801,20 @@ function createHtml({
 
           try {
             if (type === 'X') {
-                          // Force client-side embedding: always output a blockquote + init script so platform widgets.js
-                          // or twttr.widgets.createTweet handles sizing and rendering at runtime. This avoids stale server-side embeds
-                          // and ensures consistent behavior across environments.
-                          replacements.set(key, createXEmbedMarkup(url) + createEmbedInitScript());
-                          return;
-                        }
+              // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
+              try {
+                const embedHtml = await fetchPublishXEmbed(url);
+                if (embedHtml) {
+                  replacements.set(key, embedHtml + createEmbedInitScript());
+                  return;
+                }
+              } catch (e) {
+                logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+              }
+              // Fallback to existing markup
+              replacements.set(key, createXEmbedMarkup(url));
+              return;
+            }
 
             const ogp = await fetchOgp(url);
             if (ogp) {
