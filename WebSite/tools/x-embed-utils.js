@@ -62,7 +62,6 @@ function safeFetch(url, maxRedirects = 5) {
 async function fetchPublishXEmbed(origUrl, options = {}) {
   const ttlDays = typeof options.ttlDays === 'number' ? options.ttlDays : 7;
 
-  // X公式 oEmbed API エンドポイント
   const key = hashUrl(origUrl);
   const cacheFile = path.join(CACHE_DIR, `${key}.html`);
 
@@ -76,23 +75,46 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     }
 
-    let html = '';
+    let embedHtml = '';
+
+    // まず publish.twitter.com の oEmbed を試す（omit_script=true を付けて widgets.js に委ねる）
     try {
-      const m = origUrl.match(/status\/(\d+)/);
-      if (m && m[1]) {
-        const id = m[1];
-        // TODO: fallbackという命名やめろ
-        const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${id}&theme=dark&dnt=true`;
-        html = `<div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" height="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
+      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&omit_script=true&dnt=true`;
+      const res = await safeFetch(oembedUrl);
+      if (res && res.ok) {
+        const txt = await res.text();
+        try {
+          const json = JSON.parse(txt);
+          if (json && json.html) {
+            embedHtml = `<div class="x-embed-wrapper">${json.html}</div>`;
+          }
+        } catch (e) {
+          // JSON 解析失敗は無視してフォールバックへ
+        }
       }
-    } catch (e) {}
+    } catch (e) {
+      // フェッチ失敗は無視してフォールバックへ
+    }
 
-    let embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
-    try {
-      fs.writeFileSync(cacheFile, embedHtml, 'utf8');
-    } catch (e) {}
+    // oEmbed が使えない場合のフォールバック: 固定高さ属性を付けない iframe を返す
+    if (!embedHtml) {
+      try {
+        const m = origUrl.match(/status\/(\d+)/);
+        if (m && m[1]) {
+          const id = m[1];
+          const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${id}&theme=dark&dnt=true`;
+          // height 属性を付けず、親側の widgets.js / スクリプトが inline style で高さを設定できるようにする
+          embedHtml = `<div class="x-embed-wrapper"><div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div></div>`;
+        }
+      } catch (e) {}
+    }
 
-    return embedHtml;
+    if (embedHtml) {
+      try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
+      return embedHtml;
+    }
+
+    return null;
   } catch (e) {
     // ネットワーク/DNS エラーなどは警告にし、可能なら cache を返す
     console.warn(`[WARN] fetchPublishXEmbed error: ${e.message}`);

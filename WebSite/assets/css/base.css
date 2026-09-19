@@ -312,7 +312,7 @@ blockquote.twitter-tweet {
 /* If iframe height collapses due to CSS reset, allow auto height */
 .x-embed-wrapper iframe[style],
 .x-embed iframe[style] {
-    height: auto !important;
+    height: auto;
 }
 
 @media (max-width: 768px) {
