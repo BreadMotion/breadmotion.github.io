@@ -75,48 +75,38 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     }
 
-    let embedHtml = '';
-
-    // まず publish.twitter.com の oEmbed を試す（omit_script=true を付けて widgets.js に委ねる）
+    // Try to determine tweet ID from the URL or by resolving the URL body
+    let tweetId = null;
     try {
-      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&omit_script=true&dnt=true`;
-      const res = await safeFetch(oembedUrl);
-      if (res && res.ok) {
-        const txt = await res.text();
+      const m = origUrl.match(/status\/(\d+)/);
+      if (m && m[1]) {
+        tweetId = m[1];
+      } else {
+        // If URL is a t.co shortlink or otherwise doesn't contain status/ID, fetch the page and search for a canonical/og:url containing the status ID
         try {
-          const json = JSON.parse(txt);
-          if (json && json.html) {
-            embedHtml = `<div class="x-embed-wrapper">${json.html}</div>`;
+          const res = await safeFetch(origUrl);
+          if (res && res.ok) {
+            const txt = await res.text();
+            const mm = txt.match(/https?:\/\/(?:x|twitter)\.com\/[^"]*status\/(\d+)/);
+            if (mm && mm[1]) tweetId = mm[1];
           }
         } catch (e) {
-          // JSON 解析失敗は無視してフォールバックへ
+          // ignore network errors here - we'll fallback to null
         }
       }
-    } catch (e) {
-      // フェッチ失敗は無視してフォールバックへ
-    }
+    } catch (e) {}
 
-    // oEmbed が使えない場合のフォールバック: 固定高さ属性を付けない iframe を返す
-    if (!embedHtml) {
-      try {
-        const m = origUrl.match(/status\/(\d+)/);
-        if (m && m[1]) {
-          const id = m[1];
-          const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${id}&theme=dark&dnt=true`;
-          // height 属性を付けず、親側の widgets.js / スクリプトが inline style で高さを設定できるようにする
-          embedHtml = `<div class="x-embed-wrapper"><div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div></div>`;
-        }
-      } catch (e) {}
-    }
-
-    if (embedHtml) {
+    if (tweetId) {
+      const iframeSrc = `https://platform.twitter.com/embed/Tweet.html?id=${tweetId}&theme=dark&dnt=true`;
+      const html = `<div class="x-embed-iframe-fallback"><iframe src="${iframeSrc}" width="100%" frameborder="0" scrolling="no" allowtransparency="true"></iframe></div>`;
+      const embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
       try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
       return embedHtml;
     }
 
+    // Could not resolve tweet ID — return null so caller can fallback to blockquote markup
     return null;
   } catch (e) {
-    // ネットワーク/DNS エラーなどは警告にし、可能なら cache を返す
     console.warn(`[WARN] fetchPublishXEmbed error: ${e.message}`);
     if (fs.existsSync(cacheFile)) {
       try { return fs.readFileSync(cacheFile, 'utf8'); } catch (e) {}
