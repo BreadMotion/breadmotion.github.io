@@ -804,16 +804,16 @@ function createHtml({
               // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
               try {
                 const embedHtml = await fetchPublishXEmbed(url);
-                if (embedHtml) {
-                  replacements.set(key, embedHtml + createEmbedInitScript());
-                  return;
-                }
+                // Always append init script so client-side will attempt to render the embed
+                const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
+                replacements.set(key, finalHtml);
+                return;
               } catch (e) {
                 logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+                const finalHtml = createXEmbedMarkup(url) + createEmbedInitScript();
+                replacements.set(key, finalHtml);
+                return;
               }
-              // Fallback to existing markup
-              replacements.set(key, createXEmbedMarkup(url));
-              return;
             }
 
             const ogp = await fetchOgp(url);

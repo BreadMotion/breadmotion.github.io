@@ -335,12 +335,15 @@ ${bodyHtml}
           if (type === 'X') {
             try {
               const embedHtml = await fetchPublishXEmbed(url);
-              if (embedHtml) { replacements.set(key, embedHtml + createEmbedInitScript()); return; }
+              const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
+              replacements.set(key, finalHtml);
+              return;
             } catch (e) {
               logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+              const finalHtml = createXEmbedMarkup(url) + createEmbedInitScript();
+              replacements.set(key, finalHtml);
+              return;
             }
-            replacements.set(key, createXEmbedMarkup(url));
-            return;
           }
 
           const ogp = await fetchOgp(url);
