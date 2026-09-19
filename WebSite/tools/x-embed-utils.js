@@ -1,4 +1,4 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 const crypto = require('crypto');
 const https = require('https');
@@ -19,23 +19,19 @@ function safeFetch(url, maxRedirects = 5) {
         hostname: urlObj.hostname,
         path: urlObj.pathname + urlObj.search,
         headers: {
-          // X (Twitter) API から拒否されないよう User-Agent を明示的に追加
           'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
       };
 
       const req = https.get(options, (res) => {
-        // フォローが必要なリダイレクト応答を受け取った場合
         if (res.statusCode >= 300 && res.statusCode < 400 && res.headers && res.headers.location) {
           if (maxRedirects > 0) {
             const loc = res.headers.location.startsWith('http')
               ? res.headers.location
               : `${urlObj.protocol}//${urlObj.hostname}${res.headers.location}`;
-            // 再帰的にフォロー（maxRedirects をデクリメント）
             resolve(safeFetch(loc, maxRedirects - 1));
             return;
           }
-          // リダイレクト上限に達した
           resolve({ ok: false, status: res.statusCode, statusText: 'Too many redirects', text: async () => '' });
           return;
         }
@@ -66,7 +62,6 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
   const cacheFile = path.join(CACHE_DIR, `${key}.html`);
 
   try {
-    // キャッシュ確認
     if (fs.existsSync(cacheFile)) {
       const stat = fs.statSync(cacheFile);
       const ageMs = Date.now() - stat.mtimeMs;
@@ -75,33 +70,54 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     }
 
-    // Try to determine tweet ID from the URL or by resolving the URL body
+    // Try publish.twitter.com oEmbed (omit script) for server-side HTML embed
+    try {
+      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&theme=dark&omit_script=true&dnt=true`;
+      const res = await safeFetch(oembedUrl);
+      if (res && res.ok) {
+        const txt = await res.text();
+        try {
+          const data = JSON.parse(txt);
+          if (data && data.html) {
+            const embedHtml = `<div class="x-embed-wrapper">${data.html}</div>`;
+            try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
+            return embedHtml;
+          }
+        } catch (e) {
+          // ignore parse error
+        }
+      }
+    } catch (e) {
+      // ignore
+    }
+
+    // fallback: detect tweetId and return simple blockquote (anchor)
     let tweetId = null;
     try {
       const m = origUrl.match(/status\/(\d+)/);
       if (m && m[1]) {
         tweetId = m[1];
       } else {
-        // If URL is a t.co shortlink or otherwise doesn't contain status/ID, fetch the page and search for a canonical/og:url containing the status ID
         try {
           const res = await safeFetch(origUrl);
           if (res && res.ok) {
             const txt = await res.text();
-            const mm = txt.match(/https?:\/\/(?:x|twitter)\.com\/[^"]*status\/(\d+)/);
+            const mm = txt.match(/https?:\/\/(?:x|twitter)\.com\/[^\"]*status\/(\d+)/);
             if (mm && mm[1]) tweetId = mm[1];
           }
-        } catch (e) {
-          // ignore network errors here - we'll fallback to null
-        }
+        } catch (e) {}
       }
     } catch (e) {}
 
-    // Prefer blockquote fallback so platform widgets.js can render the embed in-page and allow natural height.
-    const safeUrl = String(origUrl).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-    const html = `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
-    const embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
-    try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
-    return embedHtml;
+    if (tweetId) {
+      const safeUrl = String(origUrl).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+      const html = `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+      const embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
+      try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
+      return embedHtml;
+    }
+
+    return null;
   } catch (e) {
     console.warn(`[WARN] fetchPublishXEmbed error: ${e.message}`);
     if (fs.existsSync(cacheFile)) {
