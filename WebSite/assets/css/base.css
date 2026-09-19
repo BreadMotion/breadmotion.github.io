@@ -461,8 +461,9 @@ iframe {
 .home-xfeed-block {
     position: relative;
     z-index: 1; /* keep above decorative backgrounds */
-    max-height: calc(3 * 360px + 2rem); /* reasonable cap for 3 stacked embeds */
-    overflow: auto; /* internal scroll if content is taller than allowed */
+    /* Allow embeds to expand so entire posts are visible */
+    max-height: none;
+    overflow: visible;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -471,15 +472,17 @@ iframe {
     gap: 0.75rem;
     width: 100%;
     box-sizing: border-box;
-    max-height: calc(3 * 320px + 1rem);
-    overflow-y: auto;
+    /* Remove the hard cap so individual embeds can grow */
+    max-height: none;
+    overflow-y: visible;
 }
 
 #xMediaFeed > * {
     box-sizing: border-box;
     width: 100%;
     max-width: 100%;
-    overflow: hidden;
+    /* Allow item content (including iframe) to determine height */
+    overflow: visible;
 }
 
 /* Reduce embedded tweet margins that can cause visual overlap */
