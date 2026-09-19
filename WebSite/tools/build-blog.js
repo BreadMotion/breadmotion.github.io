@@ -173,7 +173,8 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+  // Use an empty anchor so widgets.js can convert the blockquote to an embed reliably.
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}"></a></blockquote>`;
 }
 
 function createEmbedInitScript() {

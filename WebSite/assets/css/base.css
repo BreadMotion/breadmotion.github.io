@@ -318,13 +318,14 @@ blockquote.twitter-tweet {
 /* Reduce truncation: ensure embeds have a reasonable min-height so media/dates are not clipped. */
 .x-embed-iframe-fallback iframe,
 .x-embed-wrapper iframe {
-    min-height: 450px !important; /* desktop */
+    /* Conservative fallback min-height; prefer dynamic sizing from JS */
+    min-height: 320px !important; /* desktop fallback */
 }
 
 @media (max-width: 768px) {
     .x-embed-iframe-fallback iframe,
     .x-embed-wrapper iframe {
-        min-height: 300px !important; /* mobile */
+        min-height: 220px !important; /* mobile fallback */
     }
 }
 

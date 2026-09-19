@@ -69,7 +69,9 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+  // Emit a blockquote with an empty anchor; this matches Twitter's expected markup
+  // and avoids inserting visible fallback link text that appears when widgets don't run.
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}"></a></blockquote>`;
 }
 
 function createEmbedInitScript() {

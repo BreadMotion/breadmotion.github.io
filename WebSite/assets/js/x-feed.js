@@ -78,42 +78,66 @@
     }
 
     // Ensure embed iframes get a reasonable height when widgets.js loads them.
-    // Some environments (adblock, slow network) cause widgets to leave small inline heights.
-    // This helper watches for inserted Twitter iframes and enforces a minimum / sensible height.
+    // Prefer measuring the created embed and setting iframe height; fall back to conservative min-height.
     function ensureEmbedSizing(container) {
         container = container || document;
-        var attempts = 0;
-        var maxAttempts = 20;
-        var interval = 300;
-        var timer = setInterval(function () {
-            attempts++;
-            var iframes = Array.prototype.slice.call(container.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]'));
-            iframes.forEach(function (iframe) {
-                try {
-                    // apply conservative sizing heuristics
-                    iframe.style.minHeight = '450px';
-                    iframe.style.maxHeight = 'none';
-                    // if inline height is small or not set, bump it
-                    var h = parseInt(iframe.style.height, 10);
-                    if (isNaN(h) || h < 450) {
-                        // prefer measured offsetHeight if available
-                        var measured = iframe.offsetHeight || 0;
-                        var newH = Math.max(450, measured, 450);
-                        iframe.style.height = newH + 'px';
-                    }
-                    // ensure visibility
-                    iframe.style.visibility = 'visible';
-                    iframe.style.opacity = '1';
-                } catch (e) {
-                    // ignore
-                }
-            });
+        var desktopMin = 320;
+        var mobileMin = 220;
+        function applySizingToIframe(iframe) {
+            try {
+                var minH = window.innerWidth <= 768 ? mobileMin : desktopMin;
+                iframe.style.minHeight = minH + 'px';
+                iframe.style.maxHeight = 'none';
 
-            var remainingBQ = container.querySelectorAll('blockquote.twitter-tweet').length;
-            if (attempts >= maxAttempts || (remainingBQ === 0 && iframes.length > 0)) {
-                clearInterval(timer);
+                var inlineH = parseInt(iframe.style.height, 10);
+                var measured = iframe.offsetHeight || 0;
+                if (isNaN(inlineH) || inlineH < measured || inlineH < minH) {
+                    var newH = Math.max(minH, measured || minH);
+                    iframe.style.height = newH + 'px';
+                }
+
+                iframe.style.visibility = 'visible';
+                iframe.style.opacity = '1';
+            } catch (e) {
+                // ignore
             }
-        }, interval);
+        }
+
+        // Apply sizing to existing iframes immediately
+        try {
+            var existingIframes = Array.prototype.slice.call(container.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]'));
+            existingIframes.forEach(applySizingToIframe);
+        } catch (e) {}
+
+        // Observe new iframes inserted by widgets.js and adjust their height
+        try {
+            var observer = new MutationObserver(function (mutations) {
+                mutations.forEach(function (m) {
+                    if (m.addedNodes && m.addedNodes.length) {
+                        Array.prototype.slice.call(m.addedNodes).forEach(function (n) {
+                            if (n && n.nodeType === 1) {
+                                if (n.tagName === 'IFRAME' && /platform\.twitter\.com|twimg\.com|twitter\.com/.test(n.src || '')) {
+                                    applySizingToIframe(n);
+                                } else {
+                                    var nested = n.querySelectorAll && n.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]');
+                                    if (nested && nested.length) {
+                                        Array.prototype.slice.call(nested).forEach(applySizingToIframe);
+                                    }
+                                }
+                            }
+                        });
+                    }
+                    if (m.type === 'attributes' && m.target && m.target.tagName === 'IFRAME') {
+                        applySizingToIframe(m.target);
+                    }
+                });
+            });
+            observer.observe(container, { childList: true, subtree: true, attributes: true, attributeFilter: ['style', 'height'] });
+            // stop observing after 10s to avoid long-lived observers
+            setTimeout(function () { try { observer.disconnect(); } catch (e) { } }, 10000);
+        } catch (e) {
+            // ignore observer failures
+        }
     }
 
     function renderEmptyState(container, message) {
@@ -194,10 +218,25 @@
                                     // Replace blockquote with a wrapper and create the tweet
                                     var target = document.createElement('div');
                                     bq.parentNode.replaceChild(target, bq);
-                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
-                                } catch (err) {
-                                    // ignore per-tweet errors
-                                }
+                                    try {
+                                        var p = window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
+                                        if (p && typeof p.then === 'function') {
+                                            p.then(function (embed) {
+                                                try {
+                                                    var el = embed && embed.nodeType ? embed : target;
+                                                    var iframe = el.querySelector && el.querySelector('iframe');
+                                                    var measured = el.offsetHeight || (iframe && iframe.offsetHeight) || 0;
+                                                    var minH = window.innerWidth <= 768 ? 220 : 320;
+                                                    if (iframe && measured) {
+                                                        iframe.style.height = Math.max(minH, measured) + 'px';
+                                                        iframe.style.minHeight = minH + 'px';
+                                                    }
+                                                } catch (e) {}
+                                            }).catch(function(){});
+                                        }
+                                    } catch (err) {
+                                        // ignore per-tweet errors
+                                    }
                             }
                         });
                         // After creating tweets, attempt sizing adjustments
@@ -303,8 +342,23 @@
                                 try {
                                     var target = document.createElement('div');
                                     bq.parentNode.replaceChild(target, bq);
-                                    window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
-                                } catch (err) {}
+                                    try {
+                                        var p = window.twttr.widgets.createTweet(id, target, { theme: 'dark' });
+                                        if (p && typeof p.then === 'function') {
+                                            p.then(function (embed) {
+                                                try {
+                                                    var el = embed && embed.nodeType ? embed : target;
+                                                    var iframe = el.querySelector && el.querySelector('iframe');
+                                                    var measured = el.offsetHeight || (iframe && iframe.offsetHeight) || 0;
+                                                    var minH = window.innerWidth <= 768 ? 220 : 320;
+                                                    if (iframe && measured) {
+                                                        iframe.style.height = Math.max(minH, measured) + 'px';
+                                                        iframe.style.minHeight = minH + 'px';
+                                                    }
+                                                } catch (e) {}
+                                            }).catch(function(){});
+                                        }
+                                    } catch (err) {}
                             }
                         });
                         try { ensureEmbedSizing(document); } catch (e) {}
