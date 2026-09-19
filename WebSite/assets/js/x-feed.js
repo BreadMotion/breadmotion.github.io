@@ -77,6 +77,45 @@
         }, interval);
     }
 
+    // Ensure embed iframes get a reasonable height when widgets.js loads them.
+    // Some environments (adblock, slow network) cause widgets to leave small inline heights.
+    // This helper watches for inserted Twitter iframes and enforces a minimum / sensible height.
+    function ensureEmbedSizing(container) {
+        container = container || document;
+        var attempts = 0;
+        var maxAttempts = 20;
+        var interval = 300;
+        var timer = setInterval(function () {
+            attempts++;
+            var iframes = Array.prototype.slice.call(container.querySelectorAll('iframe[src*="platform.twitter.com"], iframe[src*="twimg.com"], iframe[src*="twitter.com"]'));
+            iframes.forEach(function (iframe) {
+                try {
+                    // apply conservative sizing heuristics
+                    iframe.style.minHeight = '450px';
+                    iframe.style.maxHeight = 'none';
+                    // if inline height is small or not set, bump it
+                    var h = parseInt(iframe.style.height, 10);
+                    if (isNaN(h) || h < 450) {
+                        // prefer measured offsetHeight if available
+                        var measured = iframe.offsetHeight || 0;
+                        var newH = Math.max(450, measured, 450);
+                        iframe.style.height = newH + 'px';
+                    }
+                    // ensure visibility
+                    iframe.style.visibility = 'visible';
+                    iframe.style.opacity = '1';
+                } catch (e) {
+                    // ignore
+                }
+            });
+
+            var remainingBQ = container.querySelectorAll('blockquote.twitter-tweet').length;
+            if (attempts >= maxAttempts || (remainingBQ === 0 && iframes.length > 0)) {
+                clearInterval(timer);
+            }
+        }, interval);
+    }
+
     function renderEmptyState(container, message) {
         if (!container) return;
         container.innerHTML = '<p class="x-feed-empty">' + (message || '最新のX投稿を読み込めませんでした。') + '</p>';
@@ -129,6 +168,8 @@
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load(container);
+                    // attempt to fix sizing immediately after load
+                    try { ensureEmbedSizing(container); } catch (e) {}
                 }
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
@@ -159,6 +200,8 @@
                                 }
                             }
                         });
+                        // After creating tweets, attempt sizing adjustments
+                        try { ensureEmbedSizing(container); } catch (e) {}
                     }
                 } catch (err) {
                     // ignore fallback failures
@@ -170,6 +213,7 @@
                 try {
                     if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                         window.twttr.widgets.load(container);
+                        try { ensureEmbedSizing(container); } catch (e) {}
                     }
                 } catch (e) {}
             }, 2000);
@@ -237,6 +281,7 @@
             try {
                 if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
                     window.twttr.widgets.load();
+                    try { ensureEmbedSizing(document); } catch (e) {}
                 }
             } catch (e) {
                 console.warn('x-feed: widgets load failed', e);
@@ -262,6 +307,7 @@
                                 } catch (err) {}
                             }
                         });
+                        try { ensureEmbedSizing(document); } catch (e) {}
                     }
                 } catch (err) {}
             }, 600);
