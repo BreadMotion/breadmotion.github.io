@@ -507,3 +507,24 @@ iframe {
         overflow: visible;
     }
 }
+
+/* Force fallback iframe (persistent) to size to its content and allow overflow to be visible.
+   This specifically targets the build-time "iframe fallback" wrapper used when widgets.js
+   cannot render in-page. Using !important to override inline/author styles inserted by
+   oEmbed/html providers. */
+.x-embed-wrapper .x-embed-iframe-fallback iframe,
+.x-embed-iframe-fallback iframe,
+.x-embed-wrapper .x-embed-iframe-fallback iframe[style] {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 120px !important;
+    overflow: visible !important;
+    display: block !important;
+}
+
+/* Ensure the fallback wrapper itself does not clip content */
+.x-embed-iframe-fallback {
+    overflow: visible !important;
+    display: block !important;
+}
+

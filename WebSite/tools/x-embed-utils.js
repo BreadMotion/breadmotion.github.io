@@ -96,18 +96,12 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     } catch (e) {}
 
-    if (tweetId) {
-      // Return a blockquote fallback so platform widgets.js can render the tweet in-page
-      // (this allows the embed to be rendered inside the parent document and take natural height)
-      const safeUrl = String(origUrl).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
-      const html = `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
-      const embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
-      try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
-      return embedHtml;
-    }
-
-    // Could not resolve tweet ID — return null so caller can fallback to blockquote markup
-    return null;
+    // Prefer blockquote fallback so platform widgets.js can render the embed in-page and allow natural height.
+    const safeUrl = String(origUrl).replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+    const html = `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+    const embedHtml = `<div class="x-embed-wrapper">${html}</div>`;
+    try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
+    return embedHtml;
   } catch (e) {
     console.warn(`[WARN] fetchPublishXEmbed error: ${e.message}`);
     if (fs.existsSync(cacheFile)) {
