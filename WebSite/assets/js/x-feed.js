@@ -237,6 +237,9 @@
                                     } catch (err) {
                                         // ignore per-tweet errors
                                     }
+                                } catch (err) {
+                                    // ignore wrapper errors
+                                }
                             }
                         });
                         // After creating tweets, attempt sizing adjustments
@@ -359,6 +362,9 @@
                                             }).catch(function(){});
                                         }
                                     } catch (err) {}
+                                } catch (err) {
+                                    // ignore wrapper errors
+                                }
                             }
                         });
                         try { ensureEmbedSizing(document); } catch (e) {}
