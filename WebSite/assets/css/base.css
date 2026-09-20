@@ -279,34 +279,34 @@ button {
     line-height: 1.5;
 }
 
-#xMediaFeed .twitter-tweet,
-#xMediaFeed blockquote.twitter-tweet,
-.x-embed .twitter-tweet,
-.x-embed blockquote.twitter-tweet,
-[data-x-url] .twitter-tweet,
-[data-x-url] blockquote.twitter-tweet {
-    width: 100% !important;
-    max-width: 100% !important;
-    margin: 0 !important;
+#xMediaFeed .x-embed-fallback,
+#xMediaFeed blockquote.x-embed-fallback,
+.x-embed .x-embed-fallback,
+.x-embed blockquote.x-embed-fallback,
+[data-x-url] .x-embed-fallback,
+[data-x-url] blockquote.x-embed-fallback {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
 }
 
-#xMediaFeed iframe,
-.x-embed iframe,
-[data-x-url] iframe {
-    width: 100% !important;
-    max-width: 100% !important;
+#xMediaFeed .x-embed-iframe-fallback iframe,
+.x-embed .x-embed-iframe-fallback iframe,
+[data-x-url] .x-embed-iframe-fallback iframe {
+    width: 100%;
+    max-width: 100%;
 }
 
 /* Ensure X (Twitter) embeds are visible and not hidden by other rules */
-.x-embed-wrapper iframe,
-.x-embed iframe,
-.twitter-tweet,
-blockquote.twitter-tweet {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    background: transparent !important;
-    min-height: 80px !important;
+.x-embed-wrapper .x-embed-iframe-fallback iframe,
+.x-embed .x-embed-iframe-fallback iframe,
+.x-embed-fallback,
+blockquote.x-embed-fallback {
+    display: block;
+    visibility: visible;
+    opacity: 1;
+    background: transparent;
+    min-height: 80px;
 }
 
 /* If iframe height collapses due to CSS reset, allow auto height */
@@ -486,14 +486,14 @@ iframe {
 }
 
 /* Reduce embedded tweet margins that can cause visual overlap */
-#xMediaFeed .twitter-tweet,
-#xMediaFeed blockquote.twitter-tweet,
-.x-embed .twitter-tweet,
-.x-embed blockquote.twitter-tweet,
-[data-x-url] .twitter-tweet,
-[data-x-url] blockquote.twitter-tweet {
-    margin: 0 !important;
-    padding: 0 !important;
+#xMediaFeed .x-embed-fallback,
+#xMediaFeed blockquote.x-embed-fallback,
+.x-embed .x-embed-fallback,
+.x-embed blockquote.x-embed-fallback,
+[data-x-url] .x-embed-fallback,
+[data-x-url] blockquote.x-embed-fallback {
+    margin: 0;
+    padding: 0;
 }
 
 /* Small screens: allow the X feed to expand but keep internal scrolling */
