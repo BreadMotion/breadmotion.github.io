@@ -325,13 +325,42 @@
         ======================================== -->
 
 <script src="../assets/dist/scripts.min.js" defer=""></script>
-<script src="../assets/js/x-feed.js"></script>
+<script>
+(function(){
+  if (document.querySelector('script[src*="platform.twitter.com/widgets.js"]')) return;
+  var s = document.createElement('script');
+  s.src = 'https://platform.twitter.com/widgets.js';
+  s.charset = 'utf-8';
+  s.async = true;
+  document.head.appendChild(s);
+})();
+function ensureTwttrLoad(container){
+  function run(){
+    try{
+      if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
+        window.twttr.widgets.load(container);
+      }
+    }catch(e){ console.error(e); }
+  }
+  if (window.twttr && window.twttr.ready) {
+    window.twttr.ready(run);
+  } else {
+    var tries = 0; var id = setInterval(function(){
+      if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') { run(); clearInterval(id); }
+      else if(++tries>20) clearInterval(id);
+    }, 200);
+  }
+}
+window.addEventListener('load', function(){ ensureTwttrLoad(document.body); });
+</script>
 
 
 
 <script>
   window.addEventListener('load', function () {
-    if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
+    if (typeof ensureTwttrLoad === 'function') {
+      ensureTwttrLoad(document.getElementById('xMediaFeed'));
+    } else if (window.twttr && window.twttr.widgets && typeof window.twttr.widgets.load === 'function') {
       window.twttr.widgets.load(document.getElementById('xMediaFeed'));
     }
   });
