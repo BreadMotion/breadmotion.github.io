@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="ja"><head prefix="og: https://ogp.me/ns#">
+﻿<!DOCTYPE html><html lang="ja"><head prefix="og: https://ogp.me/ns#">
         <!-- ========================================
              Performance: Preconnect & Preload
         ======================================== -->
@@ -386,6 +386,12 @@
 <script src="assets/dist/scripts.min.js" defer=""></script>
 <script>
 (function(){
+  if (!document.getElementById('xEmbedResetStyle')) {
+    var sstyle = document.createElement('style');
+    sstyle.id = 'xEmbedResetStyle';
+    sstyle.textContent = '.markdown-body blockquote.twitter-tweet, #xMediaFeed blockquote.twitter-tweet, .home-x-feed blockquote.twitter-tweet { margin: 0 !important; padding: 0 !important; border: none !important; background: transparent !important; color: inherit !important; font-style: normal !important; } .markdown-body blockquote.twitter-tweet > p, #xMediaFeed blockquote.twitter-tweet > p { margin: 0 !important; padding: 0 !important; color: inherit !important; font-style: normal !important; }';
+    document.head.appendChild(sstyle);
+  }
   if (document.querySelector('script[src*="platform.twitter.com/widgets.js"]')) return;
   var s = document.createElement('script');
   s.src = 'https://platform.twitter.com/widgets.js';
