@@ -1,6 +1,6 @@
 [
   {
-    "id": "portfolio_0011",
+    "id": "portfolio_0010",
     "title": "GPGPU物理演算(XPBD) + 自作描画",
     "date": "",
     "category": "Plugin",
@@ -11,22 +11,6 @@
       "develop",
       "game",
       "module"
-    ],
-    "thumbnail": "assets/img/ogp.png",
-    "links": [],
-    "contentPath": "portfolio/portfolio_0011.html"
-  },
-  {
-    "id": "portfolio_0010",
-    "title": "ランタイムメッシュテクスチャ描画ツール",
-    "date": "",
-    "category": "Tool",
-    "role": "Client Engineer",
-    "description": "",
-    "tech": "Unity / C# / ShaderLab",
-    "tags": [
-      "develop",
-      "tool"
     ],
     "thumbnail": "assets/img/ogp.png",
     "links": [],

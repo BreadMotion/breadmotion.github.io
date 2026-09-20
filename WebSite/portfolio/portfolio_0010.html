@@ -2,9 +2,9 @@
 <html lang="ja">
   <head prefix="og: https://ogp.me/ns#">
     <meta charset="UTF-8" />
-    <title>ランタイムメッシュテクスチャ描画ツール | PanKUN Portfolio</title>
+    <title>GPGPU物理演算(XPBD) + 自作描画 | PanKUN Portfolio</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
+    <meta name="description" content="コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装" />
     <link rel="canonical" href="https://breadmotion.github.io/WebSite/portfolio/portfolio_0010.html" />
 
     <!-- Performance hints -->
@@ -14,8 +14,8 @@
 
     <script>(function(){if(window.__TWITTER_WIDGETS_LOADER)return;window.__TWITTER_WIDGETS_LOADER=true;function injectWidgets(){if(document.querySelector('script[src*="platform.x.com/widgets.js"]'))return;var s=document.createElement('script');s.src='https://platform.x.com/widgets.js';s.async=true;s.crossOrigin='anonymous';s.onload=function(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){window.twttr.widgets.load();}}catch(e){}};s.onerror=function(){console.warn('x: widgets.js failed to load');};document.head.appendChild(s);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',injectWidgets);}else{injectWidgets();}})();</script>
 
-    <meta property="og:title" content="ランタイムメッシュテクスチャ描画ツール | PanKUN Portfolio" />
-    <meta property="og:description" content="" />
+    <meta property="og:title" content="GPGPU物理演算(XPBD) + 自作描画 | PanKUN Portfolio" />
+    <meta property="og:description" content="コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装" />
     <meta property="og:type" content="article" />
     <meta property="og:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
     <meta property="og:image:width" content="1200" />
@@ -24,15 +24,15 @@
     <meta property="og:email" content="pankun.dev@gmail.com" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="ランタイムメッシュテクスチャ描画ツール" />
-    <meta name="twitter:description" content="" />
+    <meta name="twitter:title" content="GPGPU物理演算(XPBD) + 自作描画" />
+    <meta name="twitter:description" content="コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装" />
     <meta name="twitter:image" content="https://breadmotion.github.io/WebSite/assets/img/ogp.png" />
 
     <script type="application/ld+json">{
   "@context": "https://schema.org",
   "@type": "CreativeWork",
-  "name": "ランタイムメッシュテクスチャ描画ツール",
-  "description": "",
+  "name": "GPGPU物理演算(XPBD) + 自作描画",
+  "description": "コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装",
   "image": [
     "https://breadmotion.github.io/WebSite/assets/img/ogp.png"
   ],
@@ -63,23 +63,25 @@
       <main class="main-container">
         <article class="work-detail reveal-on-scroll">
           <header class="work-detail__header">
-            <p class="work-detail__meta">Tool / Role: Client Engineer</p>
-            <h1 class="work-detail__title">ランタイムメッシュテクスチャ描画ツール</h1>
-            
-            <p class="work-detail__meta">Tech: Unity / C# / ShaderLab</p>
-            <p class="work-detail__tags"><a class="tag" href="../portfolio.html?tag=develop">develop</a> <a class="tag" href="../portfolio.html?tag=tool">tool</a></p>
+            <p class="work-detail__meta">Plugin / Role: Client Engineer</p>
+            <h1 class="work-detail__title">GPGPU物理演算(XPBD) + 自作描画</h1>
+            <p class="work-detail__description">コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装</p>
+            <p class="work-detail__meta">Tech: Unity / C# / ShaderLab　/ hlml</p>
+            <p class="work-detail__tags"><a class="tag" href="../portfolio.html?tag=develop">develop</a> <a class="tag" href="../portfolio.html?tag=game">game</a> <a class="tag" href="../portfolio.html?tag=module">module</a></p>
           </header>
 
           <section class="work-detail__body markdown-body">
 <h2 id="開発元--pankundev">開発元 : PanKUN.dev</h2>
 <p>リリースの予定などはありません。<br>技術研究の一環で作成しました。  </p>
 <h2 id="概要">概要</h2>
-<p>Unityの HDRPサンプル内で疎結合に実装したモジュールです。<br>プレイヤースクリプトもサンプルの物を利用しており、作成したモジュールの入力をさせるように改修だけしています。<br>色の指定機能やスポイド機能がインスペクターから可能にしているので、UIを実装すればランタイム中に色の変更が可能です。  </p>
+<p>3桁万の剛体オブジェクトを扱うゲームを作成できるようにするために作成したモジュールです。</p>
+<p>インクリメントゲームやインフレゲームで新しい領域として&quot;扱うゲームロジック関与オブジェクトの母数を圧倒的に増やす&quot;のを目的として実装しました。</p>
+<h2 id="経緯">経緯</h2>
+<p>昨今海外の何人かの技術開発者が大量の数百万のオブジェクトに対して一つづつ攻撃やインタラクト可能な実装をしている投稿が増えました。</p>
+<p>そう言われてみればゲームで一フレームにオブジェクトの数が数百万表示されたり座標が変わったりするゲームって過去なかった気がする...？</p>
+<p>と思い立ったのが始まりです。</p>
 <h2 id="その他-sns">その他 SNS</h2>
-<div class="x-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p lang="ja" dir="ltr">別メッシュ <a href="https://t.co/tqgt2vnUfu">https://t.co/tqgt2vnUfu</a> <a href="https://t.co/KiYr8kS6x8">pic.twitter.com/KiYr8kS6x8</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2071579498185912505?ref_src=twsrc%5Etfw">June 29, 2026</a></blockquote>
-<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
-
-</div><script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function extractIdFromUrl(url){try{if(!url) return null;var parts=url.split('?')[0].split('/').filter(Boolean);var last=parts[parts.length-1]||'';var m=last.match(/\d+/);return m?m[0]:null;}catch(e){return null;}}function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var id=extractIdFromUrl(url);if(id){var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script>
+<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">GPGPUでXPBDを実装してそのまま独自描画する形にしたら30万個のゴミに対応できた！<br>さすがにUnity Physicsよりかは物理挙動のクオリティに差があるけど、全然許容！<br><br>画面はまた今度！ <a href="https://t.co/bCiynWAnaC">https://t.co/bCiynWAnaC</a></p>&mdash; PanKUN.Dev (@pankun2000_<script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function extractIdFromUrl(url){try{if(!url) return null;var parts=url.split('?')[0].split('/').filter(Boolean);var last=parts[parts.length-1]||'';var m=last.match(/\d+/);return m?m[0]:null;}catch(e){return null;}}function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var id=extractIdFromUrl(url);if(id){var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script> <a href="https://x.com/pankun2000_/status/2093394096668987783?ref_src=twsrc%5Etfw">August 28, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)
 
           </section>
         </article>
