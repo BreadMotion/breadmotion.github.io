@@ -44,4 +44,4 @@ thumbnail: https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/28
 
 [!CARD](https://x.com/shi_ro_Gorilla/ "Xアカウントページ")
 
-[!X](https://x.com/pankun2000_/status/1766123815808205185?s=20)
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr"><a href="https://x.com/hashtag/%E9%9C%8A%E8%BF%B7%E3%81%AE%E6%B9%AF?src=hash&amp;ref_src=twsrc%5Etfw">#霊迷の湯</a> <br>一部進行不能バグをFixしました。 <a href="https://t.co/P7jEhWg6DR">https://t.co/P7jEhWg6DR</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/1766123815808205185?ref_src=twsrc%5Etfw">March 8, 2024</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)

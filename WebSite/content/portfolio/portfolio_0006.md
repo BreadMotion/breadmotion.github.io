@@ -35,9 +35,11 @@ thumbnail: https://github.com/user-attachments/assets/085acac9-8319-4abf-94ed-7f
 
 [!WILDCARD](https://t.co/gIB2aMQ51L "Patreon")
 
-[!X](https://x.com/pankun2000_/status/2072821857447989534?s=20)
-[!X](https://x.com/pankun2000_/status/2071102839582302301?s=20)
-[!X](https://x.com/pankun2000_/status/2071103508787740906?s=20)
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">WIP<br><br>モーションリソースは一切利用せず、速度や角速度を扱ってプロシージャルにモーション流しています<br><br>↓プロジェクトアカウント<a href="https://x.com/dynastyofjaws?ref_src=twsrc%5Etfw">@dynastyofjaws</a> <a href="https://t.co/glPpOaS6Ft">pic.twitter.com/glPpOaS6Ft</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2072821857447989534?ref_src=twsrc%5Etfw">July 2, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)
+
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">クライアントエンジニアとして開発中です<br><br>下記で進捗チェック✅<a href="https://t.co/l7EcvpZnZE">https://t.co/l7EcvpZnZE</a><a href="https://x.com/pankun2000_?ref_src=twsrc%5Etfw">@pankun2000_</a> <a href="https://x.com/dynastyofjaws?ref_src=twsrc%5Etfw">@dynastyofjaws</a> <a href="https://t.co/EJ2F4cqgsO">https://t.co/EJ2F4cqgsO</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2071102839582302301?ref_src=twsrc%5Etfw">June 28, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)
+
+[!X](<blockquote class="twitter-tweet"><p lang="en" dir="ltr">I&#39;m currently developing as a client-side engineer.<br>Check progress below✅<a href="https://t.co/l7EcvpZnZE">https://t.co/l7EcvpZnZE</a> <a href="https://x.com/pankun2000_?ref_src=twsrc%5Etfw">@pankun2000_</a> <a href="https://x.com/dynastyofjaws?ref_src=twsrc%5Etfw">@dynastyofjaws</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2071103508787740906?ref_src=twsrc%5Etfw">June 28, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)
 
 ## URL
 

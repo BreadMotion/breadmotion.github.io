@@ -801,20 +801,30 @@ function createHtml({
 
           try {
             if (type === 'X') {
-              // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
-              try {
-                const embedHtml = await fetchPublishXEmbed(url);
-                // Always append init script so client-side will attempt to render the embed
-                const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
-                replacements.set(key, finalHtml);
-                return;
-              } catch (e) {
-                logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
-                const finalHtml = createXEmbedMarkup(url) + createEmbedInitScript();
-                replacements.set(key, finalHtml);
-                return;
+                // If the "url" starts with '<', treat it as raw embed HTML provided directly in the markdown
+                const raw = String(url || "").trim();
+                if (raw.startsWith('<')) {
+                  // Remove duplicate widgets.js script tag if the author included it in the raw HTML
+                  const cleaned = raw.replace(/<script[^>]*src=(?:"|')(?:https?:)?\/\/platform\.x\.com\/widgets\.js(?:"|')[^>]*>\s*<\/script>/gi, '');
+                  const finalHtml = cleaned + createEmbedInitScript();
+                  replacements.set(key, finalHtml);
+                  return;
+                }
+
+                // Attempt to fetch richer embed HTML from publish.x.com; fallback to blockquote if not available.
+                try {
+                  const embedHtml = await fetchPublishXEmbed(url);
+                  // Always append init script so client-side will attempt to render the embed
+                  const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
+                  replacements.set(key, finalHtml);
+                  return;
+                } catch (e) {
+                  logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
+                  const finalHtml = createXEmbedMarkup(url) + createEmbedInitScript();
+                  replacements.set(key, finalHtml);
+                  return;
+                }
               }
-            }
 
             const ogp = await fetchOgp(url);
             if (ogp) {

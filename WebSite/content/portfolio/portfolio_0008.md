@@ -24,4 +24,4 @@ ECS や GPGPU などプロジェクト要件に合わせた実装を行えば高
 
 ## その他 SNS
 
-[!X](https://x.com/pankun2000_/status/1773195103894409467?s=20)
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">WIP<br>お遊び実装<a href="https://x.com/hashtag/indiegame?src=hash&amp;ref_src=twsrc%5Etfw">#indiegame</a> <a href="https://x.com/hashtag/IndieGameDev?src=hash&amp;ref_src=twsrc%5Etfw">#IndieGameDev</a> <a href="https://t.co/D1s2jhgJCL">pic.twitter.com/D1s2jhgJCL</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/1773195103894409467?ref_src=twsrc%5Etfw">March 28, 2024</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)

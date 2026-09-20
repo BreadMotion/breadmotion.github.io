@@ -28,8 +28,4 @@ thumbnail: assets/img/ogp.png
 
 ## その他 SNS
 
-[!X](https://x.com/pankun2000_/status/2072821857447989534?s=20)
-
-[!X](https://x.com/pankun2000_/status/2071102839582302301?s=20)
-
-[!X](https://x.com/pankun2000_/status/2071103508787740906?s=20)
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">WIP<a href="https://x.com/hashtag/indiegame?src=hash&amp;ref_src=twsrc%5Etfw">#indiegame</a> <a href="https://x.com/hashtag/IndieGameDev?src=hash&amp;ref_src=twsrc%5Etfw">#IndieGameDev</a> <a href="https://x.com/hashtag/%E9%9C%8A%E8%BF%B7%E3%81%AE%E6%B9%AF?src=hash&amp;ref_src=twsrc%5Etfw">#霊迷の湯</a> <br>▼霊迷の湯リリースしてます!<a href="https://t.co/wH65vOszhg">https://t.co/wH65vOszhg</a> <a href="https://t.co/NHPI0ENDJ9">pic.twitter.com/NHPI0ENDJ9</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/1766706744083066947?ref_src=twsrc%5Etfw">March 10, 2024</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)

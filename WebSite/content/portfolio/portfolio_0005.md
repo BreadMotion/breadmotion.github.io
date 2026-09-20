@@ -34,8 +34,9 @@ thumbnail: assets/img/ogp.png
 
 一部進捗は下記
 
-[!X](https://x.com/pankun2000_/status/2085574143513342190?s=20)  
-[!X](https://x.com/pankun2000_/status/2079889623678144776?s=20)  
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">久ぶりのWIP動画<br><br>- ゴミシェーダーにメッシュ破壊表現追加<br>- 仮作成のGPU駆動描画の素材獲得表現<br>- SE管理機能の実装とゴミクリック時、素材獲得時のSE再生<br>- 今までのメインカメラをサブカメラにしてRenderTexture化<br>-… <a href="https://t.co/IYgAOzEbnk">pic.twitter.com/IYgAOzEbnk</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2085574143513342190?ref_src=twsrc%5Etfw">August 7, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)  
+
+[!X](<blockquote class="twitter-tweet"><p lang="ja" dir="ltr">WIP<br><br>最近はGPU駆動描画周りで色々最適化してました<br><br>- GPU Resident Drawer<br>- CS Frustom Culling<br>- GPU Instancing <br>- Indirect Rendering<br>- DOTS ECS<br>- Parallel Job System<br><br>メッシュの頂点数も 3万×1、1.5万×3、100×2 だからモデルを本格的に揃えたらパフォーマンスが上がる予定… <a href="https://t.co/RkBTVI8ofN">pic.twitter.com/RkBTVI8ofN</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2079889623678144776?ref_src=twsrc%5Etfw">July 22, 2026</a></blockquote> <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>)  
 
 
 ## URL

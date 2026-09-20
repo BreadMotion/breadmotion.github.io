@@ -333,6 +333,15 @@ ${bodyHtml}
 
         try {
           if (type === 'X') {
+            // Support raw embed HTML in the markdown: [!X](<blockquote ...></blockquote><script ...></script>)
+            const raw = String(url || '').trim();
+            if (raw.startsWith('<')) {
+              const cleaned = raw.replace(/<script[^>]*src=(?:"|')(?:https?:)?\/\/platform\.x\.com\/widgets\.js(?:"|')[^>]*>\s*<\/script>/gi, '');
+              const finalHtml = cleaned + createEmbedInitScript();
+              replacements.set(key, finalHtml);
+              return;
+            }
+
             try {
               const embedHtml = await fetchPublishXEmbed(url);
               const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
