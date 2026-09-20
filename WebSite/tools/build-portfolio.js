@@ -13,7 +13,6 @@
 const fs = require("fs");
 const path = require("path");
 const matter = require("gray-matter");
-const { fetchPublishXEmbed } = require("./x-embed-utils");
 
 // ───────────────────────────────────────────────────────────────
 // 簡易ロガー: NODE_ENV !== 'production' の場合のみ verbose 出力
@@ -72,9 +71,6 @@ function createXEmbedMarkup(url) {
   return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
 }
 
-function createEmbedInitScript() {
-  return `<script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function extractIdFromUrl(url){try{if(!url) return null;var parts=url.split('?')[0].split('/').filter(Boolean);var last=parts[parts.length-1]||'';var m=last.match(/\\d+/);return m?m[0]:null;}catch(e){return null;}}function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var id=extractIdFromUrl(url);if(id){var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script>`;
-}
 
 // 作品ページ HTML テンプレート
 function createHtml({
@@ -236,7 +232,6 @@ ${bodyHtml}
             }
           });
         </script>
-    <script src="../assets/js/x-feed.js" defer data-embed-style="native_embed"></script>
     <script src="../assets/js/layout.js" defer></script>
     <script src="../assets/js/ui.js" defer></script>
     <script src="../assets/js/preview.js" defer></script>
@@ -333,26 +328,16 @@ ${bodyHtml}
 
         try {
           if (type === 'X') {
-            // Support raw embed HTML in the markdown: [!X](<blockquote ...></blockquote><script ...></script>)
             const raw = String(url || '').trim();
             if (raw.startsWith('<')) {
-              const cleaned = raw.replace(/<script[^>]*src=(?:"|')(?:https?:)?\/\/platform\.x\.com\/widgets\.js(?:"|')[^>]*>\s*<\/script>/gi, '');
-              const finalHtml = cleaned + createEmbedInitScript();
-              replacements.set(key, finalHtml);
+              // Raw embed HTML provided in markdown — insert verbatim
+              replacements.set(key, raw);
               return;
             }
 
-            try {
-              const embedHtml = await fetchPublishXEmbed(url);
-              const finalHtml = (embedHtml || createXEmbedMarkup(url)) + createEmbedInitScript();
-              replacements.set(key, finalHtml);
-              return;
-            } catch (e) {
-              logger.warn(`publish.x fetch failed for ${url}: ${e.message}`);
-              const finalHtml = createXEmbedMarkup(url) + createEmbedInitScript();
-              replacements.set(key, finalHtml);
-              return;
-            }
+            // Not raw HTML: insert a simple blockquote fallback (no client-side init, no fetch)
+            replacements.set(key, createXEmbedMarkup(url));
+            return;
           }
 
           const ogp = await fetchOgp(url);
