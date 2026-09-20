@@ -55,6 +55,40 @@ function safeFetch(url, maxRedirects = 5) {
   });
 }
 
+function fetchFinalUrl(url, maxRedirects = 5) {
+  return new Promise((resolve, reject) => {
+    try {
+      const urlObj = new URL(url);
+      const options = {
+        method: 'HEAD',
+        hostname: urlObj.hostname,
+        path: urlObj.pathname + urlObj.search,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        }
+      };
+      const req = https.request(options, (res) => {
+        if (res.statusCode >= 300 && res.statusCode < 400 && res.headers && res.headers.location) {
+          if (maxRedirects > 0) {
+            const loc = res.headers.location.startsWith('http')
+              ? res.headers.location
+              : `${urlObj.protocol}//${urlObj.hostname}${res.headers.location}`;
+            resolve(fetchFinalUrl(loc, maxRedirects - 1));
+            return;
+          }
+          resolve({ ok: false, status: res.statusCode, headers: res.headers, url: urlObj.href });
+          return;
+        }
+        resolve({ ok: res.statusCode >= 200 && res.statusCode < 400, status: res.statusCode, headers: res.headers, url: urlObj.href });
+      });
+      req.on('error', (err) => reject(err));
+      req.end();
+    } catch (e) {
+      reject(e);
+    }
+  });
+}
+
 function escapeHtmlAttr(str = '') {
   return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
 }
@@ -116,6 +150,30 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
               let m;
               while ((m = imgTagRe.exec(sanitizedHtml)) !== null) {
                 if (m[1]) mediaSet.add(m[1]);
+              }
+            } catch (e) {}
+
+            // Resolve pic.twitter.com / t.co short links found in oEmbed HTML (follow redirects to pbs.twimg.com)
+            try {
+              const shortLinkRe = /https?:\/\/(?:t\.co|pic\.twitter\.com)\/[^"'\s<]+/gi;
+              const found = sanitizedHtml.match(shortLinkRe) || [];
+              for (const s of Array.from(new Set(found))) {
+                try {
+                  const r = await fetchFinalUrl(s);
+                  if (r && r.url && /pbs\.twimg\.com/i.test(r.url)) {
+                    mediaSet.add(r.url);
+                    continue;
+                  }
+                  // Fallback: GET and search body for pbs links
+                  try {
+                    const getRes = await safeFetch(s);
+                    if (getRes && getRes.ok) {
+                      const body = await getRes.text().catch(()=>'') || '';
+                      const pbsMatch = body.match(/https?:\/\/pbs\.twimg\.com\/media\/[^"'\s<]+/gi);
+                      if (pbsMatch && pbsMatch[0]) mediaSet.add(pbsMatch[0]);
+                    }
+                  } catch (e) {}
+                } catch (e) {}
               }
             } catch (e) {}
 
