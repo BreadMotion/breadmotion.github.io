@@ -90,16 +90,97 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
           if (data) {
             // sanitize any scripts from returned HTML (omit_script=true should help, but be defensive)
             const sanitizedHtml = sanitizeHtml(data.html || '');
-            const thumb = data.thumbnail_url ? String(data.thumbnail_url) : null;
-            // Build a stable static card with available metadata
+
+            // Extract tweet text from blockquote if present
+            let tweetInnerHtml = '';
+            try {
+              const bqMatch = sanitizedHtml.match(/<blockquote[^>]*>([\s\S]*?)<\/blockquote>/i);
+              if (bqMatch && bqMatch[1]) {
+                const pMatch = bqMatch[1].match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+                tweetInnerHtml = pMatch && pMatch[1] ? pMatch[1] : bqMatch[1];
+              } else {
+                const pMatch2 = sanitizedHtml.match(/<p[^>]*>([\s\S]*?)<\/p>/i);
+                tweetInnerHtml = pMatch2 ? pMatch2[1] : sanitizedHtml;
+              }
+            } catch (e) {
+              tweetInnerHtml = sanitizedHtml;
+            }
+
+            // Collect media candidates from oEmbed + original page
+            const mediaSet = new Set();
+            if (data.thumbnail_url) mediaSet.add(String(data.thumbnail_url));
+
+            // img tags present in oEmbed HTML
+            try {
+              const imgTagRe = /<img[^>]+src=["']([^"']+)["'][^>]*>/gi;
+              let m;
+              while ((m = imgTagRe.exec(sanitizedHtml)) !== null) {
+                if (m[1]) mediaSet.add(m[1]);
+              }
+            } catch (e) {}
+
+            // Try to fetch the original tweet page and parse meta tags for images/videos
+            try {
+              const pageRes = await safeFetch(origUrl);
+              if (pageRes && pageRes.ok) {
+                const pageHtml = await pageRes.text();
+                const metaRe = /<meta\s+(?:property|name)=["']([^"']+)["'][^>]*content=["']([^"']+)["'][^>]*>/gi;
+                let mm;
+                while ((mm = metaRe.exec(pageHtml)) !== null) {
+                  const key = (mm[1] || '').toLowerCase();
+                  const val = mm[2];
+                  if (!val) continue;
+                  if (/^(og:image|twitter:image|og:image:secure_url|twitter:image[0-9]*)$/i.test(key)) {
+                    mediaSet.add(val);
+                  }
+                  if (/^(og:video|og:video:url|og:video:secure_url|twitter:player|twitter:player:stream)$/i.test(key)) {
+                    if (/\.(mp4|webm|m3u8|mpd)(?:\?|$)/i.test(val)) {
+                      mediaSet.add(val);
+                    } else if (/\.(jpe?g|png|gif|webp)(?:\?|$)/i.test(val)) {
+                      mediaSet.add(val);
+                    }
+                  }
+                }
+
+                // find pbs.twimg.com media links directly in page HTML
+                try {
+                  const mediaImgRe = /https?:\/\/pbs\.twimg\.com\/media\/[^"]+/gi;
+                  let mm2;
+                  while ((mm2 = mediaImgRe.exec(pageHtml)) !== null) {
+                    mediaSet.add(mm2[0]);
+                  }
+                } catch (e) {}
+              }
+            } catch (e) {
+              // ignore network errors
+            }
+
+            let medias = Array.from(mediaSet).filter(Boolean);
+            let videoThumb = null;
+            const videoIndex = medias.findIndex(u => /\.(mp4|webm|m3u8|mpd)(?:\?|$)/i.test(u) || /video/i.test(u));
+            if (videoIndex !== -1) {
+              videoThumb = medias[videoIndex];
+              medias.splice(videoIndex, 1);
+            }
+            medias = medias.slice(0, 4);
+
+            // Build enhanced static card HTML
             let card = '<div class="x-embed-wrapper"><div class="x-embed-static">';
             if (data.author_name) {
               card += `<div class="x-embed-static-author"><a href="${escapeHtmlAttr(data.author_url || origUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtmlAttr(data.author_name)}</a></div>`;
             }
-            card += `<div class="x-embed-static-body">${sanitizedHtml}</div>`;
-            if (thumb) {
-              card += `<div class="x-embed-static-media"><img src="${escapeHtmlAttr(thumb)}" alt="" loading="lazy"></div>`;
+            card += `<div class="x-embed-static-body">${tweetInnerHtml}</div>`;
+
+            if (videoThumb) {
+              card += `<div class="x-embed-static-media-grid"><a class="x-embed-media-item x-embed-media-video" href="${escapeHtmlAttr(origUrl)}" target="_blank" rel="noopener noreferrer"><img src="${escapeHtmlAttr(videoThumb)}" alt="" loading="lazy"><span class="x-embed-play" aria-hidden="true">▶</span></a></div>`;
+            } else if (medias.length > 0) {
+              card += '<div class="x-embed-static-media-grid">';
+              for (const img of medias) {
+                card += `<a class="x-embed-media-item" href="${escapeHtmlAttr(origUrl)}" target="_blank" rel="noopener noreferrer"><img src="${escapeHtmlAttr(img)}" alt="" loading="lazy"></a>`;
+              }
+              card += '</div>';
             }
+
             card += `<div class="x-embed-static-footer"><a href="${escapeHtmlAttr(origUrl)}" target="_blank" rel="noopener noreferrer">View on X</a></div>`;
             card += '</div></div>';
             try { fs.writeFileSync(cacheFile, card, 'utf8'); } catch (e) {}
