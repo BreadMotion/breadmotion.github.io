@@ -528,3 +528,44 @@ iframe {
     display: block !important;
 }
 
+/* Server-side static X embed card */
+.x-embed-static {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid var(--color-border-soft);
+    border-radius: 8px;
+    padding: 0.6rem;
+    color: var(--color-text);
+    width: 100%;
+    box-sizing: border-box;
+}
+.x-embed-static-author {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+.x-embed-static-author a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+.x-embed-static-body {
+    margin-bottom: 0.5rem;
+    font-size: var(--text-body-sm);
+    line-height: 1.4;
+    color: var(--color-text);
+}
+.x-embed-static-media img {
+    width: 100%;
+    height: auto;
+    border-radius: 6px;
+    display: block;
+    margin-top: 0.5rem;
+}
+.x-embed-static-footer {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--color-text-muted);
+}
+.x-embed-static-footer a {
+    color: var(--color-accent);
+    text-decoration: none;
+}
+

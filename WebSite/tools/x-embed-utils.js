@@ -55,6 +55,15 @@ function safeFetch(url, maxRedirects = 5) {
   });
 }
 
+function escapeHtmlAttr(str = '') {
+  return String(str).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] || c));
+}
+
+function sanitizeHtml(html) {
+  // Remove any <script> tags for safety (defensive; omit_script=true should already prevent scripts)
+  return String(html || '').replace(/<script[\s\S]*?>[\s\S]*?<\/script>/gi, '');
+}
+
 async function fetchPublishXEmbed(origUrl, options = {}) {
   const ttlDays = typeof options.ttlDays === 'number' ? options.ttlDays : 7;
 
@@ -70,18 +79,31 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
       }
     }
 
-    // Try publish.twitter.com oEmbed (omit script) for server-side HTML embed
+    // Try publish.twitter.com oEmbed (omit script) for server-side HTML embed (static card)
     try {
-      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&theme=dark&omit_script=true&dnt=true`;
+      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&theme=dark&omit_script=true&dnt=true&format=json`;
       const res = await safeFetch(oembedUrl);
       if (res && res.ok) {
         const txt = await res.text();
         try {
           const data = JSON.parse(txt);
-          if (data && data.html) {
-            const embedHtml = `<div class="x-embed-wrapper">${data.html}</div>`;
-            try { fs.writeFileSync(cacheFile, embedHtml, 'utf8'); } catch (e) {}
-            return embedHtml;
+          if (data) {
+            // sanitize any scripts from returned HTML (omit_script=true should help, but be defensive)
+            const sanitizedHtml = sanitizeHtml(data.html || '');
+            const thumb = data.thumbnail_url ? String(data.thumbnail_url) : null;
+            // Build a stable static card with available metadata
+            let card = '<div class="x-embed-wrapper"><div class="x-embed-static">';
+            if (data.author_name) {
+              card += `<div class="x-embed-static-author"><a href="${escapeHtmlAttr(data.author_url || origUrl)}" target="_blank" rel="noopener noreferrer">${escapeHtmlAttr(data.author_name)}</a></div>`;
+            }
+            card += `<div class="x-embed-static-body">${sanitizedHtml}</div>`;
+            if (thumb) {
+              card += `<div class="x-embed-static-media"><img src="${escapeHtmlAttr(thumb)}" alt="" loading="lazy"></div>`;
+            }
+            card += `<div class="x-embed-static-footer"><a href="${escapeHtmlAttr(origUrl)}" target="_blank" rel="noopener noreferrer">View on X</a></div>`;
+            card += '</div></div>';
+            try { fs.writeFileSync(cacheFile, card, 'utf8'); } catch (e) {}
+            return card;
           }
         } catch (e) {
           // ignore parse error
