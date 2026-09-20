@@ -214,7 +214,7 @@ ${bodyHtml}
       </main>
     </div>
 
-    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+    
     <script>
           (function checkTwttr() {
             if (window.twttr && window.twttr.widgets) {
@@ -362,7 +362,10 @@ ${bodyHtml}
     // Remove stray closing parenthesis that may be left after raw embed markup in markdown
     // e.g. [!X](<blockquote ...></blockquote> <script ...></script>) -> remove the trailing ')'
     content = content.replace(/<\/script>\)\s*/g, '</script>');
-    const htmlBody = marked.parse(content);
+        // Remove any embedded widgets.js script tags that may be present in raw X/Twitter embed HTML
+    // This prevents duplicate loaders and race conditions; rely on the page-level loader instead.
+    content = content.replace(/<script\b[^>]*\bsrc=(['"])(?:https?:\/\/)?(?:platform\.)?(?:x|twitter)\.com\/widgets\.js[^'\"]*\1[^>]*>[\s\S]*?<\/script>/gi, '');
+const htmlBody = marked.parse(content);
 
     const title = data.title || id;
     const description = data.description || "";

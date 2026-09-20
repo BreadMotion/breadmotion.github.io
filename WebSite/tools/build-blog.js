@@ -639,7 +639,7 @@ function createHtml({
     <!-- 生成時に埋め込むクライアント設定 -->
     <script>window.__POST_INTERACTIONS_CONFIG = ${JSON.stringify(clientConfig)};</script>
 
-    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+    
     <script>
           (function checkTwttr() {
             if (window.twttr && window.twttr.widgets) {
@@ -923,7 +923,10 @@ function createHtml({
       // Remove stray closing parenthesis that may follow embedded <script> tags in markdown placeholders
       // e.g. [!X](<blockquote>...</blockquote> <script ...></script>) -> remove the trailing ')'
       content = content.replace(/<\/script>\)\s*/g, '</script>');
-      const htmlBody = marked.parse(content, { renderer });
+          // Remove any embedded widgets.js script tags that may be present in raw X/Twitter embed HTML
+    // This prevents duplicate loaders and race conditions; rely on the page-level loader instead.
+    content = content.replace(/<script\b[^>]*\bsrc=(['"])(?:https?:\/\/)?(?:platform\.)?(?:x|twitter)\.com\/widgets\.js[^'\"]*\1[^>]*>[\s\S]*?<\/script>/gi, '');
+const htmlBody = marked.parse(content, { renderer });
       const tocHtml = createTocHtml(headings, locale);
 
       const { title, description, date, category } = data;
