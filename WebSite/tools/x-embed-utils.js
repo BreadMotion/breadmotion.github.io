@@ -115,12 +115,17 @@ async function fetchPublishXEmbed(origUrl, options = {}) {
 
     // Try publish.twitter.com oEmbed (omit script) for server-side HTML embed (static card)
     try {
-      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&theme=dark&omit_script=true&dnt=true&format=json`;
+      const oembedUrl = `https://publish.twitter.com/oembed?url=${encodeURIComponent(origUrl)}&theme=dark&omit_script=false&dnt=true&format=json`;
       const res = await safeFetch(oembedUrl);
       if (res && res.ok) {
         const txt = await res.text();
         try {
           const data = JSON.parse(txt);
+          if (data && data.html) {
+            // Prefer official oEmbed HTML (may include platform script) so X's widget styles are applied
+            try { fs.writeFileSync(cacheFile, `<div class="x-embed-wrapper">${data.html}</div>`, 'utf8'); } catch (e) {}
+            return `<div class="x-embed-wrapper">${data.html}</div>`;
+          }
           if (data) {
             // sanitize any scripts from returned HTML (omit_script=true should help, but be defensive)
             const sanitizedHtml = sanitizeHtml(data.html || '');

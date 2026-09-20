@@ -53,10 +53,10 @@
             return;
         }
 
-        var existing = document.querySelector('script[src*="platform.twitter.com/widgets.js"]');
+        var existing = document.querySelector('script[src*="platform.x.com/widgets.js"]');
         if (!existing) {
             var s = document.createElement('script');
-            s.src = 'https://platform.twitter.com/widgets.js';
+            s.src = 'https://platform.x.com/widgets.js';
             s.async = true;
             s.onerror = function () {
                 // ignore; we'll poll for twttr availability

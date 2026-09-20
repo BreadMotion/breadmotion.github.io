@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="preload" as="image" href="https://breadmotion.github.io/WebSite/assets/img/ogp.png">
 
-    <script>(function(){if(window.__TWITTER_WIDGETS_LOADER)return;window.__TWITTER_WIDGETS_LOADER=true;function injectWidgets(){if(document.querySelector('script[src*="platform.twitter.com/widgets.js"]'))return;var s=document.createElement('script');s.src='https://platform.twitter.com/widgets.js';s.async=true;s.crossOrigin='anonymous';s.onload=function(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){window.twttr.widgets.load();}}catch(e){}};s.onerror=function(){console.warn('x: widgets.js failed to load');};document.head.appendChild(s);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',injectWidgets);}else{injectWidgets();}})();</script>
+    <script>(function(){if(window.__TWITTER_WIDGETS_LOADER)return;window.__TWITTER_WIDGETS_LOADER=true;function injectWidgets(){if(document.querySelector('script[src*="platform.x.com/widgets.js"]'))return;var s=document.createElement('script');s.src='https://platform.x.com/widgets.js';s.async=true;s.crossOrigin='anonymous';s.onload=function(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){window.twttr.widgets.load();}}catch(e){}};s.onerror=function(){console.warn('x: widgets.js failed to load');};document.head.appendChild(s);}if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',injectWidgets);}else{injectWidgets();}})();</script>
 
     <meta property="og:title" content="GPGPU物理演算(XPBD) + 自作描画 | PanKUN Portfolio" />
     <meta property="og:description" content="コンピュートシェーダーで物理演算によるオブジェクトのTransform計算から描画までをGPUで完結させてリバック０回のゲームオブジェクトの実装" />
@@ -81,14 +81,17 @@
 <p>そう言われてみればゲームで一フレームにオブジェクトの数が数百万表示されたり座標が変わったりするゲームって過去なかった気がする...？</p>
 <p>と思い立ったのが始まりです。</p>
 <h2 id="その他-sns">その他 SNS</h2>
-<div class="x-embed-wrapper"><div class="x-embed-static"><div class="x-embed-static-author"><a href="https://x.com/pankun2000_" target="_blank" rel="noopener noreferrer">PanKUN.Dev</a></div><div class="x-embed-static-body">GPGPUでXPBDを実装してそのまま独自描画する形にしたら30万個のゴミに対応できた！<br>さすがにUnity Physicsよりかは物理挙動のクオリティに差があるけど、全然許容！<br><br>画面はまた今度！ <a href="https://t.co/bCiynWAnaC">https://t.co/bCiynWAnaC</a></div><div class="x-embed-static-media-grid"><a class="x-embed-media-item" href="https://x.com/pankun2000_/status/2093394096668987783" target="_blank" rel="noopener noreferrer"><img src="https://pbs.twimg.com/profile_images/1765981982675402752/UQbVZnaL_400x400.jpg" alt="" loading="lazy"></a></div><div class="x-embed-static-footer"><a href="https://x.com/pankun2000_/status/2093394096668987783" target="_blank" rel="noopener noreferrer">View on X</a></div></div></div><script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function extractIdFromUrl(url){try{if(!url) return null;var parts=url.split('?')[0].split('/').filter(Boolean);var last=parts[parts.length-1]||'';var m=last.match(/\d+/);return m?m[0]:null;}catch(e){return null;}}function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var id=extractIdFromUrl(url);if(id){var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script>
+<div class="x-embed-wrapper"><blockquote class="twitter-tweet" data-dnt="true" data-theme="dark"><p lang="ja" dir="ltr">GPGPUでXPBDを実装してそのまま独自描画する形にしたら30万個のゴミに対応できた！<br>さすがにUnity Physicsよりかは物理挙動のクオリティに差があるけど、全然許容！<br><br>画面はまた今度！ <a href="https://t.co/bCiynWAnaC">https://t.co/bCiynWAnaC</a></p>&mdash; PanKUN.Dev (@pankun2000_) <a href="https://x.com/pankun2000_/status/2093394096668987783?ref_src=twsrc%5Etfw">August 28, 2026</a></blockquote>
+<script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
+
+</div><script>(function(){var s=document.currentScript;var container=s.previousElementSibling||s.parentNode;function extractIdFromUrl(url){try{if(!url) return null;var parts=url.split('?')[0].split('/').filter(Boolean);var last=parts[parts.length-1]||'';var m=last.match(/\d+/);return m?m[0]:null;}catch(e){return null;}}function tryLoad(){try{if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.load==='function'){try{window.twttr.widgets.load(container);}catch(e){}return;}if(window.twttr&&window.twttr.widgets&&typeof window.twttr.widgets.createTweet==='function'){var bq=container.querySelectorAll('blockquote.twitter-tweet');bq.forEach(function(el){try{var a=el.querySelector('a[href]');var url=(a&&a.href)||el.getAttribute('data-x-url')||'';var id=extractIdFromUrl(url);if(id){var tgt=document.createElement('div');el.parentNode.replaceChild(tgt,el);window.twttr.widgets.createTweet(id,tgt,{theme:'dark'});} }catch(e){} });return;} }catch(e){}setTimeout(tryLoad,200);}tryLoad();})();</script>
 
           </section>
         </article>
       </main>
     </div>
 
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    <script async src="https://platform.x.com/widgets.js" charset="utf-8"></script>
     <script>
           (function checkTwttr() {
             if (window.twttr && window.twttr.widgets) {
