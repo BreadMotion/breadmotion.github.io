@@ -172,7 +172,8 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+  // Use an empty anchor so widgets.js converts it into a full embed instead of showing link text
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="View on X"></a></blockquote>`;
 }
 
 
@@ -919,6 +920,9 @@ function createHtml({
         return `<figure class="code-block" data-lang="${escapeHtmlAttr(lang)}">${headerHtml}<pre><code class="${langClass}">${codeHtml}</code></pre></figure>`;
       };
 
+      // Remove stray closing parenthesis that may follow embedded <script> tags in markdown placeholders
+      // e.g. [!X](<blockquote>...</blockquote> <script ...></script>) -> remove the trailing ')'
+      content = content.replace(/<\/script>\)\s*/g, '</script>');
       const htmlBody = marked.parse(content, { renderer });
       const tocHtml = createTocHtml(headings, locale);
 

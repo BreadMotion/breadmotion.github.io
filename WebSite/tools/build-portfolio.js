@@ -68,7 +68,9 @@ function escapeHtmlAttr(str = "") {
 
 function createXEmbedMarkup(url) {
   const safeUrl = escapeHtmlAttr(url || "");
-  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="Open on X (opens in a new tab)">View on X</a></blockquote>`;
+  // Use an empty anchor inside the blockquote so platform widgets.js will transform it
+  // into a rich embed. Avoid visible "View on X" anchor text to match original behavior.
+  return `<blockquote class="twitter-tweet x-embed-fallback" data-dnt="true" data-theme="dark" data-x-url="${safeUrl}"><a href="${safeUrl}" target="_blank" rel="noopener noreferrer" aria-label="View on X"></a></blockquote>`;
 }
 
 
@@ -357,6 +359,9 @@ ${bodyHtml}
       }
     }
 
+    // Remove stray closing parenthesis that may be left after raw embed markup in markdown
+    // e.g. [!X](<blockquote ...></blockquote> <script ...></script>) -> remove the trailing ')'
+    content = content.replace(/<\/script>\)\s*/g, '</script>');
     const htmlBody = marked.parse(content);
 
     const title = data.title || id;
