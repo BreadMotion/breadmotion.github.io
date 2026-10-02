@@ -197,36 +197,47 @@ document.addEventListener("DOMContentLoaded", () => {
     const langSwitch =
       document.querySelector(".lang-switch");
     if (!langSwitch) return;
+
     const isEn = document.documentElement.lang === "en";
     const search = window.location.search || "";
     const targetUrl = isEn
       ? `../${currentPath}${search}`
       : `en/${currentPath}${search}`;
-    langSwitch.setAttribute("href", targetUrl);
 
-    // 追加: 他のハンドラや環境でクリックが無効化されるケースを回避するため、
-    // 明示的なクリックハンドラで即時遷移させる（安全なフォールバック）
-    try {
-      langSwitch.addEventListener("click", function (e) {
-        try {
-          const href = this.getAttribute("href");
-          if (href && href !== "#") {
-            // 明示的に遷移させる（他のハンドラが preventDefault しても確実に遷移する）
-            window.location.href = href;
-          }
-        } catch (err) {
-          // noop
-        }
-      });
-    } catch (err) {
-      // noop
+    langSwitch.setAttribute("href", targetUrl);
+    langSwitch.dataset.langTarget = targetUrl;
+
+    if (langSwitch.dataset.langSwitchBound === "true") {
+      return;
     }
+    langSwitch.dataset.langSwitchBound = "true";
+
+    langSwitch.addEventListener(
+      "click",
+      function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        const href =
+          this.getAttribute("href") ||
+          this.dataset.langTarget;
+
+        if (href && href !== "#") {
+          window.location.assign(href);
+        }
+      },
+      { capture: true },
+    );
   }
 
   // 初期化: ナビゲーションのアクティブリンク判定
   function setupActiveNav(currentPath) {
-    const navLinks =
-      document.querySelectorAll(".site-nav a");
+    const navLinks = Array.from(
+      document.querySelectorAll(".site-nav a"),
+    ).filter((link) => {
+      const insideLangGroup = !!link.closest(".lang-group");
+      return !insideLangGroup && !link.classList.contains("lang-switch");
+    });
 
     navLinks.forEach((link) => {
       link.classList.remove("active");

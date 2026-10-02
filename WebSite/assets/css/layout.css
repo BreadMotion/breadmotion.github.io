@@ -474,15 +474,20 @@ footer,
         text-shadow: none;
     }
 
-    .site-nav a[data-nav="contact.html"] {
+    .site-nav a[data-nav="contact.html"],
+    .site-nav a[data-nav="contact.html"].active {
         width: 100%;
         display: block;
         padding: 0.75rem 0;
         font-size: 1.5rem;
         line-height: 1.1;
         text-align: left;
-        margin-top: 0;
+        margin: 0;
+        border: none;
         border-bottom: 1px solid var(--color-border-soft);
+        background: transparent;
+        box-shadow: none;
+        color: var(--color-bone-white);
     }
 }
 
@@ -649,6 +654,14 @@ body.no-scroll .site-footer {
     font-weight: 700;
     cursor: default;
     pointer-events: none;
+}
+
+.lang-option.lang-switch.active {
+    color: var(--color-text-muted);
+    background-color: transparent;
+    font-weight: 500;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .lang-sep {
