@@ -475,8 +475,12 @@ footer,
     }
 
     .site-nav a[data-nav="contact.html"] {
-        text-align: center;
-        margin-top: 0.5rem;
+        width: 100%;
+        display: block;
+        padding: 0.75rem 0;
+        text-align: left;
+        margin-top: 0;
+        border-bottom: 1px solid var(--color-border-soft);
     }
 }
 

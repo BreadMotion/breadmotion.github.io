@@ -234,7 +234,7 @@ First from DropboxUpload.js</p>
 <figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
 const path = require(&quot;path&quot;);
 const Dropbox = require(&quot;dropbox&quot;);
-const accessToken = &quot;{your_access_token}&quot;;
+const accessToken = &quot;{取得したアクセストークン}&quot;;
 const dbx = new Dropbox.Dropbox({ accessToken });
 
 function DropboxUpload(dirPath, remotePath) {
@@ -253,7 +253,7 @@ function DropboxUpload(dirPath, remotePath) {
         remotePath + element.name + &quot;/&quot;
       );
     } else if (element.isFile()) {
-      if (path.extname(element.name) == &quot;.{extension_to_upload}&quot;) {
+      if (path.extname(element.name) == &quot;.{アップしたい拡張子}&quot;) {
         const uploadFile = fs.readFileSync(dirPath + &quot;/&quot; + element.name, {
           encoding: &quot;binary&quot;,
         });
@@ -267,7 +267,7 @@ function DropboxUpload(dirPath, remotePath) {
     }
   });
 }
-DropboxUpload(&quot;{your_local_working_directory}&quot;, &quot;/&quot;);</code></pre></figure><p>Below is a simple explanation of the code.
+DropboxUpload(&quot;{作業ディレクトリパス}&quot;, &quot;/&quot;);</code></pre></figure><p>Below is a simple explanation of the code.
 DropboxUpload is processed recursively.
 The first argument &quot;dirPath : string&quot; is the directory path you want to synchronize with the local cloud storage.
 The second argument &quot;remotePath : string&quot; is the remote (cloud storage path.)</p>
@@ -282,9 +282,9 @@ If it is a file, perform upload.</p>
 <figure class="code-block" data-lang="javascript"><div class="code-header"><span class="lang-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true"><path d="M3 7h18v2H3zM3 11h18v2H3zM3 15h18v2H3z"/></svg></span><span class="lang-label">Javascript</span></div><pre><code class="language-javascript">const fs = require(&quot;fs&quot;);
 const Dropbox = require(&quot;dropbox&quot;);
 const fetch = require(&quot;isomorphic-fetch&quot;);
-const accessToken = &quot;{your_access_token}&quot;;
+const accessToken = &quot;{取得したアクセストークン}&quot;;
 const dbx = new Dropbox.Dropbox({ accessToken: accessToken, fetch: fetch });
-const targetDir = &quot;{target_local_path}&quot;;
+const targetDir = &quot;{ダウンロード先ローカルパス}&quot;;
 
 function DropboxDownload(originPath) {
   dbx.filesListFolder({ path: originPath }).then(function (response) {
