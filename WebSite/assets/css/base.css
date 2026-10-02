@@ -247,61 +247,42 @@ button {
     margin-bottom: 0.75rem;
 }
 
-#xMediaFeed,
-.x-embed,
-[data-x-url] {
+/*UNUSED SELECTORS: .x-embed
+ */
+
+#xMediaFeed, [data-x-url] {
     display: grid;
     gap: 0.75rem;
     width: 100%;
 }
 
-#xMediaFeed > div,
-#xMediaFeed > a,
-#xMediaFeed > blockquote,
-.x-embed > div,
-.x-embed > a,
-.x-embed > blockquote,
-[data-x-url] > div,
-[data-x-url] > a,
-[data-x-url] > blockquote {
+/*UNUSED SELECTORS: .x-embed > div, .x-embed > a, .x-embed > blockquote
+ */
+
+#xMediaFeed > div, #xMediaFeed > a, #xMediaFeed > blockquote, [data-x-url] > div, [data-x-url] > a, [data-x-url] > blockquote {
     width: 100%;
     max-width: 100%;
 }
 
-.x-feed-empty {
-    margin: 0;
-    padding: 0.75rem 0.5rem;
-    border: 1px solid var(--color-border-soft);
-    border-radius: 8px;
-    color: var(--color-text-muted);
-    background: rgba(255, 255, 255, 0.02);
-    font-size: 0.85rem;
-    line-height: 1.5;
-}
+/*UNUSED SELECTORS: .x-feed-empty
+ */
 
-#xMediaFeed .x-embed-fallback,
-#xMediaFeed blockquote.x-embed-fallback,
-.x-embed .x-embed-fallback,
-.x-embed blockquote.x-embed-fallback,
-[data-x-url] .x-embed-fallback,
-[data-x-url] blockquote.x-embed-fallback {
+/*UNUSED SELECTORS: .x-embed .x-embed-fallback, .x-embed blockquote.x-embed-fallback
+ */
+
+#xMediaFeed .x-embed-fallback, #xMediaFeed blockquote.x-embed-fallback, [data-x-url] .x-embed-fallback, [data-x-url] blockquote.x-embed-fallback {
     width: 100%;
     max-width: 100%;
     margin: 0;
 }
 
-#xMediaFeed .x-embed-iframe-fallback iframe,
-.x-embed .x-embed-iframe-fallback iframe,
-[data-x-url] .x-embed-iframe-fallback iframe {
-    width: 100%;
-    max-width: 100%;
-}
+/*UNUSED SELECTORS: #xMediaFeed .x-embed-iframe-fallback iframe, .x-embed .x-embed-iframe-fallback iframe, [data-x-url] .x-embed-iframe-fallback iframe
+ */
 
 /* Ensure X (Twitter) embeds are visible and not hidden by other rules */
-.x-embed-wrapper .x-embed-iframe-fallback iframe,
-.x-embed .x-embed-iframe-fallback iframe,
-.x-embed-fallback,
-blockquote.x-embed-fallback {
+/*UNUSED SELECTORS: .x-embed-wrapper .x-embed-iframe-fallback iframe, .x-embed .x-embed-iframe-fallback iframe
+ */
+.x-embed-fallback, blockquote.x-embed-fallback {
     display: block;
     visibility: visible;
     opacity: 1;
@@ -310,10 +291,8 @@ blockquote.x-embed-fallback {
 }
 
 /* If iframe height collapses due to CSS reset, allow auto height */
-.x-embed-wrapper iframe[style],
-.x-embed iframe[style] {
-    height: auto;
-}
+/*UNUSED SELECTORS: .x-embed-wrapper iframe[style], .x-embed iframe[style]
+ */
 
 @media (max-width: 768px) {
     .home-xfeed-block {
@@ -401,14 +380,8 @@ iframe[src*="pagead2.googlesyndication.com"] {
 }
 
 /* 広告を内包するコンテナがある場合に備える */
-.ad-container,
-.adsense-container,
-.ads-wrapper {
-    max-width: 100% !important;
-    width: 100% !important;
-    overflow: hidden !important;
-    box-sizing: border-box !important;
-}
+/*UNUSED SELECTORS: .ad-container, .adsense-container, .ads-wrapper
+ */
 
 /* 汎用 iframe のはみ出し防止（念のためサイト全体で適用） */
 iframe {
@@ -417,10 +390,9 @@ iframe {
 
 /* モバイル（小さい画面）向けの強化ルール */
 @media (max-width: 480px) {
-    .adsbygoogle,
-    ins.adsbygoogle,
-    .ad-container,
-    .adsense-container {
+    /*UNUSED SELECTORS: .ad-container, .adsense-container
+ */
+    .adsbygoogle, ins.adsbygoogle {
         width: 100% !important;
         min-width: 0 !important;
         height: auto !important;
@@ -450,10 +422,9 @@ iframe {
    -------------------------------------------------------------------------- */
 
 /* Hide items after the 3rd in the recent lists and in X feed placeholders */
-.home-latest-list > li:nth-child(n+4),
-#xMediaFeed > *:nth-child(n+4),
-.x-embed > *:nth-child(n+4),
-[data-x-url] > *:nth-child(n+4) {
+/*UNUSED SELECTORS: .x-embed > *:nth-child(n+4)
+ */
+.home-latest-list > li:nth-child(n+4), #xMediaFeed > *:nth-child(n+4), [data-x-url] > *:nth-child(n+4) {
     display: none !important;
 }
 
@@ -486,12 +457,9 @@ iframe {
 }
 
 /* Reduce embedded tweet margins that can cause visual overlap */
-#xMediaFeed .x-embed-fallback,
-#xMediaFeed blockquote.x-embed-fallback,
-.x-embed .x-embed-fallback,
-.x-embed blockquote.x-embed-fallback,
-[data-x-url] .x-embed-fallback,
-[data-x-url] blockquote.x-embed-fallback {
+/*UNUSED SELECTORS: .x-embed .x-embed-fallback, .x-embed blockquote.x-embed-fallback
+ */
+#xMediaFeed .x-embed-fallback, #xMediaFeed blockquote.x-embed-fallback, [data-x-url] .x-embed-fallback, [data-x-url] blockquote.x-embed-fallback {
     margin: 0;
     padding: 0;
 }
@@ -512,88 +480,39 @@ iframe {
    This specifically targets the build-time "iframe fallback" wrapper used when widgets.js
    cannot render in-page. Using !important to override inline/author styles inserted by
    oEmbed/html providers. */
-.x-embed-wrapper .x-embed-iframe-fallback iframe,
-.x-embed-iframe-fallback iframe,
-.x-embed-wrapper .x-embed-iframe-fallback iframe[style] {
-    height: auto !important;
-    max-height: none !important;
-    min-height: 120px !important;
-    overflow: visible !important;
-    display: block !important;
-}
+/*UNUSED SELECTORS: .x-embed-wrapper .x-embed-iframe-fallback iframe, .x-embed-iframe-fallback iframe, .x-embed-wrapper .x-embed-iframe-fallback iframe[style]
+ */
 
 /* Ensure the fallback wrapper itself does not clip content */
-.x-embed-iframe-fallback {
-    overflow: visible !important;
-    display: block !important;
-}
+/*UNUSED SELECTORS: .x-embed-iframe-fallback
+ */
 
 /* Server-side static X embed card */
-.x-embed-static {
-    background: rgba(255,255,255,0.02);
-    border: 1px solid var(--color-border-soft);
-    border-radius: 8px;
-    padding: 0.6rem;
-    color: var(--color-text);
-    width: 100%;
-    box-sizing: border-box;
-}
-.x-embed-static-author {
-    font-weight: 600;
-    margin-bottom: 0.25rem;
-}
-.x-embed-static-author a {
-    color: var(--color-accent);
-    text-decoration: none;
-}
-.x-embed-static-body {
-    margin-bottom: 0.5rem;
-    font-size: var(--text-body-sm);
-    line-height: 1.4;
-    color: var(--color-text);
-}
+/*UNUSED SELECTORS: .x-embed-static
+ */
+/*UNUSED SELECTORS: .x-embed-static-author
+ */
+/*UNUSED SELECTORS: .x-embed-static-author a
+ */
+/*UNUSED SELECTORS: .x-embed-static-body
+ */
 /* Media grid and items */
-.x-embed-static-media-grid {
-    display: grid;
-    gap: 0.5rem;
-    grid-template-columns: repeat(2, 1fr);
-    margin-top: 0.5rem;
-}
-.x-embed-media-item {
-    display: block;
-    overflow: hidden;
-    border-radius: 6px;
-}
-.x-embed-media-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 6px;
-}
-.x-embed-media-video { position: relative; display: block; }
-.x-embed-media-video .x-embed-play {
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    transform: translate(-50%, -50%);
-    background: rgba(0,0,0,0.6);
-    color: #fff;
-    padding: 0.35rem 0.5rem;
-    border-radius: 999px;
-    font-weight: 700;
-    font-size: 0.9rem;
-}
+/*UNUSED SELECTORS: .x-embed-static-media-grid
+ */
+/*UNUSED SELECTORS: .x-embed-media-item
+ */
+/*UNUSED SELECTORS: .x-embed-media-item img
+ */
+/*UNUSED SELECTORS: .x-embed-media-video
+ */
+/*UNUSED SELECTORS: .x-embed-media-video .x-embed-play
+ */
 @media (max-width: 480px) {
-    .x-embed-static-media-grid { grid-template-columns: 1fr; }
+    /*UNUSED SELECTORS: .x-embed-static-media-grid
+ */
 }
-.x-embed-static-footer {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-    color: var(--color-text-muted);
-}
-.x-embed-static-footer a {
-    color: var(--color-accent);
-    text-decoration: none;
-}
+/*UNUSED SELECTORS: .x-embed-static-footer
+ */
+/*UNUSED SELECTORS: .x-embed-static-footer a
+ */
 

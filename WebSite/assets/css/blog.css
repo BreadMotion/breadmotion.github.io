@@ -1500,15 +1500,8 @@
 }
 
 /* iframe 要素本体のスタイル（giscus が作る iframe に .giscus-frame が付く） */
-.post-comments .giscus-frame {
-    width: 100%;
-    min-height: 240px;
-    height: auto;
-    border: 0;
-    background: transparent;
-    border-radius: var(--radius-md);
-    box-shadow: none;
-}
+/*UNUSED SELECTORS: .post-comments .giscus-frame
+ */
 
 /* 小さい画面での調整 */
 @media (max-width: 968px) {
@@ -1569,7 +1562,6 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
     }
 
-    .post-comments .giscus-frame {
-        background: transparent;
-    }
+    /*UNUSED SELECTORS: .post-comments .giscus-frame
+ */
 }

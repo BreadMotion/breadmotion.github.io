@@ -144,9 +144,8 @@
     box-shadow: none;
 }
 
-.hero-actions {
-    display: none;
-}
+/*UNUSED SELECTORS: .hero-actions
+ */
 
 /* ==========================================================================
    3. サイドパネル
