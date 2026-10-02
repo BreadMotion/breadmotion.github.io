@@ -203,6 +203,24 @@ document.addEventListener("DOMContentLoaded", () => {
       ? `../${currentPath}${search}`
       : `en/${currentPath}${search}`;
     langSwitch.setAttribute("href", targetUrl);
+
+    // 追加: 他のハンドラや環境でクリックが無効化されるケースを回避するため、
+    // 明示的なクリックハンドラで即時遷移させる（安全なフォールバック）
+    try {
+      langSwitch.addEventListener("click", function (e) {
+        try {
+          const href = this.getAttribute("href");
+          if (href && href !== "#") {
+            // 明示的に遷移させる（他のハンドラが preventDefault しても確実に遷移する）
+            window.location.href = href;
+          }
+        } catch (err) {
+          // noop
+        }
+      });
+    } catch (err) {
+      // noop
+    }
   }
 
   // 初期化: ナビゲーションのアクティブリンク判定

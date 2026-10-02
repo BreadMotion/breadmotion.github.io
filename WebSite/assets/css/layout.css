@@ -151,7 +151,7 @@
     padding: 0;
     color: #fffdf9;
     text-transform: uppercase;
-    font-size: 14px;
+    font-size: inherit;
     background: transparent;
 }
 
@@ -478,6 +478,8 @@ footer,
         width: 100%;
         display: block;
         padding: 0.75rem 0;
+        font-size: 1.5rem;
+        line-height: 1.1;
         text-align: left;
         margin-top: 0;
         border-bottom: 1px solid var(--color-border-soft);
@@ -599,6 +601,8 @@ body.no-scroll .site-footer {
    8. 言語切り替え
    ========================================================================== */
 .lang-group {
+    position: relative;
+    z-index: 220;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -629,6 +633,9 @@ body.no-scroll .site-footer {
     transition: var(--transition-smooth);
     cursor: pointer;
     line-height: 1;
+    position: relative;
+    z-index: 221;
+    pointer-events: auto;
 }
 
 .lang-option:hover {
