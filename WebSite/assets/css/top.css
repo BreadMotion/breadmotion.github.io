@@ -165,6 +165,64 @@
     color: var(--color-heading);
 }
 
+/* ==========================================================================
+   X embed layout adjustments for homepage
+   - Keep the X cards compact and place them in a single horizontal row
+   - This scope is intentionally limited to `.home` pages only
+   ========================================================================== */
+.home .home-xfeed-block {
+    margin-top: 1.5rem;
+}
+
+.home #xMediaFeed {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0.75rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+.home #xMediaFeed > * {
+    flex: 0 0 240px;
+    width: 240px;
+    max-width: 240px;
+    min-width: 0;
+    box-sizing: border-box;
+}
+
+.home #xMediaFeed .twitter-tweet,
+.home #xMediaFeed .x-embed-fallback,
+.home #xMediaFeed blockquote.x-embed-fallback {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+}
+
+.home #xMediaFeed iframe {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+@media (max-width: 900px) {
+    .home #xMediaFeed > * {
+        flex-basis: 220px;
+        width: 220px;
+        max-width: 220px;
+    }
+}
+
+@media (max-width: 640px) {
+    .home #xMediaFeed > * {
+        flex-basis: 188px;
+        width: 188px;
+        max-width: 188px;
+    }
+}
+
 .home-latest {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
